@@ -90,7 +90,7 @@ export default async function AdminPage() {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-2xl font-bold text-white">لوحة الإدارة</h1>
+        <h1 className="text-2xl font-bold text-white">الاعتمادات</h1>
         <p className="mt-1 text-sm text-slate-400">
           اعتماد الوكلاء (IBs) ومعالجة طلبات السحب.
         </p>
