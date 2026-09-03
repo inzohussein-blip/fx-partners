@@ -4,6 +4,10 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
+import { createClient } from "@/lib/supabase/server";
+import { LogoCloud } from "@/components/marketing/logo-cloud";
+import { Testimonials } from "@/components/marketing/testimonials";
+import { Faq } from "@/components/marketing/faq";
 import {
   ArrowLeft,
   ShieldCheck,
@@ -13,6 +17,21 @@ import {
   Users,
   BarChart3,
 } from "lucide-react";
+
+async function getPartners() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  try {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("partners")
+      .select("id,name,logo_url")
+      .eq("is_active", true)
+      .order("sort_order");
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
 
 export default async function HomePage() {
   const hero = await getContent("home.hero", {
@@ -29,6 +48,8 @@ export default async function HomePage() {
     countries: "60+",
     payout: "$4.6M+",
   });
+
+  const partners = await getPartners();
 
   const features = [
     {
@@ -112,6 +133,9 @@ export default async function HomePage() {
         </Container>
       </section>
 
+      {/* Trusted-by logo cloud */}
+      <LogoCloud partners={partners} />
+
       {/* Features */}
       <section className="py-20">
         <Container>
@@ -140,6 +164,12 @@ export default async function HomePage() {
           </div>
         </Container>
       </section>
+
+      {/* Testimonials */}
+      <Testimonials />
+
+      {/* FAQ */}
+      <Faq />
 
       {/* CTA */}
       <section className="py-12">
