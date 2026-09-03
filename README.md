@@ -154,7 +154,23 @@ where email = 'you@example.com';
 
 ---
 
+## تتبّع الإحالات (Referral Tracking)
+
+روابط الإحالة المولّدة من **أدوات التسويق** بصيغة `‎/r/<slug>`. عند فتح الرابط:
+
+1. يزيد route `‎/r/[slug]` عدّاد `referral_links.clicks` عبر دالة آمنة
+   (`track_referral_click`, SECURITY DEFINER — لأن الزائر مجهول ولا يملك صلاحية
+   الكتابة عبر RLS).
+2. يضع كوكي `fxp_ref` (30 يوماً) لنسب التسجيل لاحقاً.
+3. يعيد التوجيه إلى الصفحة الهدف للرابط.
+
+عند تأكيد التسجيل، يقرأ `‎/auth/callback` الكوكي ويستدعي `attribute_referral`
+التي تزيد `signups` وتُنشئ صفاً في `referrals` — فتصبح إحصائيات لوحة الوكيل حيّة.
+
+> لقواعد البيانات القائمة، شغّل
+> [`supabase/migrations/0002_referral_tracking.sql`](./supabase/migrations/0002_referral_tracking.sql).
+
 ## الخطوات التالية المقترحة
 
-- ربط webhook من منصة التداول لتغذية `referrals` و`earnings` تلقائياً.
-- تتبّع النقرات فعلياً عبر route وسيط يزيد `referral_links.clicks` ثم يعيد التوجيه.
+- ربط webhook من منصة التداول لتغذية `referrals` و`earnings` تلقائياً (حجم التداول والعمولات).
+- تقارير تفصيلية لكل حملة (نقرات ← تسجيلات ← تمويل).

@@ -33,7 +33,8 @@ export function ReferralGenerator({
   const [copied, setCopied] = useState<string | null>(null);
 
   function fullUrl(link: Link) {
-    return `${siteUrl}${link.target_url}?ref=${link.slug}`;
+    // Tracking route: increments clicks, sets attribution cookie, redirects.
+    return `${siteUrl}/r/${link.slug}`;
   }
 
   async function copy(text: string, id: string) {
