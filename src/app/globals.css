@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-900 text-slate-200 antialiased;
+}
+
+/* Subtle animated gradient used behind hero sections */
+.hero-glow {
+  background:
+    radial-gradient(60% 60% at 50% 0%, rgba(13, 139, 124, 0.22) 0%, rgba(10, 14, 20, 0) 70%),
+    radial-gradient(40% 40% at 90% 20%, rgba(245, 196, 81, 0.10) 0%, rgba(10, 14, 20, 0) 70%);
+}
+
+.card-surface {
+  @apply rounded-2xl border border-white/5 bg-ink-800/60 backdrop-blur;
+}
+
+/* Thin scrollbar for dashboard */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { @apply bg-ink-600 rounded-full; }
+::-webkit-scrollbar-track { @apply bg-ink-900; }

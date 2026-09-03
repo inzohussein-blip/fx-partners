@@ -1,0 +1,134 @@
+# FX Partners
+
+منصة الشراكة المالية (IB / Affiliate / B2B) لشركة **FX Partners** — مبنية بـ
+**Next.js (App Router) + Tailwind CSS + Supabase**، وجاهزة للنشر على **Vercel**.
+
+الموقع ثنائي الطبقة:
+
+1. **الواجهة العامة (Marketing):** الرئيسية، صفحة الوكلاء (IB)، صفحة الشركات (B2B)، والمدونة.
+2. **لوحة الشريك المحمية (Dashboard):** النظرة العامة، أدوات التسويق (روابط الإحالة)، والمحفظة والسحوبات.
+
+---
+
+## 1) قرار المعمارية: لماذا Supabase مباشرة بدلاً من Payload/Strapi؟
+
+راجعنا الخيارات (جداول Supabase مخصصة مقابل دمج Payload CMS / Strapi)،
+والتوصية المعتمدة في هذا المشروع هي **الاعتماد على جداول Supabase مخصصة**:
+
+| المعيار | جداول Supabase مخصصة ✅ (المعتمد) | Payload / Strapi |
+|---|---|---|
+| المصادقة | Supabase Auth واحدة للموقع واللوحة | نظام مصادقة ثانٍ منفصل |
+| الأمان المالي | **RLS على مستوى كل صف** — أساسي للبيانات المالية | RLS أضعف/يدوي فوق قاعدة منفصلة |
+| التشغيل | خدمة واحدة (Supabase + Vercel) | خدمة/سيرفر إضافي يجب استضافته وصيانته |
+| التحكم بالمحتوى بدون كود | Supabase Studio + جدول `site_content` و`posts` | لوحة تحرير أغنى (ميزة الطرف الآخر) |
+
+**الخلاصة:** لبيانات مالية حساسة، الأولوية للأمان والبساطة. نستخدم جدولي
+`posts` و`site_content` لجعل النصوص والمنشورات قابلة للتعديل بدون إعادة نشر،
+وتُدار من Supabase Studio مباشرة. لو احتجت لاحقاً محرّر محتوى غني لغير
+المبرمجين، يمكن إضافة Payload **كطبقة CMS للتسويق فقط** دون المساس بجداول
+الأموال والمصادقة.
+
+---
+
+## 2) قاعدة البيانات (Database Schema)
+
+كل جداول العمل موجودة في [`supabase/schema.sql`](./supabase/schema.sql) مع **RLS
+مُفعّل على كل جدول**. الجداول الرئيسية:
+
+- `profiles` — امتداد لـ `auth.users` (الأدوار: partner / ib / broker / admin).
+- `ib_accounts` — حساب الوكيل (IB code، نسبة العمولة، CPA، نظام Sub-IB متعدد المستويات).
+- `referral_links` — روابط الإحالة الديناميكية (slug، حملة، نقرات، تسجيلات).
+- `referrals` — العملاء المُحالون وحجم تداولهم.
+- `earnings` — سجل العمولات (append-only، يُغذّى من منطق موثوق/trigger).
+- `wallets` — رصيد كل وكيل (يُحدَّث آلياً عبر trigger عند تسجيل ربح).
+- `withdrawals` — طلبات السحب (الوكيل يطلب، الإدارة تعتمد).
+- `posts` — منشورات المدونة القابلة للتعديل.
+- `site_content` — نصوص الصفحات (JSON) القابلة للتعديل بدون كود.
+- `partners` — شعارات وأوصاف شركاء B2B المعروضين على الموقع.
+
+مبدأ الأمان: **الوكيل يقرأ/يكتب صفوفه فقط**، والحقول المالية (`earnings`,
+مبالغ `wallets`) غير قابلة للكتابة مباشرةً من الوكيل — تُنتَج من triggers أو
+service role موثوق. الأدمن (`profiles.role = 'admin'`) يدير كل شيء.
+
+---
+
+## 3) هيكل الملفات (Project Structure)
+
+```
+fx-partners/
+├── supabase/
+│   ├── schema.sql          # الجداول + RLS + triggers
+│   └── seed.sql            # بيانات تجريبية للمحتوى والشركاء والمنشورات
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx      # RTL + خط Cairo + الميتاداتا
+│   │   ├── globals.css
+│   │   ├── page.tsx        # الصفحة الرئيسية
+│   │   ├── affiliates/     # صفحة الوكلاء (IB)
+│   │   ├── brokers/        # صفحة الشركات (B2B)
+│   │   ├── blog/           # المدونة + صفحة المنشور [slug]
+│   │   ├── login/          # تسجيل الدخول / إنشاء حساب
+│   │   ├── auth/           # callback + sign-out
+│   │   └── dashboard/      # اللوحة المحمية
+│   │       ├── layout.tsx  # حارس الجلسة + الشريط الجانبي
+│   │       ├── page.tsx            # النظرة العامة
+│   │       ├── marketing/page.tsx  # أدوات التسويق
+│   │       └── wallet/page.tsx     # المحفظة والسحوبات
+│   ├── components/         # الهيدر/الفوتر + مكوّنات UI واللوحة
+│   └── lib/
+│       ├── supabase/       # client / server / middleware
+│       ├── content.ts      # قراءة site_content مع fallback
+│       └── utils.ts
+├── middleware.ts           # تحديث الجلسة + حماية /dashboard
+└── .env.example
+```
+
+---
+
+## البدء السريع (Getting Started)
+
+```bash
+# 1) تثبيت الحزم
+npm install
+
+# 2) إعداد البيئة
+cp .env.example .env.local
+#   ثم املأ NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY
+#   من: Supabase Dashboard → Project Settings → API
+
+# 3) إنشاء قاعدة البيانات
+#   افتح Supabase → SQL Editor والصق محتوى supabase/schema.sql ثم شغّله
+#   (اختياري) شغّل supabase/seed.sql لبيانات تجريبية
+
+# 4) التشغيل محلياً
+npm run dev        # http://localhost:3000
+```
+
+> يعمل الموقع حتى قبل ضبط Supabase (يعرض محتوى افتراضياً)، لكن تسجيل الدخول
+> واللوحة يحتاجان متغيرات البيئة.
+
+## النشر على Vercel
+
+1. ادفع المستودع إلى GitHub.
+2. استورد المشروع في Vercel واربطه بالمستودع.
+3. أضِف متغيرات البيئة نفسها (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`).
+4. في Supabase → Authentication → URL Configuration، أضِف دومين Vercel إلى
+   Redirect URLs.
+
+## الأوامر
+
+| الأمر | الوظيفة |
+|---|---|
+| `npm run dev` | تشغيل بيئة التطوير |
+| `npm run build` | بناء الإنتاج |
+| `npm run start` | تشغيل نسخة الإنتاج |
+| `npm run lint` | فحص ESLint |
+| `npm run typecheck` | فحص أنواع TypeScript |
+
+---
+
+## الخطوات التالية المقترحة
+
+- ربط webhook من منصة التداول لتغذية `referrals` و`earnings` تلقائياً.
+- صفحة أدمن لاعتماد الوكلاء وطلبات السحب (تغيير `ib_accounts.status` و`withdrawals.status`).
+- تتبّع النقرات فعلياً عبر route وسيط يزيد `referral_links.clicks` ثم يعيد التوجيه.
