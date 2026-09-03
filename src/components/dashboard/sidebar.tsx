@@ -3,7 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Megaphone, Wallet, LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  Megaphone,
+  Wallet,
+  LogOut,
+  ShieldCheck,
+} from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard },
@@ -11,8 +17,21 @@ const links = [
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet },
 ];
 
-export function DashboardSidebar({ email }: { email?: string }) {
+const adminLink = {
+  href: "/dashboard/admin",
+  label: "لوحة الإدارة",
+  icon: ShieldCheck,
+};
+
+export function DashboardSidebar({
+  email,
+  isAdmin = false,
+}: {
+  email?: string;
+  isAdmin?: boolean;
+}) {
   const pathname = usePathname();
+  const navLinks = isAdmin ? [...links, adminLink] : links;
 
   return (
     <aside className="flex w-full flex-col gap-1 border-b border-white/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
@@ -24,7 +43,7 @@ export function DashboardSidebar({ email }: { email?: string }) {
       </Link>
 
       <nav className="flex flex-row gap-1 md:flex-col">
-        {links.map((link) => {
+        {navLinks.map((link) => {
           const active =
             pathname === link.href ||
             (link.href !== "/dashboard" && pathname.startsWith(link.href));

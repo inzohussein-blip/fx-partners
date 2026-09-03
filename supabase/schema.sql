@@ -255,6 +255,31 @@ drop trigger if exists t_earnings_wallet on public.earnings;
 create trigger t_earnings_wallet after insert on public.earnings
   for each row execute function public.apply_earning_to_wallet();
 
+-- When an admin marks a withdrawal as `paid`, deduct it from the wallet
+-- balance and add it to total_withdrawn. Also stamp processed_at on any
+-- status change away from `pending`.
+create or replace function public.apply_withdrawal_to_wallet()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if new.status = 'paid' and coalesce(old.status::text, '') is distinct from 'paid' then
+    update public.wallets
+      set balance         = public.wallets.balance - new.amount,
+          total_withdrawn = public.wallets.total_withdrawn + new.amount,
+          updated_at      = now()
+      where public.wallets.ib_id = new.ib_id;
+  end if;
+
+  if new.status <> 'pending' and new.processed_at is null then
+    new.processed_at := now();
+  end if;
+
+  return new;
+end; $$;
+
+drop trigger if exists t_withdrawal_wallet on public.withdrawals;
+create trigger t_withdrawal_wallet before update on public.withdrawals
+  for each row execute function public.apply_withdrawal_to_wallet();
+
 -- ===========================================================================
 -- ROW LEVEL SECURITY
 -- ===========================================================================
