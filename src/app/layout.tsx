@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
+import { getSiteUrl } from "@/lib/utils";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -15,9 +16,7 @@ export const metadata: Metadata = {
   },
   description:
     "FX Partners — منصة الشراكة المالية للوكلاء (IBs) والمسوّقين وشركات التداول العالمية. أعلى نسب العمولات، شفافية كاملة، ودفعات في الوقت.",
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
-  ),
+  metadataBase: new URL(getSiteUrl()),
 };
 
 export default function RootLayout({

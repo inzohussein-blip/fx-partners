@@ -1,11 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { ReferralGenerator } from "@/components/dashboard/referral-generator";
+import { getSiteUrl } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 async function getData() {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl = getSiteUrl();
 
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
     return { ibId: null, ibCode: null, links: [], siteUrl };
