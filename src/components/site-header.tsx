@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
 
 const nav = [
   { href: "/", label: "الرئيسية" },
@@ -13,11 +14,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink-900/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 font-bold text-white">
-            FX
-          </span>
-          <span className="text-lg font-bold text-white">Partners</span>
+        <Link href="/">
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

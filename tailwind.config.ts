@@ -9,26 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // FinTech palette — trust, security, depth
+        // Brand identity — cyan primary (from the "partners" logo gradient)
         brand: {
-          50: "#e6f7f4",
-          100: "#c0ebe4",
-          200: "#86d8cc",
-          300: "#43c1af",
-          400: "#16a894",
-          500: "#0d8b7c", // primary accent (emerald/teal — money, growth)
-          600: "#0a6f65",
-          700: "#0b5952",
-          800: "#0c4741",
-          900: "#0b3a36",
-          950: "#032420",
+          50: "#ecfeff",
+          100: "#cffafe",
+          200: "#a5f3fc",
+          300: "#67e8f9",
+          400: "#22d3ee", // bright cyan (logo highlight)
+          500: "#06b6d4", // primary cyan
+          600: "#0891b2",
+          700: "#0e7490",
+          800: "#155e75",
+          900: "#164e63",
+          950: "#083344",
         },
+        // Accent — royal blue (the deep side of the logo gradient)
+        accent: {
+          300: "#60a5fa",
+          400: "#3b82f6",
+          500: "#2563eb",
+          600: "#1d4ed8",
+          700: "#1e40af",
+        },
+        // Backgrounds — deep navy, matching the brand mockups
         ink: {
-          900: "#0a0e14", // near-black background
-          800: "#0f1520",
-          700: "#161d2b",
-          600: "#1f2937",
-          500: "#334155",
+          900: "#060f1e", // page background
+          800: "#0a1728", // panels
+          700: "#0f2136", // raised surfaces
+          600: "#183149", // borders / hover
+          500: "#26425f",
         },
         gold: {
           400: "#f5c451",
@@ -39,11 +48,13 @@ const config: Config = {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 40px -10px rgba(13, 139, 124, 0.45)",
+        glow: "0 10px 40px -10px rgba(34, 211, 238, 0.45)",
+        "glow-blue": "0 10px 40px -10px rgba(37, 99, 235, 0.5)",
       },
       backgroundImage: {
         "grid-faint":
           "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
+        "brand-gradient": "linear-gradient(90deg, #2563eb 0%, #22d3ee 100%)",
       },
     },
   },

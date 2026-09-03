@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/logo";
 import {
   LayoutDashboard,
   Megaphone,
@@ -35,11 +36,8 @@ export function DashboardSidebar({
 
   return (
     <aside className="flex w-full flex-col gap-1 border-b border-white/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
-      <Link href="/" className="mb-4 flex items-center gap-2 px-2">
-        <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 font-bold text-white">
-          FX
-        </span>
-        <span className="font-bold text-white">Partners</span>
+      <Link href="/" className="mb-4 px-2">
+        <Logo />
       </Link>
 
       <nav className="flex flex-row gap-1 md:flex-col">

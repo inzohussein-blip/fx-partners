@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo";
 
 export default function LoginPage() {
   return (
@@ -73,11 +74,8 @@ function LoginForm() {
   return (
     <div className="hero-glow flex min-h-screen items-center justify-center py-12">
       <Container className="max-w-md">
-        <Link href="/" className="mb-8 flex items-center justify-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-500 font-bold text-white">
-            FX
-          </span>
-          <span className="text-xl font-bold text-white">Partners</span>
+        <Link href="/" className="mb-8 flex justify-center">
+          <Logo markClassName="h-9 w-9" />
         </Link>
 
         <div className="card-surface p-8">

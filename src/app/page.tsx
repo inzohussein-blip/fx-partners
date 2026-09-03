@@ -16,9 +16,10 @@ import {
 
 export default async function HomePage() {
   const hero = await getContent("home.hero", {
-    title: "شراكة مالية عالمية بأعلى نسب العمولات",
+    titleTop: "أقوى معاً،",
+    titleAccent: "نجاح أعظم",
     subtitle:
-      "انضم إلى FX Partners واكسب من كل عميل تُحيله إلى أفضل شركات التداول العالمية — بشفافية كاملة ودفعات في الوقت.",
+      "نشارك الوكلاء وشركات التداول العالمية لفتح فرص جديدة ودفع النمو، بأعلى نسب العمولات وشفافية كاملة في الأرباح.",
     cta: "ابدأ الشراكة الآن",
   });
 
@@ -73,10 +74,10 @@ export default async function HomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
-              برنامج شراكة FX Partners — B2B & IB
+              التعاون والنمو — B2B & IB
             </span>
             <h1 className="mt-6 text-balance text-4xl font-extrabold leading-tight text-white sm:text-6xl">
-              {hero.title}
+              {hero.titleTop} <span className="text-gradient">{hero.titleAccent}</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-300">
               {hero.subtitle}
@@ -101,7 +102,7 @@ export default async function HomePage() {
               { label: "أرباح مدفوعة", value: stats.payout },
             ].map((s) => (
               <div key={s.label} className="card-surface p-5 text-center">
-                <div className="text-2xl font-bold text-white sm:text-3xl">
+                <div dir="ltr" className="text-2xl font-bold text-brand-300 sm:text-3xl">
                   {s.value}
                 </div>
                 <div className="mt-1 text-xs text-slate-400">{s.label}</div>

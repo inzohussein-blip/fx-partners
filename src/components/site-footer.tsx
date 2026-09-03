@@ -1,17 +1,13 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
+import { Logo } from "@/components/logo";
 
 export function SiteFooter() {
   return (
     <footer className="mt-24 border-t border-white/5 bg-ink-900">
       <Container className="grid gap-8 py-12 md:grid-cols-4">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 font-bold text-white">
-              FX
-            </span>
-            <span className="text-lg font-bold text-white">Partners</span>
-          </div>
+          <Logo />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
             منصة الشراكة المالية التي تربط الوكلاء والمسوّقين بأفضل شركات التداول
             العالمية، بأعلى نسب عمولة وشفافية كاملة في الأرباح.

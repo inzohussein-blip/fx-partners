@@ -17,7 +17,8 @@ const BLOCKS: Block[] = [
     title: "الصفحة الرئيسية — القسم الرئيسي (Hero)",
     description: "العنوان والوصف وزر الدعوة في أعلى الصفحة الرئيسية.",
     fields: [
-      { name: "title", label: "العنوان", multiline: true },
+      { name: "titleTop", label: "العنوان (الجزء الأبيض)" },
+      { name: "titleAccent", label: "العنوان (الكلمة المميّزة)" },
       { name: "subtitle", label: "الوصف", multiline: true },
       { name: "cta", label: "نص الزر" },
     ],

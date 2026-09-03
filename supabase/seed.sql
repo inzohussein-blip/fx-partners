@@ -6,8 +6,9 @@
 -- Editable page content -----------------------------------------------------
 insert into public.site_content (key, value) values
   ('home.hero', jsonb_build_object(
-      'title', 'شراكة مالية عالمية بأعلى نسب العمولات',
-      'subtitle', 'انضم إلى FX Partners واكسب من كل عميل تُحيله إلى أفضل شركات التداول العالمية — بشفافية كاملة ودفعات في الوقت.',
+      'titleTop', 'أقوى معاً،',
+      'titleAccent', 'نجاح أعظم',
+      'subtitle', 'نشارك الوكلاء وشركات التداول العالمية لفتح فرص جديدة ودفع النمو، بأعلى نسب العمولات وشفافية كاملة في الأرباح.',
       'cta', 'ابدأ الشراكة الآن'
   )),
   ('home.stats', jsonb_build_object(
