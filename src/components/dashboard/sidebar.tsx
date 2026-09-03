@@ -11,6 +11,7 @@ import {
   LogOut,
   ShieldCheck,
   Users,
+  Settings,
 } from "lucide-react";
 
 const links = [
@@ -18,6 +19,7 @@ const links = [
   { href: "/dashboard/clients", label: "العملاء", icon: Users },
   { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet },
+  { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
 ];
 
 const adminLink = {

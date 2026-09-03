@@ -26,3 +26,32 @@ export const authSchema = z.object({
 });
 
 export type AuthValues = z.infer<typeof authSchema>;
+
+/** Partner profile settings. */
+export const profileSchema = z.object({
+  full_name: z.string().trim().max(80, "الاسم طويل جداً").optional().or(z.literal("")),
+  company_name: z.string().trim().max(120).optional().or(z.literal("")),
+  country: z.string().trim().max(60).optional().or(z.literal("")),
+  phone: z
+    .string()
+    .trim()
+    .max(30)
+    .regex(/^[+0-9\s()-]*$/, "رقم هاتف غير صالح")
+    .optional()
+    .or(z.literal("")),
+});
+
+export type ProfileValues = z.infer<typeof profileSchema>;
+
+/** Reset-password: new password + confirmation. */
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(6, "كلمة المرور 6 أحرف على الأقل"),
+    confirm: z.string(),
+  })
+  .refine((v) => v.password === v.confirm, {
+    message: "كلمتا المرور غير متطابقتين",
+    path: ["confirm"],
+  });
+
+export type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;

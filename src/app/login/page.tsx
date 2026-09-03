@@ -135,6 +135,17 @@ function LoginForm() {
             </Button>
           </form>
 
+          {mode === "sign-in" && (
+            <p className="mt-4 text-center text-sm">
+              <Link
+                href="/forgot-password"
+                className="text-slate-400 hover:text-brand-200"
+              >
+                نسيت كلمة المرور؟
+              </Link>
+            </p>
+          )}
+
           <p className="mt-6 text-center text-sm text-slate-400">
             {mode === "sign-in" ? "ليس لديك حساب؟" : "لديك حساب بالفعل؟"}{" "}
             <button
