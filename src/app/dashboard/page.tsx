@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
+import { EarningsChart, type ChartPoint } from "@/components/dashboard/earnings-chart";
 import { formatCurrency, formatCompact } from "@/lib/utils";
 import { Wallet, TrendingUp, Users, Link2 } from "lucide-react";
 
@@ -13,7 +14,43 @@ type Overview = {
   referrals: number;
   links: number;
   recent: { description: string; amount: number; earned_at: string }[];
+  series: ChartPoint[];
 };
+
+/** Build 6 zero-filled monthly buckets (oldest → newest). */
+function buildSeries(
+  earnings: { amount: number; earned_at: string }[],
+  refs: { created_at?: string }[]
+): ChartPoint[] {
+  const now = new Date();
+  const buckets: { key: string; point: ChartPoint }[] = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    buckets.push({
+      key: `${d.getFullYear()}-${d.getMonth()}`,
+      point: {
+        month: d.toLocaleDateString("ar", { month: "short" }),
+        earnings: 0,
+        referrals: 0,
+      },
+    });
+  }
+  const index = new Map(buckets.map((b) => [b.key, b.point]));
+  const keyOf = (iso?: string) => {
+    if (!iso) return null;
+    const d = new Date(iso);
+    return `${d.getFullYear()}-${d.getMonth()}`;
+  };
+  for (const e of earnings) {
+    const p = index.get(keyOf(e.earned_at) ?? "");
+    if (p) p.earnings += Number(e.amount ?? 0);
+  }
+  for (const r of refs) {
+    const p = index.get(keyOf(r.created_at) ?? "");
+    if (p) p.referrals += 1;
+  }
+  return buckets.map((b) => b.point);
+}
 
 async function getOverview(): Promise<Overview> {
   const empty: Overview = {
@@ -24,6 +61,7 @@ async function getOverview(): Promise<Overview> {
     referrals: 0,
     links: 0,
     recent: [],
+    series: buildSeries([], []),
   };
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return empty;
 
@@ -48,14 +86,17 @@ async function getOverview(): Promise<Overview> {
           .select("balance,total_earned,pending_balance")
           .eq("ib_id", ib.id)
           .maybeSingle(),
-        supabase.from("referrals").select("trading_volume").eq("ib_id", ib.id),
+        supabase
+          .from("referrals")
+          .select("trading_volume,created_at")
+          .eq("ib_id", ib.id),
         supabase.from("referral_links").select("id").eq("ib_id", ib.id),
         supabase
           .from("earnings")
           .select("description,amount,earned_at")
           .eq("ib_id", ib.id)
           .order("earned_at", { ascending: false })
-          .limit(5),
+          .limit(200),
       ]);
 
     const volume = (refs ?? []).reduce(
@@ -70,7 +111,8 @@ async function getOverview(): Promise<Overview> {
       volume,
       referrals: refs?.length ?? 0,
       links: links?.length ?? 0,
-      recent: earnings ?? [],
+      recent: (earnings ?? []).slice(0, 5),
+      series: buildSeries(earnings ?? [], refs ?? []),
     };
   } catch {
     return empty;
@@ -114,6 +156,8 @@ export default async function OverviewPage() {
           hint={`${o.links} رابط إحالة`}
         />
       </div>
+
+      <EarningsChart data={o.series} />
 
       <section className="card-surface p-6">
         <div className="flex items-center justify-between">

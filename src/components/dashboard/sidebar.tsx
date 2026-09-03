@@ -10,10 +10,12 @@ import {
   Wallet,
   LogOut,
   ShieldCheck,
+  Users,
 } from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard },
+  { href: "/dashboard/clients", label: "العملاء", icon: Users },
   { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet },
 ];
