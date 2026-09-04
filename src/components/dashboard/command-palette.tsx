@@ -28,6 +28,7 @@ export function CommandPalette({
       { id: "overview", name: "النظرة العامة", keywords: "overview home رئيسية", section: nav, perform: () => router.push("/dashboard") },
       { id: "clients", name: "العملاء", keywords: "clients referrals عملاء إحالات", section: nav, perform: () => router.push("/dashboard/clients") },
       { id: "markets", name: "الأسواق والأخبار", keywords: "markets news calendar تقويم أخبار", section: nav, perform: () => router.push("/dashboard/markets") },
+      { id: "leaderboard", name: "لوحة المتصدّرين", keywords: "leaderboard top ranking متصدرين ترتيب", section: nav, perform: () => router.push("/dashboard/leaderboard") },
       { id: "marketing", name: "أدوات التسويق", keywords: "marketing referral links روابط", section: nav, perform: () => router.push("/dashboard/marketing") },
       { id: "wallet", name: "المحفظة والسحوبات", keywords: "wallet withdraw سحب رصيد", section: nav, perform: () => router.push("/dashboard/wallet") },
       { id: "agreement", name: "اتفاقية الشراكة", keywords: "agreement contract sign توقيع عقد", section: nav, perform: () => router.push("/dashboard/agreement") },
