@@ -23,6 +23,7 @@ import {
   Link2,
   ShieldCheck,
   Pencil,
+  BarChart3,
 } from "lucide-react";
 
 type AdminLink = {
@@ -32,7 +33,11 @@ type AdminLink = {
   agent_commission: string | null;
   client_benefits: string | null;
   sort_order: number;
+  code: string | null;
+  clicks: number;
 };
+
+export type CountryStat = { country: string; hits: number };
 
 export type AdminBroker = {
   id: string;
@@ -80,9 +85,11 @@ const input =
 export function BrokersManager({
   brokers,
   pending,
+  countries = {},
 }: {
   brokers: AdminBroker[];
   pending: PendingReview[];
+  countries?: Record<string, CountryStat[]>;
 }) {
   const router = useRouter();
   const [form, setForm] = useState({ ...EMPTY });
@@ -397,7 +404,11 @@ export function BrokersManager({
 
                 {expanded === b.id && (
                   <div className="border-t border-white/5 p-4">
-                    <LinksEditor broker={b} onDone={refresh} />
+                    <LinksEditor
+                      broker={b}
+                      countryStats={countries[b.id] ?? []}
+                      onDone={refresh}
+                    />
                     <AdminReplyForm brokerId={b.id} onDone={refresh} />
                   </div>
                 )}
@@ -410,12 +421,22 @@ export function BrokersManager({
   );
 }
 
-function LinksEditor({ broker, onDone }: { broker: AdminBroker; onDone: () => void }) {
+function LinksEditor({
+  broker,
+  countryStats,
+  onDone,
+}: {
+  broker: AdminBroker;
+  countryStats: CountryStat[];
+  onDone: () => void;
+}) {
   const [label, setLabel] = useState("");
   const [url, setUrl] = useState("");
   const [commission, setCommission] = useState("");
   const [benefits, setBenefits] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+
+  const totalClicks = broker.broker_links.reduce((s, l) => s + (l.clicks ?? 0), 0);
 
   async function add() {
     if (!url.trim()) return;
@@ -437,8 +458,13 @@ function LinksEditor({ broker, onDone }: { broker: AdminBroker; onDone: () => vo
 
   return (
     <div>
-      <h4 className="flex items-center gap-2 text-sm font-semibold text-white">
-        <Link2 className="h-4 w-4 text-brand-300" /> روابط الإحالة
+      <h4 className="flex items-center justify-between gap-2 text-sm font-semibold text-white">
+        <span className="flex items-center gap-2">
+          <Link2 className="h-4 w-4 text-brand-300" /> روابط الإحالة
+        </span>
+        <span className="inline-flex items-center gap-1 text-xs font-normal text-slate-400">
+          <BarChart3 className="h-3.5 w-3.5" /> {totalClicks} نقرة
+        </span>
       </h4>
 
       {broker.broker_links.length > 0 && (
@@ -448,11 +474,23 @@ function LinksEditor({ broker, onDone }: { broker: AdminBroker; onDone: () => vo
               key={l.id}
               className="flex items-center justify-between gap-3 rounded-lg bg-white/5 px-3 py-2 text-xs"
             >
-              <div className="min-w-0 truncate text-slate-300" dir="ltr">
-                {l.label ? `${l.label} · ` : ""}
-                {l.referral_url}
-                {l.agent_commission ? ` · وكيل: ${l.agent_commission}` : ""}
-                {l.client_benefits ? ` · عميل: ${l.client_benefits}` : ""}
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-slate-300" dir="ltr">
+                  {l.label ? `${l.label} · ` : ""}
+                  {l.referral_url}
+                </div>
+                <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[11px] text-slate-500">
+                  {l.code && (
+                    <span dir="ltr" className="text-brand-300">
+                      /go/{l.code}
+                    </span>
+                  )}
+                  <span className="inline-flex items-center gap-0.5">
+                    <BarChart3 className="h-3 w-3" /> {l.clicks ?? 0}
+                  </span>
+                  {l.agent_commission ? <span>وكيل: {l.agent_commission}</span> : null}
+                  {l.client_benefits ? <span>عميل: {l.client_benefits}</span> : null}
+                </div>
               </div>
               <button
                 onClick={async () => {
@@ -469,6 +507,23 @@ function LinksEditor({ broker, onDone }: { broker: AdminBroker; onDone: () => vo
             </li>
           ))}
         </ul>
+      )}
+
+      {countryStats.length > 0 && (
+        <div className="mt-3 rounded-lg border border-white/5 bg-ink-900/40 p-3">
+          <div className="text-[11px] font-medium text-slate-500">أهم الدول (نقرات)</div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {countryStats.map((c) => (
+              <span
+                key={c.country}
+                className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-slate-300"
+                dir="ltr"
+              >
+                {c.country} · {c.hits}
+              </span>
+            ))}
+          </div>
+        </div>
       )}
 
       <div className="mt-3 grid gap-2 sm:grid-cols-2">

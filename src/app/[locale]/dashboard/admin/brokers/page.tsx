@@ -3,6 +3,7 @@ import {
   BrokersManager,
   type AdminBroker,
   type PendingReview,
+  type CountryStat,
 } from "@/components/dashboard/brokers-manager";
 
 export const dynamic = "force-dynamic";
@@ -10,14 +11,15 @@ export const dynamic = "force-dynamic";
 export default async function AdminBrokersPage() {
   let brokers: AdminBroker[] = [];
   let pending: PendingReview[] = [];
+  let countries: Record<string, CountryStat[]> = {};
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();
-    const [{ data: b }, { data: r }] = await Promise.all([
+    const [{ data: b }, { data: r }, { data: clicks }] = await Promise.all([
       supabase
         .from("brokers")
         .select(
-          "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,is_published,sort_order,broker_links(id,label,referral_url,agent_commission,client_benefits,sort_order)"
+          "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,is_published,sort_order,broker_links(id,label,referral_url,agent_commission,client_benefits,sort_order,code,clicks)"
         )
         .order("sort_order"),
       supabase
@@ -26,7 +28,29 @@ export default async function AdminBrokersPage() {
         .eq("is_approved", false)
         .order("created_at", { ascending: false })
         .limit(100),
+      supabase
+        .from("broker_link_clicks")
+        .select("broker_id,country")
+        .order("created_at", { ascending: false })
+        .limit(5000),
     ]);
+
+    // Aggregate top countries per broker from recent clicks.
+    const agg: Record<string, Record<string, number>> = {};
+    for (const c of (clicks as { broker_id: string; country: string | null }[]) ?? []) {
+      if (!c.broker_id) continue;
+      const key = c.country || "—";
+      (agg[c.broker_id] ??= {})[key] = (agg[c.broker_id]?.[key] ?? 0) + 1;
+    }
+    countries = Object.fromEntries(
+      Object.entries(agg).map(([bid, m]) => [
+        bid,
+        Object.entries(m)
+          .map(([country, hits]) => ({ country, hits }))
+          .sort((a, b) => b.hits - a.hits)
+          .slice(0, 5),
+      ])
+    );
 
     brokers = (b as unknown as AdminBroker[]) ?? [];
     pending =
@@ -55,7 +79,7 @@ export default async function AdminBrokersPage() {
         </p>
       </header>
 
-      <BrokersManager brokers={brokers} pending={pending} />
+      <BrokersManager brokers={brokers} pending={pending} countries={countries} />
     </div>
   );
 }

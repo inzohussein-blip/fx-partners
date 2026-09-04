@@ -659,10 +659,40 @@ create table if not exists public.broker_links (
   referral_url    text not null,
   agent_commission text,
   client_benefits  text,
+  code            text unique,              -- branded /go/<code> redirect
+  clicks          int not null default 0,   -- denormalized click counter
   sort_order      int not null default 0,
   created_at      timestamptz not null default now()
 );
 create index if not exists idx_broker_links_broker on public.broker_links(broker_id, sort_order);
+
+-- Click tracking (mirrors migration 0015)
+create table if not exists public.broker_link_clicks (
+  id         uuid primary key default gen_random_uuid(),
+  link_id    uuid references public.broker_links(id) on delete cascade,
+  broker_id  uuid references public.brokers(id) on delete cascade,
+  country    text,
+  referer    text,
+  created_at timestamptz not null default now()
+);
+create index if not exists idx_link_clicks_link on public.broker_link_clicks(link_id);
+create index if not exists idx_link_clicks_broker on public.broker_link_clicks(broker_id, created_at desc);
+
+create or replace function public.trg_link_click()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  update public.broker_links set clicks = clicks + 1 where id = new.link_id;
+  return new;
+end; $$;
+
+drop trigger if exists t_link_click on public.broker_link_clicks;
+create trigger t_link_click after insert on public.broker_link_clicks
+  for each row execute function public.trg_link_click();
+
+alter table public.broker_link_clicks enable row level security;
+drop policy if exists "clicks admin read" on public.broker_link_clicks;
+create policy "clicks admin read" on public.broker_link_clicks
+  for select using (public.is_admin());
 
 create table if not exists public.broker_reviews (
   id             uuid primary key default gen_random_uuid(),

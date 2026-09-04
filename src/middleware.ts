@@ -56,6 +56,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Run on everything except API/route-handler utilities, Next internals,
-  // and files with an extension. `auth` and `r` are un-localized handlers.
-  matcher: ["/((?!api|auth|r|_next|_vercel|.*\\..*).*)"],
+  // and files with an extension. `auth`, `r` and `go` are un-localized handlers.
+  matcher: ["/((?!api|auth|r|go|_next|_vercel|.*\\..*).*)"],
 };

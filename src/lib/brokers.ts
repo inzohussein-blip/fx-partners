@@ -6,7 +6,13 @@ export type BrokerLink = {
   referral_url: string;
   agent_commission: string | null;
   client_benefits: string | null;
+  code?: string | null;
 };
+
+/** Branded, tracked redirect URL for a broker link (falls back to the raw URL). */
+export function linkHref(l: Pick<BrokerLink, "code" | "referral_url">): string {
+  return l.code ? `/go/${l.code}` : l.referral_url;
+}
 
 export type Broker = {
   id: string;

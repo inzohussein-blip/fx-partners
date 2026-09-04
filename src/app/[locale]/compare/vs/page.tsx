@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
-import { statusLabel, type Broker } from "@/lib/brokers";
+import { statusLabel, linkHref, type Broker } from "@/lib/brokers";
 import { Building2, ExternalLink, ArrowRight, BadgeCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -57,7 +57,8 @@ function bestBenefits(b: Broker) {
   return (b.broker_links ?? []).find((l) => l.client_benefits)?.client_benefits ?? null;
 }
 function refUrl(b: Broker) {
-  return (b.broker_links ?? [])[0]?.referral_url ?? null;
+  const l = (b.broker_links ?? [])[0];
+  return l ? linkHref(l) : null;
 }
 
 function Head({ b, win }: { b: Broker; win?: boolean }) {

@@ -9,7 +9,7 @@ import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
 import { BrokerBoard, type BoardPost } from "@/components/brokers/broker-board";
-import { statusLabel, type Broker, type BrokerReview } from "@/lib/brokers";
+import { statusLabel, linkHref, type Broker, type BrokerReview } from "@/lib/brokers";
 import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -21,7 +21,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -220,7 +220,7 @@ export default async function BrokerDetailPage({
                   </div>
                   <div className="mt-4">
                     <a
-                      href={l.referral_url}
+                      href={linkHref(l)}
                       target="_blank"
                       rel="nofollow noopener noreferrer sponsored"
                       className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"

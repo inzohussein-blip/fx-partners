@@ -187,10 +187,15 @@ export async function saveBrokerLink(
     sort_order: Number(input.sort_order ?? 0),
   };
 
-  const query = input.id
-    ? supabase.from("broker_links").update(row).eq("id", input.id)
-    : supabase.from("broker_links").insert(row);
-  const { error } = await query;
+  let error;
+  if (input.id) {
+    ({ error } = await supabase.from("broker_links").update(row).eq("id", input.id));
+  } else {
+    const code = Math.random().toString(36).slice(2, 9);
+    ({ error } = await supabase
+      .from("broker_links")
+      .insert({ ...row, code }));
+  }
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/compare");
