@@ -96,6 +96,13 @@ select b.id, 'متداول عربي', 'تجربة ممتازة، السحب سر
 from public.brokers b where b.slug = 'alpha-markets'
 on conflict do nothing;
 
+-- Demo exclusive coupons -----------------------------------------------------
+insert into public.coupons (broker_id, broker_slug, broker_name, title, code, referral_url, description)
+select b.id, b.slug, b.name, 'بونص إيداع 100% حصري', 'FXP100',
+       '/brokers/' || b.slug, 'استخدم الكود عند فتح الحساب للحصول على مضاعفة إيداعك.'
+from public.brokers b where b.slug = 'alpha-markets'
+on conflict do nothing;
+
 -- Demo discussion thread + staff reply ---------------------------------------
 with t as (
   insert into public.broker_posts (broker_id, author_name, body)

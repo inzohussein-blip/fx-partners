@@ -4,7 +4,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Crosshair, ArrowLeft, Flame } from "lucide-react";
+import { CouponCard, type Coupon } from "@/components/marketing/coupon-card";
+import { Crosshair, ArrowLeft, Flame, Ticket } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -39,8 +40,24 @@ async function getCampaigns(): Promise<Campaign[]> {
   }
 }
 
+async function getCoupons(): Promise<Coupon[]> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  try {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("coupons")
+      .select("id,broker_name,title,code,referral_url,description")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(50);
+    return (data as Coupon[]) ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export default async function OffersPage() {
-  const campaigns = await getCampaigns();
+  const [campaigns, coupons] = await Promise.all([getCampaigns(), getCoupons()]);
 
   return (
     <>
@@ -96,6 +113,26 @@ export default async function OffersPage() {
           )}
         </Container>
       </section>
+
+      {/* Exclusive coupon codes */}
+      {coupons.length > 0 && (
+        <section className="pb-24">
+          <Container>
+            <div className="flex items-center gap-2">
+              <Ticket className="h-5 w-5 text-brand-300" />
+              <h2 className="text-2xl font-bold text-white">أكواد وكوبونات حصرية</h2>
+            </div>
+            <p className="mt-1 text-sm text-slate-400">
+              انسخ الكود وافتح حسابك عبر رابطنا الحصري للحصول على العرض.
+            </p>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {coupons.map((c) => (
+                <CouponCard key={c.id} coupon={c} />
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       <SiteFooter />
     </>
