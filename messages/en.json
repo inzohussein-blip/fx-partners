@@ -93,6 +93,22 @@
     "cta": "Start partnering now",
     "note": "An estimate based on trading volume and commission rate; actual values may vary. Exchange rates come from a free source and may be delayed."
   },
+  "Backtest": {
+    "badge": "Historical simulator",
+    "heading": "What would your earnings have been?",
+    "subheading": "Pick an instrument, year, and client count to simulate your commissions on real historical market data.",
+    "instrumentLabel": "Instrument",
+    "yearLabel": "Year",
+    "clientsLabel": "Number of clients",
+    "lotsPerClientLabel": "Lots/client per month",
+    "totalLabel": "Estimated total commissions",
+    "monthlyLabel": "Monthly average",
+    "returnLabel": "Instrument return",
+    "volLabel": "Realized volatility",
+    "realData": "Real historical data",
+    "demoData": "Illustrative data",
+    "note": "An estimate that assumes your clients' trading volume correlates with market volatility over the selected period. Historical data is real, but results are not guaranteed returns."
+  },
   "About": {
     "badge": "About us",
     "heading": "Building partnerships that drive growth",
