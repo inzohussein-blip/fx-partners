@@ -35,6 +35,16 @@ const TIERS = [
   { key: "tierVip", perLot: 10 },
 ] as const;
 
+// Representative contract size + price per standard lot (illustrative).
+const INSTRUMENTS = [
+  { sym: "EUR/USD", contract: 100000, price: 1.085 },
+  { sym: "XAU/USD", contract: 100, price: 2350 },
+  { sym: "GBP/USD", contract: 100000, price: 1.27 },
+  { sym: "BTC/USD", contract: 1, price: 68000 },
+];
+
+const LEVERAGES = [50, 100, 200, 500, 1000, 2000];
+
 function AnimatedNumber({
   value,
   format,
@@ -60,6 +70,8 @@ export function ProfitCalculator() {
   const t = useTranslations("Calculator");
   const [lots, setLots] = useState(150);
   const [tierIdx, setTierIdx] = useState(1);
+  const [instIdx, setInstIdx] = useState(0);
+  const [leverage, setLeverage] = useState(500);
   const [currency, setCurrency] = useState("usd");
   const [rates, setRates] = useState<Record<string, number>>(FALLBACK);
 
@@ -90,9 +102,13 @@ export function ProfitCalculator() {
   }, []);
 
   const perLot = TIERS[tierIdx].perLot;
+  const inst = INSTRUMENTS[instIdx];
   const rate = currency === "usd" ? 1 : rates[currency] ?? FALLBACK[currency] ?? 1;
+
   const monthly = lots * perLot * rate;
   const yearly = monthly * 12;
+  const notional = lots * inst.contract * inst.price * rate;
+  const margin = notional / leverage;
 
   const fmt = useMemo(() => {
     const nf = new Intl.NumberFormat("en-US", {
@@ -118,7 +134,7 @@ export function ProfitCalculator() {
 
         <div className="card-surface mt-12 grid gap-8 p-6 sm:p-8 lg:grid-cols-2">
           {/* Controls */}
-          <div className="space-y-7">
+          <div className="space-y-6">
             {/* Tier */}
             <div>
               <label className="mb-2 block text-sm text-slate-300">
@@ -143,6 +159,44 @@ export function ProfitCalculator() {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* Instrument + leverage */}
+            <div className="grid grid-cols-2 gap-4">
+              <label className="block">
+                <span className="mb-2 block text-sm text-slate-300">
+                  {t("instrumentLabel")}
+                </span>
+                <select
+                  value={instIdx}
+                  onChange={(e) => setInstIdx(Number(e.target.value))}
+                  dir="ltr"
+                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                >
+                  {INSTRUMENTS.map((it, i) => (
+                    <option key={it.sym} value={i}>
+                      {it.sym}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block">
+                <span className="mb-2 block text-sm text-slate-300">
+                  {t("leverageLabel")}
+                </span>
+                <select
+                  value={leverage}
+                  onChange={(e) => setLeverage(Number(e.target.value))}
+                  dir="ltr"
+                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                >
+                  {LEVERAGES.map((l) => (
+                    <option key={l} value={l}>
+                      1:{l}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
 
             {/* Lots slider */}
@@ -209,14 +263,35 @@ export function ProfitCalculator() {
                 <AnimatedNumber value={monthly} format={fmt} />
               </div>
 
-              <div className="mt-6 border-t border-white/5 pt-6">
+              <div className="mt-5 border-t border-white/5 pt-5">
                 <div className="text-sm text-slate-400">{t("yearlyLabel")}</div>
                 <div dir="ltr" className="mt-1 text-2xl font-bold text-white">
                   <AnimatedNumber value={yearly} format={fmt} />
                 </div>
               </div>
 
-              <div className="mt-8">
+              {/* Trading details: notional + required margin */}
+              <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/5 pt-5">
+                <div className="rounded-xl bg-ink-900/40 p-3">
+                  <div className="text-xs text-slate-500">{t("notionalLabel")}</div>
+                  <div dir="ltr" className="mt-1 text-sm font-semibold text-white">
+                    <AnimatedNumber value={notional} format={fmt} />
+                  </div>
+                </div>
+                <div className="rounded-xl bg-ink-900/40 p-3">
+                  <div className="text-xs text-slate-500">
+                    {t("marginLabel")}{" "}
+                    <span dir="ltr" className="text-brand-300">
+                      1:{leverage}
+                    </span>
+                  </div>
+                  <div dir="ltr" className="mt-1 text-sm font-semibold text-brand-300">
+                    <AnimatedNumber value={margin} format={fmt} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6">
                 <Button href="/login" className="w-full">
                   {t("cta")}
                 </Button>

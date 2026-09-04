@@ -83,8 +83,12 @@
     "tierVip": "VIP",
     "perLot": "per lot",
     "currencyLabel": "Currency",
+    "instrumentLabel": "Instrument",
+    "leverageLabel": "Leverage",
     "monthlyLabel": "Estimated monthly earnings",
     "yearlyLabel": "Yearly earnings",
+    "notionalLabel": "Notional value",
+    "marginLabel": "Required margin",
     "lot": "lots",
     "cta": "Start partnering now",
     "note": "An estimate based on trading volume and commission rate; actual values may vary. Exchange rates come from a free source and may be delayed."
