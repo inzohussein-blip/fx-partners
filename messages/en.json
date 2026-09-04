@@ -202,7 +202,8 @@
     "dashboard": "Dashboard",
     "rights": "All rights reserved.",
     "risk": "Risk warning: Trading in forex and derivatives carries a high level of risk.",
-    "siteMap": "Site map"
+    "siteMap": "Site map",
+    "contactUs": "Contact us"
   },
   "Login": {
     "signInTitle": "Sign in",

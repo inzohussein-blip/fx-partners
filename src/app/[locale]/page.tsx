@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
+import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { BrokerHighlight } from "@/components/marketing/broker-highlight";
 import { MarketTicker } from "@/components/marketing/market-ticker";
@@ -88,6 +89,7 @@ export default async function HomePage({
 
   return (
     <>
+      <OrganizationJsonLd />
       <SiteHeader />
 
       {/* Live ticker tape */}

@@ -12,6 +12,7 @@ import {
 import { routing, type Locale } from "@/i18n/routing";
 import { getSiteUrl } from "@/lib/utils";
 import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner";
+import { SkipLink } from "@/components/skip-link";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -69,7 +70,10 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir} className={cairo.variable}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <SkipLink />
+          <div id="content">
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </div>
           <LiveCampaignBanner />
           <Toaster
             theme="dark"

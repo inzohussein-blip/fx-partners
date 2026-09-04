@@ -31,6 +31,7 @@ export function SiteFooter() {
             <li><Link href="/affiliates" className="hover:text-white">{t("affiliateProgram")}</Link></li>
             <li><Link href="/brokers" className="hover:text-white">{t("companyCollab")}</Link></li>
             <li><Link href="/blog" className="hover:text-white">{t("blog")}</Link></li>
+            <li><Link href="/contact" className="hover:text-white">{t("contactUs")}</Link></li>
           </ul>
         </div>
 

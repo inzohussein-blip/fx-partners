@@ -60,9 +60,15 @@ export function Carousel({
     return () => track.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Autoplay (pauses on hover / pointer down).
+  // Autoplay (pauses on hover / pointer down; off for reduced motion).
   useEffect(() => {
     if (!autoPlayMs) return;
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
     const track = trackRef.current;
     let paused = false;
     const enter = () => (paused = true);
