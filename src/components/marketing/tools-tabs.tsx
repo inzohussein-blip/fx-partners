@@ -5,11 +5,13 @@ import { Container } from "@/components/ui/container";
 import { ProfitCalculator } from "@/components/marketing/profit-calculator";
 import { BrokerComparison } from "@/components/marketing/broker-comparison";
 import { Backtest } from "@/components/marketing/backtest";
+import { RiskCalculator } from "@/components/marketing/risk-calculator";
 import { cn } from "@/lib/utils";
-import { Calculator, Scale, LineChart } from "lucide-react";
+import { Calculator, Scale, LineChart, ShieldAlert } from "lucide-react";
 
 const TABS = [
   { key: "calc", label: "حاسبة الأرباح", icon: Calculator },
+  { key: "risk", label: "المخاطرة والنقطة", icon: ShieldAlert },
   { key: "compare", label: "قارن عمولتك", icon: Scale },
   { key: "backtest", label: "محاكي الأداء", icon: LineChart },
 ] as const;
@@ -59,6 +61,7 @@ export function ToolsTabs() {
       {/* Active tool (each brings its own layout) */}
       <div className="-mt-4">
         {tab === "calc" && <ProfitCalculator />}
+        {tab === "risk" && <RiskCalculator />}
         {tab === "compare" && <BrokerComparison />}
         {tab === "backtest" && <Backtest />}
       </div>
