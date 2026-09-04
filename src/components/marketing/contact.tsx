@@ -16,7 +16,7 @@ export function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-20">
+    <section id="contact" className="py-16 sm:py-20">
       <Container>
         <div className="card-surface relative overflow-hidden p-10 sm:p-14">
           <div className="hero-glow absolute inset-0 opacity-60" />

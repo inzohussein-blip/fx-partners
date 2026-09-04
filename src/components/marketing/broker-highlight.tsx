@@ -31,7 +31,7 @@ export async function BrokerHighlight() {
   if (brokers.length === 0) return null;
 
   return (
-    <section className="py-20">
+    <section className="py-16 sm:py-20">
       <Container>
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>

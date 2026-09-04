@@ -11,7 +11,7 @@ export function About() {
   ];
 
   return (
-    <section id="about" className="py-20">
+    <section id="about" className="py-16 sm:py-20">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">

@@ -1,22 +1,23 @@
 import { useTranslations } from "next-intl";
 import { Container } from "@/components/ui/container";
-import { Plus } from "lucide-react";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Plus, HelpCircle } from "lucide-react";
 
 export function Faq() {
   const t = useTranslations("Faq");
   const items = [1, 2, 3, 4, 5] as const;
 
   return (
-    <section className="py-20">
+    <section className="py-16 sm:py-20">
       <Container className="max-w-3xl">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">
-            {t("heading")}
-          </h2>
-          <p className="mt-4 text-slate-400">{t("subheading")}</p>
-        </div>
+        <SectionHeading
+          eyebrow={t("badge")}
+          icon={HelpCircle}
+          title={t("heading")}
+          subtitle={t("subheading")}
+        />
 
-        <div className="mt-12 space-y-3">
+        <div className="mt-10 space-y-3">
           {items.map((i) => (
             <details
               key={i}

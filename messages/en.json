@@ -38,6 +38,7 @@
     "payoutLabel": "Paid out"
   },
   "Features": {
+    "badge": "Features",
     "heading": "Everything you need to grow your earnings",
     "subheading": "Professional tools built for agents, marketers, and brokers.",
     "revenueShare": {
@@ -128,6 +129,7 @@
     "projectsLabel": "Projects completed"
   },
   "Team": {
+    "badge": "Our team",
     "heading": "A team behind your success",
     "subheading": "Experts in trading, technology, and support, dedicated to our partners' growth.",
     "m1Name": "Khalid Al-Rashed",
@@ -150,6 +152,7 @@
     "cta": "Email us now"
   },
   "Testimonials": {
+    "badge": "Testimonials",
     "heading": "Partners worldwide trust us",
     "subheading": "Real experiences from agents, marketers, and brokers in our network.",
     "one": {
@@ -169,6 +172,7 @@
     }
   },
   "Faq": {
+    "badge": "Before you start",
     "heading": "Frequently asked questions",
     "subheading": "Everything you need to know before joining the partner program.",
     "q1": "How do I start as an IB or marketing partner?",

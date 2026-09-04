@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { BrokerHighlight } from "@/components/marketing/broker-highlight";
@@ -176,10 +177,13 @@ export default async function HomePage({
       </section>
 
       {/* Impact stats */}
-      <section className="pb-4 pt-16">
+      <section className="pb-4 pt-14">
         <Container>
           <div className="mb-8 flex items-center gap-3">
-            <h2 className="text-xl font-bold text-white">أثرنا بالأرقام</h2>
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">
+              <span className="h-px w-8 bg-brand-400/60" />
+              أثرنا بالأرقام
+            </span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent via-white/10 to-transparent" />
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -206,16 +210,16 @@ export default async function HomePage({
 
       {/* Features */}
       <Reveal>
-      <section className="py-20">
+      <section className="py-16 sm:py-20">
         <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">
-              {t("Features.heading")}
-            </h2>
-            <p className="mt-4 text-slate-400">{t("Features.subheading")}</p>
-          </div>
+          <SectionHeading
+            eyebrow={t("Features.badge")}
+            icon={Trophy}
+            title={t("Features.heading")}
+            subtitle={t("Features.subheading")}
+          />
 
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {features.map((f) => (
               <div
                 key={f.key}
