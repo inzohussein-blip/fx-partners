@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
+import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
 import { BrokerBoard, type BoardPost } from "@/components/brokers/broker-board";
 import { statusLabel, type Broker, type BrokerReview } from "@/lib/brokers";
@@ -234,6 +235,13 @@ export default async function BrokerDetailPage({
           </Container>
         </section>
       )}
+
+      {/* Bonus/terms alerts */}
+      <section className="pb-4 pt-6">
+        <Container>
+          <BrokerSubscribe brokerId={broker.id} brokerName={broker.name} />
+        </Container>
+      </section>
 
       {/* Reviews */}
       <section className="pt-6">

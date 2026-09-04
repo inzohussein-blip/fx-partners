@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { sendTelegram } from "@/lib/telegram";
+import { sendRawEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 import { BADGE_KEYS } from "@/lib/brokers";
 
@@ -74,17 +75,77 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
   };
 
   let error;
+  let slug = input.slug;
   if (input.id) {
+    // Capture the previous bonus/terms to detect a change for alerts.
+    const { data: prev } = await supabase
+      .from("brokers")
+      .select("slug,deposit_bonus,welcome_bonus")
+      .eq("id", input.id)
+      .maybeSingle();
     ({ error } = await supabase.from("brokers").update(row).eq("id", input.id));
+    if (!error && prev) {
+      slug = prev.slug;
+      const depChanged = (prev.deposit_bonus ?? "") !== (row.deposit_bonus ?? "");
+      const welChanged = (prev.welcome_bonus ?? "") !== (row.welcome_bonus ?? "");
+      if (depChanged || welChanged) {
+        await notifyBonusChange(input.id, row.name, prev.slug, {
+          deposit: row.deposit_bonus,
+          welcome: row.welcome_bonus,
+        });
+      }
+    }
   } else {
-    const slug = (input.slug?.trim() && slugify(input.slug)) || slugify(input.name);
+    slug = (input.slug?.trim() && slugify(input.slug)) || slugify(input.name);
     ({ error } = await supabase.from("brokers").insert({ ...row, slug }));
   }
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/compare");
+  if (slug) revalidatePath(`/brokers/${slug}`);
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
+}
+
+/** Email a broker's subscribers when its bonus/terms change (best-effort). */
+async function notifyBonusChange(
+  brokerId: string,
+  name: string,
+  slug: string,
+  bonus: { deposit: string | null; welcome: string | null }
+) {
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !key) return;
+    const { createClient: create } = await import("@supabase/supabase-js");
+    const admin = create(url, key);
+
+    const { data: subs } = await admin
+      .from("broker_subscriptions")
+      .select("email")
+      .eq("broker_id", brokerId)
+      .limit(500);
+    if (!subs || subs.length === 0) return;
+
+    const link = `${getSiteUrl()}/brokers/${slug}`;
+    const html = `
+      <div style="font-family:sans-serif;max-width:520px;margin:auto;background:#0b1526;color:#e2e8f0;padding:28px;border-radius:16px">
+        <h2 style="color:#22d3ee;margin:0 0 8px">تحديث عروض ${name}</h2>
+        <p style="color:#94a3b8;margin:0 0 16px">تم تحديث عروض هذه الشركة التي اشتركت في تنبيهاتها:</p>
+        <ul style="font-size:14px;line-height:1.9;padding-inline-start:18px">
+          ${bonus.deposit ? `<li>بونص الإيداع: <b>${bonus.deposit}</b></li>` : ""}
+          ${bonus.welcome ? `<li>البونص الترحيبي: <b>${bonus.welcome}</b></li>` : ""}
+        </ul>
+        <a href="${link}" style="display:inline-block;margin-top:16px;background:#2563eb;color:#fff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:700">عرض التفاصيل</a>
+      </div>`;
+
+    for (const s of subs as { email: string }[]) {
+      await sendRawEmail(s.email, `تحديث عروض ${name} — FX Partners`, html);
+    }
+  } catch {
+    /* best-effort */
+  }
 }
 
 export async function deleteBroker(id: string): Promise<ActionResult> {
@@ -203,6 +264,31 @@ export async function submitBrokerReview(input: unknown): Promise<ActionResult> 
   }
 
   revalidatePath(`/brokers/${d.brokerSlug}`);
+  return { ok: true };
+}
+
+const subscribeSchema = z.object({
+  brokerId: z.string().uuid(),
+  email: z.string().trim().email("بريد إلكتروني غير صالح"),
+});
+
+/** Public: subscribe an email to a broker's bonus/terms alerts. */
+export async function subscribeBroker(input: unknown): Promise<ActionResult> {
+  const parsed = subscribeSchema.safeParse(input);
+  if (!parsed.success) {
+    return { ok: false, error: parsed.error.errors[0]?.message ?? "بريد غير صالح" };
+  }
+  const d = parsed.data;
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await supabase.from("broker_subscriptions").upsert(
+    { broker_id: d.brokerId, email: d.email.toLowerCase(), user_id: user?.id ?? null },
+    { onConflict: "broker_id,email", ignoreDuplicates: true }
+  );
+  if (error) return { ok: false, error: error.message };
   return { ok: true };
 }
 
