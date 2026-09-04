@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { useKBar } from "kbar";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
+import { AnnouncementsBell } from "@/components/dashboard/announcements-bell";
 import {
   LayoutDashboard,
   Megaphone,
@@ -27,6 +28,7 @@ const links = [
   { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone, tour: "marketing" },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet, tour: "wallet" },
   { href: "/dashboard/agreement", label: "اتفاقية الشراكة", icon: FileSignature },
+  { href: "/dashboard/updates", label: "التحديثات", icon: Megaphone },
   { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
 ];
 
@@ -49,9 +51,12 @@ export function DashboardSidebar({
 
   return (
     <aside className="flex w-full flex-col gap-1 border-b border-white/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
-      <Link href="/" className="mb-4 px-2">
-        <Logo />
-      </Link>
+      <div className="mb-4 flex items-center justify-between px-2">
+        <Link href="/">
+          <Logo />
+        </Link>
+        <AnnouncementsBell />
+      </div>
 
       <button
         type="button"
