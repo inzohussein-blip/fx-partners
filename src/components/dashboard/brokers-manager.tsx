@@ -12,7 +12,7 @@ import {
   addAdminReview,
 } from "@/lib/actions/brokers";
 import { Stars, StarInput } from "@/components/brokers/stars";
-import { BADGES, BADGE_KEYS } from "@/lib/brokers";
+import { BADGES, BADGE_KEYS, REGULATORS, REGULATOR_KEYS } from "@/lib/brokers";
 import {
   Plus,
   Trash2,
@@ -51,6 +51,12 @@ export type AdminBroker = {
   rating: number;
   reviews_count: number;
   badges: string[] | null;
+  spread_from: number | null;
+  leverage_max: string | null;
+  bonus_no_deposit: boolean;
+  bonus_withdrawable: boolean;
+  supports_gold: boolean;
+  licenses: string[] | null;
   is_published: boolean;
   sort_order: number;
   broker_links: AdminLink[];
@@ -77,6 +83,12 @@ const EMPTY = {
   description: "",
   is_published: true,
   badges: [] as string[],
+  spread_from: "",
+  leverage_max: "",
+  bonus_no_deposit: false,
+  bonus_withdrawable: false,
+  supports_gold: false,
+  licenses: [] as string[],
 };
 
 const input =
@@ -126,6 +138,12 @@ export function BrokersManager({
       description: b.description ?? "",
       is_published: b.is_published,
       badges: b.badges ?? [],
+      spread_from: b.spread_from != null ? String(b.spread_from) : "",
+      leverage_max: b.leverage_max ?? "",
+      bonus_no_deposit: b.bonus_no_deposit,
+      bonus_withdrawable: b.bonus_withdrawable,
+      supports_gold: b.supports_gold,
+      licenses: b.licenses ?? [],
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -150,6 +168,12 @@ export function BrokersManager({
       logo_url: b.logo_url ?? "",
       is_published: !b.is_published,
       badges: b.badges ?? [],
+      spread_from: b.spread_from,
+      leverage_max: b.leverage_max ?? "",
+      bonus_no_deposit: b.bonus_no_deposit,
+      bonus_withdrawable: b.bonus_withdrawable,
+      supports_gold: b.supports_gold,
+      licenses: b.licenses ?? [],
     });
     setBusy(null);
     refresh();
@@ -215,7 +239,45 @@ export function BrokersManager({
             value={form.welcome_bonus}
             onChange={(e) => setForm({ ...form, welcome_bonus: e.target.value })}
           />
+          <input
+            className={input}
+            dir="ltr"
+            type="number"
+            step="0.1"
+            placeholder="السبريد من (نقاط) — مثال: 0.1"
+            value={form.spread_from}
+            onChange={(e) => setForm({ ...form, spread_from: e.target.value })}
+          />
+          <input
+            className={input}
+            dir="ltr"
+            placeholder="الرافعة القصوى — مثال: 1:2000"
+            value={form.leverage_max}
+            onChange={(e) => setForm({ ...form, leverage_max: e.target.value })}
+          />
         </div>
+
+        {/* Bonus / feature toggles */}
+        <div className="mt-3 flex flex-wrap gap-4">
+          {(
+            [
+              ["bonus_no_deposit", "بونص بدون إيداع"],
+              ["bonus_withdrawable", "بونص قابل للسحب"],
+              ["supports_gold", "يدعم تداول الذهب"],
+            ] as const
+          ).map(([key, label]) => (
+            <label key={key} className="flex items-center gap-2 text-sm text-slate-300">
+              <input
+                type="checkbox"
+                checked={form[key]}
+                onChange={(e) => setForm({ ...form, [key]: e.target.checked })}
+                className="h-4 w-4 rounded accent-brand-500"
+              />
+              {label}
+            </label>
+          ))}
+        </div>
+
         <textarea
           className={`${input} mt-3`}
           rows={4}
@@ -223,6 +285,37 @@ export function BrokersManager({
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
         />
+
+        <div className="mt-4">
+          <span className="mb-2 block text-sm text-slate-300">التراخيص والرقابة المالية</span>
+          <div className="flex flex-wrap gap-2">
+            {REGULATOR_KEYS.map((key) => {
+              const r = REGULATORS[key];
+              const on = form.licenses.includes(key);
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() =>
+                    setForm((f) => ({
+                      ...f,
+                      licenses: f.licenses.includes(key)
+                        ? f.licenses.filter((x) => x !== key)
+                        : [...f.licenses, key],
+                    }))
+                  }
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition ${
+                    on
+                      ? "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30"
+                      : "bg-white/5 text-slate-400 ring-white/10 hover:text-white"
+                  }`}
+                >
+                  {r.flag} {r.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         <div className="mt-4">
           <span className="mb-2 block text-sm text-slate-300">الشارات</span>

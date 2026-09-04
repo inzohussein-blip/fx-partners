@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { sendTelegram } from "@/lib/telegram";
 import { sendRawEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
-import { BADGE_KEYS } from "@/lib/brokers";
+import { BADGE_KEYS, REGULATOR_KEYS } from "@/lib/brokers";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -51,6 +51,12 @@ export type BrokerInput = {
   is_published?: boolean;
   sort_order?: number;
   badges?: string[];
+  spread_from?: number | string | null;
+  leverage_max?: string;
+  bonus_no_deposit?: boolean;
+  bonus_withdrawable?: boolean;
+  supports_gold?: boolean;
+  licenses?: string[];
 };
 
 export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
@@ -62,6 +68,15 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
   const badges = Array.isArray(input.badges)
     ? input.badges.filter((b) => BADGE_KEYS.includes(b))
     : undefined;
+  const licenses = Array.isArray(input.licenses)
+    ? input.licenses.filter((l) => REGULATOR_KEYS.includes(l))
+    : undefined;
+  const spread =
+    input.spread_from === null ||
+    input.spread_from === undefined ||
+    input.spread_from === ""
+      ? null
+      : Number(input.spread_from);
   const row = {
     name: input.name.trim(),
     logo_url: input.logo_url?.trim() || null,
@@ -71,7 +86,13 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
     description: input.description?.trim() || null,
     is_published: input.is_published ?? true,
     sort_order: Number(input.sort_order ?? 0),
+    spread_from: spread != null && isFinite(spread) ? spread : null,
+    leverage_max: input.leverage_max?.trim() || null,
+    bonus_no_deposit: input.bonus_no_deposit ?? false,
+    bonus_withdrawable: input.bonus_withdrawable ?? false,
+    supports_gold: input.supports_gold ?? false,
     ...(badges ? { badges } : {}),
+    ...(licenses ? { licenses } : {}),
   };
 
   let error;

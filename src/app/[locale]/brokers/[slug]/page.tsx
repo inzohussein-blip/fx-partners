@@ -9,8 +9,14 @@ import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
 import { BrokerBoard, type BoardPost } from "@/components/brokers/broker-board";
-import { statusLabel, linkHref, type Broker, type BrokerReview } from "@/lib/brokers";
-import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2 } from "lucide-react";
+import {
+  statusLabel,
+  linkHref,
+  regulatorMeta,
+  type Broker,
+  type BrokerReview,
+} from "@/lib/brokers";
+import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +27,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -174,6 +180,45 @@ export default async function BrokerDetailPage({
                   <Sparkles className="h-4 w-4" /> بونص ترحيبي: {broker.welcome_bonus}
                 </span>
               )}
+            </div>
+          )}
+
+          {/* Specs strip: spread / leverage */}
+          {(broker.spread_from != null || broker.leverage_max) && (
+            <div className="mt-4 flex flex-wrap gap-3">
+              {broker.spread_from != null && (
+                <span className="inline-flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-sm text-slate-200">
+                  <Activity className="h-4 w-4 text-brand-300" /> السبريد من{" "}
+                  <span dir="ltr" className="font-semibold">{broker.spread_from} نقطة</span>
+                </span>
+              )}
+              {broker.leverage_max && (
+                <span className="inline-flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-sm text-slate-200">
+                  <Gauge className="h-4 w-4 text-brand-300" /> رافعة حتى{" "}
+                  <span dir="ltr" className="font-semibold">{broker.leverage_max}</span>
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Regulatory licenses */}
+          {broker.licenses && broker.licenses.length > 0 && (
+            <div className="mt-4">
+              <div className="mb-1.5 text-xs text-slate-500">التراخيص والرقابة المالية</div>
+              <div className="flex flex-wrap gap-2">
+                {broker.licenses.map((k) => {
+                  const r = regulatorMeta(k);
+                  if (!r) return null;
+                  return (
+                    <span
+                      key={k}
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-3 py-1.5 text-sm text-emerald-300 ring-1 ring-emerald-500/20"
+                    >
+                      <BadgeCheck className="h-4 w-4" /> {r.flag} {r.label}
+                    </span>
+                  );
+                })}
+              </div>
             </div>
           )}
         </Container>

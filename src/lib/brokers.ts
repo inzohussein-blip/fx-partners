@@ -26,8 +26,32 @@ export type Broker = {
   rating: number;
   reviews_count: number;
   badges?: string[];
+  spread_from?: number | null;
+  leverage_max?: string | null;
+  bonus_no_deposit?: boolean;
+  bonus_withdrawable?: boolean;
+  supports_gold?: boolean;
+  licenses?: string[];
   broker_links?: BrokerLink[];
 };
+
+/** Common financial regulators shown as trust badges. */
+export const REGULATORS: Record<string, { label: string; flag: string }> = {
+  fca: { label: "FCA", flag: "🇬🇧" },
+  cysec: { label: "CySEC", flag: "🇨🇾" },
+  asic: { label: "ASIC", flag: "🇦🇺" },
+  fsca: { label: "FSCA", flag: "🇿🇦" },
+  dfsa: { label: "DFSA", flag: "🇦🇪" },
+  fsa: { label: "FSA", flag: "🌐" },
+  cbcs: { label: "CBCS", flag: "🌐" },
+  fscm: { label: "FSC", flag: "🇲🇺" },
+};
+
+export const REGULATOR_KEYS = Object.keys(REGULATORS);
+
+export function regulatorMeta(key: string) {
+  return REGULATORS[key];
+}
 
 /** Marketing badges admins can toggle per broker. */
 export const BADGES: Record<

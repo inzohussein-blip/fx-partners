@@ -4,12 +4,12 @@ import { useMemo, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
-import { statusLabel, type Broker } from "@/lib/brokers";
+import { statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Gift, Search, ArrowLeft, Building2 } from "lucide-react";
 
 type Filter = "all" | "partnered" | "not_partnered" | "bonus";
-type Sort = "rating" | "reviews" | "name";
+type Sort = "rating" | "reviews" | "name" | "spread";
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: "all", label: "الكل" },
@@ -20,8 +20,16 @@ const FILTERS: { key: Filter; label: string }[] = [
 
 const SORTS: { key: Sort; label: string }[] = [
   { key: "rating", label: "الأعلى تقييماً" },
+  { key: "spread", label: "أقل سبريد" },
   { key: "reviews", label: "الأكثر مراجعات" },
   { key: "name", label: "الاسم" },
+];
+
+// Advanced sidebar-style toggle filters.
+const TOGGLES: { key: "bonus_no_deposit" | "bonus_withdrawable" | "supports_gold"; label: string }[] = [
+  { key: "bonus_no_deposit", label: "بونص بدون إيداع" },
+  { key: "bonus_withdrawable", label: "بونص قابل للسحب" },
+  { key: "supports_gold", label: "يدعم تداول الذهب" },
 ];
 
 function bestCommission(b: Broker): string | null {
@@ -30,10 +38,28 @@ function bestCommission(b: Broker): string | null {
   return withC?.agent_commission ?? null;
 }
 
+function LicenseBadges({ licenses }: { licenses?: string[] }) {
+  const list = (licenses ?? []).map((k) => regulatorMeta(k)).filter(Boolean);
+  if (list.length === 0) return null;
+  return (
+    <div className="flex flex-wrap gap-1">
+      {list.map((r, i) => (
+        <span
+          key={i}
+          className="inline-flex items-center gap-0.5 rounded bg-emerald-500/10 px-1.5 py-0.5 text-[10px] text-emerald-300"
+        >
+          {r!.flag} {r!.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("rating");
   const [q, setQ] = useState("");
+  const [toggles, setToggles] = useState<Record<string, boolean>>({});
 
   const rows = useMemo(() => {
     let list = brokers.slice();
@@ -43,16 +69,25 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     else if (filter === "bonus")
       list = list.filter((b) => b.deposit_bonus || b.welcome_bonus);
 
+    for (const tg of TOGGLES) {
+      if (toggles[tg.key]) list = list.filter((b) => Boolean(b[tg.key]));
+    }
+
     const query = q.trim().toLowerCase();
     if (query) list = list.filter((b) => b.name.toLowerCase().includes(query));
 
     list.sort((a, b) => {
       if (sort === "rating") return b.rating - a.rating;
       if (sort === "reviews") return b.reviews_count - a.reviews_count;
+      if (sort === "spread") {
+        const sa = a.spread_from ?? Infinity;
+        const sb = b.spread_from ?? Infinity;
+        return sa - sb;
+      }
       return a.name.localeCompare(b.name, "ar");
     });
     return list;
-  }, [brokers, filter, sort, q]);
+  }, [brokers, filter, sort, q, toggles]);
 
   return (
     <div className="space-y-6">
@@ -99,6 +134,36 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
         </div>
       </div>
 
+      {/* Advanced toggle filters */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs text-slate-500">فلترة دقيقة:</span>
+        {TOGGLES.map((tg) => {
+          const on = !!toggles[tg.key];
+          return (
+            <button
+              key={tg.key}
+              onClick={() => setToggles((s) => ({ ...s, [tg.key]: !s[tg.key] }))}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition",
+                on
+                  ? "bg-brand-500/15 text-brand-200 ring-brand-500/30"
+                  : "bg-white/5 text-slate-400 ring-white/10 hover:text-white"
+              )}
+            >
+              <span
+                className={cn(
+                  "grid h-3.5 w-3.5 place-items-center rounded-sm border text-[9px]",
+                  on ? "border-brand-400 bg-brand-500 text-white" : "border-white/20"
+                )}
+              >
+                {on ? "✓" : ""}
+              </span>
+              {tg.label}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Comparison table (desktop) */}
       <div className="card-surface hidden overflow-hidden lg:block">
         <div className="overflow-x-auto">
@@ -108,6 +173,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                 <th className="px-5 py-3 font-medium">الشركة</th>
                 <th className="px-5 py-3 font-medium">الحالة</th>
                 <th className="px-5 py-3 font-medium">التقييم</th>
+                <th className="px-5 py-3 font-medium">السبريد من</th>
                 <th className="px-5 py-3 font-medium">بونص الإيداع</th>
                 <th className="px-5 py-3 font-medium">بونص ترحيبي</th>
                 <th className="px-5 py-3 font-medium">عمولة الوكيل</th>
@@ -130,6 +196,11 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                             <BrokerBadges badges={b.badges} />
                           </div>
                         )}
+                        {b.licenses && b.licenses.length > 0 && (
+                          <div className="mt-1">
+                            <LicenseBadges licenses={b.licenses} />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </td>
@@ -143,6 +214,9 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                         {b.rating.toFixed(1)} ({b.reviews_count})
                       </span>
                     </div>
+                  </td>
+                  <td className="px-5 py-4 text-slate-300" dir="ltr">
+                    {b.spread_from != null ? `${b.spread_from} نقطة` : "—"}
                   </td>
                   <td className="px-5 py-4 text-slate-300">
                     {b.deposit_bonus || "—"}
@@ -196,6 +270,11 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
               </span>
             </div>
             <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              {b.spread_from != null && (
+                <span className="rounded-full bg-white/5 px-2 py-1 text-slate-300" dir="ltr">
+                  سبريد {b.spread_from}
+                </span>
+              )}
               {b.deposit_bonus && (
                 <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-1 text-amber-300">
                   <Gift className="h-3 w-3" /> إيداع {b.deposit_bonus}
@@ -207,6 +286,11 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                 </span>
               )}
             </div>
+            {b.licenses && b.licenses.length > 0 && (
+              <div className="mt-2">
+                <LicenseBadges licenses={b.licenses} />
+              </div>
+            )}
           </Link>
         ))}
       </div>

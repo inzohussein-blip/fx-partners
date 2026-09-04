@@ -19,7 +19,7 @@ export default async function AdminBrokersPage() {
       supabase
         .from("brokers")
         .select(
-          "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,is_published,sort_order,broker_links(id,label,referral_url,agent_commission,client_benefits,sort_order,code,clicks)"
+          "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,is_published,sort_order,broker_links(id,label,referral_url,agent_commission,client_benefits,sort_order,code,clicks)"
         )
         .order("sort_order"),
       supabase

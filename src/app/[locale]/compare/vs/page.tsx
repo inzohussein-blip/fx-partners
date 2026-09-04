@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
-import { statusLabel, linkHref, type Broker } from "@/lib/brokers";
+import { statusLabel, linkHref, regulatorMeta, type Broker } from "@/lib/brokers";
 import { Building2, ExternalLink, ArrowRight, BadgeCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -59,6 +59,20 @@ function bestBenefits(b: Broker) {
 function refUrl(b: Broker) {
   const l = (b.broker_links ?? [])[0];
   return l ? linkHref(l) : null;
+}
+
+function LicenseList({ licenses }: { licenses?: string[] }) {
+  const list = (licenses ?? []).map((k) => regulatorMeta(k)).filter(Boolean);
+  if (list.length === 0) return null;
+  return (
+    <span className="inline-flex flex-wrap justify-center gap-1">
+      {list.map((r, i) => (
+        <span key={i} className="text-emerald-300">
+          {r!.flag} {r!.label}
+        </span>
+      ))}
+    </span>
+  );
 }
 
 function Head({ b, win }: { b: Broker; win?: boolean }) {
@@ -200,8 +214,21 @@ export default async function VsPage({
                   winA={a.reviews_count > b.reviews_count}
                   winB={b.reviews_count > a.reviews_count}
                 />
+                <Row
+                  label="السبريد من"
+                  a={a.spread_from != null ? `${a.spread_from} نقطة` : null}
+                  b={b.spread_from != null ? `${b.spread_from} نقطة` : null}
+                  winA={(a.spread_from ?? Infinity) < (b.spread_from ?? Infinity)}
+                  winB={(b.spread_from ?? Infinity) < (a.spread_from ?? Infinity)}
+                />
+                <Row label="الرافعة القصوى" a={a.leverage_max} b={b.leverage_max} />
                 <Row label="بونص الإيداع" a={a.deposit_bonus} b={b.deposit_bonus} />
                 <Row label="البونص الترحيبي" a={a.welcome_bonus} b={b.welcome_bonus} />
+                <Row
+                  label="التراخيص"
+                  a={<LicenseList licenses={a.licenses} />}
+                  b={<LicenseList licenses={b.licenses} />}
+                />
                 <Row label="عمولة الوكيل" a={bestCommission(a)} b={bestCommission(b)} />
                 <Row label="مميزات العميل" a={bestBenefits(a)} b={bestBenefits(b)} />
                 <Row
