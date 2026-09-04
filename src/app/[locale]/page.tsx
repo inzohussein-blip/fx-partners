@@ -5,9 +5,12 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
-import { LogoCloud } from "@/components/marketing/logo-cloud";
+import { LogoCarousel } from "@/components/marketing/logo-carousel";
+import { About } from "@/components/marketing/about";
+import { Team } from "@/components/marketing/team";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
+import { Contact } from "@/components/marketing/contact";
 import {
   ArrowLeft,
   ShieldCheck,
@@ -123,8 +126,8 @@ export default async function HomePage({
         </Container>
       </section>
 
-      {/* Trusted-by logo cloud */}
-      <LogoCloud partners={partners} />
+      {/* Trusted-by animated logo carousel */}
+      <LogoCarousel partners={partners} />
 
       {/* Features */}
       <section className="py-20">
@@ -157,11 +160,20 @@ export default async function HomePage({
         </Container>
       </section>
 
+      {/* About */}
+      <About />
+
+      {/* Team */}
+      <Team />
+
       {/* Testimonials */}
       <Testimonials />
 
       {/* FAQ */}
       <Faq />
+
+      {/* Contact */}
+      <Contact />
 
       {/* CTA */}
       <section className="py-12">

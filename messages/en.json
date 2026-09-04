@@ -65,6 +65,43 @@
   "TrustedBy": {
     "label": "Trusted by partners and brokers worldwide"
   },
+  "About": {
+    "badge": "About us",
+    "heading": "Building partnerships that drive growth",
+    "body": "FX Partners is a financial partnership platform connecting agents and marketers with the world's best brokers. Our mission is to empower businesses through collaboration, innovation, and shared success — with full earnings transparency and strict data security.",
+    "point1Title": "Full transparency",
+    "point1Desc": "Track every click, referral, and payout in real time.",
+    "point2Title": "On-time payouts",
+    "point2Desc": "Fast withdrawals across multiple payment methods.",
+    "point3Title": "Security first",
+    "point3Desc": "Strict row-level protection on every piece of data.",
+    "years": "10+",
+    "yearsLabel": "Years of excellence",
+    "projects": "120+",
+    "projectsLabel": "Projects completed"
+  },
+  "Team": {
+    "heading": "A team behind your success",
+    "subheading": "Experts in trading, technology, and support, dedicated to our partners' growth.",
+    "m1Name": "Khalid Al-Rashed",
+    "m1Role": "Chief Executive Officer",
+    "m2Name": "Mona Al-Otaibi",
+    "m2Role": "Head of Partnerships",
+    "m3Name": "Yousef Haddad",
+    "m3Role": "Chief Technology Officer",
+    "m4Name": "Layla Murad",
+    "m4Role": "Partner Support"
+  },
+  "Contact": {
+    "badge": "Contact us",
+    "heading": "Have a question or a partnership offer?",
+    "subheading": "Our team is ready to help around the clock. Reach us through the channels below.",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "hoursLabel": "Working hours",
+    "hoursValue": "24/7 support",
+    "cta": "Email us now"
+  },
   "Testimonials": {
     "heading": "Partners worldwide trust us",
     "subheading": "Real experiences from agents, marketers, and brokers in our network.",
