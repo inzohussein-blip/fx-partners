@@ -1,8 +1,9 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ export default function LoginPage() {
 }
 
 function LoginForm() {
+  const t = useTranslations("Login");
   const router = useRouter();
   const params = useSearchParams();
   const redirect = params.get("redirect") ?? "/dashboard";
@@ -36,7 +38,7 @@ function LoginForm() {
     setMessage(null);
 
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      setError("لم يتم إعداد Supabase بعد. أضِف متغيرات البيئة في .env.local");
+      setError(t("notConfigured"));
       setLoading(false);
       return;
     }
@@ -45,10 +47,7 @@ function LoginForm() {
 
     try {
       if (mode === "sign-in") {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         router.push(redirect);
         router.refresh();
@@ -62,10 +61,10 @@ function LoginForm() {
           },
         });
         if (error) throw error;
-        setMessage("تم إنشاء الحساب! تحقّق من بريدك لتأكيد التسجيل.");
+        setMessage(t("signUpSuccess"));
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "حدث خطأ ما");
+      setError(err instanceof Error ? err.message : t("genericError"));
     } finally {
       setLoading(false);
     }
@@ -80,26 +79,24 @@ function LoginForm() {
 
         <div className="card-surface p-8">
           <h1 className="text-2xl font-bold text-white">
-            {mode === "sign-in" ? "تسجيل الدخول" : "إنشاء حساب شريك"}
+            {mode === "sign-in" ? t("signInTitle") : t("signUpTitle")}
           </h1>
           <p className="mt-2 text-sm text-slate-400">
-            {mode === "sign-in"
-              ? "ادخل إلى لوحة الشريك لمتابعة أرباحك."
-              : "انضم إلى شبكة شركاء FX Partners."}
+            {mode === "sign-in" ? t("signInSubtitle") : t("signUpSubtitle")}
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {mode === "sign-up" && (
               <Field
-                label="الاسم الكامل"
+                label={t("fullName")}
                 type="text"
                 value={fullName}
                 onChange={setFullName}
-                placeholder="اسمك"
+                placeholder={t("fullNamePlaceholder")}
               />
             )}
             <Field
-              label="البريد الإلكتروني"
+              label={t("email")}
               type="email"
               value={email}
               onChange={setEmail}
@@ -107,7 +104,7 @@ function LoginForm() {
               required
             />
             <Field
-              label="كلمة المرور"
+              label={t("password")}
               type="password"
               value={password}
               onChange={setPassword}
@@ -128,26 +125,23 @@ function LoginForm() {
 
             <Button type="submit" disabled={loading} className="w-full">
               {loading
-                ? "جارٍ المعالجة…"
+                ? t("processing")
                 : mode === "sign-in"
-                  ? "دخول"
-                  : "إنشاء الحساب"}
+                  ? t("signInAction")
+                  : t("signUpAction")}
             </Button>
           </form>
 
           {mode === "sign-in" && (
             <p className="mt-4 text-center text-sm">
-              <Link
-                href="/forgot-password"
-                className="text-slate-400 hover:text-brand-200"
-              >
-                نسيت كلمة المرور؟
+              <Link href="/forgot-password" className="text-slate-400 hover:text-brand-200">
+                {t("forgot")}
               </Link>
             </p>
           )}
 
           <p className="mt-6 text-center text-sm text-slate-400">
-            {mode === "sign-in" ? "ليس لديك حساب؟" : "لديك حساب بالفعل؟"}{" "}
+            {mode === "sign-in" ? t("noAccount") : t("hasAccount")}{" "}
             <button
               onClick={() => {
                 setMode(mode === "sign-in" ? "sign-up" : "sign-in");
@@ -156,7 +150,7 @@ function LoginForm() {
               }}
               className="font-semibold text-brand-300 hover:text-brand-200"
             >
-              {mode === "sign-in" ? "أنشئ حساباً" : "سجّل الدخول"}
+              {mode === "sign-in" ? t("createOne") : t("signInLink")}
             </button>
           </p>
         </div>

@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { updateIbStatus, updateWithdrawalStatus } from "@/app/dashboard/admin/actions";
+import { updateIbStatus, updateWithdrawalStatus } from "@/lib/actions/admin";
 
 type Btn = { status: string; label: string; tone: "approve" | "reject" | "neutral" };
 

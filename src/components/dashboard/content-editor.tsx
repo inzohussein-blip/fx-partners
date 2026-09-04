@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { saveContent } from "@/app/dashboard/admin/actions";
+import { saveContent } from "@/lib/actions/admin";
 
 export type ContentField = { name: string; label: string; multiline?: boolean };
 

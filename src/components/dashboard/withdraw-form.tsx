@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { withdrawalSchema, type WithdrawalValues } from "@/lib/validators";
-import { requestWithdrawal } from "@/app/dashboard/wallet/actions";
+import { requestWithdrawal } from "@/lib/actions/wallet";
 
 export function WithdrawForm({
   ibId,

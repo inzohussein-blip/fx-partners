@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { savePost, deletePost, type PostInput } from "@/app/dashboard/admin/actions";
+import { savePost, deletePost, type PostInput } from "@/lib/actions/admin";
 import { Trash2 } from "lucide-react";
 
 const statuses: { value: PostInput["status"]; label: string }[] = [

@@ -1,0 +1,163 @@
+{
+  "Nav": {
+    "home": "Home",
+    "affiliates": "Affiliates / IB",
+    "brokers": "Brokers (B2B)",
+    "blog": "Blog",
+    "login": "Sign in",
+    "dashboard": "Partner Portal"
+  },
+  "Common": {
+    "getStarted": "Get started",
+    "learnMore": "Learn more",
+    "startPartnership": "Start partnering now",
+    "viewRates": "See commissions"
+  },
+  "Lang": {
+    "label": "Language",
+    "ar": "العربية",
+    "en": "English"
+  },
+  "Hero": {
+    "badge": "Collaboration & Growth — B2B & IB",
+    "titleTop": "Stronger Together,",
+    "titleAccent": "Greater Success",
+    "subtitle": "We partner with agents and global brokers to unlock new opportunities and drive growth — with top commission rates and full earnings transparency."
+  },
+  "Stats": {
+    "partners": "2,400+",
+    "partnersLabel": "Active partners",
+    "volume": "$18B+",
+    "volumeLabel": "Trading volume",
+    "countries": "60+",
+    "countriesLabel": "Countries",
+    "payout": "$4.6M+",
+    "payoutLabel": "Paid out"
+  },
+  "Features": {
+    "heading": "Everything you need to grow your earnings",
+    "subheading": "Professional tools built for agents, marketers, and brokers.",
+    "revenueShare": {
+      "title": "Competitive commissions",
+      "desc": "Revenue Share up to 60% or a fixed CPA per qualified client — you choose what fits."
+    },
+    "links": {
+      "title": "Dynamic referral links",
+      "desc": "Create unlimited tracking links for your campaigns and watch clicks and signups live."
+    },
+    "dashboard": {
+      "title": "Live dashboard",
+      "desc": "Earnings, trading volume, and referral counts — all in one place."
+    },
+    "withdrawals": {
+      "title": "Fast withdrawals",
+      "desc": "Track your balance and request payouts via multiple methods with fast, transparent processing."
+    },
+    "security": {
+      "title": "Data-level security",
+      "desc": "Strict row-level security on every table — your financial data is isolated and protected."
+    },
+    "multiTier": {
+      "title": "Multi-tier IB system",
+      "desc": "Build a Sub-IB network and earn from the performance of your sub-agents."
+    }
+  },
+  "TrustedBy": {
+    "label": "Trusted by partners and brokers worldwide"
+  },
+  "Testimonials": {
+    "heading": "Partners worldwide trust us",
+    "subheading": "Real experiences from agents, marketers, and brokers in our network.",
+    "one": {
+      "quote": "Since joining as an agent, tracking my commissions and referrals is fully transparent, and withdrawals always arrive on time.",
+      "name": "Ahmed Al-Shammari",
+      "role": "Certified IB"
+    },
+    "two": {
+      "quote": "The dashboard gives me everything I need: referral links, live stats, and accurate per-campaign reports.",
+      "name": "Sarah Abdullah",
+      "role": "Marketing partner"
+    },
+    "three": {
+      "quote": "Working with FX Partners at the enterprise level was seamless — fast technical integration and flexible terms.",
+      "name": "Global Markets Ltd",
+      "role": "Brokerage (B2B)"
+    }
+  },
+  "Faq": {
+    "heading": "Frequently asked questions",
+    "subheading": "Everything you need to know before joining the partner program.",
+    "q1": "How do I start as an IB or marketing partner?",
+    "a1": "Create a free account in minutes. Once approved, you get an agent code and referral links you can share right away.",
+    "q2": "What commission models are available?",
+    "a2": "We offer Revenue Share up to 60%, a fixed amount per qualified client (CPA), plus a multi-tier Sub-IB system.",
+    "q3": "When and how do I receive my earnings?",
+    "a3": "Your earnings accrue automatically in your wallet, and you can request withdrawals via bank transfer, crypto, or e-wallets — processed quickly and transparently.",
+    "q4": "How do I track my referral performance?",
+    "a4": "From the dashboard you track clicks, signups, trading volume, and earnings per campaign through live charts and detailed tables.",
+    "q5": "Is my financial data secure?",
+    "a5": "Yes. We enforce strict row-level security (RLS) in the database, so your data is isolated and only you can access it."
+  },
+  "Cta": {
+    "heading": "Ready to get started?",
+    "subheading": "Create a free partner account in minutes and start generating referral links.",
+    "button": "Create a partner account"
+  },
+  "Footer": {
+    "tagline": "The financial partnership platform connecting agents and marketers with the world's best brokers — top commission rates and full earnings transparency.",
+    "partnership": "Partnership",
+    "affiliateProgram": "Affiliate program",
+    "companyCollab": "Enterprise collaboration",
+    "blog": "Blog",
+    "account": "Account",
+    "login": "Sign in",
+    "dashboard": "Dashboard",
+    "rights": "All rights reserved.",
+    "risk": "Risk warning: Trading in forex and derivatives carries a high level of risk."
+  },
+  "Login": {
+    "signInTitle": "Sign in",
+    "signUpTitle": "Create a partner account",
+    "signInSubtitle": "Access your partner portal to track your earnings.",
+    "signUpSubtitle": "Join the FX Partners network.",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Your name",
+    "email": "Email",
+    "password": "Password",
+    "signInAction": "Sign in",
+    "signUpAction": "Create account",
+    "processing": "Processing…",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "createOne": "Create one",
+    "signInLink": "Sign in",
+    "forgot": "Forgot your password?",
+    "signUpSuccess": "Account created! Check your email to confirm your registration.",
+    "notConfigured": "Supabase isn't configured yet. Add the environment variables to .env.local",
+    "genericError": "Something went wrong"
+  },
+  "Forgot": {
+    "title": "Reset your password",
+    "subtitle": "Enter your email and we'll send you a link to reset your password.",
+    "email": "Email",
+    "send": "Send reset link",
+    "sending": "Sending…",
+    "sent": "If the email is registered with us, you'll receive a message with a reset link.",
+    "backToLogin": "Back to sign in",
+    "invalidEmail": "Invalid email"
+  },
+  "Reset": {
+    "title": "Set a new password",
+    "subtitle": "Choose a new password for your account.",
+    "newPassword": "New password",
+    "confirm": "Confirm password",
+    "save": "Save password",
+    "saving": "Saving…",
+    "success": "Password updated. Redirecting…",
+    "error": "Couldn't update the password. Open the link from your email again and retry."
+  },
+  "Metadata": {
+    "title": "FX Partners — Global Financial Partnership",
+    "description": "FX Partners — the partnership platform for IB agents, marketers, and global brokers. Top commission rates, full transparency, and on-time payouts."
+  }
+}

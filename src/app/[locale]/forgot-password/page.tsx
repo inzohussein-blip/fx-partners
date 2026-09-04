@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { Logo } from "@/components/logo";
 import { authSchema } from "@/lib/validators";
 
 export default function ForgotPasswordPage() {
+  const t = useTranslations("Forgot");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -20,11 +22,11 @@ export default function ForgotPasswordPage() {
 
     const check = authSchema.shape.email.safeParse(email);
     if (!check.success) {
-      setError(check.error.issues[0]?.message ?? "بريد غير صالح");
+      setError(t("invalidEmail"));
       return;
     }
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      setError("لم يتم إعداد Supabase بعد.");
+      setError("Supabase is not configured yet.");
       return;
     }
 
@@ -46,20 +48,18 @@ export default function ForgotPasswordPage() {
         </Link>
 
         <div className="card-surface p-8">
-          <h1 className="text-2xl font-bold text-white">استعادة كلمة المرور</h1>
-          <p className="mt-2 text-sm text-slate-400">
-            أدخل بريدك وسنرسل لك رابطاً لإعادة تعيين كلمة المرور.
-          </p>
+          <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
+          <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
 
           {sent ? (
             <p className="mt-6 rounded-lg bg-brand-500/10 px-3 py-3 text-sm text-brand-200">
-              إذا كان البريد مسجّلاً لدينا، ستصلك رسالة تتضمّن رابط إعادة التعيين.
+              {t("sent")}
             </p>
           ) : (
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-slate-300">
-                  البريد الإلكتروني
+                  {t("email")}
                 </span>
                 <input
                   type="email"
@@ -78,14 +78,14 @@ export default function ForgotPasswordPage() {
               )}
 
               <Button type="submit" disabled={loading} className="w-full">
-                {loading ? "جارٍ الإرسال…" : "إرسال رابط الاستعادة"}
+                {loading ? t("sending") : t("send")}
               </Button>
             </form>
           )}
 
           <p className="mt-6 text-center text-sm text-slate-400">
             <Link href="/login" className="font-semibold text-brand-300 hover:text-brand-200">
-              العودة لتسجيل الدخول
+              {t("backToLogin")}
             </Link>
           </p>
         </div>

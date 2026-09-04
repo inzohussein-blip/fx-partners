@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { profileSchema, type ProfileValues } from "@/lib/validators";
-import { updateProfile } from "@/app/dashboard/settings/actions";
+import { updateProfile } from "@/lib/actions/settings";
 
 export function SettingsForm({
   profile,

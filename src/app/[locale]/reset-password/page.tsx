@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/lib/supabase/client";
@@ -12,6 +13,7 @@ import { Logo } from "@/components/logo";
 import { resetPasswordSchema, type ResetPasswordValues } from "@/lib/validators";
 
 export default function ResetPasswordPage() {
+  const t = useTranslations("Reset");
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
@@ -33,9 +35,7 @@ export default function ResetPasswordPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.updateUser({ password: values.password });
     if (error) {
-      setServerError(
-        "تعذّر تحديث كلمة المرور. افتح الرابط من بريدك مجدداً ثم حاول."
-      );
+      setServerError(t("error"));
       return;
     }
     setOk(true);
@@ -53,15 +53,13 @@ export default function ResetPasswordPage() {
         </Link>
 
         <div className="card-surface p-8">
-          <h1 className="text-2xl font-bold text-white">تعيين كلمة مرور جديدة</h1>
-          <p className="mt-2 text-sm text-slate-400">
-            اختر كلمة مرور جديدة لحسابك.
-          </p>
+          <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
+          <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
             <label className="block">
               <span className="mb-1.5 block text-sm font-medium text-slate-300">
-                كلمة المرور الجديدة
+                {t("newPassword")}
               </span>
               <input
                 type="password"
@@ -78,7 +76,7 @@ export default function ResetPasswordPage() {
 
             <label className="block">
               <span className="mb-1.5 block text-sm font-medium text-slate-300">
-                تأكيد كلمة المرور
+                {t("confirm")}
               </span>
               <input
                 type="password"
@@ -100,12 +98,12 @@ export default function ResetPasswordPage() {
             )}
             {ok && (
               <p className="rounded-lg bg-brand-500/10 px-3 py-2 text-sm text-brand-200">
-                تم تحديث كلمة المرور. جارٍ تحويلك…
+                {t("success")}
               </p>
             )}
 
             <Button type="submit" disabled={isSubmitting} className="w-full">
-              {isSubmitting ? "جارٍ الحفظ…" : "حفظ كلمة المرور"}
+              {isSubmitting ? t("saving") : t("save")}
             </Button>
           </form>
         </div>

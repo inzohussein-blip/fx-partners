@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { savePartner, deletePartner, type PartnerInput } from "@/app/dashboard/admin/actions";
+import { savePartner, deletePartner, type PartnerInput } from "@/lib/actions/admin";
 import { Plus, Trash2 } from "lucide-react";
 
 type Partner = PartnerInput & { id: string };
