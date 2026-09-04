@@ -11,13 +11,15 @@ type Symbol = {
   base: number;
   vol: number;
   digits: number;
+  /** Binance stream symbol for a free, real-time WebSocket feed (crypto). */
+  binance?: string;
 };
 
 const SYMBOLS: Symbol[] = [
   { id: "EURUSD", label: "EUR/USD", base: 1.085, vol: 0.0006, digits: 4 },
   { id: "XAUUSD", label: "XAU/USD", base: 2350, vol: 1.6, digits: 2 },
   { id: "GBPUSD", label: "GBP/USD", base: 1.27, vol: 0.0007, digits: 4 },
-  { id: "BTCUSD", label: "BTC/USD", base: 68000, vol: 45, digits: 1 },
+  { id: "BTCUSD", label: "BTC/USD", base: 68000, vol: 45, digits: 1, binance: "btcusdt" },
 ];
 
 type Point = { time: UTCTimestamp; value: number };
@@ -35,6 +37,31 @@ function seed(sym: Symbol): Point[] {
 }
 
 async function loadSeries(sym: Symbol): Promise<{ points: Point[]; real: boolean }> {
+  // Crypto: seed from Binance klines (free, no key) so history matches the
+  // live WebSocket feed below.
+  if (sym.binance) {
+    try {
+      const r = await fetch(
+        `https://api.binance.com/api/v3/klines?symbol=${sym.binance.toUpperCase()}&interval=1m&limit=120`,
+        { cache: "no-store" }
+      );
+      if (r.ok) {
+        const arr = await r.json();
+        if (Array.isArray(arr) && arr.length) {
+          return {
+            points: arr.map((k: [number, string, string, string, string]) => ({
+              time: Math.floor(k[0] / 1000) as UTCTimestamp,
+              value: +parseFloat(k[4]).toFixed(sym.digits),
+            })),
+            real: true,
+          };
+        }
+      }
+    } catch {
+      /* fall through to Twelve Data / demo */
+    }
+  }
+
   try {
     const r = await fetch(
       `/api/markets?symbol=${encodeURIComponent(sym.label)}&type=series`,
@@ -141,29 +168,67 @@ export function MarketChart() {
       setPrice(last.value);
       setChange(((last.value - first) / first) * 100);
 
-      const tick = async () => {
+      const applyPrice = (raw: number) => {
+        if (disposed || !Number.isFinite(raw)) return;
         const now = Math.floor(Date.now() / 1000);
-        let nv: number;
-        if (real) {
-          const p = await loadPrice(current);
-          if (p == null || disposed) return;
-          nv = +p.toFixed(current.digits);
-        } else {
-          nv = +(last.value + (Math.random() - 0.5) * current.vol * 2).toFixed(
-            current.digits
-          );
-        }
+        const nv = +raw.toFixed(current.digits);
         last = { time: Math.max(now, last.time) as UTCTimestamp, value: nv };
         series.update(last);
         setPrice(nv);
         setChange(((nv - first) / first) * 100);
       };
 
-      // Real prices poll every 10s (free-tier friendly); demo ticks every 1s.
-      const iv = setInterval(tick, real ? 10000 : 1000);
+      const tick = async () => {
+        if (real) {
+          const p = await loadPrice(current);
+          if (p != null) applyPrice(p);
+        } else {
+          applyPrice(last.value + (Math.random() - 0.5) * current.vol * 2);
+        }
+      };
+
+      let iv: ReturnType<typeof setInterval> | null = null;
+      let ws: WebSocket | null = null;
+
+      if (current.binance) {
+        // Real-time crypto pulse via Binance's free public WebSocket.
+        try {
+          ws = new WebSocket(
+            `wss://stream.binance.com:9443/ws/${current.binance}@trade`
+          );
+          ws.onopen = () => !disposed && setSource("live");
+          ws.onmessage = (ev) => {
+            try {
+              const d = JSON.parse(ev.data);
+              const p = parseFloat(d.p);
+              if (Number.isFinite(p)) applyPrice(p);
+            } catch {
+              /* ignore malformed frame */
+            }
+          };
+          ws.onerror = () => {
+            if (!iv) iv = setInterval(tick, real ? 10000 : 1000);
+          };
+        } catch {
+          iv = setInterval(tick, real ? 10000 : 1000);
+        }
+      } else {
+        // Real prices poll every 10s (free-tier friendly); demo ticks every 1s.
+        iv = setInterval(tick, real ? 10000 : 1000);
+      }
 
       cleanup = () => {
-        clearInterval(iv);
+        if (iv) clearInterval(iv);
+        if (ws) {
+          ws.onclose = null;
+          ws.onerror = null;
+          ws.onmessage = null;
+          try {
+            ws.close();
+          } catch {
+            /* noop */
+          }
+        }
         chart.remove();
       };
     });
