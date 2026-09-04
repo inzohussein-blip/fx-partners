@@ -67,12 +67,30 @@ export async function sendPartnerEmail<T extends keyof Payloads>(
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
   try {
     const { subject, html } = await build(type, data);
-    const supabase = createClient();
-    const { error } = await supabase.functions.invoke("send-email", {
-      body: { to, subject, html },
-    });
+    const { error } = await invokeSend(to, subject, html);
     if (error) console.error("send-email invoke error:", error.message);
   } catch (err) {
     console.error("sendPartnerEmail failed:", err);
   }
+}
+
+/**
+ * Invoke the `send-email` edge function. Uses the service-role key when
+ * available (works with no user session — e.g. a database-trigger hook),
+ * otherwise the request-scoped user client (e.g. a signed-in action).
+ */
+async function invokeSend(to: string, subject: string, html: string) {
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (serviceKey) {
+    const { createClient: createAdminClient } = await import(
+      "@supabase/supabase-js"
+    );
+    const admin = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      serviceKey
+    );
+    return admin.functions.invoke("send-email", { body: { to, subject, html } });
+  }
+  const supabase = createClient();
+  return supabase.functions.invoke("send-email", { body: { to, subject, html } });
 }

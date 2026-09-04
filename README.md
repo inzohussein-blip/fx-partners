@@ -211,9 +211,30 @@ supabase secrets set RESEND_API_KEY=re_xxx \
   RESEND_FROM="FX Partners <partners@your-domain.com>"
 ```
 
-- `welcome` و`monthly_report` جاهزتان كدوال (`sendPartnerEmail`) — تُستدعى من
-  trigger/webhook عند إنشاء الملف، أو من دالة مجدولة شهرياً.
 - بدون ضبط Resend لا يتعطّل شيء — الإرسال يفشل بصمت (best-effort).
+
+### بريد الترحيب التلقائي (عند تسجيل وكيل جديد)
+
+مربوط بمشغّل تلقائي: عند إدراج ملف شريك جديد في `profiles`، يستدعي trigger
+مسار `‎/api/hooks/new-partner` الذي يرسم قالب الترحيب ويرسله.
+
+التفعيل لمرة واحدة:
+
+```sql
+-- 1) طبّق الترحيل
+--    supabase/migrations/0003_welcome_email_trigger.sql
+-- 2) اضبط الرابط والسرّ على قاعدة البيانات (بقيمك):
+alter database postgres
+  set app.settings.welcome_hook_url = 'https://YOUR-SITE/api/hooks/new-partner';
+alter database postgres
+  set app.settings.welcome_hook_secret = 'YOUR-SECRET';
+```
+
+- اضبط نفس السرّ في بيئة التطبيق: `EMAIL_HOOK_SECRET=YOUR-SECRET`،
+  و`SUPABASE_SERVICE_ROLE_KEY` (ليُرسل الـ hook بلا جلسة مستخدم).
+- بديل بلا SQL: Supabase → Database → Webhooks → INSERT على `profiles` →
+  POST إلى نفس الرابط مع ترويسة `x-hook-secret`.
+- `monthly_report` جاهز كدالة `sendPartnerEmail(...)` تُستدعى من دالة مجدولة شهرياً.
 
 ## المكتبات المعتمدة
 
