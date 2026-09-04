@@ -71,6 +71,17 @@ body {
   .animate-marquee { animation: none; }
 }
 
+/* TradingView widget attribution — subtle on the dark theme */
+.tradingview-widget-copyright,
+.tradingview-widget-copyright a {
+  font-size: 11px;
+  color: #475569;
+  text-decoration: none;
+}
+.tradingview-widget-copyright {
+  padding-top: 6px;
+}
+
 /* Thin scrollbar for dashboard */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb { @apply bg-ink-600 rounded-full; }

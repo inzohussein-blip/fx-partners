@@ -14,11 +14,13 @@ import {
   Users,
   Settings,
   Search,
+  CalendarClock,
 } from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard },
   { href: "/dashboard/clients", label: "العملاء", icon: Users },
+  { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
   { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet },
   { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
