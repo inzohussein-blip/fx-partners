@@ -44,3 +44,26 @@ insert into public.posts (slug, title, excerpt, body, status, published_at) valu
    E'# نظام العمولات\n\nنقدّم نموذجين رئيسيين للأرباح...',
    'published', now())
 on conflict (slug) do nothing;
+
+-- Demo in-app announcements / changelog --------------------------------------
+insert into public.announcements (title, body, category, published_at) values
+  ('رفعنا عمولة تداول الذهب 5%',
+   'ابتداءً من هذا الأسبوع، زدنا نسبة عمولتك على تداولات الذهب (XAU) بنسبة 5% لجميع المستويات. شارك رابط إحالتك الآن!',
+   'commission', now()),
+  ('لوحة المتصدّرين متاحة الآن',
+   'تابع ترتيبك بين أفضل 10 وكلاء وارتقِ في المستويات لزيادة نسبة عمولتك تلقائياً.',
+   'feature', now() - interval '2 days'),
+  ('حاسبة مقارنة الوسطاء الجديدة',
+   'جرّب حاسبة المقارنة على الصفحة الرئيسية لترى كم ستربح أكثر مع FX Partners مقابل وسيطك الحالي.',
+   'feature', now() - interval '5 days')
+on conflict do nothing;
+
+-- Demo B2B meeting slots (next few business days, 30 min, UTC) ----------------
+insert into public.meeting_slots (starts_at, duration_min, status)
+select gs, 30, 'open'
+from generate_series(
+  date_trunc('day', now()) + interval '1 day' + interval '13 hours',
+  date_trunc('day', now()) + interval '5 days' + interval '13 hours',
+  interval '1 day'
+) as gs
+on conflict do nothing;
