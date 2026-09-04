@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { EarningsChart, type ChartPoint } from "@/components/dashboard/earnings-chart";
+import { LevelBadges } from "@/components/dashboard/level-badges";
 import { formatCurrency, formatCompact } from "@/lib/utils";
 import { Wallet, TrendingUp, Users, Link2 } from "lucide-react";
 
@@ -13,6 +14,7 @@ type Overview = {
   volume: number;
   referrals: number;
   links: number;
+  withdrawals: number;
   recent: { description: string; amount: number; earned_at: string }[];
   series: ChartPoint[];
 };
@@ -60,6 +62,7 @@ async function getOverview(): Promise<Overview> {
     volume: 0,
     referrals: 0,
     links: 0,
+    withdrawals: 0,
     recent: [],
     series: buildSeries([], []),
   };
@@ -79,25 +82,34 @@ async function getOverview(): Promise<Overview> {
       .maybeSingle();
     if (!ib) return empty;
 
-    const [{ data: wallet }, { data: refs }, { data: links }, { data: earnings }] =
-      await Promise.all([
-        supabase
-          .from("wallets")
-          .select("balance,total_earned,pending_balance")
-          .eq("ib_id", ib.id)
-          .maybeSingle(),
-        supabase
-          .from("referrals")
-          .select("trading_volume,created_at")
-          .eq("ib_id", ib.id),
-        supabase.from("referral_links").select("id").eq("ib_id", ib.id),
-        supabase
-          .from("earnings")
-          .select("description,amount,earned_at")
-          .eq("ib_id", ib.id)
-          .order("earned_at", { ascending: false })
-          .limit(200),
-      ]);
+    const [
+      { data: wallet },
+      { data: refs },
+      { data: links },
+      { data: earnings },
+      { count: withdrawalCount },
+    ] = await Promise.all([
+      supabase
+        .from("wallets")
+        .select("balance,total_earned,pending_balance")
+        .eq("ib_id", ib.id)
+        .maybeSingle(),
+      supabase
+        .from("referrals")
+        .select("trading_volume,created_at")
+        .eq("ib_id", ib.id),
+      supabase.from("referral_links").select("id").eq("ib_id", ib.id),
+      supabase
+        .from("earnings")
+        .select("description,amount,earned_at")
+        .eq("ib_id", ib.id)
+        .order("earned_at", { ascending: false })
+        .limit(200),
+      supabase
+        .from("withdrawals")
+        .select("id", { count: "exact", head: true })
+        .eq("ib_id", ib.id),
+    ]);
 
     const volume = (refs ?? []).reduce(
       (sum, r) => sum + Number(r.trading_volume ?? 0),
@@ -111,6 +123,7 @@ async function getOverview(): Promise<Overview> {
       volume,
       referrals: refs?.length ?? 0,
       links: links?.length ?? 0,
+      withdrawals: withdrawalCount ?? 0,
       recent: (earnings ?? []).slice(0, 5),
       series: buildSeries(earnings ?? [], refs ?? []),
     };
@@ -156,6 +169,12 @@ export default async function OverviewPage() {
           hint={`${o.links} رابط إحالة`}
         />
       </div>
+
+      <LevelBadges
+        referrals={o.referrals}
+        totalEarned={o.totalEarned}
+        withdrawals={o.withdrawals}
+      />
 
       <EarningsChart data={o.series} />
 
