@@ -30,7 +30,7 @@ export function LogoCarousel({ partners }: { partners: Partner[] }) {
               <div key={`${p.id}-${i}`} className="shrink-0">
                 {p.logo_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={p.logo_url}
                     alt={p.name}
                     className="h-7 opacity-50 grayscale transition"

@@ -81,7 +81,7 @@ function Head({ b, win }: { b: Broker; win?: boolean }) {
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5">
         {b.logo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={b.logo_url} alt={b.name} className="h-full w-full rounded-2xl object-contain p-1.5" />
+          <img loading="lazy" decoding="async" src={b.logo_url} alt={b.name} className="h-full w-full rounded-2xl object-contain p-1.5" />
         ) : (
           <Building2 className="h-7 w-7 text-brand-300" />
         )}

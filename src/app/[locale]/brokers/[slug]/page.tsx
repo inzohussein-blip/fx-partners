@@ -223,7 +223,7 @@ export default async function BrokerDetailPage({
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             {broker.logo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <img loading="lazy" decoding="async"
                 src={broker.logo_url}
                 alt={broker.name}
                 className="h-20 w-20 rounded-2xl bg-white/5 object-contain p-2"

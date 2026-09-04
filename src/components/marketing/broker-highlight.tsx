@@ -70,7 +70,7 @@ export async function BrokerHighlight() {
                   <div className="flex items-center gap-3">
                     {b.logo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={b.logo_url}
                         alt={b.name}
                         className="h-11 w-11 rounded-xl bg-white/5 object-contain p-1"

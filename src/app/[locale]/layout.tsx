@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Cairo } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
@@ -20,6 +20,11 @@ const cairo = Cairo({
   variable: "--font-sans",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#060f1e",
+  colorScheme: "dark",
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));

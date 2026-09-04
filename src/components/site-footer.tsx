@@ -46,9 +46,15 @@ export function SiteFooter() {
       </Container>
 
       <div className="border-t border-white/5 py-6">
-        <Container className="flex flex-col items-center justify-between gap-2 text-xs text-slate-500 sm:flex-row">
+        <Container className="flex flex-col items-center justify-between gap-3 text-xs text-slate-500 sm:flex-row">
           <p>© {new Date().getFullYear()} FX Partners. {t("rights")}</p>
-          <p className="max-w-xl text-center sm:text-start">{t("risk")}</p>
+          <div className="flex items-center gap-4">
+            <Link href="/terms" className="hover:text-white">{t("terms")}</Link>
+            <Link href="/privacy" className="hover:text-white">{t("privacy")}</Link>
+          </div>
+        </Container>
+        <Container className="mt-3">
+          <p className="text-center text-xs text-slate-600">{t("risk")}</p>
         </Container>
       </div>
     </footer>
