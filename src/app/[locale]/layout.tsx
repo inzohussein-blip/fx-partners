@@ -11,6 +11,7 @@ import {
 } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import { getSiteUrl } from "@/lib/utils";
+import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -54,6 +55,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <NuqsAdapter>{children}</NuqsAdapter>
+          <LiveCampaignBanner />
           <Toaster
             theme="dark"
             position="top-center"

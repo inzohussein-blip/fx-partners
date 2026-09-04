@@ -2,7 +2,7 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { UserCheck, FileText, Type, Building2, CalendarClock, Megaphone, Scale, TrendingUp } from "lucide-react";
+import { UserCheck, FileText, Type, Building2, CalendarClock, Megaphone, Scale, TrendingUp, Crosshair } from "lucide-react";
 
 const tabs = [
   { href: "/dashboard/admin", label: "الاعتمادات", icon: UserCheck, exact: true },
@@ -11,6 +11,7 @@ const tabs = [
   { href: "/dashboard/admin/partners", label: "الشركاء", icon: Building2 },
   { href: "/dashboard/admin/brokers", label: "دليل الشركات", icon: Scale },
   { href: "/dashboard/admin/signals", label: "التوصيات", icon: TrendingUp },
+  { href: "/dashboard/admin/campaigns", label: "العروض", icon: Crosshair },
   { href: "/dashboard/admin/meetings", label: "الاجتماعات", icon: CalendarClock },
   { href: "/dashboard/admin/announcements", label: "الإعلانات", icon: Megaphone },
 ];
