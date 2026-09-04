@@ -17,6 +17,7 @@ import { Team } from "@/components/marketing/team";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
 import { Contact } from "@/components/marketing/contact";
+import { LogoMark } from "@/components/logo";
 import {
   ArrowLeft,
   ShieldCheck,
@@ -25,6 +26,9 @@ import {
   Link2,
   Users,
   BarChart3,
+  Globe,
+  Trophy,
+  Play,
 } from "lucide-react";
 
 async function getPartners() {
@@ -81,10 +85,17 @@ export default async function HomePage({
   ] as const;
 
   const statCards = [
-    { label: t("Stats.partnersLabel"), value: stats.partners },
-    { label: t("Stats.volumeLabel"), value: stats.volume },
-    { label: t("Stats.countriesLabel"), value: stats.countries },
-    { label: t("Stats.payoutLabel"), value: stats.payout },
+    { label: t("Stats.partnersLabel"), value: stats.partners, icon: Users },
+    { label: t("Stats.volumeLabel"), value: stats.volume, icon: BarChart3 },
+    { label: t("Stats.countriesLabel"), value: stats.countries, icon: Globe },
+    { label: t("Stats.payoutLabel"), value: stats.payout, icon: Trophy },
+  ];
+
+  const trustItems = [
+    { icon: Users, title: "شراكات استراتيجية", desc: "علاقات قوية وطويلة الأمد." },
+    { icon: TrendingUp, title: "تركيز على النمو", desc: "تحويل الفرص إلى نتائج ملموسة." },
+    { icon: ShieldCheck, title: "موثوق وآمن", desc: "التزام كامل بالنزاهة والشفافية." },
+    { icon: Globe, title: "رؤية عالمية", desc: "نربط الأفكار والأسواق حول العالم." },
   ];
 
   return (
@@ -98,35 +109,89 @@ export default async function HomePage({
       {/* Hero */}
       <section className="hero-glow relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-faint [background-size:44px_44px] opacity-40" />
-        <Container className="relative py-24 sm:py-32">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
-              {t("Hero.badge")}
-            </span>
-            <h1 className="mt-6 text-balance text-4xl font-extrabold leading-tight text-white sm:text-6xl">
-              {hero.titleTop}{" "}
-              <span className="text-gradient">{hero.titleAccent}</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-slate-300">
-              {hero.subtitle}
-            </p>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Button href="/login" className="text-base">
-                {hero.cta}
-                <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
-              </Button>
-              <Button href="/affiliates" variant="secondary" className="text-base">
-                {t("Common.viewRates")}
-              </Button>
+        <Container className="relative py-20 sm:py-28">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            {/* Copy */}
+            <div className="text-center lg:text-start">
+              <span className="inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">
+                <span className="hidden h-px w-8 bg-brand-400/60 sm:inline-block" />
+                {t("Hero.badge")}
+              </span>
+              <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.1] text-white sm:text-6xl">
+                {hero.titleTop}{" "}
+                <span className="text-gradient">{hero.titleAccent}</span>
+              </h1>
+              <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-relaxed text-slate-300 lg:mx-0">
+                {hero.subtitle}
+              </p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+                <Button href="/login" className="text-base">
+                  {hero.cta}
+                  <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
+                </Button>
+                <a
+                  href="#tools"
+                  className="group inline-flex items-center gap-3 text-sm font-semibold text-slate-200 transition hover:text-white"
+                >
+                  <span className="grid h-11 w-11 place-items-center rounded-full border border-brand-500/40 bg-brand-500/10 text-brand-300 transition group-hover:bg-brand-500/20">
+                    <Play className="h-4 w-4 translate-x-px" fill="currentColor" />
+                  </span>
+                  {t("Common.viewRates")}
+                </a>
+              </div>
+            </div>
+
+            {/* Glowing brand emblem */}
+            <div className="relative hidden lg:block" aria-hidden>
+              <div className="relative mx-auto grid aspect-square max-w-md place-items-center">
+                <div className="absolute inset-0 rounded-full bg-brand-500/10 blur-3xl" />
+                <div className="absolute inset-8 rounded-full border border-white/5" />
+                <div className="absolute inset-20 rounded-full border border-white/5" />
+                <div className="hero-glow absolute inset-12 rounded-full opacity-80" />
+                <LogoMark className="relative h-48 w-48 drop-shadow-[0_12px_40px_rgba(34,211,238,0.35)]" />
+              </div>
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="mx-auto mt-20 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4">
+          {/* Trust bar */}
+          <div className="card-surface mt-16 grid gap-6 p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-4">
+            {trustItems.map((item, i) => (
+              <div
+                key={item.title}
+                className={`flex items-start gap-3.5 ${
+                  i > 0 ? "sm:border-t sm:border-white/5 sm:pt-6 lg:border-t-0 lg:border-s lg:ps-6 lg:pt-0" : ""
+                } ${i === 1 ? "sm:border-t-0 sm:pt-0" : ""}`}
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
+                  <item.icon className="h-5 w-5" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-400">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Impact stats */}
+      <section className="pb-4 pt-16">
+        <Container>
+          <div className="mb-8 flex items-center gap-3">
+            <h2 className="text-xl font-bold text-white">أثرنا بالأرقام</h2>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-white/10 to-transparent" />
+          </div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {statCards.map((s) => (
-              <div key={s.label} className="card-surface p-5 text-center">
-                <div dir="ltr" className="text-2xl font-bold text-brand-300 sm:text-3xl">
+              <div
+                key={s.label}
+                className="card-surface group p-6 text-center transition hover:ring-1 hover:ring-brand-500/30"
+              >
+                <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
+                  <s.icon className="h-5 w-5" />
+                </span>
+                <div dir="ltr" className="mt-4 text-3xl font-extrabold text-gradient">
                   {s.value}
                 </div>
                 <div className="mt-1 text-xs text-slate-400">{s.label}</div>
@@ -154,9 +219,9 @@ export default async function HomePage({
             {features.map((f) => (
               <div
                 key={f.key}
-                className="card-surface group p-6 transition hover:border-brand-500/30"
+                className="card-surface group p-6 transition hover:ring-1 hover:ring-brand-500/30"
               >
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand-300 transition group-hover:bg-brand-500/20">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                   <f.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-white">
