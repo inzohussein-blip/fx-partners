@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
+import { Booking, type Slot } from "@/components/marketing/booking";
 import { Building2, Cpu, Droplets, Handshake } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -41,8 +42,25 @@ async function getPartners(): Promise<Partner[]> {
   }
 }
 
+async function getSlots(): Promise<Slot[]> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  try {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("meeting_slots")
+      .select("id,starts_at,duration_min")
+      .eq("status", "open")
+      .gt("starts_at", new Date().toISOString())
+      .order("starts_at")
+      .limit(60);
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export default async function BrokersPage() {
-  const partners = await getPartners();
+  const [partners, slots] = await Promise.all([getPartners(), getSlots()]);
 
   const benefits = [
     { icon: Handshake, title: "شراكة مرنة", desc: "نماذج تعاون White-label و Revenue Share تناسب حجم أعمالك." },
@@ -64,7 +82,7 @@ export default async function BrokersPage() {
             من الوكلاء والمسوّقين حول العالم.
           </p>
           <div className="mt-8 flex justify-center">
-            <Button href="/login">اطلب عرض تعاون</Button>
+            <Button href="#booking">احجز مكالمة شراكة</Button>
           </div>
         </Container>
       </section>
@@ -114,6 +132,8 @@ export default async function BrokersPage() {
           )}
         </Container>
       </section>
+
+      <Booking slots={slots} />
 
       <SiteFooter />
     </>

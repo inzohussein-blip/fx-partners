@@ -75,6 +75,25 @@ export async function sendPartnerEmail<T extends keyof Payloads>(
 }
 
 /**
+ * Send a pre-rendered email (subject + HTML) without a React template.
+ * Used for one-off transactional messages such as booking confirmations.
+ * Best-effort: never throws to the caller.
+ */
+export async function sendRawEmail(
+  to: string,
+  subject: string,
+  html: string
+): Promise<void> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+  try {
+    const { error } = await invokeSend(to, subject, html);
+    if (error) console.error("send-email invoke error:", error.message);
+  } catch (err) {
+    console.error("sendRawEmail failed:", err);
+  }
+}
+
+/**
  * Invoke the `send-email` edge function. Uses the service-role key when
  * available (works with no user session — e.g. a database-trigger hook),
  * otherwise the request-scoped user client (e.g. a signed-in action).

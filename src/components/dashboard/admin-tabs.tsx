@@ -2,13 +2,15 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { UserCheck, FileText, Type, Building2 } from "lucide-react";
+import { UserCheck, FileText, Type, Building2, CalendarClock, Megaphone } from "lucide-react";
 
 const tabs = [
   { href: "/dashboard/admin", label: "الاعتمادات", icon: UserCheck, exact: true },
   { href: "/dashboard/admin/posts", label: "المنشورات", icon: FileText },
   { href: "/dashboard/admin/content", label: "المحتوى", icon: Type },
   { href: "/dashboard/admin/partners", label: "الشركاء", icon: Building2 },
+  { href: "/dashboard/admin/meetings", label: "الاجتماعات", icon: CalendarClock },
+  { href: "/dashboard/admin/announcements", label: "الإعلانات", icon: Megaphone },
 ];
 
 export function AdminTabs() {
