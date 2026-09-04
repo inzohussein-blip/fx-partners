@@ -49,6 +49,8 @@ create table if not exists public.profiles (
   phone         text,
   avatar_url    text,
   role          user_role   not null default 'partner',
+  telegram_chat_id    text,   -- linked Telegram chat for alerts
+  telegram_link_token text,   -- one-time token used to link Telegram
   created_at    timestamptz not null default now(),
   updated_at    timestamptz not null default now()
 );

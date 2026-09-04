@@ -236,6 +236,40 @@ alter database postgres
   POST إلى نفس الرابط مع ترويسة `x-hook-secret`.
 - `monthly_report` جاهز كدالة `sendPartnerEmail(...)` تُستدعى من دالة مجدولة شهرياً.
 
+## تنبيهات تليغرام الفورية (Telegram Bot)
+
+يستقبل الوكيل تنبيهاً فورياً على تليغرام عند **تسجيل إحالة جديدة** أو **نزول
+عمولة جديدة** في محفظته.
+
+الآلية:
+
+1. **الربط:** من صفحة الإعدادات يضغط الوكيل «ربط حساب تليغرام» → يُفتح البوت
+   عبر `t.me/<bot>?start=<token>` → يضغط Start → دالة `telegram-bot` (webhook)
+   تخزّن `telegram_chat_id` في ملفه.
+2. **التنبيه:** triggers على `referrals` و`earnings` تستدعي (عبر pg_net) مسار
+   `‎/api/hooks/telegram-notify` الذي يرسل الرسالة عبر Telegram Bot API.
+
+> لا نستخدم `telegraf` — التنبيهات الصادرة تحتاج نداءً واحداً لـ Bot API فقط،
+> أخفّ وأكثر استقراراً.
+
+### الإعداد
+
+```bash
+# 1) أنشئ بوتاً عبر @BotFather واحصل على التوكن واسم البوت
+# 2) طبّق الترحيل supabase/migrations/0004_telegram_alerts.sql
+# 3) انشر الـ webhook (بلا JWT) واضبط السرّ
+supabase functions deploy telegram-bot --no-verify-jwt
+supabase secrets set TELEGRAM_BOT_TOKEN=123456:abc...
+# 4) سجّل الـ webhook مرّة واحدة
+curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://<ref>.supabase.co/functions/v1/telegram-bot"
+# 5) اضبط إعدادات قاعدة البيانات للمشغّلات
+#    alter database postgres set app.settings.telegram_hook_url = 'https://YOUR-SITE/api/hooks/telegram-notify';
+#    alter database postgres set app.settings.telegram_hook_secret = 'YOUR-SECRET';
+```
+
+وفي بيئة التطبيق: `TELEGRAM_BOT_TOKEN`، `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`،
+`TELEGRAM_HOOK_SECRET`، و`SUPABASE_SERVICE_ROLE_KEY`.
+
 ## المكتبات المعتمدة
 
 - **TradingView Lightweight Charts** — شارت الأسواق الحيّ في الصفحة الرئيسية،

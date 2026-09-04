@@ -34,3 +34,34 @@ export async function updateProfile(input: unknown): Promise<ActionResult> {
   revalidatePath("/dashboard/settings");
   return { ok: true };
 }
+
+/**
+ * Generate a one-time Telegram link token and return the bot deep link.
+ * The agent opens it and presses Start; the telegram-bot webhook stores
+ * their chat id against this token.
+ */
+export async function generateTelegramLink(): Promise<{
+  ok: boolean;
+  url?: string;
+  error?: string;
+}> {
+  const botUser = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME;
+  if (!botUser) {
+    return { ok: false, error: "لم يتم إعداد بوت تليغرام بعد." };
+  }
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "غير مصرّح" };
+
+  const token = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+  const { error } = await supabase
+    .from("profiles")
+    .update({ telegram_link_token: token })
+    .eq("id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  return { ok: true, url: `https://t.me/${botUser}?start=${token}` };
+}

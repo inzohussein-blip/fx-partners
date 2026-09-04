@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { SettingsForm } from "@/components/dashboard/settings-form";
+import { TelegramConnect } from "@/components/dashboard/telegram-connect";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,7 @@ export default async function SettingsPage() {
     email: "",
     ib_code: null as string | null,
   };
+  let telegramLinked = false;
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();
@@ -23,7 +25,7 @@ export default async function SettingsPage() {
       const [{ data: p }, { data: ib }] = await Promise.all([
         supabase
           .from("profiles")
-          .select("full_name,company_name,country,phone")
+          .select("full_name,company_name,country,phone,telegram_chat_id")
           .eq("id", user.id)
           .maybeSingle(),
         supabase
@@ -41,6 +43,7 @@ export default async function SettingsPage() {
         email: user.email ?? "",
         ib_code: ib?.ib_code ?? null,
       };
+      telegramLinked = Boolean(p?.telegram_chat_id);
     }
   }
 
@@ -54,6 +57,7 @@ export default async function SettingsPage() {
       </header>
 
       <SettingsForm profile={profile} />
+      <TelegramConnect linked={telegramLinked} />
     </div>
   );
 }
