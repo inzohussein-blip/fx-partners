@@ -21,7 +21,7 @@ export function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
             <li><Link href="/compare" className="hover:text-white">{t("compareBrokers")}</Link></li>
             <li><Link href="/offers" className="hover:text-white">{t("liveOffers")}</Link></li>
-            <li><Link href="/#tools" className="hover:text-white">{t("calculators")}</Link></li>
+            <li><Link href="/tools" className="hover:text-white">{t("calculators")}</Link></li>
           </ul>
         </div>
 

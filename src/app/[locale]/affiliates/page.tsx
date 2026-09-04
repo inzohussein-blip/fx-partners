@@ -4,7 +4,17 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
-import { Check } from "lucide-react";
+import {
+  Check,
+  UserPlus,
+  Link2,
+  Wallet,
+  TrendingUp,
+  Zap,
+  Headphones,
+  Layers,
+  ArrowLeft,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "برنامج الوكلاء (IB / Affiliate)",
@@ -82,6 +92,37 @@ export default async function AffiliatesPage() {
         </Container>
       </section>
 
+      {/* How it works */}
+      <section className="py-16">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">كيف تبدأ؟</h2>
+            <p className="mt-4 text-slate-400">ثلاث خطوات تفصلك عن أول عمولة.</p>
+          </div>
+
+          <div className="relative mt-14 grid gap-6 md:grid-cols-3">
+            {[
+              { icon: UserPlus, title: "سجّل مجاناً", desc: "أنشئ حساب شريك في دقيقة واحصل على اعتماد سريع." },
+              { icon: Link2, title: "انسخ رابطك", desc: "شارك روابط الإحالة والبانرات الجاهزة مع جمهورك." },
+              { icon: Wallet, title: "استلم أرباحك", desc: "تابع أرباحك حيّاً واسحبها بأكثر من طريقة دفع." },
+            ].map((s, i) => (
+              <div key={s.title} className="card-surface relative p-6 text-center">
+                <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-brand-500/15 text-brand-300">
+                  <s.icon className="h-6 w-6" />
+                </div>
+                <div className="mt-4 inline-flex items-center gap-2">
+                  <span className="grid h-6 w-6 place-items-center rounded-full bg-white/5 text-xs font-bold text-brand-300">
+                    {i + 1}
+                  </span>
+                  <h3 className="text-lg font-semibold text-white">{s.title}</h3>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <section className="py-16">
         <Container>
           <h2 className="text-center text-3xl font-bold text-white">مستويات الشراكة</h2>
@@ -125,6 +166,56 @@ export default async function AffiliatesPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Why partners choose us */}
+      <section className="py-16">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">
+              لماذا يختارنا الوكلاء؟
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: TrendingUp, title: "نسب أعلى", desc: "حتى 60% من الأرباح وترقية تلقائية للمستوى." },
+              { icon: Zap, title: "سحوبات سريعة", desc: "صرف خلال 24 ساعة بأكثر من وسيلة دفع." },
+              { icon: Layers, title: "نظام Sub-IB", desc: "اربح من شبكتك عبر نظام متعدد المستويات." },
+              { icon: Headphones, title: "دعم عربي", desc: "فريق دعم ومدير حساب يتحدثون لغتك." },
+            ].map((b) => (
+              <div key={b.title} className="card-surface p-6">
+                <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand-300">
+                  <b.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-white">{b.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* CTA */}
+      <section className="py-12">
+        <Container>
+          <div className="card-surface relative overflow-hidden p-10 text-center sm:p-14">
+            <div className="hero-glow absolute inset-0 opacity-70" />
+            <div className="relative">
+              <h2 className="text-3xl font-bold text-white sm:text-4xl">
+                ابدأ رحلتك كشريك اليوم
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-slate-300">
+                انضم لآلاف الوكلاء واحصل على أدوات تسويق احترافية وأرباح شفّافة.
+              </p>
+              <div className="mt-8 flex justify-center">
+                <Button href="/login" className="text-base">
+                  إنشاء حساب شريك
+                  <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
+                </Button>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
