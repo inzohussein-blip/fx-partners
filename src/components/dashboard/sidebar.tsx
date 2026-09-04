@@ -20,12 +20,12 @@ import {
 } from "lucide-react";
 
 const links = [
-  { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard },
+  { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard, tour: "overview" },
   { href: "/dashboard/clients", label: "العملاء", icon: Users },
   { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
-  { href: "/dashboard/leaderboard", label: "لوحة المتصدّرين", icon: Trophy },
-  { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone },
-  { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet },
+  { href: "/dashboard/leaderboard", label: "لوحة المتصدّرين", icon: Trophy, tour: "leaderboard" },
+  { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone, tour: "marketing" },
+  { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet, tour: "wallet" },
   { href: "/dashboard/agreement", label: "اتفاقية الشراكة", icon: FileSignature },
   { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
 ];
@@ -55,6 +55,7 @@ export function DashboardSidebar({
 
       <button
         type="button"
+        data-tour="search"
         onClick={() => query.toggle()}
         className="mb-2 hidden items-center justify-between rounded-xl border border-white/10 bg-ink-900/40 px-3 py-2 text-sm text-slate-400 transition hover:text-white md:flex"
       >
@@ -74,6 +75,7 @@ export function DashboardSidebar({
             <Link
               key={link.href}
               href={link.href}
+              data-tour={"tour" in link ? link.tour : undefined}
               className={cn(
                 "flex flex-1 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition md:flex-none",
                 active

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { CommandPalette } from "@/components/dashboard/command-palette";
+import { OnboardingTour } from "@/components/dashboard/onboarding-tour";
 
 export default async function DashboardLayout({
   children,
@@ -33,6 +34,7 @@ export default async function DashboardLayout({
         <DashboardSidebar email={email} isAdmin={isAdmin} />
         <main className="flex-1 overflow-x-hidden p-4 sm:p-8">{children}</main>
       </div>
+      <OnboardingTour />
     </CommandPalette>
   );
 }
