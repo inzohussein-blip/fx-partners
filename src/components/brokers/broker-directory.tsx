@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { Stars } from "@/components/brokers/stars";
+import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { statusLabel, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Gift, Search, ArrowLeft, Building2 } from "lucide-react";
@@ -122,7 +123,14 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       <BrokerLogo broker={b} />
-                      <span className="font-semibold text-white">{b.name}</span>
+                      <div>
+                        <span className="font-semibold text-white">{b.name}</span>
+                        {b.badges && b.badges.length > 0 && (
+                          <div className="mt-1">
+                            <BrokerBadges badges={b.badges} />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </td>
                   <td className="px-5 py-4">
@@ -176,6 +184,11 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
               </div>
               <StatusBadge status={b.status} />
             </div>
+            {b.badges && b.badges.length > 0 && (
+              <div className="mt-3">
+                <BrokerBadges badges={b.badges} />
+              </div>
+            )}
             <div className="mt-3 flex items-center gap-2">
               <Stars value={b.rating} />
               <span className="text-xs text-slate-500" dir="ltr">

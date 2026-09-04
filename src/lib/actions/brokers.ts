@@ -5,6 +5,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { sendTelegram } from "@/lib/telegram";
 import { getSiteUrl } from "@/lib/utils";
+import { BADGE_KEYS } from "@/lib/brokers";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -48,6 +49,7 @@ export type BrokerInput = {
   description?: string;
   is_published?: boolean;
   sort_order?: number;
+  badges?: string[];
 };
 
 export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
@@ -56,6 +58,9 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
   if (!input.name?.trim()) return { ok: false, error: "اسم الشركة مطلوب" };
 
   const status = input.status === "partnered" ? "partnered" : "not_partnered";
+  const badges = Array.isArray(input.badges)
+    ? input.badges.filter((b) => BADGE_KEYS.includes(b))
+    : undefined;
   const row = {
     name: input.name.trim(),
     logo_url: input.logo_url?.trim() || null,
@@ -65,6 +70,7 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
     description: input.description?.trim() || null,
     is_published: input.is_published ?? true,
     sort_order: Number(input.sort_order ?? 0),
+    ...(badges ? { badges } : {}),
   };
 
   let error;

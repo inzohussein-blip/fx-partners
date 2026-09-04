@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
+import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
 import { BrokerBoard, type BoardPost } from "@/components/brokers/broker-board";
 import { statusLabel, type Broker, type BrokerReview } from "@/lib/brokers";
@@ -19,7 +20,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,broker_links(id,label,referral_url,agent_commission,client_benefits)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -151,6 +152,11 @@ export default async function BrokerDetailPage({
                   {broker.rating.toFixed(1)} · {broker.reviews_count} مراجعة
                 </span>
               </div>
+              {broker.badges && broker.badges.length > 0 && (
+                <div className="mt-3">
+                  <BrokerBadges badges={broker.badges} size="md" />
+                </div>
+              )}
             </div>
           </div>
 

@@ -21,7 +21,7 @@ async function getBrokers(): Promise<Broker[]> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,broker_links(id,label,referral_url,agent_commission,client_benefits)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,broker_links(id,label,referral_url,agent_commission,client_benefits)"
       )
       .eq("is_published", true)
       .order("sort_order")

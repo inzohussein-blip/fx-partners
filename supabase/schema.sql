@@ -644,6 +644,7 @@ create table if not exists public.brokers (
   description   text,
   rating        numeric(3,2) not null default 0,
   reviews_count int not null default 0,
+  badges        text[] not null default '{}',
   is_published  boolean not null default true,
   sort_order    int not null default 0,
   created_at    timestamptz not null default now(),

@@ -12,6 +12,7 @@ import {
   addAdminReview,
 } from "@/lib/actions/brokers";
 import { Stars, StarInput } from "@/components/brokers/stars";
+import { BADGES, BADGE_KEYS } from "@/lib/brokers";
 import {
   Plus,
   Trash2,
@@ -44,6 +45,7 @@ export type AdminBroker = {
   description: string | null;
   rating: number;
   reviews_count: number;
+  badges: string[] | null;
   is_published: boolean;
   sort_order: number;
   broker_links: AdminLink[];
@@ -69,6 +71,7 @@ const EMPTY = {
   welcome_bonus: "",
   description: "",
   is_published: true,
+  badges: [] as string[],
 };
 
 const input =
@@ -115,6 +118,7 @@ export function BrokersManager({
       welcome_bonus: b.welcome_bonus ?? "",
       description: b.description ?? "",
       is_published: b.is_published,
+      badges: b.badges ?? [],
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -138,9 +142,19 @@ export function BrokersManager({
       description: b.description ?? "",
       logo_url: b.logo_url ?? "",
       is_published: !b.is_published,
+      badges: b.badges ?? [],
     });
     setBusy(null);
     refresh();
+  }
+
+  function toggleBadge(key: string) {
+    setForm((f) => ({
+      ...f,
+      badges: f.badges.includes(key)
+        ? f.badges.filter((b) => b !== key)
+        : [...f.badges, key],
+    }));
   }
 
   return (
@@ -202,6 +216,32 @@ export function BrokersManager({
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
         />
+
+        <div className="mt-4">
+          <span className="mb-2 block text-sm text-slate-300">الشارات</span>
+          <div className="flex flex-wrap gap-2">
+            {BADGE_KEYS.map((key) => {
+              const meta = BADGES[key];
+              const on = form.badges.includes(key);
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => toggleBadge(key)}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition ${
+                    on
+                      ? meta.className
+                      : "bg-white/5 text-slate-400 ring-white/10 hover:text-white"
+                  }`}
+                >
+                  <span>{meta.emoji}</span>
+                  {meta.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="mt-3 flex items-center justify-between">
           <label className="flex items-center gap-2 text-sm text-slate-300">
             <input

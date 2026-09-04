@@ -69,14 +69,17 @@ from generate_series(
 on conflict do nothing;
 
 -- Demo broker directory ------------------------------------------------------
-insert into public.brokers (slug, name, status, deposit_bonus, welcome_bonus, description, sort_order)
+insert into public.brokers (slug, name, status, deposit_bonus, welcome_bonus, description, badges, sort_order)
 values
   ('alpha-markets', 'Alpha Markets', 'partnered', '100%', '$50',
-   E'شركة تداول عالمية منظّمة تقدّم فروقات تنافسية وتنفيذاً سريعاً على منصّتي MT4/MT5.\n\nسحوبات سريعة ودعم عربي على مدار الساعة.', 1),
+   E'شركة تداول عالمية منظّمة تقدّم فروقات تنافسية وتنفيذاً سريعاً على منصّتي MT4/MT5.\n\nسحوبات سريعة ودعم عربي على مدار الساعة.',
+   array['hot','platinum'], 1),
   ('titan-fx', 'Titan FX', 'partnered', '50%', null,
-   E'بيئة تداول ECN بفروقات من 0.0 نقطة، مناسبة للمتداولين المحترفين وصنّاع السوق.', 2),
+   E'بيئة تداول ECN بفروقات من 0.0 نقطة، مناسبة للمتداولين المحترفين وصنّاع السوق.',
+   array['low_spread'], 2),
   ('nova-trade', 'Nova Trade', 'not_partnered', null, '$25',
-   E'شركة ناشئة تقدّم حساباً تجريبياً سخياً وأدوات تعليمية للمبتدئين.', 3)
+   E'شركة ناشئة تقدّم حساباً تجريبياً سخياً وأدوات تعليمية للمبتدئين.',
+   array['best_welcome'], 3)
 on conflict (slug) do nothing;
 
 -- Demo referral links for the partnered brokers ------------------------------

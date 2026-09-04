@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
+import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { statusLabel, type Broker } from "@/lib/brokers";
 import { BadgeCheck, Gift, ArrowLeft, Building2, Scale } from "lucide-react";
 
@@ -12,7 +13,7 @@ async function getTopBrokers(): Promise<Broker[]> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges"
       )
       .eq("is_published", true)
       .order("rating", { ascending: false })
@@ -89,6 +90,12 @@ export async function BrokerHighlight() {
                     {statusLabel(b.status)}
                   </span>
                 </div>
+
+                {b.badges && b.badges.length > 0 && (
+                  <div className="mt-3">
+                    <BrokerBadges badges={b.badges} />
+                  </div>
+                )}
 
                 <div className="mt-4 flex items-center gap-2">
                   <Stars value={b.rating} />
