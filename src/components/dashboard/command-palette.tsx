@@ -33,6 +33,7 @@ export function CommandPalette({
       { id: "wallet", name: "المحفظة والسحوبات", keywords: "wallet withdraw سحب رصيد", section: nav, perform: () => router.push("/dashboard/wallet") },
       { id: "agreement", name: "اتفاقية الشراكة", keywords: "agreement contract sign توقيع عقد", section: nav, perform: () => router.push("/dashboard/agreement") },
       { id: "settings", name: "الإعدادات", keywords: "settings profile ملف", section: nav, perform: () => router.push("/dashboard/settings") },
+      { id: "signals", name: "التوصيات", keywords: "signals analysis توصيات تحليلات", section: nav, perform: () => router.push("/dashboard/signals") },
       { id: "updates", name: "التحديثات", keywords: "updates changelog announcements تحديثات إعلانات", section: nav, perform: () => router.push("/dashboard/updates") },
       { id: "tour", name: "الجولة التعريفية", keywords: "tour onboarding guide جولة شرح", section: nav, perform: () => window.dispatchEvent(new Event("fx:start-tour")) },
     ];

@@ -834,5 +834,47 @@ create policy "subs admin write" on public.broker_subscriptions
   for all using (public.is_admin()) with check (public.is_admin());
 
 -- ===========================================================================
+-- SIGNALS  (trading recommendations + outbound broadcast — mirrors 0014)
+-- ===========================================================================
+create table if not exists public.signals (
+  id           uuid primary key default gen_random_uuid(),
+  broker_id    uuid references public.brokers(id) on delete set null,
+  title        text not null,
+  body         text not null,
+  symbol       text,
+  direction    text,
+  is_published boolean not null default true,
+  published_at timestamptz not null default now(),
+  created_at   timestamptz not null default now()
+);
+create index if not exists idx_signals_pub on public.signals(is_published, published_at desc);
+
+create table if not exists public.outbound_webhooks (
+  id         uuid primary key default gen_random_uuid(),
+  label      text,
+  url        text not null,
+  is_active  boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+alter table public.signals          enable row level security;
+alter table public.outbound_webhooks enable row level security;
+
+drop policy if exists "signals read" on public.signals;
+create policy "signals read" on public.signals
+  for select using (is_published or public.is_admin());
+drop policy if exists "signals admin write" on public.signals;
+create policy "signals admin write" on public.signals
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "webhooks admin all" on public.outbound_webhooks;
+create policy "webhooks admin all" on public.outbound_webhooks
+  for all using (public.is_admin()) with check (public.is_admin());
+
+do $$ begin
+  alter publication supabase_realtime add table public.signals;
+exception when duplicate_object then null; end $$;
+
+-- ===========================================================================
 -- DONE. Load supabase/seed.sql next for demo content.
 -- ===========================================================================

@@ -18,12 +18,14 @@ import {
   CalendarClock,
   FileSignature,
   Trophy,
+  TrendingUp,
 } from "lucide-react";
 
 const links = [
   { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard, tour: "overview" },
   { href: "/dashboard/clients", label: "العملاء", icon: Users },
   { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
+  { href: "/dashboard/signals", label: "التوصيات", icon: TrendingUp },
   { href: "/dashboard/leaderboard", label: "لوحة المتصدّرين", icon: Trophy, tour: "leaderboard" },
   { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone, tour: "marketing" },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet, tour: "wallet" },
