@@ -13,6 +13,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { getSiteUrl } from "@/lib/utils";
 import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner";
 import { SkipLink } from "@/components/skip-link";
+import { ServiceWorkerRegister } from "@/components/service-worker";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -71,10 +72,23 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const dir = locale === "ar" ? "rtl" : "ltr";
 
+  const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+    ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin
+    : null;
+
   return (
     <html lang={locale} dir={dir} className={cairo.variable}>
+      <head>
+        {/* Warm up connections to external origins used at runtime */}
+        {supabaseHost && <link rel="preconnect" href={supabaseHost} crossOrigin="" />}
+        <link rel="preconnect" href="https://s3.tradingview.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://s3.tradingview.com" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://api.binance.com" />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
+          <ServiceWorkerRegister />
           <SkipLink />
           <div id="content">
             <NuqsAdapter>{children}</NuqsAdapter>
