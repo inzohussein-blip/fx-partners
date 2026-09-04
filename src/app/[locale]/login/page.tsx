@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -62,9 +63,12 @@ function LoginForm() {
         });
         if (error) throw error;
         setMessage(t("signUpSuccess"));
+        toast.success(t("signUpSuccess"));
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("genericError"));
+      const msg = err instanceof Error ? err.message : t("genericError");
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

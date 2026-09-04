@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -37,9 +38,12 @@ export function SettingsForm({
     setServerError(null);
     startTransition(async () => {
       const res = await updateProfile(values);
-      if (!res.ok) setServerError(res.error ?? "فشل الحفظ");
-      else {
+      if (!res.ok) {
+        setServerError(res.error ?? "فشل الحفظ");
+        toast.error(res.error ?? "فشل حفظ التغييرات");
+      } else {
         setOk(true);
+        toast.success("تم حفظ التغييرات");
         router.refresh();
       }
     });

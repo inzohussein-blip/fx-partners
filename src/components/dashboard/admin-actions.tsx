@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { updateIbStatus, updateWithdrawalStatus } from "@/lib/actions/admin";
@@ -28,8 +29,13 @@ function ActionRow({
     setError(null);
     startTransition(async () => {
       const res = await run(status);
-      if (!res.ok) setError(res.error ?? "فشل الإجراء");
-      else router.refresh();
+      if (!res.ok) {
+        setError(res.error ?? "فشل الإجراء");
+        toast.error(res.error ?? "فشل تنفيذ الإجراء");
+      } else {
+        toast.success("تم تحديث الحالة");
+        router.refresh();
+      }
     });
   }
 

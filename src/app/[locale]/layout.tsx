@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Cairo } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Toaster } from "sonner";
 import {
   getMessages,
   getTranslations,
@@ -53,6 +54,19 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
           <NuqsAdapter>{children}</NuqsAdapter>
+          <Toaster
+            theme="dark"
+            position="top-center"
+            richColors
+            closeButton
+            toastOptions={{
+              style: {
+                background: "#0a1728",
+                border: "1px solid rgba(255,255,255,0.08)",
+                color: "#e2e8f0",
+              },
+            }}
+          />
         </NextIntlClientProvider>
       </body>
     </html>

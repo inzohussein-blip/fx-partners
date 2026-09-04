@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Plus } from "lucide-react";
@@ -40,6 +41,7 @@ export function ReferralGenerator({
   async function copy(text: string, id: string) {
     await navigator.clipboard.writeText(text);
     setCopied(id);
+    toast.success("تم نسخ رابط الإحالة بنجاح");
     setTimeout(() => setCopied(null), 1500);
   }
 
@@ -67,11 +69,13 @@ export function ReferralGenerator({
     setLoading(false);
     if (error) {
       setError(error.message);
+      toast.error("تعذّر إنشاء الرابط");
       return;
     }
     if (data) {
       setLinks([data, ...links]);
       setCampaign("");
+      toast.success("تم إنشاء رابط الإحالة");
     }
   }
 

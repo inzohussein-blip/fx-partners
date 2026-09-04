@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
+import { Reveal } from "@/components/reveal";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Markets } from "@/components/marketing/markets";
@@ -135,9 +136,12 @@ export default async function HomePage({
       <LogoCarousel partners={partners} />
 
       {/* Live market chart (TradingView Lightweight Charts) */}
-      <Markets />
+      <Reveal>
+        <Markets />
+      </Reveal>
 
       {/* Features */}
+      <Reveal>
       <section className="py-20">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
@@ -167,21 +171,32 @@ export default async function HomePage({
           </div>
         </Container>
       </section>
+      </Reveal>
 
       {/* About */}
-      <About />
+      <Reveal>
+        <About />
+      </Reveal>
 
       {/* Team */}
-      <Team />
+      <Reveal>
+        <Team />
+      </Reveal>
 
       {/* Testimonials */}
-      <Testimonials />
+      <Reveal>
+        <Testimonials />
+      </Reveal>
 
       {/* FAQ */}
-      <Faq />
+      <Reveal>
+        <Faq />
+      </Reveal>
 
       {/* Contact */}
-      <Contact />
+      <Reveal>
+        <Contact />
+      </Reveal>
 
       {/* CTA */}
       <section className="py-12">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -40,10 +41,13 @@ export function WithdrawForm({
     }
     startTransition(async () => {
       const res = await requestWithdrawal(values);
-      if (!res.ok) setServerError(res.error ?? "فشل الإرسال");
-      else {
+      if (!res.ok) {
+        setServerError(res.error ?? "فشل الإرسال");
+        toast.error(res.error ?? "فشل إرسال طلب السحب");
+      } else {
         setOk(true);
         reset({ amount: undefined, method: "bank_transfer", destination: "" });
+        toast.success("تم تقديم طلب السحب بنجاح");
         router.refresh();
       }
     });
