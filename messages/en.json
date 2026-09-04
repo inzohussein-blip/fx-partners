@@ -70,7 +70,7 @@
     "heading": "Live prices from the financial markets",
     "subheading": "Follow currency and gold movements in real time — illustrative demo data.",
     "live": "LIVE",
-    "disclaimer": "Prices are illustrative for demonstration only and are not actual trading quotes."
+    "disclaimer": "Live prices may be slightly delayed; demo data is shown when the feed is unavailable. Not actual trading quotes."
   },
   "About": {
     "badge": "About us",
