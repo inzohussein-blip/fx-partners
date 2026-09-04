@@ -107,7 +107,7 @@ export default async function AffiliatesPage() {
               { icon: Wallet, title: "استلم أرباحك", desc: "تابع أرباحك حيّاً واسحبها بأكثر من طريقة دفع." },
             ].map((s, i) => (
               <div key={s.title} className="card-surface relative p-6 text-center">
-                <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-brand-500/15 text-brand-300">
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <s.icon className="h-6 w-6" />
                 </div>
                 <div className="mt-4 inline-flex items-center gap-2">
@@ -186,7 +186,7 @@ export default async function AffiliatesPage() {
               { icon: Headphones, title: "دعم عربي", desc: "فريق دعم ومدير حساب يتحدثون لغتك." },
             ].map((b) => (
               <div key={b.title} className="card-surface p-6">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand-300">
+                <div className="grid h-11 w-11 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <b.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-white">{b.title}</h3>

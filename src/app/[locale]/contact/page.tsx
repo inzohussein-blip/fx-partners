@@ -53,7 +53,7 @@ export default function ContactPage() {
               {channels.map((c) => {
                 const inner = (
                   <>
-                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-brand-500/10 text-brand-300">
+                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                       <c.icon className="h-5 w-5" aria-hidden />
                     </div>
                     <div>

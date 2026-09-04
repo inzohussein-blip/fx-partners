@@ -31,7 +31,7 @@ export function BrokerSubscribe({
       <div className="hero-glow absolute inset-0 opacity-50" />
       <div className="relative">
         <div className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/15 text-brand-300">
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/20">
             <Bell className="h-5 w-5" />
           </span>
           <div>

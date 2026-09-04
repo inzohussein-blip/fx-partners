@@ -45,7 +45,7 @@ export function Contact() {
                   key={c.label}
                   className="flex items-center gap-4 rounded-xl border border-white/10 bg-ink-900/40 p-4"
                 >
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-brand-500/10 text-brand-300">
+                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                     <c.icon className="h-5 w-5" />
                   </div>
                   <div>

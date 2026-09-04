@@ -286,7 +286,7 @@ export default async function BrokerDetailPage({
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {highlights.map((h, i) => (
                 <div key={i} className="card-surface flex items-center gap-3 p-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                     <h.icon className="h-5 w-5" />
                   </span>
                   <div className="min-w-0">

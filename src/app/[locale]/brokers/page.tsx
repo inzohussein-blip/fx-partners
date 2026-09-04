@@ -92,7 +92,7 @@ export default async function BrokersPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {benefits.map((b) => (
               <div key={b.title} className="card-surface p-6">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand-500/10 text-brand-300">
+                <div className="grid h-11 w-11 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <b.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-white">{b.title}</h3>

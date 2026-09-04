@@ -51,7 +51,7 @@ export function LevelBadges({ referrals, totalEarned, withdrawals }: Stats) {
         <div className="hero-glow absolute inset-0 opacity-60" />
         <div className="relative">
           <div className="flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-xl bg-brand-500/15 text-brand-300">
+            <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/20">
               <TierIcon className="h-6 w-6" />
             </div>
             <div>

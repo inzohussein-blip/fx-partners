@@ -25,7 +25,7 @@ export function About() {
           <div className="mt-8 space-y-4">
             {points.map((p) => (
               <div key={p.title} className="flex items-start gap-3">
-                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-500/10 text-brand-300">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <p.icon className="h-4 w-4" />
                 </div>
                 <div>

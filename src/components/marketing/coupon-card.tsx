@@ -33,7 +33,7 @@ export function CouponCard({ coupon }: { coupon: Coupon }) {
       <div className="hero-glow absolute inset-0 opacity-40" />
       <div className="relative">
         <div className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-500/15 text-brand-300">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/20">
             <Ticket className="h-4 w-4" />
           </span>
           {coupon.broker_name && (

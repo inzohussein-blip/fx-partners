@@ -86,7 +86,7 @@ export function LiveCampaignBanner() {
     >
       <div className="relative flex w-full max-w-2xl items-center gap-4 overflow-hidden rounded-2xl border border-brand-500/30 bg-ink-800/95 p-4 pe-12 shadow-2xl backdrop-blur">
         <div className="hero-glow absolute inset-0 opacity-70" />
-        <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-brand-300">
+        <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/20">
           <Megaphone className="h-5 w-5 animate-pulse" />
         </span>
         <div className="relative min-w-0 flex-1">
