@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
+import { BrokerBoard, type BoardPost } from "@/components/brokers/broker-board";
 import { statusLabel, type Broker, type BrokerReview } from "@/lib/brokers";
 import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2 } from "lucide-react";
 
@@ -45,6 +46,40 @@ async function getReviews(brokerId: string): Promise<BrokerReview[]> {
   }
 }
 
+async function getBoardPosts(brokerId: string): Promise<BoardPost[]> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  try {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("broker_posts")
+      .select("id,parent_id,author_name,body,is_staff,likes,dislikes,created_at")
+      .eq("broker_id", brokerId)
+      .order("created_at", { ascending: true });
+    return (data as BoardPost[]) ?? [];
+  } catch {
+    return [];
+  }
+}
+
+async function getIsAdmin(): Promise<boolean> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return false;
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return false;
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+    return profile?.role === "admin";
+  } catch {
+    return false;
+  }
+}
+
 export async function generateMetadata({
   params: { slug },
 }: {
@@ -68,7 +103,11 @@ export default async function BrokerDetailPage({
   const broker = await getBroker(slug);
   if (!broker) notFound();
 
-  const reviews = await getReviews(broker.id);
+  const [reviews, boardPosts, isAdmin] = await Promise.all([
+    getReviews(broker.id),
+    getBoardPosts(broker.id),
+    getIsAdmin(),
+  ]);
   const links = broker.broker_links ?? [];
   const partnered = broker.status === "partnered";
 
@@ -191,12 +230,24 @@ export default async function BrokerDetailPage({
       )}
 
       {/* Reviews */}
-      <section className="pb-24 pt-6">
+      <section className="pt-6">
         <Container>
           <BrokerReviews
             brokerId={broker.id}
             brokerSlug={broker.slug}
             initial={reviews}
+          />
+        </Container>
+      </section>
+
+      {/* Discussion board */}
+      <section className="pb-24 pt-14">
+        <Container>
+          <BrokerBoard
+            brokerId={broker.id}
+            brokerSlug={broker.slug}
+            isAdmin={isAdmin}
+            initial={boardPosts}
           />
         </Container>
       </section>

@@ -735,5 +735,78 @@ do $$ begin
 exception when duplicate_object then null; end $$;
 
 -- ===========================================================================
+-- BROKER DISCUSSION BOARD  (threaded forum — mirrors migration 0011)
+-- ===========================================================================
+create table if not exists public.broker_posts (
+  id         uuid primary key default gen_random_uuid(),
+  broker_id  uuid not null references public.brokers(id) on delete cascade,
+  parent_id  uuid references public.broker_posts(id) on delete cascade,
+  user_id    uuid references public.profiles(id) on delete set null,
+  author_name text,
+  body       text not null,
+  is_staff   boolean not null default false,
+  likes      int not null default 0,
+  dislikes   int not null default 0,
+  created_at timestamptz not null default now()
+);
+create index if not exists idx_broker_posts_broker on public.broker_posts(broker_id, created_at);
+create index if not exists idx_broker_posts_parent on public.broker_posts(parent_id);
+
+create table if not exists public.broker_post_votes (
+  id         uuid primary key default gen_random_uuid(),
+  post_id    uuid not null references public.broker_posts(id) on delete cascade,
+  voter_key  text not null,
+  value      smallint not null check (value in (-1, 1)),
+  created_at timestamptz not null default now(),
+  unique (post_id, voter_key)
+);
+create index if not exists idx_broker_post_votes_post on public.broker_post_votes(post_id);
+
+create or replace function public.recompute_post_votes(target uuid)
+returns void language plpgsql security definer set search_path = public as $$
+begin
+  update public.broker_posts p
+     set likes    = (select count(*) from public.broker_post_votes v
+                      where v.post_id = target and v.value = 1),
+         dislikes = (select count(*) from public.broker_post_votes v
+                      where v.post_id = target and v.value = -1)
+   where p.id = target;
+end; $$;
+
+create or replace function public.trg_post_vote()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform public.recompute_post_votes(coalesce(new.post_id, old.post_id));
+  return coalesce(new, old);
+end; $$;
+
+drop trigger if exists t_post_vote on public.broker_post_votes;
+create trigger t_post_vote
+  after insert or update or delete on public.broker_post_votes
+  for each row execute function public.trg_post_vote();
+
+alter table public.broker_posts      enable row level security;
+alter table public.broker_post_votes enable row level security;
+
+drop policy if exists "board read" on public.broker_posts;
+create policy "board read" on public.broker_posts for select using (true);
+drop policy if exists "board public insert" on public.broker_posts;
+create policy "board public insert" on public.broker_posts
+  for insert with check (is_staff = false);
+drop policy if exists "board admin write" on public.broker_posts;
+create policy "board admin write" on public.broker_posts
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "votes read" on public.broker_post_votes;
+create policy "votes read" on public.broker_post_votes for select using (true);
+drop policy if exists "votes public write" on public.broker_post_votes;
+create policy "votes public write" on public.broker_post_votes
+  for all using (true) with check (value in (-1, 1));
+
+do $$ begin
+  alter publication supabase_realtime add table public.broker_posts;
+exception when duplicate_object then null; end $$;
+
+-- ===========================================================================
 -- DONE. Load supabase/seed.sql next for demo content.
 -- ===========================================================================

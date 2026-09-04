@@ -90,3 +90,15 @@ insert into public.broker_reviews (broker_id, user_name, comment, stars, is_appr
 select b.id, 'متداول عربي', 'تجربة ممتازة، السحب سريع والدعم متعاون.', 5, true
 from public.brokers b where b.slug = 'alpha-markets'
 on conflict do nothing;
+
+-- Demo discussion thread + staff reply ---------------------------------------
+with t as (
+  insert into public.broker_posts (broker_id, author_name, body)
+  select b.id, 'خالد', 'كم يستغرق السحب عبر التحويل البنكي مع هذه الشركة؟'
+  from public.brokers b where b.slug = 'alpha-markets'
+  returning id, broker_id
+)
+insert into public.broker_posts (broker_id, parent_id, author_name, body, is_staff)
+select t.broker_id, t.id, 'إدارة FX Partners',
+       'عادةً خلال 24 ساعة عمل، وأحياناً أسرع عبر المحافظ الإلكترونية.', true
+from t;
