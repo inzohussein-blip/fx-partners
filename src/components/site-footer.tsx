@@ -8,12 +8,21 @@ export function SiteFooter() {
 
   return (
     <footer className="mt-24 border-t border-white/5 bg-ink-900">
-      <Container className="grid gap-8 py-12 md:grid-cols-4">
+      <Container className="grid gap-8 py-12 md:grid-cols-5">
         <div className="md:col-span-2">
           <Logo />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
             {t("tagline")}
           </p>
+        </div>
+
+        <div>
+          <h4 className="text-sm font-semibold text-white">{t("tools")}</h4>
+          <ul className="mt-3 space-y-2 text-sm text-slate-400">
+            <li><Link href="/compare" className="hover:text-white">{t("compareBrokers")}</Link></li>
+            <li><Link href="/offers" className="hover:text-white">{t("liveOffers")}</Link></li>
+            <li><Link href="/#tools" className="hover:text-white">{t("calculators")}</Link></li>
+          </ul>
         </div>
 
         <div>
