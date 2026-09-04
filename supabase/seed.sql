@@ -67,3 +67,26 @@ from generate_series(
   interval '1 day'
 ) as gs
 on conflict do nothing;
+
+-- Demo broker directory ------------------------------------------------------
+insert into public.brokers (slug, name, status, deposit_bonus, welcome_bonus, description, sort_order)
+values
+  ('alpha-markets', 'Alpha Markets', 'partnered', '100%', '$50',
+   E'شركة تداول عالمية منظّمة تقدّم فروقات تنافسية وتنفيذاً سريعاً على منصّتي MT4/MT5.\n\nسحوبات سريعة ودعم عربي على مدار الساعة.', 1),
+  ('titan-fx', 'Titan FX', 'partnered', '50%', null,
+   E'بيئة تداول ECN بفروقات من 0.0 نقطة، مناسبة للمتداولين المحترفين وصنّاع السوق.', 2),
+  ('nova-trade', 'Nova Trade', 'not_partnered', null, '$25',
+   E'شركة ناشئة تقدّم حساباً تجريبياً سخياً وأدوات تعليمية للمبتدئين.', 3)
+on conflict (slug) do nothing;
+
+-- Demo referral links for the partnered brokers ------------------------------
+insert into public.broker_links (broker_id, label, referral_url, agent_commission, client_benefits)
+select b.id, 'الحساب القياسي', 'https://example.com/ref/' || b.slug, '$6 لكل لوت', 'سبريد مخفض + بدون عمولة'
+from public.brokers b where b.slug in ('alpha-markets', 'titan-fx')
+on conflict do nothing;
+
+-- Demo approved reviews ------------------------------------------------------
+insert into public.broker_reviews (broker_id, user_name, comment, stars, is_approved)
+select b.id, 'متداول عربي', 'تجربة ممتازة، السحب سريع والدعم متعاون.', 5, true
+from public.brokers b where b.slug = 'alpha-markets'
+on conflict do nothing;

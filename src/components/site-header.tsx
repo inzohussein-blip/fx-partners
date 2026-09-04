@@ -11,6 +11,7 @@ export function SiteHeader() {
   const nav = [
     { href: "/", label: t("home") },
     { href: "/affiliates", label: t("affiliates") },
+    { href: "/compare", label: t("compare") },
     { href: "/brokers", label: t("brokers") },
     { href: "/blog", label: t("blog") },
   ];

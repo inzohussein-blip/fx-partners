@@ -627,5 +627,113 @@ create policy "announcements admin write" on public.announcements
   for all using (public.is_admin()) with check (public.is_admin());
 
 -- ===========================================================================
+-- BROKER DIRECTORY  (comparison engine — mirrors migration 0010)
+-- ===========================================================================
+do $$ begin
+  create type broker_status as enum ('partnered', 'not_partnered');
+exception when duplicate_object then null; end $$;
+
+create table if not exists public.brokers (
+  id            uuid primary key default gen_random_uuid(),
+  slug          text unique not null,
+  name          text not null,
+  logo_url      text,
+  status        broker_status not null default 'not_partnered',
+  deposit_bonus text,
+  welcome_bonus text,
+  description   text,
+  rating        numeric(3,2) not null default 0,
+  reviews_count int not null default 0,
+  is_published  boolean not null default true,
+  sort_order    int not null default 0,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now()
+);
+create index if not exists idx_brokers_published on public.brokers(is_published, sort_order);
+
+create table if not exists public.broker_links (
+  id              uuid primary key default gen_random_uuid(),
+  broker_id       uuid not null references public.brokers(id) on delete cascade,
+  label           text,
+  referral_url    text not null,
+  agent_commission text,
+  client_benefits  text,
+  sort_order      int not null default 0,
+  created_at      timestamptz not null default now()
+);
+create index if not exists idx_broker_links_broker on public.broker_links(broker_id, sort_order);
+
+create table if not exists public.broker_reviews (
+  id             uuid primary key default gen_random_uuid(),
+  broker_id      uuid not null references public.brokers(id) on delete cascade,
+  user_id        uuid references public.profiles(id) on delete set null,
+  user_name      text,
+  comment        text not null,
+  stars          int not null check (stars between 1 and 5),
+  is_approved    boolean not null default false,
+  is_admin_reply boolean not null default false,
+  created_at     timestamptz not null default now()
+);
+create index if not exists idx_broker_reviews_broker on public.broker_reviews(broker_id, created_at desc);
+
+create or replace function public.recompute_broker_rating(target uuid)
+returns void language plpgsql security definer set search_path = public as $$
+declare
+  avg_stars numeric;
+  cnt int;
+begin
+  select coalesce(avg(stars), 0), count(*) into avg_stars, cnt
+  from public.broker_reviews
+  where broker_id = target and is_approved = true;
+  update public.brokers
+     set rating = round(avg_stars, 2), reviews_count = cnt, updated_at = now()
+   where id = target;
+end; $$;
+
+create or replace function public.trg_broker_review()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  perform public.recompute_broker_rating(coalesce(new.broker_id, old.broker_id));
+  return coalesce(new, old);
+end; $$;
+
+drop trigger if exists t_broker_review on public.broker_reviews;
+create trigger t_broker_review
+  after insert or update or delete on public.broker_reviews
+  for each row execute function public.trg_broker_review();
+
+alter table public.brokers        enable row level security;
+alter table public.broker_links   enable row level security;
+alter table public.broker_reviews enable row level security;
+
+drop policy if exists "brokers read" on public.brokers;
+create policy "brokers read" on public.brokers
+  for select using (is_published or public.is_admin());
+drop policy if exists "brokers admin write" on public.brokers;
+create policy "brokers admin write" on public.brokers
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "broker_links read" on public.broker_links;
+create policy "broker_links read" on public.broker_links
+  for select using (true);
+drop policy if exists "broker_links admin write" on public.broker_links;
+create policy "broker_links admin write" on public.broker_links
+  for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "broker_reviews read approved" on public.broker_reviews;
+create policy "broker_reviews read approved" on public.broker_reviews
+  for select using (is_approved or public.is_admin());
+drop policy if exists "broker_reviews public insert" on public.broker_reviews;
+create policy "broker_reviews public insert" on public.broker_reviews
+  for insert with check (is_approved = false and is_admin_reply = false);
+drop policy if exists "broker_reviews admin write" on public.broker_reviews;
+create policy "broker_reviews admin write" on public.broker_reviews
+  for all using (public.is_admin()) with check (public.is_admin());
+
+do $$ begin
+  alter publication supabase_realtime add table public.broker_reviews;
+exception when duplicate_object then null; end $$;
+
+-- ===========================================================================
 -- DONE. Load supabase/seed.sql next for demo content.
 -- ===========================================================================
