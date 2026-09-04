@@ -11,7 +11,7 @@ import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { BrokerHighlight } from "@/components/marketing/broker-highlight";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
-import { Markets } from "@/components/marketing/markets";
+import { MarketsLazy as Markets } from "@/components/marketing/markets-lazy";
 import { About } from "@/components/marketing/about";
 import { Team } from "@/components/marketing/team";
 import { Testimonials } from "@/components/marketing/testimonials";

@@ -1,13 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Container } from "@/components/ui/container";
-import { ProfitCalculator } from "@/components/marketing/profit-calculator";
-import { BrokerComparison } from "@/components/marketing/broker-comparison";
-import { Backtest } from "@/components/marketing/backtest";
-import { RiskCalculator } from "@/components/marketing/risk-calculator";
 import { cn } from "@/lib/utils";
-import { Calculator, Scale, LineChart, ShieldAlert } from "lucide-react";
+import { Calculator, Scale, LineChart, ShieldAlert, Loader2 } from "lucide-react";
+
+// Code-split the heavy interactive tools: only the active tab's JS is fetched,
+// keeping the homepage/tools initial bundle light.
+const toolLoading = () => (
+  <div className="grid place-items-center py-24">
+    <Loader2 className="h-6 w-6 animate-spin text-brand-400" />
+  </div>
+);
+const ProfitCalculator = dynamic(
+  () => import("@/components/marketing/profit-calculator").then((m) => m.ProfitCalculator),
+  { ssr: false, loading: toolLoading }
+);
+const RiskCalculator = dynamic(
+  () => import("@/components/marketing/risk-calculator").then((m) => m.RiskCalculator),
+  { ssr: false, loading: toolLoading }
+);
+const BrokerComparison = dynamic(
+  () => import("@/components/marketing/broker-comparison").then((m) => m.BrokerComparison),
+  { ssr: false, loading: toolLoading }
+);
+const Backtest = dynamic(
+  () => import("@/components/marketing/backtest").then((m) => m.Backtest),
+  { ssr: false, loading: toolLoading }
+);
 
 const TABS = [
   { key: "calc", label: "حاسبة الأرباح", icon: Calculator },
