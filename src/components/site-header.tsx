@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { MobileNav } from "@/components/mobile-nav";
 
 export function SiteHeader() {
   const t = useTranslations("Nav");
@@ -42,7 +43,14 @@ export function SiteHeader() {
           <Button href="/login" variant="ghost" className="hidden sm:inline-flex">
             {t("login")}
           </Button>
-          <Button href="/login">{t("dashboard")}</Button>
+          <Button href="/login" className="hidden md:inline-flex">
+            {t("dashboard")}
+          </Button>
+          <MobileNav
+            items={nav}
+            loginLabel={t("login")}
+            dashboardLabel={t("dashboard")}
+          />
         </div>
       </Container>
     </header>
