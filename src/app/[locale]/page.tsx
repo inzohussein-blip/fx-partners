@@ -6,10 +6,8 @@ import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
-import { ProfitCalculator } from "@/components/marketing/profit-calculator";
-import { BrokerComparison } from "@/components/marketing/broker-comparison";
+import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { BrokerHighlight } from "@/components/marketing/broker-highlight";
-import { Backtest } from "@/components/marketing/backtest";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Markets } from "@/components/marketing/markets";
@@ -139,11 +137,6 @@ export default async function HomePage({
       {/* Trusted-by animated logo carousel */}
       <LogoCarousel partners={partners} />
 
-      {/* Live market chart (TradingView Lightweight Charts) */}
-      <Reveal>
-        <Markets />
-      </Reveal>
-
       {/* Features */}
       <Reveal>
       <section className="py-20">
@@ -177,24 +170,17 @@ export default async function HomePage({
       </section>
       </Reveal>
 
-      {/* Profit calculator */}
+      {/* Interactive tools (calculator / comparison / backtest) in tabs */}
+      <ToolsTabs />
+
+      {/* Live market chart (TradingView Lightweight Charts) */}
       <Reveal>
-        <ProfitCalculator />
+        <Markets />
       </Reveal>
 
-      {/* Multi-step broker comparison */}
-      <Reveal>
-        <BrokerComparison />
-      </Reveal>
-
-      {/* Top brokers directory teaser */}
+      {/* Top brokers directory carousel */}
       <Reveal>
         <BrokerHighlight />
-      </Reveal>
-
-      {/* Historical backtest simulator */}
-      <Reveal>
-        <Backtest />
       </Reveal>
 
       {/* About */}

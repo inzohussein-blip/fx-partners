@@ -24,13 +24,13 @@ import {
 const links = [
   { href: "/dashboard", label: "النظرة العامة", icon: LayoutDashboard, tour: "overview" },
   { href: "/dashboard/clients", label: "العملاء", icon: Users },
-  { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
-  { href: "/dashboard/signals", label: "التوصيات", icon: TrendingUp },
-  { href: "/dashboard/leaderboard", label: "لوحة المتصدّرين", icon: Trophy, tour: "leaderboard" },
-  { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone, tour: "marketing" },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet, tour: "wallet" },
-  { href: "/dashboard/agreement", label: "اتفاقية الشراكة", icon: FileSignature },
+  { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone, tour: "marketing" },
+  { href: "/dashboard/signals", label: "التوصيات", icon: TrendingUp },
+  { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
+  { href: "/dashboard/leaderboard", label: "لوحة المتصدّرين", icon: Trophy, tour: "leaderboard" },
   { href: "/dashboard/updates", label: "التحديثات", icon: Megaphone },
+  { href: "/dashboard/agreement", label: "اتفاقية الشراكة", icon: FileSignature },
   { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
 ];
 

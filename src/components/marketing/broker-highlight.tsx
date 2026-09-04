@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
+import { Carousel } from "@/components/ui/carousel";
 import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
@@ -18,7 +19,7 @@ async function getTopBrokers(): Promise<Broker[]> {
       .eq("is_published", true)
       .order("rating", { ascending: false })
       .order("reviews_count", { ascending: false })
-      .limit(3);
+      .limit(9);
     return (data as unknown as Broker[]) ?? [];
   } catch {
     return [];
@@ -54,14 +55,16 @@ export async function BrokerHighlight() {
           </Link>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {brokers.map((b) => {
+        <div className="mt-10">
+          <Carousel
+            autoPlayMs={brokers.length > 3 ? 5000 : undefined}
+            items={brokers.map((b) => {
             const partnered = b.status === "partnered";
             return (
               <Link
                 key={b.id}
                 href={`/brokers/${b.slug}`}
-                className="card-surface group block p-6 transition hover:ring-1 hover:ring-brand-500/30"
+                className="card-surface group block h-full p-6 transition hover:ring-1 hover:ring-brand-500/30"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -126,6 +129,7 @@ export async function BrokerHighlight() {
               </Link>
             );
           })}
+          />
         </div>
       </Container>
     </section>
