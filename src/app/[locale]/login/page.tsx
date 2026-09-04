@@ -76,12 +76,39 @@ function LoginForm() {
 
   return (
     <div className="hero-glow flex min-h-screen items-center justify-center py-12">
-      <Container className="max-w-md">
-        <Link href="/" className="mb-8 flex justify-center">
-          <Logo markClassName="h-9 w-9" />
-        </Link>
+      <Container className="grid max-w-4xl items-center gap-12 lg:grid-cols-2">
+        {/* Brand / benefits panel */}
+        <div className="hidden lg:block">
+          <Link href="/">
+            <Logo markClassName="h-9 w-9" />
+          </Link>
+          <h2 className="mt-8 text-3xl font-extrabold leading-tight text-white">
+            انضم لأكبر شبكة شراكة تداول في الوطن العربي
+          </h2>
+          <ul className="mt-8 space-y-4">
+            {[
+              "عمولات حتى 60% وترقية تلقائية للمستوى",
+              "أدوات تسويق احترافية وروابط متتبَّعة",
+              "سحوبات سريعة خلال 24 ساعة",
+              "لوحة تحكم عربية بالكامل ودعم مخصّص",
+            ].map((b) => (
+              <li key={b} className="flex items-start gap-3 text-slate-300">
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-brand-500/20 text-xs text-brand-300">
+                  ✓
+                </span>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <div className="card-surface p-8">
+        {/* Auth form */}
+        <div className="mx-auto w-full max-w-md">
+          <Link href="/" className="mb-6 flex justify-center lg:hidden">
+            <Logo markClassName="h-9 w-9" />
+          </Link>
+
+          <div className="card-surface p-8">
           <h1 className="text-2xl font-bold text-white">
             {mode === "sign-in" ? t("signInTitle") : t("signUpTitle")}
           </h1>
@@ -157,6 +184,7 @@ function LoginForm() {
               {mode === "sign-in" ? t("createOne") : t("signInLink")}
             </button>
           </p>
+          </div>
         </div>
       </Container>
     </div>

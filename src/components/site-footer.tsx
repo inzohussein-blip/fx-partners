@@ -39,6 +39,7 @@ export function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
             <li><Link href="/login" className="hover:text-white">{t("login")}</Link></li>
             <li><Link href="/dashboard" className="hover:text-white">{t("dashboard")}</Link></li>
+            <li><Link href="/sitemap" className="hover:text-white">{t("siteMap")}</Link></li>
           </ul>
         </div>
       </Container>

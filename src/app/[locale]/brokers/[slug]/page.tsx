@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/utils";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
@@ -211,6 +212,14 @@ export default async function BrokerDetailPage({
       {/* Header */}
       <section className="hero-glow">
         <Container className="py-14">
+          <div className="mb-6">
+            <Breadcrumbs
+              items={[
+                { label: "قارن الشركات", href: "/compare" },
+                { label: broker.name },
+              ]}
+            />
+          </div>
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             {broker.logo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
