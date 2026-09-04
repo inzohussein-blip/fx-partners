@@ -8,6 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
 import { ProfitCalculator } from "@/components/marketing/profit-calculator";
 import { BrokerComparison } from "@/components/marketing/broker-comparison";
+import { BrokerHighlight } from "@/components/marketing/broker-highlight";
 import { Backtest } from "@/components/marketing/backtest";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
@@ -184,6 +185,11 @@ export default async function HomePage({
       {/* Multi-step broker comparison */}
       <Reveal>
         <BrokerComparison />
+      </Reveal>
+
+      {/* Top brokers directory teaser */}
+      <Reveal>
+        <BrokerHighlight />
       </Reveal>
 
       {/* Historical backtest simulator */}
