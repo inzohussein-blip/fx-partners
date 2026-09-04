@@ -2,6 +2,10 @@ import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { EarningsChart, type ChartPoint } from "@/components/dashboard/earnings-chart";
 import { LevelBadges } from "@/components/dashboard/level-badges";
+import {
+  PerformancePanel,
+  type StatusCounts,
+} from "@/components/dashboard/performance-panel";
 import { formatCurrency, formatCompact } from "@/lib/utils";
 import { Wallet, TrendingUp, Users, Link2 } from "lucide-react";
 
@@ -15,6 +19,7 @@ type Overview = {
   referrals: number;
   links: number;
   withdrawals: number;
+  statusCounts: StatusCounts;
   recent: { description: string; amount: number; earned_at: string }[];
   series: ChartPoint[];
 };
@@ -63,6 +68,7 @@ async function getOverview(): Promise<Overview> {
     referrals: 0,
     links: 0,
     withdrawals: 0,
+    statusCounts: { lead: 0, registered: 0, funded: 0, active: 0 },
     recent: [],
     series: buildSeries([], []),
   };
@@ -96,7 +102,7 @@ async function getOverview(): Promise<Overview> {
         .maybeSingle(),
       supabase
         .from("referrals")
-        .select("trading_volume,created_at")
+        .select("trading_volume,created_at,status")
         .eq("ib_id", ib.id),
       supabase.from("referral_links").select("id").eq("ib_id", ib.id),
       supabase
@@ -116,6 +122,15 @@ async function getOverview(): Promise<Overview> {
       0
     );
 
+    const statusCounts: StatusCounts = { lead: 0, registered: 0, funded: 0, active: 0 };
+    for (const r of refs ?? []) {
+      const s = (r as { status?: string }).status;
+      if (s === "registered") statusCounts.registered += 1;
+      else if (s === "funded") statusCounts.funded += 1;
+      else if (s === "active") statusCounts.active += 1;
+      else statusCounts.lead += 1;
+    }
+
     return {
       balance: Number(wallet?.balance ?? 0),
       totalEarned: Number(wallet?.total_earned ?? 0),
@@ -124,6 +139,7 @@ async function getOverview(): Promise<Overview> {
       referrals: refs?.length ?? 0,
       links: links?.length ?? 0,
       withdrawals: withdrawalCount ?? 0,
+      statusCounts,
       recent: (earnings ?? []).slice(0, 5),
       series: buildSeries(earnings ?? [], refs ?? []),
     };
@@ -175,6 +191,8 @@ export default async function OverviewPage() {
         totalEarned={o.totalEarned}
         withdrawals={o.withdrawals}
       />
+
+      <PerformancePanel series={o.series} counts={o.statusCounts} />
 
       <EarningsChart data={o.series} />
 
