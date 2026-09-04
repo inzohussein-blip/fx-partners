@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
+import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Markets } from "@/components/marketing/markets";
 import { About } from "@/components/marketing/about";
@@ -85,6 +86,9 @@ export default async function HomePage({
   return (
     <>
       <SiteHeader />
+
+      {/* Live ticker tape */}
+      <MarketTicker />
 
       {/* Hero */}
       <section className="hero-glow relative overflow-hidden">

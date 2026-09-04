@@ -1,4 +1,4 @@
-import { TradingViewWidget } from "@/components/dashboard/tradingview-widget";
+import { TradingViewWidget } from "@/components/tradingview-widget";
 
 const BASE = "https://s3.tradingview.com/external-embedding";
 
