@@ -236,6 +236,22 @@ alter database postgres
   POST إلى نفس الرابط مع ترويسة `x-hook-secret`.
 - `monthly_report` جاهز كدالة `sendPartnerEmail(...)` تُستدعى من دالة مجدولة شهرياً.
 
+## توقيع اتفاقية الشراكة إلكترونياً (Supabase-native)
+
+من `/dashboard/agreement` يوقّع الشريك اتفاقية الشراكة:
+
+1. لوحة توقيع (canvas) يرسم فيها بإصبعه/الماوس.
+2. **Server Action** `signAgreement` يولّد **PDF** عبر `pdf-lib` (يتضمّن نص
+   الاتفاقية، الاسم، كود الوكيل، التاريخ، وصورة التوقيع).
+3. يُرفع الـ PDF إلى **Supabase Storage** (bucket خاص `agreements`، يُنشأ
+   تلقائياً) عبر service role، ويُسجَّل في جدول `agreements` (RLS: كل شريك
+   يقرأ سجلّاته فقط). التنزيل عبر signed URL مؤقّت.
+
+> بديل لـ DocuSign/DocuSeal دون استضافة خادم منفصل. نص الـ PDF بالإنجليزية
+> (معيار الاتفاقيات الدولية) لتفادي مشكلات تشكيل الخطوط العربية داخل PDF.
+> يتطلّب `SUPABASE_SERVICE_ROLE_KEY`، وتطبيق الترحيل
+> `supabase/migrations/0005_agreements.sql`.
+
 ## تنبيهات تليغرام الفورية (Telegram Bot)
 
 يستقبل الوكيل تنبيهاً فورياً على تليغرام عند **تسجيل إحالة جديدة** أو **نزول

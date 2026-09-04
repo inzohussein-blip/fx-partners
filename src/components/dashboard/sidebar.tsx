@@ -15,6 +15,7 @@ import {
   Settings,
   Search,
   CalendarClock,
+  FileSignature,
 } from "lucide-react";
 
 const links = [
@@ -23,6 +24,7 @@ const links = [
   { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
   { href: "/dashboard/marketing", label: "أدوات التسويق", icon: Megaphone },
   { href: "/dashboard/wallet", label: "المحفظة والسحوبات", icon: Wallet },
+  { href: "/dashboard/agreement", label: "اتفاقية الشراكة", icon: FileSignature },
   { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
 ];
 

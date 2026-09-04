@@ -30,6 +30,7 @@ export function CommandPalette({
       { id: "markets", name: "الأسواق والأخبار", keywords: "markets news calendar تقويم أخبار", section: nav, perform: () => router.push("/dashboard/markets") },
       { id: "marketing", name: "أدوات التسويق", keywords: "marketing referral links روابط", section: nav, perform: () => router.push("/dashboard/marketing") },
       { id: "wallet", name: "المحفظة والسحوبات", keywords: "wallet withdraw سحب رصيد", section: nav, perform: () => router.push("/dashboard/wallet") },
+      { id: "agreement", name: "اتفاقية الشراكة", keywords: "agreement contract sign توقيع عقد", section: nav, perform: () => router.push("/dashboard/agreement") },
       { id: "settings", name: "الإعدادات", keywords: "settings profile ملف", section: nav, perform: () => router.push("/dashboard/settings") },
     ];
 
