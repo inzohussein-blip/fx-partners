@@ -5,8 +5,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
  * Professional, RTL-aware carousel: snapping track, prev/next controls, dot
- * indicators, drag-to-scroll, and optional autoplay. Navigation uses
- * scrollIntoView so it works correctly regardless of RTL scroll quirks.
+ * indicators, drag-to-scroll, and optional autoplay. Navigation scrolls the
+ * track HORIZONTALLY only (never the page) via a getBoundingClientRect delta,
+ * which is RTL-safe and — crucially — cannot yank the page vertically.
  */
 export function Carousel({
   items,
@@ -26,11 +27,15 @@ export function Carousel({
   const scrollTo = useCallback((i: number) => {
     const n = items.length;
     const idx = ((i % n) + n) % n;
-    slideRefs.current[idx]?.scrollIntoView({
-      behavior: "smooth",
-      inline: "center",
-      block: "nearest",
-    });
+    const track = trackRef.current;
+    const slide = slideRefs.current[idx];
+    if (!track || !slide) return;
+    // Horizontal-only: shift the track by the slide's offset from centre.
+    const trackRect = track.getBoundingClientRect();
+    const slideRect = slide.getBoundingClientRect();
+    const delta =
+      slideRect.left + slideRect.width / 2 - (trackRect.left + trackRect.width / 2);
+    track.scrollBy({ left: delta, behavior: "smooth" });
   }, [items.length]);
 
   // Track the most-centered slide for the dots + arrow state.
