@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { withdrawalSchema } from "@/lib/validators";
+import { formatCurrency } from "@/lib/utils";
+import { sendPartnerEmail } from "@/lib/email";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -51,6 +53,20 @@ export async function requestWithdrawal(input: unknown): Promise<ActionResult> {
     status: "pending",
   });
   if (error) return { ok: false, error: error.message };
+
+  // Confirmation email (best-effort; never blocks the request).
+  if (user.email) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", user.id)
+      .maybeSingle();
+    await sendPartnerEmail("withdrawal_requested", user.email, {
+      name: profile?.full_name ?? undefined,
+      amount: formatCurrency(amount),
+      method,
+    });
+  }
 
   revalidatePath("/dashboard/wallet");
   return { ok: true };
