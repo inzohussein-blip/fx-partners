@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { sendTelegram } from "@/lib/telegram";
+import { getSiteUrl } from "@/lib/utils";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -172,6 +174,27 @@ export async function submitBrokerReview(input: unknown): Promise<ActionResult> 
     is_admin_reply: false,
   });
   if (error) return { ok: false, error: error.message };
+
+  // Notify the site owner so they can moderate quickly (best-effort).
+  const adminChat = process.env.TELEGRAM_ADMIN_CHAT_ID;
+  if (adminChat) {
+    const { data: broker } = await supabase
+      .from("brokers")
+      .select("name")
+      .eq("id", d.brokerId)
+      .maybeSingle();
+    const excerpt =
+      d.comment.length > 160 ? d.comment.slice(0, 160) + "…" : d.comment;
+    await sendTelegram(
+      adminChat,
+      `📝 <b>مراجعة جديدة بانتظار الموافقة</b>\n` +
+        `الشركة: <b>${broker?.name ?? "—"}</b>\n` +
+        `التقييم: ${"⭐".repeat(d.stars)} (${d.stars}/5)\n` +
+        `الاسم: ${d.userName}\n` +
+        `التعليق: ${excerpt}\n\n` +
+        `راجِعها: ${getSiteUrl()}/dashboard/admin/brokers`
+    );
+  }
 
   revalidatePath(`/brokers/${d.brokerSlug}`);
   return { ok: true };
