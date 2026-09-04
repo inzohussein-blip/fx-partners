@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useQueryState, parseAsString } from "nuqs";
 import { type ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/ui/data-table";
 import { cn, formatCompact } from "@/lib/utils";
@@ -74,7 +75,10 @@ const columns: ColumnDef<ClientRow>[] = [
 ];
 
 export function ClientsTable({ rows }: { rows: ClientRow[] }) {
-  const [status, setStatus] = useState("all");
+  const [status, setStatus] = useQueryState(
+    "status",
+    parseAsString.withDefault("all").withOptions({ history: "replace", clearOnDefault: true })
+  );
 
   const data = useMemo(
     () => (status === "all" ? rows : rows.filter((r) => r.status === status)),

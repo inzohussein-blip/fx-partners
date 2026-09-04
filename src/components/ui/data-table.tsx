@@ -1,9 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useQueryStates,
+  parseAsString,
+  parseAsInteger,
+} from "nuqs";
 import {
   type ColumnDef,
   type SortingState,
+  type OnChangeFn,
+  type PaginationState,
+  type Updater,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -17,14 +24,16 @@ import { cn } from "@/lib/utils";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  /** Enable the global search box with this placeholder. */
   searchPlaceholder?: string;
-  /** Extra controls (e.g. status filters) shown next to the search box. */
   toolbar?: React.ReactNode;
   pageSize?: number;
   emptyText?: string;
 }
 
+/**
+ * Data table whose search / sort / page live in the URL (via nuqs), so the
+ * view is shareable and survives refresh + back/forward. One table per page.
+ */
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -33,20 +42,54 @@ export function DataTable<TData, TValue>({
   pageSize = 10,
   emptyText = "لا توجد نتائج.",
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [{ q, sort, dir, page }, setQuery] = useQueryStates(
+    {
+      q: parseAsString.withDefault(""),
+      sort: parseAsString.withDefault(""),
+      dir: parseAsString.withDefault("desc"),
+      page: parseAsInteger.withDefault(1),
+    },
+    { history: "replace", clearOnDefault: true }
+  );
+
+  const sorting: SortingState = sort ? [{ id: sort, desc: dir !== "asc" }] : [];
+  const pagination: PaginationState = {
+    pageIndex: Math.max(0, page - 1),
+    pageSize,
+  };
+
+  const onSortingChange: OnChangeFn<SortingState> = (updater) => {
+    const next =
+      typeof updater === "function" ? updater(sorting) : updater;
+    if (next.length) {
+      setQuery({ sort: next[0].id, dir: next[0].desc ? "desc" : "asc", page: 1 });
+    } else {
+      setQuery({ sort: null, dir: null, page: 1 });
+    }
+  };
+
+  const onPaginationChange: OnChangeFn<PaginationState> = (updater) => {
+    const next =
+      typeof updater === "function" ? updater(pagination) : updater;
+    setQuery({ page: next.pageIndex + 1 });
+  };
+
+  const setGlobalFilter = (updater: Updater<string>) => {
+    const v = typeof updater === "function" ? updater(q) : updater;
+    setQuery({ q: v || null, page: 1 });
+  };
 
   const table = useReactTable({
     data,
     columns,
-    state: { sorting, globalFilter },
-    onSortingChange: setSorting,
+    state: { sorting, globalFilter: q, pagination },
+    onSortingChange,
+    onPaginationChange,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    initialState: { pagination: { pageSize } },
   });
 
   const total = table.getFilteredRowModel().rows.length;
@@ -59,7 +102,7 @@ export function DataTable<TData, TValue>({
             <div className="relative sm:w-72">
               <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               <input
-                value={globalFilter}
+                value={q}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder={searchPlaceholder}
                 className="w-full rounded-xl border border-white/10 bg-ink-900/60 py-2.5 pr-10 pl-4 text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
@@ -127,7 +170,6 @@ export function DataTable<TData, TValue>({
         )}
       </div>
 
-      {/* Footer: count + pagination */}
       <div className="flex items-center justify-between text-xs text-slate-500">
         <span>{total} نتيجة</span>
         {table.getPageCount() > 1 && (

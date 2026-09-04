@@ -2,6 +2,7 @@
 
 import { usePathname } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
+import { useKBar } from "kbar";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import {
@@ -12,6 +13,7 @@ import {
   ShieldCheck,
   Users,
   Settings,
+  Search,
 } from "lucide-react";
 
 const links = [
@@ -37,12 +39,25 @@ export function DashboardSidebar({
 }) {
   const pathname = usePathname();
   const navLinks = isAdmin ? [...links, adminLink] : links;
+  const { query } = useKBar();
 
   return (
     <aside className="flex w-full flex-col gap-1 border-b border-white/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
       <Link href="/" className="mb-4 px-2">
         <Logo />
       </Link>
+
+      <button
+        type="button"
+        onClick={() => query.toggle()}
+        className="mb-2 hidden items-center justify-between rounded-xl border border-white/10 bg-ink-900/40 px-3 py-2 text-sm text-slate-400 transition hover:text-white md:flex"
+      >
+        <span className="flex items-center gap-2">
+          <Search className="h-4 w-4" />
+          بحث سريع
+        </span>
+        <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-xs">⌘K</kbd>
+      </button>
 
       <nav className="flex flex-row gap-1 md:flex-col">
         {navLinks.map((link) => {

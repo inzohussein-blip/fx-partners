@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Cairo } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import {
   getMessages,
   getTranslations,
@@ -51,7 +52,7 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir} className={cairo.variable}>
       <body>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <NuqsAdapter>{children}</NuqsAdapter>
         </NextIntlClientProvider>
       </body>
     </html>
