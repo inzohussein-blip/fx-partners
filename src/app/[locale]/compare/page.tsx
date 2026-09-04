@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
+import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import type { Broker } from "@/lib/brokers";
 
 export const dynamic = "force-dynamic";
@@ -62,7 +63,14 @@ export default async function ComparePage() {
               <span className="text-brand-300">الشركات</span>.
             </div>
           ) : (
-            <BrokerDirectory brokers={brokers} />
+            <div className="space-y-6">
+              {brokers.length >= 2 && (
+                <HeadToHeadPicker
+                  options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
+                />
+              )}
+              <BrokerDirectory brokers={brokers} />
+            </div>
           )}
         </Container>
       </section>
