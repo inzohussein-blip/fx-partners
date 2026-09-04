@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
+import { Markets } from "@/components/marketing/markets";
 import { About } from "@/components/marketing/about";
 import { Team } from "@/components/marketing/team";
 import { Testimonials } from "@/components/marketing/testimonials";
@@ -128,6 +129,9 @@ export default async function HomePage({
 
       {/* Trusted-by animated logo carousel */}
       <LogoCarousel partners={partners} />
+
+      {/* Live market chart (TradingView Lightweight Charts) */}
+      <Markets />
 
       {/* Features */}
       <section className="py-20">

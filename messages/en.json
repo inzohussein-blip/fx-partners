@@ -65,6 +65,13 @@
   "TrustedBy": {
     "label": "Trusted by partners and brokers worldwide"
   },
+  "Markets": {
+    "badge": "Markets now",
+    "heading": "Live prices from the financial markets",
+    "subheading": "Follow currency and gold movements in real time — illustrative demo data.",
+    "live": "LIVE",
+    "disclaimer": "Prices are illustrative for demonstration only and are not actual trading quotes."
+  },
   "About": {
     "badge": "About us",
     "heading": "Building partnerships that drive growth",
