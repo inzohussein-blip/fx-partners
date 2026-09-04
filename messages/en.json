@@ -72,6 +72,23 @@
     "live": "LIVE",
     "disclaimer": "Live prices may be slightly delayed; demo data is shown when the feed is unavailable. Not actual trading quotes."
   },
+  "Calculator": {
+    "badge": "Profit calculator",
+    "heading": "Estimate your earnings",
+    "subheading": "Drag the slider to set your clients' monthly trading volume and watch your earnings update instantly.",
+    "lotsLabel": "Monthly trading volume (lots)",
+    "tierLabel": "Partnership tier",
+    "tierStandard": "Standard",
+    "tierGold": "Gold",
+    "tierVip": "VIP",
+    "perLot": "per lot",
+    "currencyLabel": "Currency",
+    "monthlyLabel": "Estimated monthly earnings",
+    "yearlyLabel": "Yearly earnings",
+    "lot": "lots",
+    "cta": "Start partnering now",
+    "note": "An estimate based on trading volume and commission rate; actual values may vary. Exchange rates come from a free source and may be delayed."
+  },
   "About": {
     "badge": "About us",
     "heading": "Building partnerships that drive growth",

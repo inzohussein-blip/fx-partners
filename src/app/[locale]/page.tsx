@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
+import { ProfitCalculator } from "@/components/marketing/profit-calculator";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Markets } from "@/components/marketing/markets";
@@ -171,6 +172,11 @@ export default async function HomePage({
           </div>
         </Container>
       </section>
+      </Reveal>
+
+      {/* Profit calculator */}
+      <Reveal>
+        <ProfitCalculator />
       </Reveal>
 
       {/* About */}
