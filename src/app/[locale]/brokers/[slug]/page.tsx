@@ -118,6 +118,30 @@ export default async function BrokerDetailPage({
   ]);
   const links = broker.broker_links ?? [];
   const partnered = broker.status === "partnered";
+  const primaryHref = links[0] ? linkHref(links[0]) : null;
+
+  const highlights = [
+    broker.spread_from != null && {
+      icon: Activity,
+      label: "السبريد من",
+      value: `${broker.spread_from} نقطة`,
+    },
+    broker.leverage_max && {
+      icon: Gauge,
+      label: "الرافعة القصوى",
+      value: broker.leverage_max,
+    },
+    (broker.licenses?.length ?? 0) > 0 && {
+      icon: BadgeCheck,
+      label: "التراخيص",
+      value: `${broker.licenses!.length} جهة رقابية`,
+    },
+    (broker.deposit_bonus || broker.welcome_bonus) && {
+      icon: Gift,
+      label: "البونص",
+      value: broker.deposit_bonus || broker.welcome_bonus || "",
+    },
+  ].filter(Boolean) as { icon: typeof Activity; label: string; value: string }[];
 
   return (
     <>
@@ -164,8 +188,47 @@ export default async function BrokerDetailPage({
                   <BrokerBadges badges={broker.badges} size="md" />
                 </div>
               )}
+
+              {primaryHref && (
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <a
+                    href={primaryHref}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer sponsored"
+                    className="btn-gradient inline-flex items-center gap-2 rounded-xl px-6 py-3 text-base font-semibold text-white shadow-glow transition hover:opacity-90"
+                  >
+                    افتح حساباً الآن
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#reviews"
+                    className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-6 py-3 text-base font-medium text-slate-200 transition hover:bg-white/5"
+                  >
+                    آراء العملاء
+                  </a>
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Why this broker — highlights */}
+          {highlights.length > 0 && (
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {highlights.map((h, i) => (
+                <div key={i} className="card-surface flex items-center gap-3 p-4">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300">
+                    <h.icon className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-xs text-slate-500">{h.label}</div>
+                    <div className="truncate font-semibold text-white" dir="auto">
+                      {h.value}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Bonuses */}
           {(broker.deposit_bonus || broker.welcome_bonus) && (
@@ -289,7 +352,7 @@ export default async function BrokerDetailPage({
       </section>
 
       {/* Reviews */}
-      <section className="pt-6">
+      <section id="reviews" className="scroll-mt-20 pt-6">
         <Container>
           <BrokerReviews
             brokerId={broker.id}

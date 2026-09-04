@@ -89,80 +89,106 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     return list;
   }, [brokers, filter, sort, q, toggles]);
 
+  const activeCount =
+    (filter !== "all" ? 1 : 0) +
+    Object.values(toggles).filter(Boolean).length +
+    (q.trim() ? 1 : 0);
+
   return (
-    <div className="space-y-6">
-      {/* Controls */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap gap-2">
-          {FILTERS.map((f) => (
-            <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
-              className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition",
-                filter === f.key
-                  ? "bg-brand-500/15 text-brand-200 ring-1 ring-brand-500/30"
-                  : "bg-white/5 text-slate-400 hover:text-white"
-              )}
-            >
-              {f.label}
-            </button>
-          ))}
+    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+      {/* Filters sidebar */}
+      <aside className="space-y-5 lg:sticky lg:top-20 lg:self-start">
+        <div className="relative">
+          <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="ابحث عن شركة…"
+            className="w-full rounded-xl border border-white/10 bg-ink-900/60 py-2.5 pe-4 ps-9 text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+          />
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="ابحث عن شركة…"
-              className="w-44 rounded-xl border border-white/10 bg-ink-900/60 py-2 pe-4 ps-9 text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
-            />
+        <div className="card-surface p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-slate-400">الحالة</span>
+            {activeCount > 0 && (
+              <button
+                onClick={() => {
+                  setFilter("all");
+                  setToggles({});
+                  setQ("");
+                }}
+                className="text-[11px] text-brand-300 hover:text-brand-200"
+              >
+                مسح الفلاتر
+              </button>
+            )}
           </div>
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as Sort)}
-            className="rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2 text-sm text-white focus:border-brand-500/50 focus:outline-none"
-          >
-            {SORTS.map((s) => (
-              <option key={s.key} value={s.key}>
-                {s.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* Advanced toggle filters */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs text-slate-500">فلترة دقيقة:</span>
-        {TOGGLES.map((tg) => {
-          const on = !!toggles[tg.key];
-          return (
-            <button
-              key={tg.key}
-              onClick={() => setToggles((s) => ({ ...s, [tg.key]: !s[tg.key] }))}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition",
-                on
-                  ? "bg-brand-500/15 text-brand-200 ring-brand-500/30"
-                  : "bg-white/5 text-slate-400 ring-white/10 hover:text-white"
-              )}
-            >
-              <span
+          <div className="mt-3 space-y-1">
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setFilter(f.key)}
                 className={cn(
-                  "grid h-3.5 w-3.5 place-items-center rounded-sm border text-[9px]",
-                  on ? "border-brand-400 bg-brand-500 text-white" : "border-white/20"
+                  "block w-full rounded-lg px-3 py-2 text-right text-sm transition",
+                  filter === f.key
+                    ? "bg-brand-500/15 text-brand-200"
+                    : "text-slate-400 hover:bg-white/5 hover:text-white"
                 )}
               >
-                {on ? "✓" : ""}
-              </span>
-              {tg.label}
-            </button>
-          );
-        })}
-      </div>
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-4 border-t border-white/5 pt-4">
+            <span className="text-xs font-semibold text-slate-400">فلترة دقيقة</span>
+            <div className="mt-3 space-y-2">
+              {TOGGLES.map((tg) => {
+                const on = !!toggles[tg.key];
+                return (
+                  <label
+                    key={tg.key}
+                    className="flex cursor-pointer items-center gap-2.5 text-sm text-slate-300"
+                  >
+                    <span
+                      onClick={() => setToggles((s) => ({ ...s, [tg.key]: !s[tg.key] }))}
+                      className={cn(
+                        "grid h-4 w-4 place-items-center rounded border text-[10px] transition",
+                        on ? "border-brand-400 bg-brand-500 text-white" : "border-white/20"
+                      )}
+                    >
+                      {on ? "✓" : ""}
+                    </span>
+                    {tg.label}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-4 border-t border-white/5 pt-4">
+            <span className="text-xs font-semibold text-slate-400">الترتيب</span>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as Sort)}
+              className="mt-2 w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2 text-sm text-white focus:border-brand-500/50 focus:outline-none"
+            >
+              {SORTS.map((s) => (
+                <option key={s.key} value={s.key}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </aside>
+
+      {/* Results */}
+      <div className="min-w-0 space-y-6">
+        <p className="text-sm text-slate-500">
+          <span className="font-semibold text-white">{rows.length}</span> شركة
+        </p>
 
       {/* Comparison table (desktop) */}
       <div className="card-surface hidden overflow-hidden lg:block">
@@ -300,6 +326,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
           لا توجد شركات مطابقة لبحثك.
         </div>
       )}
+      </div>
     </div>
   );
 }
