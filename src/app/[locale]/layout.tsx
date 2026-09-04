@@ -30,10 +30,25 @@ export async function generateMetadata({
   params: { locale: string };
 }): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const ogImage = `${getSiteUrl()}/api/banner?size=wide`;
   return {
     title: { default: t("title"), template: "%s | FX Partners" },
     description: t("description"),
     metadataBase: new URL(getSiteUrl()),
+    openGraph: {
+      type: "website",
+      siteName: "FX Partners",
+      locale: locale === "ar" ? "ar_AR" : "en_US",
+      title: t("title"),
+      description: t("description"),
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: [ogImage],
+    },
   };
 }
 

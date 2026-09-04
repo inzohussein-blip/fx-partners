@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
+import { getSiteUrl } from "@/lib/utils";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
@@ -95,11 +96,35 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const broker = await getBroker(slug);
   if (!broker) return { title: "شركة غير موجودة | FX Partners" };
+
+  const title = `${broker.name} — مراجعة وتقييم | FX Partners`;
+  const description =
+    broker.description?.slice(0, 155) ??
+    `مراجعة شركة ${broker.name}: التقييمات، البونصات، وروابط الإحالة.`;
+
+  const ogUrl =
+    `${getSiteUrl()}/api/og/broker?name=${encodeURIComponent(broker.name)}` +
+    `&rating=${broker.rating.toFixed(1)}&reviews=${broker.reviews_count}` +
+    `&bonus=${encodeURIComponent(broker.deposit_bonus || broker.welcome_bonus || "")}` +
+    `&partnered=${broker.status === "partnered" ? "1" : "0"}`;
+
   return {
-    title: `${broker.name} — مراجعة وتقييم | FX Partners`,
-    description:
-      broker.description?.slice(0, 155) ??
-      `مراجعة شركة ${broker.name}: التقييمات، البونصات، وروابط الإحالة.`,
+    title,
+    description,
+    alternates: { canonical: `${getSiteUrl()}/brokers/${broker.slug}` },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `${getSiteUrl()}/brokers/${broker.slug}`,
+      images: [{ url: ogUrl, width: 1200, height: 630, alt: broker.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogUrl],
+    },
   };
 }
 
@@ -143,8 +168,44 @@ export default async function BrokerDetailPage({
     },
   ].filter(Boolean) as { icon: typeof Activity; label: string; value: string }[];
 
+  // Structured data (schema.org) so Google can show the star rating.
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: broker.name,
+    description:
+      broker.description ?? `مراجعة وتقييم شركة ${broker.name} على FX Partners.`,
+    brand: { "@type": "Brand", name: broker.name },
+    url: `${getSiteUrl()}/brokers/${broker.slug}`,
+  };
+  if (broker.reviews_count > 0) {
+    jsonLd.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: broker.rating.toFixed(1),
+      reviewCount: broker.reviews_count,
+      bestRating: 5,
+      worstRating: 1,
+    };
+    jsonLd.review = reviews.slice(0, 5).map((r) => ({
+      "@type": "Review",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: r.stars,
+        bestRating: 5,
+        worstRating: 1,
+      },
+      author: { "@type": "Person", name: r.user_name || "عميل" },
+      reviewBody: r.comment,
+      datePublished: r.created_at,
+    }));
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader />
 
       {/* Header */}
