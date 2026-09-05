@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { savePost, deletePost, type PostInput } from "@/lib/actions/admin";
+import { RichEditor } from "@/components/dashboard/rich-editor";
 import { Trash2 } from "lucide-react";
 
 const statuses: { value: PostInput["status"]; label: string }[] = [
@@ -65,16 +66,10 @@ export function PostEditor({ post }: { post?: PostInput }) {
           mono
         />
 
-        <label className="block">
-          <span className="mb-1.5 block text-sm text-slate-300">المحتوى (Markdown)</span>
-          <textarea
-            value={form.body ?? ""}
-            onChange={(e) => set("body", e.target.value)}
-            rows={14}
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 font-mono text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
-            placeholder="# عنوان&#10;&#10;اكتب محتوى منشورك هنا…"
-          />
-        </label>
+        <div className="block">
+          <span className="mb-1.5 block text-sm text-slate-300">المحتوى</span>
+          <RichEditor value={form.body ?? ""} onChange={(html) => set("body", html)} />
+        </div>
 
         <label className="block">
           <span className="mb-1.5 block text-sm text-slate-300">الحالة</span>

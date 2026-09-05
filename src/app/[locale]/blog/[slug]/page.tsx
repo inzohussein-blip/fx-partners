@@ -111,9 +111,11 @@ export default async function PostPage({
             </time>
           )}
 
-          <div className="prose prose-invert mt-8 max-w-none whitespace-pre-wrap text-slate-300">
-            {post.body}
-          </div>
+          {/* Admin-authored rich HTML (TipTap). Writes are RLS-restricted to admins. */}
+          <div
+            className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white"
+            dangerouslySetInnerHTML={{ __html: post.body ?? "" }}
+          />
 
           <div className="mt-12 border-t border-white/5 pt-6">
             <Link
