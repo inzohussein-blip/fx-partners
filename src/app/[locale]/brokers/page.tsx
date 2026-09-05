@@ -5,7 +5,8 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { Booking, type Slot } from "@/components/marketing/booking";
-import { Building2, Cpu, Droplets, Handshake } from "lucide-react";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Building2, Cpu, Droplets, Handshake, Network } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "تعاون الشركات (Brokers / B2B)",
@@ -74,7 +75,11 @@ export default async function BrokersPage() {
 
       <section className="hero-glow">
         <Container className="py-20 text-center">
-          <h1 className="text-4xl font-extrabold text-white sm:text-5xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+            <Handshake className="h-3.5 w-3.5" aria-hidden />
+            شراكات B2B
+          </span>
+          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
             حلول التعاون للشركات (B2B)
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
@@ -105,7 +110,12 @@ export default async function BrokersPage() {
 
       <section className="pb-20">
         <Container>
-          <h2 className="text-center text-3xl font-bold text-white">شركاؤنا</h2>
+          <SectionHeading
+            eyebrow="شبكتنا"
+            icon={Network}
+            title="شركاؤنا"
+            subtitle="شركات تداول ومزوّدو سيولة وتقنية نثق بهم ونعمل معهم."
+          />
           {partners.length === 0 ? (
             <p className="mt-8 text-center text-sm text-slate-500">
               لا توجد شركات مضافة بعد. أضِفها من جدول <code>partners</code> في Supabase.

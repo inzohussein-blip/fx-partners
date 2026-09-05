@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { getContent } from "@/lib/content";
 import {
   Check,
@@ -14,6 +15,10 @@ import {
   Headphones,
   Layers,
   ArrowLeft,
+  Rocket,
+  Award,
+  Sparkles,
+  Handshake,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -69,7 +74,11 @@ export default async function AffiliatesPage() {
 
       <section className="hero-glow">
         <Container className="py-20 text-center">
-          <h1 className="text-4xl font-extrabold text-white sm:text-5xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+            <Handshake className="h-3.5 w-3.5" aria-hidden />
+            برنامج الشراكة
+          </span>
+          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
             برنامج الوكلاء (IB / Affiliate)
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
@@ -95,12 +104,14 @@ export default async function AffiliatesPage() {
       {/* How it works */}
       <section className="py-16">
         <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">كيف تبدأ؟</h2>
-            <p className="mt-4 text-slate-400">ثلاث خطوات تفصلك عن أول عمولة.</p>
-          </div>
+          <SectionHeading
+            eyebrow="كيف تبدأ"
+            icon={Rocket}
+            title="ثلاث خطوات تفصلك عن أول عمولة"
+            subtitle="من التسجيل إلى استلام أرباحك — رحلة بسيطة وسريعة."
+          />
 
-          <div className="relative mt-14 grid gap-6 md:grid-cols-3">
+          <div className="relative mt-12 grid gap-6 md:grid-cols-3">
             {[
               { icon: UserPlus, title: "سجّل مجاناً", desc: "أنشئ حساب شريك في دقيقة واحصل على اعتماد سريع." },
               { icon: Link2, title: "انسخ رابطك", desc: "شارك روابط الإحالة والبانرات الجاهزة مع جمهورك." },
@@ -125,7 +136,12 @@ export default async function AffiliatesPage() {
 
       <section className="py-16">
         <Container>
-          <h2 className="text-center text-3xl font-bold text-white">مستويات الشراكة</h2>
+          <SectionHeading
+            eyebrow="الباقات"
+            icon={Award}
+            title="مستويات الشراكة"
+            subtitle="اختر المستوى الذي يناسب حجم شبكتك وطموحك."
+          />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {tiers.map((t) => (
               <div
@@ -173,11 +189,12 @@ export default async function AffiliatesPage() {
       {/* Why partners choose us */}
       <section className="py-16">
         <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold text-white sm:text-4xl">
-              لماذا يختارنا الوكلاء؟
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="مزايانا"
+            icon={Sparkles}
+            title="لماذا يختارنا الوكلاء؟"
+            subtitle="كل ما تحتاجه لتنمية دخلك من الإحالات في مكان واحد."
+          />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { icon: TrendingUp, title: "نسب أعلى", desc: "حتى 60% من الأرباح وترقية تلقائية للمستوى." },
