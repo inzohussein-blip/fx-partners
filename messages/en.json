@@ -11,7 +11,8 @@
     "login": "Sign in",
     "dashboard": "Partner Portal",
     "calendar": "Calendar",
-    "resources": "Free tools"
+    "resources": "Free tools",
+    "forum": "Forum"
   },
   "Common": {
     "getStarted": "Get started",

@@ -15,6 +15,7 @@ const STATIC_PATHS = [
   "/free-tools",
   "/offers",
   "/brokers",
+  "/forum",
   "/blog",
 ];
 
@@ -53,10 +54,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
       const supabase = createClient();
-      const [{ data: brokers }, { data: posts }] = await Promise.all([
-        supabase.from("brokers").select("slug,updated_at").eq("is_published", true),
-        supabase.from("posts").select("slug,published_at").eq("status", "published"),
-      ]);
+      const [{ data: brokers }, { data: posts }, { data: channels }, { data: forumPosts }] =
+        await Promise.all([
+          supabase.from("brokers").select("slug,updated_at").eq("is_published", true),
+          supabase.from("posts").select("slug,published_at").eq("status", "published"),
+          supabase.from("forum_channels").select("slug,updated_at").eq("status", "active"),
+          supabase
+            .from("forum_posts")
+            .select("slug,updated_at,forum_channels!inner(slug,status)")
+            .eq("status", "published")
+            .eq("forum_channels.status", "active"),
+        ]);
 
       for (const b of (brokers as { slug: string; updated_at: string | null }[]) ?? []) {
         push(
@@ -73,6 +81,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           p.published_at ? new Date(p.published_at) : now,
           "monthly",
           0.6
+        );
+      }
+
+      for (const c of (channels as { slug: string; updated_at: string | null }[]) ?? []) {
+        push(`/forum/${c.slug}`, c.updated_at ? new Date(c.updated_at) : now, "daily", 0.6);
+      }
+
+      for (const p of (forumPosts as
+        | { slug: string; updated_at: string | null; forum_channels: { slug: string } }[]
+        | null) ?? []) {
+        const channelSlug = p.forum_channels?.slug;
+        if (!channelSlug) continue;
+        push(
+          `/forum/${channelSlug}/${p.slug}`,
+          p.updated_at ? new Date(p.updated_at) : now,
+          "weekly",
+          0.5
         );
       }
     }

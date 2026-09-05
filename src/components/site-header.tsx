@@ -19,6 +19,7 @@ export function SiteHeader() {
     { href: "/free-tools", label: t("resources") },
     { href: "/offers", label: t("offers") },
     { href: "/brokers", label: t("brokers") },
+    { href: "/forum", label: t("forum") },
     { href: "/blog", label: t("blog") },
   ];
 

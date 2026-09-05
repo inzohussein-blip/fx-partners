@@ -16,6 +16,7 @@ import {
   Download,
   Share2,
   Images,
+  MessagesSquare,
 } from "lucide-react";
 
 type Tab = { href: string; label: string; icon: typeof UserCheck; exact?: boolean };
@@ -52,6 +53,12 @@ const groups: { label: string; tabs: Tab[] }[] = [
       { href: "/dashboard/admin/media", label: "الوسائط", icon: Images },
       { href: "/dashboard/admin/announcements", label: "الإعلانات", icon: Megaphone },
       { href: "/dashboard/admin/events", label: "التقويم", icon: CalendarDays },
+    ],
+  },
+  {
+    label: "المجتمع",
+    tabs: [
+      { href: "/dashboard/admin/forum", label: "المنتدى", icon: MessagesSquare },
     ],
   },
 ];

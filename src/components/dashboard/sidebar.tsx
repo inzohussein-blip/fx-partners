@@ -19,6 +19,7 @@ import {
   FileSignature,
   Trophy,
   TrendingUp,
+  MessagesSquare,
 } from "lucide-react";
 
 type NavLink = {
@@ -51,6 +52,7 @@ const groups: NavGroup[] = [
     label: "السوق والأخبار",
     items: [
       { href: "/dashboard/markets", label: "الأسواق والأخبار", icon: CalendarClock },
+      { href: "/dashboard/forum", label: "قناتي في المنتدى", icon: MessagesSquare },
       { href: "/dashboard/updates", label: "التحديثات", icon: Megaphone },
     ],
   },
