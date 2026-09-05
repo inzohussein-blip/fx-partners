@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
+import { getContent } from "@/lib/content";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import { SpecsGrid } from "@/components/brokers/specs-grid";
@@ -38,6 +39,11 @@ async function getBrokers(): Promise<Broker[]> {
 
 export default async function ComparePage() {
   const brokers = await getBrokers();
+  const copy = await getContent("page.compare", {
+    title: "قارن شركات التداول واختر الأفضل",
+    subtitle:
+      "تقييمات حقيقية، بونصات محدّثة، وعمولات وكلاء شفّافة — كل ما تحتاجه لاختيار شركتك في مكان واحد.",
+  });
 
   return (
     <>
@@ -50,11 +56,10 @@ export default async function ComparePage() {
             دليل الشركات
           </span>
           <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
-            قارن شركات التداول واختر الأفضل
+            {copy.title}
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
-            تقييمات حقيقية، بونصات محدّثة، وعمولات وكلاء شفّافة — كل ما تحتاجه
-            لاختيار شركتك في مكان واحد.
+            {copy.subtitle}
           </p>
         </Container>
       </section>

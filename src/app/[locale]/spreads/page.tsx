@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SpreadsHeatmap } from "@/components/brokers/spreads-heatmap";
 import { getBrokerSpreads } from "@/lib/spreads";
+import { getContent } from "@/lib/content";
 import { Gauge } from "lucide-react";
 
 export const revalidate = 300; // ISR: cache 5 min
@@ -18,6 +19,11 @@ export const metadata: Metadata = {
 
 export default async function SpreadsPage() {
   const rows = await getBrokerSpreads();
+  const copy = await getContent("page.spreads", {
+    title: "مقارنة السبريد بين الشركات",
+    subtitle:
+      "قارن السبريد لكل أداة عبر شركات التداول — الألوان نسبية لكل أداة، والأخضر هو الأرخص.",
+  });
 
   return (
     <>
@@ -29,8 +35,8 @@ export default async function SpreadsPage() {
             <SectionHeading
               eyebrow="السبريد"
               icon={Gauge}
-              title="مقارنة السبريد بين الشركات"
-              subtitle="قارن السبريد لكل أداة عبر شركات التداول — الألوان نسبية لكل أداة، والأخضر هو الأرخص."
+              title={copy.title}
+              subtitle={copy.subtitle}
               align="start"
             />
           </div>

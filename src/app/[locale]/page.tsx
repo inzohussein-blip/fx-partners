@@ -80,6 +80,14 @@ export default async function HomePage({
   const stats =
     locale === "ar" ? await getContent("home.stats", statsFallback) : statsFallback;
 
+  const ctaFallback = {
+    heading: t("Cta.heading"),
+    subheading: t("Cta.subheading"),
+    button: t("Cta.button"),
+  };
+  const cta =
+    locale === "ar" ? await getContent("home.cta", ctaFallback) : ctaFallback;
+
   const partners = await getPartners();
 
   const features = [
@@ -301,14 +309,14 @@ export default async function HomePage({
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative">
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                {t("Cta.heading")}
+                {cta.heading}
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-slate-300">
-                {t("Cta.subheading")}
+                {cta.subheading}
               </p>
               <div className="mt-8 flex justify-center">
                 <Button href="/login" className="text-base">
-                  {t("Cta.button")}
+                  {cta.button}
                   <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
                 </Button>
               </div>

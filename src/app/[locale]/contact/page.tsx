@@ -5,22 +5,26 @@ import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ContactForm } from "@/components/marketing/contact-form";
 import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
+import { getContent } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "اتصل بنا",
   description: "تواصل مع فريق FX Partners — الدعم، الشراكات، والاستفسارات على مدار الساعة.",
 };
 
-const EMAIL = "partners@fxpartners.com";
-const PHONE = "+971 4 000 0000";
+export default async function ContactPage() {
+  const info = await getContent("site.contact", {
+    email: "partners@fxpartners.com",
+    phone: "+971 4 000 0000",
+    hours: "24/7 دعم متواصل",
+  });
 
-const channels = [
-  { icon: Mail, label: "البريد الإلكتروني", value: EMAIL, href: `mailto:${EMAIL}` },
-  { icon: Phone, label: "الهاتف", value: PHONE, href: `tel:${PHONE.replace(/\s/g, "")}` },
-  { icon: Clock, label: "ساعات العمل", value: "24/7 دعم متواصل" },
-];
+  const channels = [
+    { icon: Mail, label: "البريد الإلكتروني", value: info.email, href: `mailto:${info.email}` },
+    { icon: Phone, label: "الهاتف", value: info.phone, href: `tel:${info.phone.replace(/\s/g, "")}` },
+    { icon: Clock, label: "ساعات العمل", value: info.hours },
+  ];
 
-export default function ContactPage() {
   return (
     <>
       <SiteHeader />

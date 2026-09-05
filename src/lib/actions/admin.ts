@@ -98,10 +98,19 @@ function slugify(input: string): string {
 }
 
 function revalidatePublic() {
-  revalidatePath("/");
-  revalidatePath("/affiliates");
-  revalidatePath("/brokers");
-  revalidatePath("/blog");
+  for (const p of [
+    "/",
+    "/affiliates",
+    "/brokers",
+    "/blog",
+    "/compare",
+    "/spreads",
+    "/contact",
+  ]) {
+    revalidatePath(p);
+  }
+  // The footer (site.footer) renders on every marketing page.
+  revalidatePath("/", "layout");
 }
 
 // ---- POSTS ----------------------------------------------------------------
