@@ -36,6 +36,7 @@ import {
   Headphones,
 } from "lucide-react";
 import { MarketStrip } from "@/components/marketing/market-strip";
+import { AnimatedStat } from "@/components/marketing/animated-counter";
 
 async function getPartners() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
@@ -201,9 +202,10 @@ export default async function HomePage({
                 <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                   <s.icon className="h-5 w-5" />
                 </span>
-                <div dir="ltr" className="mt-4 text-3xl font-extrabold text-gradient">
-                  {s.value}
-                </div>
+                <AnimatedStat
+                  value={s.value}
+                  className="mt-4 block text-3xl font-extrabold text-gradient"
+                />
                 <div className="mt-1 text-xs text-slate-400">{s.label}</div>
               </div>
             ))}

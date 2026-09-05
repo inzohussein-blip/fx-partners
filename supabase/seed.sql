@@ -114,3 +114,23 @@ insert into public.broker_posts (broker_id, parent_id, author_name, body, is_sta
 select t.broker_id, t.id, 'إدارة FX Partners',
        'عادةً خلال 24 ساعة عمل، وأحياناً أسرع عبر المحافظ الإلكترونية.', true
 from t;
+
+-- Demo per-instrument spreads for the /spreads heatmap ------------------------
+insert into public.broker_spreads (broker_id, instrument, category, spread)
+select b.id, s.instrument, s.category, s.spread
+from public.brokers b
+join (values
+  -- forex
+  ('alpha-markets','EURUSD','forex',0.2), ('titan-fx','EURUSD','forex',0.0), ('nova-trade','EURUSD','forex',0.9),
+  ('alpha-markets','GBPUSD','forex',0.4), ('titan-fx','GBPUSD','forex',0.2), ('nova-trade','GBPUSD','forex',1.2),
+  ('alpha-markets','USDJPY','forex',0.3), ('titan-fx','USDJPY','forex',0.1), ('nova-trade','USDJPY','forex',1.0),
+  -- metals
+  ('alpha-markets','XAUUSD','metals',12), ('titan-fx','XAUUSD','metals',9), ('nova-trade','XAUUSD','metals',22),
+  ('alpha-markets','XAGUSD','metals',2.1), ('titan-fx','XAGUSD','metals',1.6), ('nova-trade','XAGUSD','metals',3.4),
+  -- indices
+  ('alpha-markets','US30','indices',1.8), ('titan-fx','US30','indices',1.2), ('nova-trade','US30','indices',3.0),
+  ('alpha-markets','NAS100','indices',1.0), ('titan-fx','NAS100','indices',0.8), ('nova-trade','NAS100','indices',2.2),
+  -- crypto
+  ('alpha-markets','BTCUSD','crypto',35), ('titan-fx','BTCUSD','crypto',28), ('nova-trade','BTCUSD','crypto',60)
+) as s(slug, instrument, category, spread) on s.slug = b.slug
+on conflict (broker_id, instrument) do nothing;

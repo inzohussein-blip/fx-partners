@@ -8,6 +8,10 @@ import {
 } from "@/components/dashboard/performance-panel";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { EmptyState } from "@/components/dashboard/empty-state";
+import {
+  ProfileProgress,
+  type OnboardingStep,
+} from "@/components/dashboard/profile-progress";
 import { Link } from "@/i18n/navigation";
 import { formatCurrency, formatCompact } from "@/lib/utils";
 import { Wallet, TrendingUp, Users, Link2, LayoutDashboard, Sparkles } from "lucide-react";
@@ -151,8 +155,74 @@ async function getOverview(): Promise<Overview> {
   }
 }
 
+async function getOnboardingSteps(): Promise<OnboardingStep[] | null> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data: ib } = await supabase
+      .from("ib_accounts")
+      .select("id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    if (!ib) return null;
+
+    const [{ data: profile }, { data: links }, { data: refs }, { data: agreement }] =
+      await Promise.all([
+        supabase
+          .from("profiles")
+          .select("full_name,telegram_chat_id")
+          .eq("id", user.id)
+          .maybeSingle(),
+        supabase.from("referral_links").select("id").eq("ib_id", ib.id).limit(1),
+        supabase.from("referrals").select("id").eq("ib_id", ib.id).limit(1),
+        supabase.from("agreements").select("id").eq("user_id", user.id).limit(1),
+      ]);
+
+    return [
+      {
+        id: "name",
+        label: "أكمل اسمك في الإعدادات",
+        completed: !!(profile?.full_name && profile.full_name.length > 2),
+        href: "/dashboard/settings",
+      },
+      {
+        id: "agreement",
+        label: "وقّع اتفاقية الشراكة",
+        completed: (agreement?.length ?? 0) > 0,
+        href: "/dashboard/agreement",
+      },
+      {
+        id: "link",
+        label: "أنشئ أول رابط إحالة",
+        completed: (links?.length ?? 0) > 0,
+        href: "/dashboard/marketing",
+      },
+      {
+        id: "telegram",
+        label: "اربط تلغرام للتنبيهات",
+        completed: !!profile?.telegram_chat_id,
+        href: "/dashboard/settings",
+      },
+      {
+        id: "referral",
+        label: "احصل على أول عميل مُحال",
+        completed: (refs?.length ?? 0) > 0,
+        href: "/dashboard/marketing",
+      },
+    ];
+  } catch {
+    return null;
+  }
+}
+
 export default async function OverviewPage() {
-  const o = await getOverview();
+  const [o, steps] = await Promise.all([getOverview(), getOnboardingSteps()]);
+  const showOnboarding = steps && steps.some((s) => !s.completed);
 
   return (
     <div className="space-y-8">
@@ -161,6 +231,8 @@ export default async function OverviewPage() {
         title="النظرة العامة"
         subtitle="ملخّص حيّ لأرباحك وحجم التداول والإحالات."
       />
+
+      {showOnboarding && <ProfileProgress steps={steps} />}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

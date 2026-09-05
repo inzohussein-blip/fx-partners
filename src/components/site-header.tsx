@@ -13,6 +13,7 @@ export function SiteHeader() {
     { href: "/", label: t("home") },
     { href: "/affiliates", label: t("affiliates") },
     { href: "/compare", label: t("compare") },
+    { href: "/spreads", label: t("spreads") },
     { href: "/tools", label: t("tools") },
     { href: "/offers", label: t("offers") },
     { href: "/brokers", label: t("brokers") },

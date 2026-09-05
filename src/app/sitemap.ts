@@ -9,6 +9,7 @@ const STATIC_PATHS = [
   "",
   "/affiliates",
   "/compare",
+  "/spreads",
   "/tools",
   "/offers",
   "/brokers",
