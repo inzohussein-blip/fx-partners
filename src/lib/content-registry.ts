@@ -61,6 +61,47 @@ export const CONTENT_REGISTRY: ContentBlock[] = [
       { name: "button", label: "نص الزر" },
     ],
   },
+  {
+    key: "home.features",
+    group: "الصفحة الرئيسية",
+    title: "قسم المزايا — العنوان",
+    description: "عنوان ووصف قسم «كل ما تحتاجه لتنمية أرباحك».",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "home.steps",
+    group: "الصفحة الرئيسية",
+    title: "قسم الخطوات — العنوان",
+    description: "عنوان ووصف قسم «ابدأ الشراكة في ٣ خطوات».",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "home.faq",
+    group: "الصفحة الرئيسية",
+    title: "قسم الأسئلة الشائعة — العنوان",
+    description: "عنوان ووصف قسم الأسئلة الشائعة.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "home.about",
+    group: "الصفحة الرئيسية",
+    title: "قسم «من نحن»",
+    description: "الشارة والعنوان والنص التعريفي لقسم من نحن.",
+    fields: [
+      { name: "badge", label: "الشارة" },
+      { name: "heading", label: "العنوان" },
+      { name: "body", label: "النص", multiline: true },
+    ],
+  },
 
   // ---- Footer & contact -------------------------------------------------
   {

@@ -1,7 +1,8 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
+import { getContent } from "@/lib/content";
 import { UserPlus, Link2, Wallet, Rocket } from "lucide-react";
 
 const STEPS = [
@@ -11,8 +12,12 @@ const STEPS = [
 ] as const;
 
 /** Broker-style "start in 3 steps" band — a core conversion section. */
-export function Steps() {
-  const t = useTranslations("Steps");
+export async function Steps() {
+  const t = await getTranslations("Steps");
+  const copy = await getContent("home.steps", {
+    title: t("heading"),
+    subtitle: t("subheading"),
+  });
 
   return (
     <section className="border-y border-white/5 bg-ink-900/40 py-16 sm:py-20">
@@ -20,8 +25,8 @@ export function Steps() {
         <SectionHeading
           eyebrow={t("badge")}
           icon={Rocket}
-          title={t("heading")}
-          subtitle={t("subheading")}
+          title={copy.title}
+          subtitle={copy.subtitle}
         />
 
         <div className="relative mt-14 grid gap-6 md:grid-cols-3">

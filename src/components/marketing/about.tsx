@@ -1,26 +1,32 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/container";
+import { getContent } from "@/lib/content";
 import { Eye, Clock, ShieldCheck } from "lucide-react";
 
-export function About() {
-  const t = useTranslations("About");
+export async function About() {
+  const t = await getTranslations("About");
   const points = [
     { icon: Eye, title: t("point1Title"), desc: t("point1Desc") },
     { icon: Clock, title: t("point2Title"), desc: t("point2Desc") },
     { icon: ShieldCheck, title: t("point3Title"), desc: t("point3Desc") },
   ];
+  const copy = await getContent("home.about", {
+    badge: t("badge"),
+    heading: t("heading"),
+    body: t("body"),
+  });
 
   return (
     <section id="about" className="py-16 sm:py-20">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-            {t("badge")}
+            {copy.badge}
           </span>
           <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
-            {t("heading")}
+            {copy.heading}
           </h2>
-          <p className="mt-4 leading-relaxed text-slate-400">{t("body")}</p>
+          <p className="mt-4 leading-relaxed text-slate-400">{copy.body}</p>
 
           <div className="mt-8 space-y-4">
             {points.map((p) => (

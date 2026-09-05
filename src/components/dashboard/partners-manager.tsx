@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { savePartner, deletePartner, type PartnerInput } from "@/lib/actions/admin";
+import { MediaUploadButton } from "@/components/dashboard/media-upload-button";
 import { Plus, Trash2 } from "lucide-react";
 
 type Partner = PartnerInput & { id: string };
@@ -119,7 +120,16 @@ function PartnerCard({
             ))}
           </select>
         </label>
-        <Field label="رابط الشعار" value={form.logo_url ?? ""} onChange={(v) => set("logo_url", v)} mono />
+        <div>
+          <Field label="رابط الشعار" value={form.logo_url ?? ""} onChange={(v) => set("logo_url", v)} mono />
+          <div className="mt-2 flex items-center gap-3">
+            <MediaUploadButton onUploaded={(url) => set("logo_url", url)} label="رفع شعار" />
+            {form.logo_url && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={form.logo_url} alt="" className="h-9 w-9 rounded-lg border border-white/10 bg-white object-contain p-0.5" />
+            )}
+          </div>
+        </div>
         <Field label="الموقع" value={form.website ?? ""} onChange={(v) => set("website", v)} mono />
         <label className="block sm:col-span-2">
           <span className="mb-1.5 block text-sm text-slate-300">الوصف</span>

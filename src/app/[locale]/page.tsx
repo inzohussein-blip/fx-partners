@@ -89,6 +89,13 @@ export default async function HomePage({
   const cta =
     locale === "ar" ? await getContent("home.cta", ctaFallback) : ctaFallback;
 
+  const featuresFallback = {
+    title: t("Features.heading"),
+    subtitle: t("Features.subheading"),
+  };
+  const featuresCopy =
+    locale === "ar" ? await getContent("home.features", featuresFallback) : featuresFallback;
+
   const partners = await getPartners();
 
   const features = [
@@ -237,8 +244,8 @@ export default async function HomePage({
           <SectionHeading
             eyebrow={t("Features.badge")}
             icon={Trophy}
-            title={t("Features.heading")}
-            subtitle={t("Features.subheading")}
+            title={featuresCopy.title}
+            subtitle={featuresCopy.subtitle}
           />
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

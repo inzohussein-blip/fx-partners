@@ -12,6 +12,7 @@ import {
   addAdminReview,
 } from "@/lib/actions/brokers";
 import { Stars, StarInput } from "@/components/brokers/stars";
+import { MediaUploadButton } from "@/components/dashboard/media-upload-button";
 import { BADGES, BADGE_KEYS, REGULATORS, REGULATOR_KEYS } from "@/lib/brokers";
 import {
   Plus,
@@ -210,13 +211,16 @@ export function BrokersManager({
             value={form.slug}
             onChange={(e) => setForm({ ...form, slug: e.target.value })}
           />
-          <input
-            className={input}
-            dir="ltr"
-            placeholder="رابط الشعار (logo URL)"
-            value={form.logo_url}
-            onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
-          />
+          <div className="flex items-center gap-2">
+            <input
+              className={input}
+              dir="ltr"
+              placeholder="رابط الشعار (logo URL)"
+              value={form.logo_url}
+              onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
+            />
+            <MediaUploadButton onUploaded={(url) => setForm({ ...form, logo_url: url })} label="رفع" />
+          </div>
           <select
             className={input}
             value={form.status}

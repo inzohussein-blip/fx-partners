@@ -15,6 +15,7 @@ import {
   Crosshair,
   Download,
   Share2,
+  Images,
 } from "lucide-react";
 
 type Tab = { href: string; label: string; icon: typeof UserCheck; exact?: boolean };
@@ -48,6 +49,7 @@ const groups: { label: string; tabs: Tab[] }[] = [
     tabs: [
       { href: "/dashboard/admin/posts", label: "المنشورات", icon: FileText },
       { href: "/dashboard/admin/content", label: "النصوص", icon: Type },
+      { href: "/dashboard/admin/media", label: "الوسائط", icon: Images },
       { href: "/dashboard/admin/announcements", label: "الإعلانات", icon: Megaphone },
       { href: "/dashboard/admin/events", label: "التقويم", icon: CalendarDays },
     ],

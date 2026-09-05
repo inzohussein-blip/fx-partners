@@ -1,11 +1,16 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { getContent } from "@/lib/content";
 import { Plus, HelpCircle } from "lucide-react";
 
-export function Faq() {
-  const t = useTranslations("Faq");
+export async function Faq() {
+  const t = await getTranslations("Faq");
   const items = [1, 2, 3, 4, 5] as const;
+  const copy = await getContent("home.faq", {
+    title: t("heading"),
+    subtitle: t("subheading"),
+  });
 
   return (
     <section className="py-16 sm:py-20">
@@ -13,8 +18,8 @@ export function Faq() {
         <SectionHeading
           eyebrow={t("badge")}
           icon={HelpCircle}
-          title={t("heading")}
-          subtitle={t("subheading")}
+          title={copy.title}
+          subtitle={copy.subtitle}
         />
 
         <div className="mt-10 space-y-3">
