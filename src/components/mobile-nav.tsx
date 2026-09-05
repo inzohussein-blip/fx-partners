@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { Menu, X, ArrowLeft } from "lucide-react";
@@ -17,7 +18,11 @@ export function MobileNav({
   dashboardLabel: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  // Portal target is only available on the client.
+  useEffect(() => setMounted(true), []);
 
   // Close on route change.
   useEffect(() => {
@@ -53,10 +58,14 @@ export function MobileNav({
         <Menu className="h-5 w-5" />
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-[95]">
+      {/* Rendered through a portal to <body>: the sticky header uses
+          backdrop-blur, which makes it the containing block for fixed
+          descendants — so a drawer rendered inline would be trapped inside the
+          64px-tall header instead of covering the viewport. */}
+      {open && mounted && createPortal(
+        <div className="fixed inset-0 z-[100] md:hidden">
           <div
-            className="absolute inset-0 bg-ink-900/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80"
             onClick={() => setOpen(false)}
             aria-hidden
           />
@@ -64,7 +73,8 @@ export function MobileNav({
             role="dialog"
             aria-modal="true"
             aria-label="القائمة"
-            className="absolute inset-y-0 start-0 flex w-72 max-w-[85%] flex-col border-e border-white/10 bg-ink-800 p-5 shadow-2xl"
+            style={{ backgroundColor: "#0b1118" }}
+            className="absolute inset-y-0 start-0 flex w-72 max-w-[85%] flex-col overflow-y-auto border-e border-white/10 p-5 shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-white">القائمة</span>
@@ -115,7 +125,8 @@ export function MobileNav({
               </Link>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

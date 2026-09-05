@@ -137,11 +137,14 @@ export default async function HomePage({
           <div className="grid items-center gap-12 lg:grid-cols-2">
             {/* Copy */}
             <div className="text-center lg:text-start">
-              <span className="inline-flex items-center gap-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">
-                <span className="hidden h-px w-8 bg-brand-400/60 sm:inline-block" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand-200 backdrop-blur">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400/70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-400" />
+                </span>
                 {t("Hero.badge")}
               </span>
-              <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.1] text-white sm:text-6xl">
+              <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl">
                 <EditableText contentKey="home.hero" field="titleTop" label="العنوان الرئيسي">
                   {hero.titleTop}
                 </EditableText>{" "}
@@ -182,28 +185,53 @@ export default async function HomePage({
             </div>
 
             {/* Platform showcase — global markets on desktop + mobile */}
-            <div className="relative" aria-hidden>
-              <div className="absolute -inset-6 rounded-[2rem] bg-brand-500/10 blur-3xl" />
-              <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_24px_80px_-20px_rgba(0,140,255,0.4)] ring-1 ring-white/5">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/hero-platform.webp"
-                  alt="منصة FX Partners للتداول العالمي عبر الحاسوب والجوال"
-                  width={1200}
-                  height={675}
-                  fetchPriority="high"
-                  className="h-full w-full object-cover"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/40 via-transparent to-transparent" />
+            <div className="relative">
+              <div className="absolute -inset-8 rounded-[2.5rem] bg-accent-500/15 blur-3xl" aria-hidden />
+              <div className="animate-float">
+                <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_30px_90px_-24px_rgba(0,140,255,0.55)] ring-1 ring-white/10">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/hero-platform.webp"
+                    alt="منصة FX Partners للتداول العالمي عبر الحاسوب والجوال"
+                    width={1200}
+                    height={675}
+                    fetchPriority="high"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/50 via-transparent to-transparent" />
+                </div>
+              </div>
+
+              {/* Floating live stat chips */}
+              <div className="absolute -start-4 top-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-white/10 bg-ink-900/85 px-4 py-3 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.8)] backdrop-blur-md sm:flex">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/25">
+                  <Users className="h-5 w-5" />
+                </span>
+                <div className="text-start">
+                  <div className="text-base font-extrabold text-white">{t("Stats.partners")}</div>
+                  <div className="text-[11px] text-slate-400">{t("Stats.partnersLabel")}</div>
+                </div>
+              </div>
+              <div className="absolute -end-4 bottom-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-white/10 bg-ink-900/85 px-4 py-3 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.8)] backdrop-blur-md sm:flex">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/25">
+                  <TrendingUp className="h-5 w-5" />
+                </span>
+                <div className="text-start">
+                  <div className="text-base font-extrabold text-white">{t("Stats.volume")}</div>
+                  <div className="text-[11px] text-slate-400">{t("Stats.volumeLabel")}</div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Inline benefit row (compact, per brand identity) */}
-          <div className="mt-14 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Inline benefit row — glass cards */}
+          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {trustItems.map((item) => (
-              <div key={item.title} className="flex items-center gap-3.5">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
+              <div
+                key={item.title}
+                className="glass-card flex items-center gap-3.5 p-4 transition hover:-translate-y-0.5 hover:border-brand-500/30"
+              >
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <item.icon className="h-5 w-5" />
                 </span>
                 <div>

@@ -12,9 +12,13 @@ html {
 
 body {
   @apply text-slate-200 antialiased;
-  /* Institutional navy gradient (spec: #050A10 → #0A0F14 → #0E1822) */
-  background-color: #0a0f14;
-  background-image: linear-gradient(180deg, #050a10 0%, #0a0f14 45%, #0e1822 100%);
+  /* Institutional navy with an ambient brand glow at the top so the page
+     reads as a designed surface, never flat black. */
+  background-color: #070b10;
+  background-image:
+    radial-gradient(90% 45% at 50% -8%, rgba(0, 140, 255, 0.12) 0%, transparent 60%),
+    radial-gradient(60% 40% at 100% 8%, rgba(0, 209, 230, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #060a0f 0%, #0a0f14 42%, #0b131d 100%);
   background-attachment: fixed;
 }
 
@@ -42,56 +46,94 @@ summary:focus-visible,
     radial-gradient(40% 40% at 12% 30%, rgba(0, 209, 230, 0.12) 0%, rgba(10, 15, 20, 0) 70%);
 }
 
-/* Professional layered hero backdrop — soft aurora glows + a fine dot mesh
-   that fades out (replaces the raw full-bleed grid). CSS-only, so the page
-   stays statically rendered. */
+/* Professional layered hero backdrop — bold aurora glows + a visible brand
+   grid that fades out. CSS-only, so the page stays statically rendered. */
 .pro-hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(70% 55% at 82% 6%, rgba(0, 140, 255, 0.20) 0%, transparent 60%),
-    radial-gradient(55% 50% at 8% 18%, rgba(0, 209, 230, 0.14) 0%, transparent 62%),
-    radial-gradient(120% 80% at 50% 128%, rgba(0, 90, 180, 0.18) 0%, transparent 72%);
+    radial-gradient(58% 55% at 50% -10%, rgba(0, 209, 230, 0.20) 0%, transparent 60%),
+    radial-gradient(70% 62% at 88% 2%, rgba(0, 140, 255, 0.32) 0%, transparent 58%),
+    radial-gradient(55% 55% at 4% 24%, rgba(0, 209, 230, 0.20) 0%, transparent 60%),
+    radial-gradient(130% 95% at 50% 130%, rgba(0, 92, 168, 0.24) 0%, transparent 72%);
 }
 .pro-hero::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 26px 26px;
-  -webkit-mask-image: radial-gradient(75% 65% at 60% 28%, #000 0%, transparent 78%);
-  mask-image: radial-gradient(75% 65% at 60% 28%, #000 0%, transparent 78%);
+  background-image:
+    linear-gradient(to right, rgba(0, 209, 230, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 209, 230, 0.07) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(80% 75% at 55% 20%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(80% 75% at 55% 20%, #000 0%, transparent 80%);
   pointer-events: none;
 }
+
+/* Ambient section glow — a soft brand halo dropped behind any section so the
+   whole page keeps atmospheric depth (not just the hero). */
+.ambient-section {
+  position: relative;
+  isolation: isolate;
+}
+.ambient-section > .ambient {
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 /* Floating aurora blobs — slow drift for a premium, non-static feel. */
 .aurora {
   position: absolute;
   z-index: -1;
   border-radius: 9999px;
-  filter: blur(80px);
-  opacity: 0.5;
+  filter: blur(90px);
+  opacity: 0.65;
   pointer-events: none;
 }
 .aurora-1 {
-  width: 40rem; height: 40rem;
-  top: -14rem; inset-inline-end: -10rem;
-  background: radial-gradient(circle, rgba(0, 140, 255, 0.35) 0%, transparent 68%);
+  width: 44rem; height: 44rem;
+  top: -16rem; inset-inline-end: -12rem;
+  background: radial-gradient(circle, rgba(0, 140, 255, 0.5) 0%, transparent 66%);
   animation: aurora-drift 18s ease-in-out infinite alternate;
 }
 .aurora-2 {
-  width: 32rem; height: 32rem;
-  bottom: -12rem; inset-inline-start: -8rem;
-  background: radial-gradient(circle, rgba(0, 209, 230, 0.28) 0%, transparent 70%);
+  width: 36rem; height: 36rem;
+  bottom: -14rem; inset-inline-start: -10rem;
+  background: radial-gradient(circle, rgba(0, 209, 230, 0.42) 0%, transparent 68%);
   animation: aurora-drift 22s ease-in-out infinite alternate-reverse;
 }
 @keyframes aurora-drift {
   from { transform: translate3d(0, 0, 0) scale(1); }
-  to   { transform: translate3d(-3rem, 2rem, 0) scale(1.12); }
+  to   { transform: translate3d(-3rem, 2rem, 0) scale(1.14); }
 }
+
+/* Gentle float for hero art. */
+@keyframes float-y {
+  from { transform: translateY(-8px); }
+  to   { transform: translateY(8px); }
+}
+.animate-float {
+  animation: float-y 6s ease-in-out infinite alternate;
+}
+
+/* Premium glass card. */
+.glass-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 20px 50px -24px rgba(0, 0, 0, 0.7);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .aurora-1, .aurora-2 { animation: none; }
+  .aurora-1, .aurora-2, .animate-float { animation: none; }
 }
 
 .card-surface {

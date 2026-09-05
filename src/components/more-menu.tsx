@@ -56,7 +56,7 @@ export function MoreMenu({ label, items }: { label: string; items: Item[] }) {
       {open && (
         <div
           role="menu"
-          className="absolute end-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-white/10 bg-ink-800/95 p-1.5 shadow-2xl backdrop-blur"
+          className="absolute end-0 top-full z-[60] mt-2 w-56 overflow-hidden rounded-xl border border-white/10 bg-ink-900 p-1.5 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8)] ring-1 ring-black/40"
         >
           {items.map((item) => {
             const active =
