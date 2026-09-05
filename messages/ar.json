@@ -230,7 +230,10 @@
     "forgot": "نسيت كلمة المرور؟",
     "signUpSuccess": "تم إنشاء الحساب! تحقّق من بريدك لتأكيد التسجيل.",
     "notConfigured": "لم يتم إعداد Supabase بعد. أضِف متغيرات البيئة في .env.local",
-    "genericError": "حدث خطأ ما"
+    "genericError": "حدث خطأ ما",
+    "googleSignIn": "المتابعة عبر جوجل",
+    "googleSignUp": "التسجيل عبر جوجل",
+    "orDivider": "أو"
   },
   "Forgot": {
     "title": "استعادة كلمة المرور",

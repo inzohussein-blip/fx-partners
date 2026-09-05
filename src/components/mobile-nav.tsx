@@ -32,6 +32,16 @@ export function MobileNav({
     };
   }, [open]);
 
+  // Close on Escape for keyboard users.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <div className="md:hidden">
       <button
@@ -48,8 +58,14 @@ export function MobileNav({
           <div
             className="absolute inset-0 bg-ink-900/80 backdrop-blur-sm"
             onClick={() => setOpen(false)}
+            aria-hidden
           />
-          <div className="absolute inset-y-0 start-0 flex w-72 max-w-[85%] flex-col border-e border-white/10 bg-ink-800 p-5 shadow-2xl">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="القائمة"
+            className="absolute inset-y-0 start-0 flex w-72 max-w-[85%] flex-col border-e border-white/10 bg-ink-800 p-5 shadow-2xl"
+          >
             <div className="flex items-center justify-between">
               <span className="text-sm font-semibold text-white">القائمة</span>
               <button

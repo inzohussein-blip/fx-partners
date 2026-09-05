@@ -7,8 +7,10 @@ import {
   type StatusCounts,
 } from "@/components/dashboard/performance-panel";
 import { PageHeader } from "@/components/dashboard/page-header";
+import { EmptyState } from "@/components/dashboard/empty-state";
+import { Link } from "@/i18n/navigation";
 import { formatCurrency, formatCompact } from "@/lib/utils";
-import { Wallet, TrendingUp, Users, Link2, LayoutDashboard } from "lucide-react";
+import { Wallet, TrendingUp, Users, Link2, LayoutDashboard, Sparkles } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -203,10 +205,19 @@ export default async function OverviewPage() {
         </div>
 
         {o.recent.length === 0 ? (
-          <p className="mt-6 text-sm text-slate-500">
-            لا توجد أرباح مسجّلة بعد. ابدأ بمشاركة روابط الإحالة من{" "}
-            <span className="text-brand-300">أدوات التسويق</span>.
-          </p>
+          <EmptyState
+            icon={Sparkles}
+            title="لا توجد أرباح مسجّلة بعد"
+            description="ابدأ بمشاركة روابط الإحالة الخاصة بك، وستظهر أرباحك هنا فور تحقّقها."
+            action={
+              <Link
+                href="/dashboard/marketing"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
+              >
+                أدوات التسويق
+              </Link>
+            }
+          />
         ) : (
           <ul className="mt-4 divide-y divide-white/5">
             {o.recent.map((e, i) => (

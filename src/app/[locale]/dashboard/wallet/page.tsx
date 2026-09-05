@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/dashboard/page-header";
+import { EmptyState } from "@/components/dashboard/empty-state";
 import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { WithdrawForm } from "@/components/dashboard/withdraw-form";
@@ -97,7 +98,11 @@ export default async function WalletPage() {
       <section className="card-surface p-6">
         <h2 className="text-lg font-semibold text-white">سجل السحوبات</h2>
         {withdrawals.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">لا توجد طلبات سحب بعد.</p>
+          <EmptyState
+            icon={ArrowDownToLine}
+            title="لا توجد طلبات سحب بعد"
+            description="عندما تطلب سحب أرباحك، ستظهر كل الطلبات وحالتها هنا."
+          />
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-right text-sm">
@@ -119,7 +124,7 @@ export default async function WalletPage() {
                       </td>
                       <td className="py-3">{w.method}</td>
                       <td className="py-3">
-                        <span className={`rounded-md px-2 py-1 text-xs ${s.cls}`}>
+                        <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${s.cls}`}>
                           {s.text}
                         </span>
                       </td>

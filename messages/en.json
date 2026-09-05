@@ -230,7 +230,10 @@
     "forgot": "Forgot your password?",
     "signUpSuccess": "Account created! Check your email to confirm your registration.",
     "notConfigured": "Supabase isn't configured yet. Add the environment variables to .env.local",
-    "genericError": "Something went wrong"
+    "genericError": "Something went wrong",
+    "googleSignIn": "Continue with Google",
+    "googleSignUp": "Sign up with Google",
+    "orDivider": "or"
   },
   "Forgot": {
     "title": "Reset your password",

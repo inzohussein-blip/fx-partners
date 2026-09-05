@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { Field } from "@/components/auth/field";
+import { GoogleButton } from "@/components/auth/google-button";
 
 export default function LoginPage() {
   return (
@@ -83,7 +84,20 @@ function LoginForm() {
             {mode === "sign-in" ? t("signInSubtitle") : t("signUpSubtitle")}
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div className="mt-6">
+            <GoogleButton
+              label={mode === "sign-in" ? t("googleSignIn") : t("googleSignUp")}
+              next={redirect}
+            />
+          </div>
+
+          <div className="my-5 flex items-center gap-3 text-xs text-slate-500">
+            <span className="h-px flex-1 bg-white/10" />
+            {t("orDivider")}
+            <span className="h-px flex-1 bg-white/10" />
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             {mode === "sign-up" && (
               <Field
                 label={t("fullName")}
@@ -111,12 +125,12 @@ function LoginForm() {
             />
 
             {error && (
-              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
+              <p role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
                 {error}
               </p>
             )}
             {message && (
-              <p className="rounded-lg bg-brand-500/10 px-3 py-2 text-sm text-brand-200">
+              <p role="status" className="rounded-lg bg-brand-500/10 px-3 py-2 text-sm text-brand-200">
                 {message}
               </p>
             )}

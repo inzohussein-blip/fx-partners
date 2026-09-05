@@ -9,11 +9,15 @@ export type StatusCounts = {
   active: number;
 };
 
+// Categorical hues chosen for clear separation on the navy surface (validated
+// with the dataviz palette checker): cyan / gold / blue / neutral-gray, in the
+// funnel order active → funded → registered → lead. The legend labels below
+// carry identity so colour is never the sole cue.
 const SEGMENTS = [
   { key: "active", label: "نشط", color: "#22d3ee" },
-  { key: "funded", label: "مموّل", color: "#2563eb" },
-  { key: "registered", label: "مسجّل", color: "#8b5cf6" },
-  { key: "lead", label: "مهتم", color: "#475569" },
+  { key: "funded", label: "مموّل", color: "#f5c451" },
+  { key: "registered", label: "مسجّل", color: "#3b82f6" },
+  { key: "lead", label: "مهتم", color: "#64748b" },
 ] as const;
 
 /** Pure-SVG donut — no chart library. */
@@ -24,9 +28,16 @@ function Donut({ counts }: { counts: StatusCounts }) {
   const c = 2 * Math.PI * r;
   let offset = 0;
 
+  const summary = SEGMENTS.map((s) => `${s.label} ${counts[s.key]}`).join("، ");
+
   return (
     <div className="relative h-40 w-40 shrink-0">
-      <svg viewBox="0 0 140 140" className="h-full w-full -rotate-90">
+      <svg
+        viewBox="0 0 140 140"
+        className="h-full w-full -rotate-90"
+        role="img"
+        aria-label={total > 0 ? `توزيع العملاء: ${summary}` : "لا يوجد عملاء بعد"}
+      >
         <circle
           cx="70"
           cy="70"
@@ -105,7 +116,7 @@ function Sparkline({ values, color }: { values: number[]; color: string }) {
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   });
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="h-7 w-24" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${w} ${h}`} className="h-7 w-24" preserveAspectRatio="none" aria-hidden>
       <polyline
         points={pts.join(" ")}
         fill="none"

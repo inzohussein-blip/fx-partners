@@ -84,12 +84,12 @@ export default function ResetPasswordPage() {
             </label>
 
             {serverError && (
-              <p className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
+              <p role="alert" className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-300">
                 {serverError}
               </p>
             )}
             {ok && (
-              <p className="rounded-lg bg-brand-500/10 px-3 py-2 text-sm text-brand-200">
+              <p role="status" className="rounded-lg bg-brand-500/10 px-3 py-2 text-sm text-brand-200">
                 {t("success")}
               </p>
             )}

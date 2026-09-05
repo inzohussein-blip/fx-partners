@@ -14,6 +14,22 @@ body {
   @apply bg-ink-900 text-slate-200 antialiased;
 }
 
+/* Keyboard-only focus ring for interactive elements (brand cyan). Mouse
+   clicks don't trigger :focus-visible, so this stays out of the way for
+   pointer users while giving keyboard users a clear, consistent indicator. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.7);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
 /* Brand glow behind hero sections — deep blue → cyan on navy */
 .hero-glow {
   background:
