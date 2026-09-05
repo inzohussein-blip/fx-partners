@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { MarketStrip } from "@/components/marketing/market-strip";
 import { AnimatedStat } from "@/components/marketing/animated-counter";
+import { EditableText } from "@/components/admin-edit/editable-text";
 
 async function getPartners() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
@@ -133,11 +134,19 @@ export default async function HomePage({
                 {t("Hero.badge")}
               </span>
               <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.1] text-white sm:text-6xl">
-                {hero.titleTop}{" "}
-                <span className="text-gradient">{hero.titleAccent}</span>
+                <EditableText contentKey="home.hero" field="titleTop" label="العنوان الرئيسي">
+                  {hero.titleTop}
+                </EditableText>{" "}
+                <span className="text-gradient">
+                  <EditableText contentKey="home.hero" field="titleAccent" label="الكلمة المميّزة">
+                    {hero.titleAccent}
+                  </EditableText>
+                </span>
               </h1>
               <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-relaxed text-slate-300 lg:mx-0">
-                {hero.subtitle}
+                <EditableText contentKey="home.hero" field="subtitle" label="وصف الهيرو" multiline>
+                  {hero.subtitle}
+                </EditableText>
               </p>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                 <Button href="/login" className="text-base">
@@ -309,10 +318,14 @@ export default async function HomePage({
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative">
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                {cta.heading}
+                <EditableText contentKey="home.cta" field="heading" label="عنوان الدعوة">
+                  {cta.heading}
+                </EditableText>
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-slate-300">
-                {cta.subheading}
+                <EditableText contentKey="home.cta" field="subheading" label="وصف الدعوة" multiline>
+                  {cta.subheading}
+                </EditableText>
               </p>
               <div className="mt-8 flex justify-center">
                 <Button href="/login" className="text-base">

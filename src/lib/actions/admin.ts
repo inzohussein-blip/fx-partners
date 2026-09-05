@@ -195,6 +195,39 @@ export async function saveContent(
   return { ok: true };
 }
 
+/** Merge a single field into a site_content block (for inline on-page edits). */
+export async function saveContentField(
+  key: string,
+  field: string,
+  value: string
+): Promise<ActionResult> {
+  const { supabase, admin } = await requireAdmin();
+  if (!admin) return { ok: false, error: "غير مصرّح" };
+  if (!key || !field) return { ok: false, error: "بيانات ناقصة" };
+
+  const { data: existing } = await supabase
+    .from("site_content")
+    .select("value")
+    .eq("key", key)
+    .maybeSingle();
+
+  const merged = { ...((existing?.value as Record<string, unknown>) ?? {}), [field]: value };
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await supabase.from("site_content").upsert(
+    { key, value: merged, updated_by: user?.id ?? null, updated_at: new Date().toISOString() },
+    { onConflict: "key" }
+  );
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePublic();
+  revalidatePath("/dashboard/admin/content");
+  return { ok: true };
+}
+
 // ---- PARTNERS -------------------------------------------------------------
 
 export type PartnerInput = {

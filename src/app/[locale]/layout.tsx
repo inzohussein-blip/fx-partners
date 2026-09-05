@@ -10,6 +10,8 @@ import {
   setRequestLocale,
 } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
+import { createClient } from "@/lib/supabase/server";
+import { AdminEditProvider } from "@/components/admin-edit/provider";
 import { getSiteUrl } from "@/lib/utils";
 import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner";
 import { SkipLink } from "@/components/skip-link";
@@ -95,6 +97,27 @@ export default async function LocaleLayout({
     ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin
     : null;
 
+  // Is the current visitor an admin? Enables on-page inline editing.
+  let isAdmin = false;
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    try {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .maybeSingle();
+        isAdmin = profile?.role === "admin";
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
   return (
     <html
       lang={locale}
@@ -114,7 +137,9 @@ export default async function LocaleLayout({
           <ServiceWorkerRegister />
           <SkipLink />
           <div id="content">
-            <NuqsAdapter>{children}</NuqsAdapter>
+            <AdminEditProvider isAdmin={isAdmin}>
+              <NuqsAdapter>{children}</NuqsAdapter>
+            </AdminEditProvider>
           </div>
           <LiveCampaignBanner />
           <Toaster

@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/logo";
 import { getContent } from "@/lib/content";
+import { EditableText } from "@/components/admin-edit/editable-text";
 
 export async function SiteFooter() {
   const t = await getTranslations("Footer");
@@ -14,7 +15,9 @@ export async function SiteFooter() {
         <div className="md:col-span-2">
           <Logo />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-            {footer.tagline}
+            <EditableText contentKey="site.footer" field="tagline" label="جملة التذييل" multiline>
+              {footer.tagline}
+            </EditableText>
           </p>
         </div>
 
