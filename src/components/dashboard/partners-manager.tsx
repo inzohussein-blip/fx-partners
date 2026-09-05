@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { savePartner, deletePartner, type PartnerInput } from "@/lib/actions/admin";
-import { MediaUploadButton } from "@/components/dashboard/media-upload-button";
+import { MediaPicker } from "@/components/dashboard/media-picker";
 import { Plus, Trash2 } from "lucide-react";
 
 type Partner = PartnerInput & { id: string };
@@ -123,7 +123,7 @@ function PartnerCard({
         <div>
           <Field label="رابط الشعار" value={form.logo_url ?? ""} onChange={(v) => set("logo_url", v)} mono />
           <div className="mt-2 flex items-center gap-3">
-            <MediaUploadButton onUploaded={(url) => set("logo_url", url)} label="رفع شعار" />
+            <MediaPicker onSelect={(url) => set("logo_url", url)} label="اختر أو ارفع شعاراً" />
             {form.logo_url && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={form.logo_url} alt="" className="h-9 w-9 rounded-lg border border-white/10 bg-white object-contain p-0.5" />

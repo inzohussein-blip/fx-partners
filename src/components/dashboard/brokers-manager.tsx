@@ -12,7 +12,7 @@ import {
   addAdminReview,
 } from "@/lib/actions/brokers";
 import { Stars, StarInput } from "@/components/brokers/stars";
-import { MediaUploadButton } from "@/components/dashboard/media-upload-button";
+import { MediaPicker } from "@/components/dashboard/media-picker";
 import { BADGES, BADGE_KEYS, REGULATORS, REGULATOR_KEYS } from "@/lib/brokers";
 import {
   Plus,
@@ -219,7 +219,7 @@ export function BrokersManager({
               value={form.logo_url}
               onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
             />
-            <MediaUploadButton onUploaded={(url) => setForm({ ...form, logo_url: url })} label="رفع" />
+            <MediaPicker onSelect={(url) => setForm({ ...form, logo_url: url })} label="اختر/ارفع" />
           </div>
           <select
             className={input}

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { savePost, deletePost, type PostInput } from "@/lib/actions/admin";
 import { RichEditor } from "@/components/dashboard/rich-editor";
-import { MediaUploadButton } from "@/components/dashboard/media-upload-button";
+import { MediaPicker } from "@/components/dashboard/media-picker";
 import { Trash2 } from "lucide-react";
 
 const statuses: { value: PostInput["status"]; label: string }[] = [
@@ -68,7 +68,7 @@ export function PostEditor({ post }: { post?: PostInput }) {
             mono
           />
           <div className="mt-2 flex items-center gap-3">
-            <MediaUploadButton onUploaded={(url) => set("cover_image", url)} label="رفع صورة الغلاف" />
+            <MediaPicker onSelect={(url) => set("cover_image", url)} label="اختر أو ارفع الغلاف" />
             {form.cover_image && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={form.cover_image} alt="" className="h-10 w-16 rounded-lg border border-white/10 object-cover" />
