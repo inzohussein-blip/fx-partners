@@ -4,7 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
-import { Calculator, Scale, LineChart, ShieldAlert, Loader2 } from "lucide-react";
+import { Calculator, Scale, LineChart, ShieldAlert, Gauge, Loader2 } from "lucide-react";
 
 // Code-split the heavy interactive tools: only the active tab's JS is fetched,
 // keeping the homepage/tools initial bundle light.
@@ -29,10 +29,15 @@ const Backtest = dynamic(
   () => import("@/components/marketing/backtest").then((m) => m.Backtest),
   { ssr: false, loading: toolLoading }
 );
+const MarginCalculator = dynamic(
+  () => import("@/components/marketing/margin-calculator").then((m) => m.MarginCalculator),
+  { ssr: false, loading: toolLoading }
+);
 
 const TABS = [
   { key: "calc", label: "حاسبة الأرباح", icon: Calculator },
   { key: "risk", label: "المخاطرة والنقطة", icon: ShieldAlert },
+  { key: "margin", label: "المارجن والرافعة", icon: Gauge },
   { key: "compare", label: "قارن عمولتك", icon: Scale },
   { key: "backtest", label: "محاكي الأداء", icon: LineChart },
 ] as const;
@@ -83,6 +88,7 @@ export function ToolsTabs() {
       <div className="-mt-4">
         {tab === "calc" && <ProfitCalculator />}
         {tab === "risk" && <RiskCalculator />}
+        {tab === "margin" && <MarginCalculator />}
         {tab === "compare" && <BrokerComparison />}
         {tab === "backtest" && <Backtest />}
       </div>

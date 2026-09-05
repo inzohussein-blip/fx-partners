@@ -134,3 +134,35 @@ join (values
   ('alpha-markets','BTCUSD','crypto',35), ('titan-fx','BTCUSD','crypto',28), ('nova-trade','BTCUSD','crypto',60)
 ) as s(slug, instrument, category, spread) on s.slug = b.slug
 on conflict (broker_id, instrument) do nothing;
+
+-- Demo operational specs for the quick comparison grid ------------------------
+update public.brokers set supports_ea=true,  allows_hedging=true,  swap_free=true,  allows_scalping=true,  min_deposit=10,  deposit_methods=array['آسيا سيل','زين كاش','عملات رقمية','فيزا']            where slug='alpha-markets';
+update public.brokers set supports_ea=true,  allows_hedging=true,  swap_free=false, allows_scalping=true,  min_deposit=200, deposit_methods=array['تحويل بنكي','فيزا','عملات رقمية']                     where slug='titan-fx';
+update public.brokers set supports_ea=false, allows_hedging=false, swap_free=true,  allows_scalping=false, min_deposit=25,  deposit_methods=array['زين كاش','فيزا']                                        where slug='nova-trade';
+
+-- Demo trading-calendar events ------------------------------------------------
+insert into public.broker_events (broker_id, title, description, kind, country, event_date, event_time)
+select b.id, e.title, e.descr, e.kind, e.country, (current_date + e.days), e.etime
+from (values
+  ('alpha-markets', 'إغلاق مبكر لتداول الذهب', E'بسبب عطلة يوم الاستقلال الأمريكي تُغلق تداولات الذهب (XAUUSD) الساعة 17:00 GMT.', 'hours', 'US', 2, '17:00 GMT'),
+  ('titan-fx', 'رفع الهامش مؤقتاً على المؤشرات', E'يُرفع الهامش المطلوب على US30 وNAS100 بنسبة 50% خلال عطلة نهاية الأسبوع.', 'margin', 'US', 4, null)
+) as e(slug, title, descr, kind, country, days, etime)
+join public.brokers b on b.slug = e.slug
+on conflict do nothing;
+
+insert into public.broker_events (broker_id, title, description, kind, country, event_date, event_time)
+values
+  (null, 'رأس السنة الصينية — سيولة منخفضة', E'انخفاض السيولة على أزواج الين واليوان خلال عطلة رأس السنة الصينية عبر معظم الشركات.', 'holiday', 'CN', current_date + 6, null),
+  (null, 'قرار الفائدة الأمريكي (FOMC)', E'تقلّب عالٍ متوقّع على الدولار والذهب — راجع الهامش قبل الإعلان.', 'news', 'US', 8, '18:00 GMT')
+on conflict do nothing;
+
+-- Demo gated trading resources ------------------------------------------------
+insert into public.trading_resources (title, description, kind, file_url, broker_id, sort_order)
+select r.title, r.descr, r.kind, r.url,
+       (select id from public.brokers where slug = r.slug), r.ord
+from (values
+  ('مؤشر السيولة الذكي (MT5)', E'مؤشر يرصد مناطق السيولة ونقاط الدخول على منصة MetaTrader 5.', 'indicator', 'https://example.com/resources/liquidity.ex5', 'alpha-markets', 1),
+  ('قالب تحليل الذهب اليومي', E'قالب MetaTrader جاهز بكل المؤشرات اللازمة لتحليل الذهب.', 'template', 'https://example.com/resources/gold.tpl', 'titan-fx', 2),
+  ('كتاب: إدارة رأس المال', E'دليل PDF مجاني في إدارة المخاطر ورأس المال للمتداولين.', 'ebook', 'https://example.com/resources/risk.pdf', null, 3)
+) as r(title, descr, kind, url, slug, ord)
+on conflict do nothing;

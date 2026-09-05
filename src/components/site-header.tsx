@@ -15,6 +15,8 @@ export function SiteHeader() {
     { href: "/compare", label: t("compare") },
     { href: "/spreads", label: t("spreads") },
     { href: "/tools", label: t("tools") },
+    { href: "/calendar", label: t("calendar") },
+    { href: "/free-tools", label: t("resources") },
     { href: "/offers", label: t("offers") },
     { href: "/brokers", label: t("brokers") },
     { href: "/blog", label: t("blog") },

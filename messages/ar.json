@@ -9,7 +9,9 @@
     "brokers": "الشركات (B2B)",
     "blog": "المدونة",
     "login": "تسجيل الدخول",
-    "dashboard": "لوحة الشريك"
+    "dashboard": "لوحة الشريك",
+    "calendar": "التقويم",
+    "resources": "مؤشرات مجانية"
   },
   "Common": {
     "getStarted": "ابدأ الآن",

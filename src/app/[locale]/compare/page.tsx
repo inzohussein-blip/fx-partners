@@ -5,7 +5,9 @@ import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
-import { Scale } from "lucide-react";
+import { SpecsGrid } from "@/components/brokers/specs-grid";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Scale, ListChecks } from "lucide-react";
 import type { Broker } from "@/lib/brokers";
 
 export const dynamic = "force-dynamic";
@@ -23,7 +25,7 @@ async function getBrokers(): Promise<Broker[]> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,broker_links(id,label,referral_url,agent_commission,client_benefits)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,supports_ea,allows_hedging,swap_free,allows_scalping,min_deposit,deposit_methods,broker_links(id,label,referral_url,agent_commission,client_benefits)"
       )
       .eq("is_published", true)
       .order("sort_order")
@@ -76,6 +78,24 @@ export default async function ComparePage() {
           )}
         </Container>
       </section>
+
+      {/* Quick operational-specs comparison grid */}
+      {brokers.length > 0 && (
+        <section className="pb-24">
+          <Container>
+            <SectionHeading
+              eyebrow="الخصائص"
+              icon={ListChecks}
+              title="مقارنة سريعة للخصائص التشغيلية"
+              subtitle="التداول الآلي، التحوّط، الحسابات الإسلامية، طرق الإيداع والمزيد — قارن ما يهمّك فعلاً."
+              align="start"
+            />
+            <div className="mt-10">
+              <SpecsGrid brokers={brokers} />
+            </div>
+          </Container>
+        </section>
+      )}
 
       <SiteFooter />
     </>

@@ -9,7 +9,9 @@
     "brokers": "Brokers (B2B)",
     "blog": "Blog",
     "login": "Sign in",
-    "dashboard": "Partner Portal"
+    "dashboard": "Partner Portal",
+    "calendar": "Calendar",
+    "resources": "Free tools"
   },
   "Common": {
     "getStarted": "Get started",

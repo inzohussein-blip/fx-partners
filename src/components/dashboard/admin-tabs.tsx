@@ -8,10 +8,12 @@ import {
   Type,
   Building2,
   CalendarClock,
+  CalendarDays,
   Megaphone,
   Scale,
   TrendingUp,
   Crosshair,
+  Download,
 } from "lucide-react";
 
 type Tab = { href: string; label: string; icon: typeof UserCheck; exact?: boolean };
@@ -36,6 +38,7 @@ const groups: { label: string; tabs: Tab[] }[] = [
     tabs: [
       { href: "/dashboard/admin/signals", label: "التوصيات", icon: TrendingUp },
       { href: "/dashboard/admin/campaigns", label: "العروض", icon: Crosshair },
+      { href: "/dashboard/admin/resources", label: "أدوات مجانية", icon: Download },
     ],
   },
   {
@@ -44,6 +47,7 @@ const groups: { label: string; tabs: Tab[] }[] = [
       { href: "/dashboard/admin/posts", label: "المنشورات", icon: FileText },
       { href: "/dashboard/admin/content", label: "النصوص", icon: Type },
       { href: "/dashboard/admin/announcements", label: "الإعلانات", icon: Megaphone },
+      { href: "/dashboard/admin/events", label: "التقويم", icon: CalendarDays },
     ],
   },
 ];

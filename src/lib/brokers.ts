@@ -32,6 +32,13 @@ export type Broker = {
   bonus_withdrawable?: boolean;
   supports_gold?: boolean;
   licenses?: string[];
+  // Operational specs (quick comparison grid)
+  supports_ea?: boolean;
+  allows_hedging?: boolean;
+  swap_free?: boolean;
+  allows_scalping?: boolean;
+  min_deposit?: number | null;
+  deposit_methods?: string[];
   broker_links?: BrokerLink[];
 };
 
