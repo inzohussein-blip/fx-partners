@@ -108,19 +108,19 @@ export function EarningsChart({ data }: { data: ChartPoint[] }) {
             >
               <defs>
                 <linearGradient id="earnGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.5} />
-                  <stop offset="100%" stopColor="#22d3ee" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#00D1E6" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="#00D1E6" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
               <XAxis dataKey="month" {...axisProps} />
               <YAxis {...axisProps} width={48} tickFormatter={(v) => formatCompact(Number(v))} />
-              <Tooltip content={<ChartTooltip />} cursor={{ stroke: "#22d3ee", strokeOpacity: 0.2 }} />
+              <Tooltip content={<ChartTooltip />} cursor={{ stroke: "#00D1E6", strokeOpacity: 0.2 }} />
               <Area
                 type="monotone"
                 dataKey="earnings"
                 name="earnings"
-                stroke="#22d3ee"
+                stroke="#00D1E6"
                 strokeWidth={2}
                 fill="url(#earnGrad)"
                 dot={false}
@@ -152,8 +152,8 @@ export function EarningsChart({ data }: { data: ChartPoint[] }) {
             >
               <defs>
                 <linearGradient id="refGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={1} />
-                  <stop offset="100%" stopColor="#2563eb" stopOpacity={0.7} />
+                  <stop offset="0%" stopColor="#2a9cff" stopOpacity={1} />
+                  <stop offset="100%" stopColor="#008CFF" stopOpacity={0.7} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />

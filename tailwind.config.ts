@@ -9,35 +9,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand identity — cyan primary (from the "partners" logo gradient)
+        // Brand identity — Electric Cyan (#00D1E6) primary accent
         brand: {
-          50: "#ecfeff",
-          100: "#cffafe",
-          200: "#a5f3fc",
-          300: "#67e8f9",
-          400: "#22d3ee", // bright cyan (logo highlight)
-          500: "#06b6d4", // primary cyan
-          600: "#0891b2",
-          700: "#0e7490",
-          800: "#155e75",
-          900: "#164e63",
-          950: "#083344",
+          50: "#e6fbfe",
+          100: "#c0f4fb",
+          200: "#8aeaf6",
+          300: "#4dddef",
+          400: "#00D1E6", // electric cyan — primary accent
+          500: "#00b3c7", // primary cyan (surfaces/rings)
+          600: "#0092a6",
+          700: "#0e7686",
+          800: "#155e6b",
+          900: "#164e58",
+          950: "#083038",
         },
-        // Accent — royal blue (the deep side of the logo gradient)
+        // Accent — Bright Blue (#008CFF): buttons, links, highlights
         accent: {
-          300: "#60a5fa",
-          400: "#3b82f6",
-          500: "#2563eb",
-          600: "#1d4ed8",
-          700: "#1e40af",
+          300: "#5cb2ff",
+          400: "#2a9cff",
+          500: "#008CFF",
+          600: "#0070d6",
+          700: "#0057a8",
         },
-        // Backgrounds — deep navy, matching the brand mockups
+        // Backgrounds — deep institutional navy (brand identity palette)
         ink: {
-          900: "#060f1e", // page background
-          800: "#0a1728", // panels
-          700: "#0f2136", // raised surfaces
-          600: "#183149", // borders / hover
-          500: "#26425f",
+          900: "#0A0F14", // main page background (Deep Navy)
+          800: "#111c27", // panels
+          700: "#202F3C", // raised surfaces (Charcoal Navy)
+          600: "#2b3f4f", // borders / hover
+          500: "#0E3A5F", // ocean-blue accent surface
+        },
+        // Premium metallic typography / logo
+        silver: {
+          DEFAULT: "#C0CACC",
+          light: "#F5F7FA",
         },
         gold: {
           400: "#f5c451",
@@ -45,16 +50,22 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        sans: [
+          "var(--font-montserrat)",
+          "var(--font-cairo)",
+          "system-ui",
+          "sans-serif",
+        ],
       },
       boxShadow: {
-        glow: "0 10px 40px -10px rgba(34, 211, 238, 0.45)",
-        "glow-blue": "0 10px 40px -10px rgba(37, 99, 235, 0.5)",
+        glow: "0 10px 40px -10px rgba(0, 209, 230, 0.45)",
+        "glow-blue": "0 10px 40px -10px rgba(0, 140, 255, 0.5)",
       },
       backgroundImage: {
         "grid-faint":
           "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
-        "brand-gradient": "linear-gradient(90deg, #2563eb 0%, #22d3ee 100%)",
+        // Primary brand gradient — Electric Cyan → Bright Blue
+        "brand-gradient": "linear-gradient(90deg, #00D1E6 0%, #008CFF 100%)",
       },
     },
   },

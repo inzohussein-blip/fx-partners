@@ -133,8 +133,8 @@ export function MarketChart() {
           secondsVisible: false,
         },
         crosshair: {
-          vertLine: { color: "#22d3ee", labelBackgroundColor: "#0891b2" },
-          horzLine: { color: "#22d3ee", labelBackgroundColor: "#0891b2" },
+          vertLine: { color: "#00D1E6", labelBackgroundColor: "#0891b2" },
+          horzLine: { color: "#00D1E6", labelBackgroundColor: "#0891b2" },
         },
         autoSize: true,
         handleScroll: false,
@@ -142,7 +142,7 @@ export function MarketChart() {
       });
 
       const series = chart.addAreaSeries({
-        lineColor: "#22d3ee",
+        lineColor: "#00D1E6",
         topColor: "rgba(34,211,238,0.35)",
         bottomColor: "rgba(34,211,238,0)",
         lineWidth: 2,

@@ -33,7 +33,7 @@ export async function GET(req: Request) {
           justifyContent: "center",
           gap: horizontal ? unit * 0.18 : unit * 0.12,
           padding: unit * 0.12,
-          backgroundColor: "#060f1e",
+          backgroundColor: "#0A0F14",
           backgroundImage:
             "radial-gradient(120% 120% at 100% 0%, rgba(37,99,235,0.40), rgba(6,15,30,0) 60%), radial-gradient(120% 120% at 0% 100%, rgba(34,211,238,0.28), rgba(6,15,30,0) 60%)",
           color: "#ffffff",
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: unit * 0.03 }}>
-          <span style={{ color: "#22d3ee", fontSize: unit * 0.17, fontWeight: 800 }}>
+          <span style={{ color: "#00D1E6", fontSize: unit * 0.17, fontWeight: 800 }}>
             FX
           </span>
           <span style={{ fontSize: unit * 0.17, fontWeight: 800 }}>Partners</span>

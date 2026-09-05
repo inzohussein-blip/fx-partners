@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Cairo } from "next/font/google";
+import { Cairo, Montserrat } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "sonner";
@@ -16,14 +16,24 @@ import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
 import "../globals.css";
 
+// Cairo carries Arabic (primary language); Montserrat carries Latin/numbers
+// per the brand identity. The font-sans stack lists Montserrat first, so each
+// glyph falls to Cairo only where Montserrat has no coverage (Arabic).
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
-  variable: "--font-sans",
+  variable: "--font-cairo",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#060f1e",
+  themeColor: "#0A0F14",
   colorScheme: "dark",
 };
 
@@ -86,7 +96,11 @@ export default async function LocaleLayout({
     : null;
 
   return (
-    <html lang={locale} dir={dir} className={cairo.variable}>
+    <html
+      lang={locale}
+      dir={dir}
+      className={`${montserrat.variable} ${cairo.variable}`}
+    >
       <head>
         {/* Warm up connections to external origins used at runtime */}
         {supabaseHost && <link rel="preconnect" href={supabaseHost} crossOrigin="" />}
@@ -110,7 +124,7 @@ export default async function LocaleLayout({
             closeButton
             toastOptions={{
               style: {
-                background: "#0a1728",
+                background: "#111c27",
                 border: "1px solid rgba(255,255,255,0.08)",
                 color: "#e2e8f0",
               },

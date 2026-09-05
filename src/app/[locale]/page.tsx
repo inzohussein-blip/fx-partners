@@ -32,7 +32,10 @@ import {
   Globe,
   Trophy,
   Play,
+  Zap,
+  Headphones,
 } from "lucide-react";
+import { MarketStrip } from "@/components/marketing/market-strip";
 
 async function getPartners() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
@@ -95,10 +98,10 @@ export default async function HomePage({
   ];
 
   const trustItems = [
-    { icon: Users, title: "شراكات استراتيجية", desc: "علاقات قوية وطويلة الأمد." },
-    { icon: TrendingUp, title: "تركيز على النمو", desc: "تحويل الفرص إلى نتائج ملموسة." },
-    { icon: ShieldCheck, title: "موثوق وآمن", desc: "التزام كامل بالنزاهة والشفافية." },
-    { icon: Globe, title: "رؤية عالمية", desc: "نربط الأفكار والأسواق حول العالم." },
+    { icon: BarChart3, title: "أسعار تنافسية", desc: "تداول بتكاليف أقل." },
+    { icon: ShieldCheck, title: "آمن ومرخّص", desc: "أموالك أولويتنا." },
+    { icon: Zap, title: "تنفيذ سريع", desc: "تداول دون تأخير." },
+    { icon: Headphones, title: "دعم 24/6", desc: "نحن هنا من أجلك." },
   ];
 
   return (
@@ -151,26 +154,21 @@ export default async function HomePage({
                 <div className="absolute inset-8 rounded-full border border-white/5" />
                 <div className="absolute inset-20 rounded-full border border-white/5" />
                 <div className="hero-glow absolute inset-12 rounded-full opacity-80" />
-                <LogoMark className="relative h-48 w-48 drop-shadow-[0_12px_40px_rgba(34,211,238,0.35)]" />
+                <LogoMark className="relative h-48 w-48 drop-shadow-[0_12px_40px_rgba(0,209,230,0.35)]" />
               </div>
             </div>
           </div>
 
-          {/* Trust bar */}
-          <div className="card-surface mt-16 grid gap-6 p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-4">
-            {trustItems.map((item, i) => (
-              <div
-                key={item.title}
-                className={`flex items-start gap-3.5 ${
-                  i > 0 ? "sm:border-t sm:border-white/5 sm:pt-6 lg:border-t-0 lg:border-s lg:ps-6 lg:pt-0" : ""
-                } ${i === 1 ? "sm:border-t-0 sm:pt-0" : ""}`}
-              >
+          {/* Inline benefit row (compact, per brand identity) */}
+          <div className="mt-14 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            {trustItems.map((item) => (
+              <div key={item.title} className="flex items-center gap-3.5">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <item.icon className="h-5 w-5" />
                 </span>
                 <div>
                   <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-400">{item.desc}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-slate-400">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -178,7 +176,10 @@ export default async function HomePage({
         </Container>
       </section>
 
-      {/* Social proof — trusted-by logo marquee (comes right after hero) */}
+      {/* Market strip — instruments with mini charts (matches brand hero) */}
+      <MarketStrip />
+
+      {/* Social proof — trusted-by logo marquee */}
       <LogoCarousel partners={partners} />
 
       {/* Impact stats band */}
