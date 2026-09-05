@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { savePost, deletePost, type PostInput } from "@/lib/actions/admin";
 import { RichEditor } from "@/components/dashboard/rich-editor";
+import { MediaUploadButton } from "@/components/dashboard/media-upload-button";
 import { Trash2 } from "lucide-react";
 
 const statuses: { value: PostInput["status"]; label: string }[] = [
@@ -58,13 +59,22 @@ export function PostEditor({ post }: { post?: PostInput }) {
           value={form.excerpt ?? ""}
           onChange={(v) => set("excerpt", v)}
         />
-        <Text
-          label="رابط صورة الغلاف"
-          value={form.cover_image ?? ""}
-          onChange={(v) => set("cover_image", v)}
-          placeholder="https://…"
-          mono
-        />
+        <div>
+          <Text
+            label="رابط صورة الغلاف"
+            value={form.cover_image ?? ""}
+            onChange={(v) => set("cover_image", v)}
+            placeholder="https://…"
+            mono
+          />
+          <div className="mt-2 flex items-center gap-3">
+            <MediaUploadButton onUploaded={(url) => set("cover_image", url)} label="رفع صورة الغلاف" />
+            {form.cover_image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={form.cover_image} alt="" className="h-10 w-16 rounded-lg border border-white/10 object-cover" />
+            )}
+          </div>
+        </div>
 
         <div className="block">
           <span className="mb-1.5 block text-sm text-slate-300">المحتوى</span>

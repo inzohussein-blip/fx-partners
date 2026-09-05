@@ -4,7 +4,8 @@ import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { uploadToMedia } from "@/lib/upload";
 import {
   Bold,
   Italic,
@@ -17,6 +18,7 @@ import {
   Image as ImageIcon,
   Undo2,
   Redo2,
+  Loader2,
 } from "lucide-react";
 
 function Btn({
@@ -47,6 +49,9 @@ function Btn({
 }
 
 function Toolbar({ editor }: { editor: Editor }) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
   const setLink = () => {
     const prev = editor.getAttributes("link").href as string | undefined;
     const url = window.prompt("رابط:", prev ?? "https://");
@@ -54,10 +59,21 @@ function Toolbar({ editor }: { editor: Editor }) {
     if (url === "") return editor.chain().focus().unsetLink().run();
     editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   };
-  const addImage = () => {
-    const url = window.prompt("رابط الصورة:", "https://");
-    if (url) editor.chain().focus().setImage({ src: url }).run();
-  };
+
+  async function onPickImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadToMedia(file);
+      editor.chain().focus().setImage({ src: url }).run();
+    } catch (err) {
+      window.alert(err instanceof Error ? err.message : "تعذّر رفع الصورة");
+    } finally {
+      setUploading(false);
+    }
+  }
 
   return (
     <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 p-1.5">
@@ -88,9 +104,10 @@ function Toolbar({ editor }: { editor: Editor }) {
       <Btn on={setLink} active={editor.isActive("link")} label="رابط">
         <LinkIcon className="h-4 w-4" />
       </Btn>
-      <Btn on={addImage} label="صورة">
-        <ImageIcon className="h-4 w-4" />
+      <Btn on={() => fileRef.current?.click()} active={uploading} label="رفع صورة">
+        {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImageIcon className="h-4 w-4" />}
       </Btn>
+      <input ref={fileRef} type="file" accept="image/*" hidden onChange={onPickImage} />
       <span className="mx-1 h-5 w-px bg-white/10" />
       <Btn on={() => editor.chain().focus().undo().run()} label="تراجع">
         <Undo2 className="h-4 w-4" />
