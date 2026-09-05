@@ -12,7 +12,8 @@
     "dashboard": "Partner Portal",
     "calendar": "Calendar",
     "resources": "Free tools",
-    "forum": "Forum"
+    "forum": "Forum",
+    "more": "More"
   },
   "Common": {
     "getStarted": "Get started",
@@ -29,7 +30,8 @@
     "badge": "Collaboration & Growth — B2B & IB",
     "titleTop": "Stronger Together,",
     "titleAccent": "Greater Success",
-    "subtitle": "We partner with agents and global brokers to unlock new opportunities and drive growth — with top commission rates and full earnings transparency."
+    "subtitle": "We partner with agents and global brokers to unlock new opportunities and drive growth — with top commission rates and full earnings transparency.",
+    "enterForum": "Enter the forum"
   },
   "Stats": {
     "partners": "2,400+",
@@ -205,6 +207,12 @@
     "compareBrokers": "Compare brokers",
     "liveOffers": "Live offers",
     "calculators": "Forex calculators",
+    "spreads": "Spreads",
+    "calendar": "Economic calendar",
+    "freeTools": "Free indicators",
+    "community": "Partnership & community",
+    "forum": "Forum",
+    "brokersDir": "Brokers directory",
     "account": "Account",
     "login": "Sign in",
     "dashboard": "Dashboard",

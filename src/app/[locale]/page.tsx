@@ -33,6 +33,7 @@ import {
   Play,
   Zap,
   Headphones,
+  MessagesSquare,
 } from "lucide-react";
 import { MarketStrip } from "@/components/marketing/market-strip";
 import { AnimatedStat } from "@/components/marketing/animated-counter";
@@ -129,8 +130,9 @@ export default async function HomePage({
       <MarketTicker />
 
       {/* Hero */}
-      <section className="hero-glow relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-faint [background-size:44px_44px] opacity-40" />
+      <section className="pro-hero relative">
+        <span className="aurora aurora-1" aria-hidden />
+        <span className="aurora aurora-2" aria-hidden />
         <Container className="relative py-20 sm:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             {/* Copy */}
@@ -158,6 +160,14 @@ export default async function HomePage({
                 <Button href="/login" className="text-base">
                   {hero.cta}
                   <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
+                </Button>
+                <Button
+                  href="/forum"
+                  variant="secondary"
+                  className="text-base"
+                >
+                  <MessagesSquare className="h-4 w-4" />
+                  {t("Hero.enterForum")}
                 </Button>
                 <a
                   href="#tools"

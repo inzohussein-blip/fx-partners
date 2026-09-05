@@ -42,6 +42,58 @@ summary:focus-visible,
     radial-gradient(40% 40% at 12% 30%, rgba(0, 209, 230, 0.12) 0%, rgba(10, 15, 20, 0) 70%);
 }
 
+/* Professional layered hero backdrop — soft aurora glows + a fine dot mesh
+   that fades out (replaces the raw full-bleed grid). CSS-only, so the page
+   stays statically rendered. */
+.pro-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 55% at 82% 6%, rgba(0, 140, 255, 0.20) 0%, transparent 60%),
+    radial-gradient(55% 50% at 8% 18%, rgba(0, 209, 230, 0.14) 0%, transparent 62%),
+    radial-gradient(120% 80% at 50% 128%, rgba(0, 90, 180, 0.18) 0%, transparent 72%);
+}
+.pro-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(75% 65% at 60% 28%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(75% 65% at 60% 28%, #000 0%, transparent 78%);
+  pointer-events: none;
+}
+/* Floating aurora blobs — slow drift for a premium, non-static feel. */
+.aurora {
+  position: absolute;
+  z-index: -1;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.aurora-1 {
+  width: 40rem; height: 40rem;
+  top: -14rem; inset-inline-end: -10rem;
+  background: radial-gradient(circle, rgba(0, 140, 255, 0.35) 0%, transparent 68%);
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+.aurora-2 {
+  width: 32rem; height: 32rem;
+  bottom: -12rem; inset-inline-start: -8rem;
+  background: radial-gradient(circle, rgba(0, 209, 230, 0.28) 0%, transparent 70%);
+  animation: aurora-drift 22s ease-in-out infinite alternate-reverse;
+}
+@keyframes aurora-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-3rem, 2rem, 0) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora-1, .aurora-2 { animation: none; }
+}
+
 .card-surface {
   @apply rounded-2xl border border-white/[0.06] bg-ink-800/60 backdrop-blur;
 }

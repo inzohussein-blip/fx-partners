@@ -25,18 +25,21 @@ export async function SiteFooter() {
           <h4 className="text-sm font-semibold text-white">{t("tools")}</h4>
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
             <li><Link href="/compare" className="hover:text-white">{t("compareBrokers")}</Link></li>
-            <li><Link href="/offers" className="hover:text-white">{t("liveOffers")}</Link></li>
+            <li><Link href="/spreads" className="hover:text-white">{t("spreads")}</Link></li>
             <li><Link href="/tools" className="hover:text-white">{t("calculators")}</Link></li>
+            <li><Link href="/calendar" className="hover:text-white">{t("calendar")}</Link></li>
+            <li><Link href="/free-tools" className="hover:text-white">{t("freeTools")}</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold text-white">{t("partnership")}</h4>
+          <h4 className="text-sm font-semibold text-white">{t("community")}</h4>
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
             <li><Link href="/affiliates" className="hover:text-white">{t("affiliateProgram")}</Link></li>
-            <li><Link href="/brokers" className="hover:text-white">{t("companyCollab")}</Link></li>
+            <li><Link href="/brokers" className="hover:text-white">{t("brokersDir")}</Link></li>
+            <li><Link href="/forum" className="hover:text-white">{t("forum")}</Link></li>
+            <li><Link href="/offers" className="hover:text-white">{t("liveOffers")}</Link></li>
             <li><Link href="/blog" className="hover:text-white">{t("blog")}</Link></li>
-            <li><Link href="/contact" className="hover:text-white">{t("contactUs")}</Link></li>
           </ul>
         </div>
 
@@ -45,6 +48,7 @@ export async function SiteFooter() {
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
             <li><Link href="/login" className="hover:text-white">{t("login")}</Link></li>
             <li><Link href="/dashboard" className="hover:text-white">{t("dashboard")}</Link></li>
+            <li><Link href="/contact" className="hover:text-white">{t("contactUs")}</Link></li>
             <li><Link href="/sitemap" className="hover:text-white">{t("siteMap")}</Link></li>
           </ul>
         </div>

@@ -5,23 +5,31 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { MobileNav } from "@/components/mobile-nav";
+import { MoreMenu } from "@/components/more-menu";
 
 export function SiteHeader() {
   const t = useTranslations("Nav");
 
-  const nav = [
+  // Primary links stay in the top bar; everything else collapses into "More".
+  const primary = [
     { href: "/", label: t("home") },
     { href: "/affiliates", label: t("affiliates") },
+    { href: "/brokers", label: t("brokers") },
+    { href: "/forum", label: t("forum") },
+    { href: "/blog", label: t("blog") },
+  ];
+
+  const more = [
     { href: "/compare", label: t("compare") },
     { href: "/spreads", label: t("spreads") },
     { href: "/tools", label: t("tools") },
     { href: "/calendar", label: t("calendar") },
     { href: "/free-tools", label: t("resources") },
     { href: "/offers", label: t("offers") },
-    { href: "/brokers", label: t("brokers") },
-    { href: "/forum", label: t("forum") },
-    { href: "/blog", label: t("blog") },
   ];
+
+  // Mobile drawer shows the full list.
+  const allNav = [...primary, ...more];
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-ink-900/80 backdrop-blur">
@@ -31,7 +39,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          {nav.map((item) => (
+          {primary.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -40,6 +48,7 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <MoreMenu label={t("more")} items={more} />
         </nav>
 
         <div className="flex items-center gap-1">
@@ -51,7 +60,7 @@ export function SiteHeader() {
             {t("dashboard")}
           </Button>
           <MobileNav
-            items={nav}
+            items={allNav}
             loginLabel={t("login")}
             dashboardLabel={t("dashboard")}
           />
