@@ -3,13 +3,11 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { Link } from "@/i18n/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/lib/supabase/client";
-import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/logo";
+import { AuthShell } from "@/components/auth/auth-shell";
 import { resetPasswordSchema, type ResetPasswordValues } from "@/lib/validators";
 
 export default function ResetPasswordPage() {
@@ -46,17 +44,11 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="hero-glow flex min-h-screen items-center justify-center py-12">
-      <Container className="max-w-md">
-        <Link href="/" className="mb-8 flex justify-center">
-          <Logo markClassName="h-9 w-9" />
-        </Link>
+    <AuthShell>
+      <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
+      <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
 
-        <div className="card-surface p-8">
-          <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
-          <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
             <label className="block">
               <span className="mb-1.5 block text-sm font-medium text-slate-300">
                 {t("newPassword")}
@@ -106,9 +98,7 @@ export default function ResetPasswordPage() {
               {isSubmitting ? t("saving") : t("save")}
             </Button>
           </form>
-        </div>
-      </Container>
-    </div>
+    </AuthShell>
   );
 }
 

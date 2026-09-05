@@ -122,7 +122,10 @@ export function DataTable<TData, TValue>({
                   const canSort = header.column.getCanSort();
                   const sorted = header.column.getIsSorted();
                   return (
-                    <th key={header.id} className="pb-3 font-medium">
+                    <th
+                      key={header.id}
+                      className="px-3 pb-3 font-medium first:ps-1 last:pe-1"
+                    >
                       {header.isPlaceholder ? null : canSort ? (
                         <button
                           onClick={header.column.getToggleSortingHandler()}
@@ -154,9 +157,12 @@ export function DataTable<TData, TValue>({
           </thead>
           <tbody className="divide-y divide-white/5">
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="text-slate-300">
+              <tr
+                key={row.id}
+                className="text-slate-300 transition-colors hover:bg-white/[0.025]"
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="py-3">
+                  <td key={cell.id} className="px-3 py-3.5 first:ps-1 last:pe-1">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

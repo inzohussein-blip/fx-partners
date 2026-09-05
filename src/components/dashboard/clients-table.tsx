@@ -52,7 +52,9 @@ const columns: ColumnDef<ClientRow>[] = [
     cell: (c) => {
       const s = statusLabel[c.getValue<string>()] ?? statusLabel.lead;
       return (
-        <span className={`rounded-md px-2 py-1 text-xs ${s.cls}`}>{s.text}</span>
+        <span className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${s.cls}`}>
+          {s.text}
+        </span>
       );
     },
   },
