@@ -12,6 +12,8 @@ import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { BrokerHighlight } from "@/components/marketing/broker-highlight";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
+import { Instruments } from "@/components/marketing/instruments";
+import { Steps } from "@/components/marketing/steps";
 import { MarketsLazy as Markets } from "@/components/marketing/markets-lazy";
 import { About } from "@/components/marketing/about";
 import { Team } from "@/components/marketing/team";
@@ -176,8 +178,11 @@ export default async function HomePage({
         </Container>
       </section>
 
-      {/* Impact stats */}
-      <section className="pb-4 pt-14">
+      {/* Social proof — trusted-by logo marquee (comes right after hero) */}
+      <LogoCarousel partners={partners} />
+
+      {/* Impact stats band */}
+      <section className="py-14">
         <Container>
           <div className="mb-8 flex items-center gap-3">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">
@@ -190,7 +195,7 @@ export default async function HomePage({
             {statCards.map((s) => (
               <div
                 key={s.label}
-                className="card-surface group p-6 text-center transition hover:ring-1 hover:ring-brand-500/30"
+                className="card-surface group p-6 text-center transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
               >
                 <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                   <s.icon className="h-5 w-5" />
@@ -205,10 +210,7 @@ export default async function HomePage({
         </Container>
       </section>
 
-      {/* Trusted-by animated logo carousel */}
-      <LogoCarousel partners={partners} />
-
-      {/* Features */}
+      {/* Why choose us — features */}
       <Reveal>
       <section className="py-16 sm:py-20">
         <Container>
@@ -223,7 +225,7 @@ export default async function HomePage({
             {features.map((f) => (
               <div
                 key={f.key}
-                className="card-surface group p-6 transition hover:ring-1 hover:ring-brand-500/30"
+                className="card-surface group p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
               >
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                   <f.icon className="h-5 w-5" />
@@ -241,27 +243,27 @@ export default async function HomePage({
       </section>
       </Reveal>
 
-      {/* Interactive tools (calculator / comparison / backtest) in tabs */}
-      <ToolsTabs />
+      {/* What can be traded — asset-class grid */}
+      <Reveal>
+        <Instruments />
+      </Reveal>
 
       {/* Live market chart (TradingView Lightweight Charts) */}
       <Reveal>
         <Markets />
       </Reveal>
 
+      {/* How to start — 3 steps */}
+      <Reveal>
+        <Steps />
+      </Reveal>
+
+      {/* Interactive tools (calculator / comparison / backtest) in tabs */}
+      <ToolsTabs />
+
       {/* Top brokers directory carousel */}
       <Reveal>
         <BrokerHighlight />
-      </Reveal>
-
-      {/* About */}
-      <Reveal>
-        <About />
-      </Reveal>
-
-      {/* Team */}
-      <Reveal>
-        <Team />
       </Reveal>
 
       {/* Testimonials */}
@@ -272,6 +274,16 @@ export default async function HomePage({
       {/* FAQ */}
       <Reveal>
         <Faq />
+      </Reveal>
+
+      {/* About */}
+      <Reveal>
+        <About />
+      </Reveal>
+
+      {/* Team */}
+      <Reveal>
+        <Team />
       </Reveal>
 
       {/* Contact */}

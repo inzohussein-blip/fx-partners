@@ -255,5 +255,59 @@
   "Metadata": {
     "title": "FX Partners — Global Financial Partnership",
     "description": "FX Partners — the partnership platform for IB agents, marketers, and global brokers. Top commission rates, full transparency, and on-time payouts."
+  },
+  "Instruments": {
+    "badge": "Markets",
+    "heading": "Markets that cover everything your clients want",
+    "subheading": "Our partners offer thousands of instruments across every asset class — tight pricing, fast execution.",
+    "cta": "Explore brokers & markets",
+    "forex": {
+      "name": "Forex",
+      "desc": "60+ major and minor currency pairs",
+      "change": "0.42%"
+    },
+    "metals": {
+      "name": "Metals",
+      "desc": "Gold, Silver, Platinum",
+      "change": "1.18%"
+    },
+    "indices": {
+      "name": "Indices",
+      "desc": "US30, NAS100, GER40",
+      "change": "0.31%"
+    },
+    "crypto": {
+      "name": "Crypto",
+      "desc": "BTC, ETH and 50+ coins",
+      "change": "2.65%"
+    },
+    "stocks": {
+      "name": "Stocks",
+      "desc": "Apple, Tesla, Amazon and blue chips",
+      "change": "0.87%"
+    },
+    "energy": {
+      "name": "Energy",
+      "desc": "Crude oil, Natural gas",
+      "change": "0.54%"
+    }
+  },
+  "Steps": {
+    "badge": "How it works",
+    "heading": "Start your partnership in 3 steps",
+    "subheading": "From sign-up to your first commission — simple and fast.",
+    "cta": "Create a free partner account",
+    "signup": {
+      "title": "Sign up free",
+      "desc": "Create a partner account in a minute and get approved fast."
+    },
+    "share": {
+      "title": "Copy your link",
+      "desc": "Share referral links and ready-made banners with your audience."
+    },
+    "earn": {
+      "title": "Get paid",
+      "desc": "Track earnings live and withdraw via multiple methods."
+    }
   }
 }
