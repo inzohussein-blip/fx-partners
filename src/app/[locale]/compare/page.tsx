@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
+import { Scale } from "lucide-react";
 import type { Broker } from "@/lib/brokers";
 
 export const dynamic = "force-dynamic";
@@ -43,6 +44,7 @@ export default async function ComparePage() {
       <section className="hero-glow">
         <Container className="py-16 text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+            <Scale className="h-3.5 w-3.5" aria-hidden />
             دليل الشركات
           </span>
           <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">

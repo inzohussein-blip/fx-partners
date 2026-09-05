@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CouponCard, type Coupon } from "@/components/marketing/coupon-card";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { Crosshair, ArrowLeft, Flame, Ticket } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -78,8 +79,16 @@ export default async function OffersPage() {
         </Container>
       </section>
 
-      <section className="pb-24">
+      <section className="py-16">
         <Container>
+          <SectionHeading
+            eyebrow="العروض النشطة"
+            icon={Flame}
+            title="بونصات وعروض محدّثة لحظياً"
+            subtitle="اختر العرض الأنسب لك وافتح حسابك عبر رابطنا الحصري."
+            align="start"
+          />
+          <div className="mt-10" />
           {campaigns.length === 0 ? (
             <div className="card-surface p-12 text-center text-sm text-slate-500">
               لا توجد عروض نشطة حالياً. تابعنا — الفرص تُطلق في أي لحظة.
@@ -118,13 +127,13 @@ export default async function OffersPage() {
       {coupons.length > 0 && (
         <section className="pb-24">
           <Container>
-            <div className="flex items-center gap-2">
-              <Ticket className="h-5 w-5 text-brand-300" />
-              <h2 className="text-2xl font-bold text-white">أكواد وكوبونات حصرية</h2>
-            </div>
-            <p className="mt-1 text-sm text-slate-400">
-              انسخ الكود وافتح حسابك عبر رابطنا الحصري للحصول على العرض.
-            </p>
+            <SectionHeading
+              eyebrow="كوبونات"
+              icon={Ticket}
+              title="أكواد وكوبونات حصرية"
+              subtitle="انسخ الكود وافتح حسابك عبر رابطنا الحصري للحصول على العرض."
+              align="start"
+            />
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {coupons.map((c) => (
                 <CouponCard key={c.id} coupon={c} />
