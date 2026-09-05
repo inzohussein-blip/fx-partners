@@ -20,22 +20,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
 
-  for (const path of STATIC_PATHS) {
+  // One canonical (Arabic) entry per URL, with hreflang alternates pointing
+  // to the English version — the structure Google recommends for i18n.
+  const push = (
+    path: string,
+    lastModified: Date,
+    changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"],
+    priority: number
+  ) => {
     entries.push({
       url: `${base}${path || "/"}`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: path === "" ? 1 : 0.8,
+      lastModified,
+      changeFrequency,
+      priority,
+      alternates: {
+        languages: {
+          ar: `${base}${path || "/"}`,
+          en: `${base}/en${path}`,
+        },
+      },
     });
-    entries.push({
-      url: `${base}/en${path}`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.5,
-    });
+  };
+
+  for (const path of STATIC_PATHS) {
+    push(path, now, "weekly", path === "" ? 1 : 0.8);
   }
 
-  // Dynamic content: broker landing pages + blog posts (both locales).
+  // Dynamic content: broker landing pages + blog posts.
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
       const supabase = createClient();
@@ -45,25 +56,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ]);
 
       for (const b of (brokers as { slug: string; updated_at: string | null }[]) ?? []) {
-        for (const prefix of ["", "/en"]) {
-          entries.push({
-            url: `${base}${prefix}/brokers/${b.slug}`,
-            lastModified: b.updated_at ? new Date(b.updated_at) : now,
-            changeFrequency: "weekly",
-            priority: prefix ? 0.5 : 0.7,
-          });
-        }
+        push(
+          `/brokers/${b.slug}`,
+          b.updated_at ? new Date(b.updated_at) : now,
+          "weekly",
+          0.7
+        );
       }
 
       for (const p of (posts as { slug: string; published_at: string | null }[]) ?? []) {
-        for (const prefix of ["", "/en"]) {
-          entries.push({
-            url: `${base}${prefix}/blog/${p.slug}`,
-            lastModified: p.published_at ? new Date(p.published_at) : now,
-            changeFrequency: "monthly",
-            priority: prefix ? 0.4 : 0.6,
-          });
-        }
+        push(
+          `/blog/${p.slug}`,
+          p.published_at ? new Date(p.published_at) : now,
+          "monthly",
+          0.6
+        );
       }
     }
   } catch {

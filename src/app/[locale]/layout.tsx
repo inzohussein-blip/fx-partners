@@ -42,8 +42,17 @@ export async function generateMetadata({
     title: { default: t("title"), template: "%s | FX Partners" },
     description: t("description"),
     metadataBase: new URL(getSiteUrl()),
+    alternates: {
+      canonical: locale === "ar" ? "/" : "/en",
+      languages: {
+        ar: "/",
+        en: "/en",
+        "x-default": "/",
+      },
+    },
     openGraph: {
       type: "website",
+      url: locale === "ar" ? "/" : "/en",
       siteName: "FX Partners",
       locale: locale === "ar" ? "ar_AR" : "en_US",
       title: t("title"),
