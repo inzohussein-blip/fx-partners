@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Crosshair,
   Download,
+  Share2,
 } from "lucide-react";
 
 type Tab = { href: string; label: string; icon: typeof UserCheck; exact?: boolean };
@@ -31,6 +32,7 @@ const groups: { label: string; tabs: Tab[] }[] = [
     tabs: [
       { href: "/dashboard/admin/partners", label: "الشركاء", icon: Building2 },
       { href: "/dashboard/admin/brokers", label: "دليل الشركات", icon: Scale },
+      { href: "/dashboard/admin/network", label: "خريطة الشبكة", icon: Share2 },
     ],
   },
   {
