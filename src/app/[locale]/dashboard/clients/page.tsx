@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ClientsTable, type ClientRow } from "@/components/dashboard/clients-table";
 
@@ -50,12 +52,11 @@ export default async function ClientsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">العملاء</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          العملاء المسجّلون من خلال روابط إحالتك — بحث وفرز وفلترة.
-        </p>
-      </header>
+      <PageHeader
+        icon={Users}
+        title={"العملاء"}
+        subtitle={"العملاء المسجّلون من خلال روابط إحالتك — بحث وفرز وفلترة."}
+      />
 
       <ClientsTable rows={rows} />
     </div>

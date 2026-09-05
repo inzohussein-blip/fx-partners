@@ -1,9 +1,10 @@
+import { PageHeader } from "@/components/dashboard/page-header";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { IbActions, WithdrawalActions } from "@/components/dashboard/admin-actions";
 import { formatCurrency } from "@/lib/utils";
-import { UserCheck, Clock, BadgeDollarSign } from "lucide-react";
+import { UserCheck, Clock, BadgeDollarSign, ShieldCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -89,12 +90,11 @@ export default async function AdminPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">الاعتمادات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          اعتماد الوكلاء (IBs) ومعالجة طلبات السحب.
-        </p>
-      </header>
+      <PageHeader
+        icon={ShieldCheck}
+        title={"الاعتمادات"}
+        subtitle={"اعتماد الوكلاء (IBs) ومعالجة طلبات السحب."}
+      />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard

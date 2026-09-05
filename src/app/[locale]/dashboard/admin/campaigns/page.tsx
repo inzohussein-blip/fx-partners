@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Ticket } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   CampaignsManager,
@@ -37,13 +39,11 @@ export default async function AdminCampaignsPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">العروض والكوبونات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          أطلق عروضاً حصرية تظهر فوراً كلافتة متحركة لكل الزوّار، وأضِف أكواد
-          كوبونات في صفحة العروض.
-        </p>
-      </header>
+      <PageHeader
+        icon={Ticket}
+        title={"العروض والكوبونات"}
+        subtitle={"أطلق عروضاً حصرية تظهر فوراً كلافتة متحركة لكل الزوّار، وأضِف أكواد كوبونات في صفحة العروض."}
+      />
 
       <CampaignsManager campaigns={campaigns} brokers={brokers} />
 

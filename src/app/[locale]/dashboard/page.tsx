@@ -6,8 +6,9 @@ import {
   PerformancePanel,
   type StatusCounts,
 } from "@/components/dashboard/performance-panel";
+import { PageHeader } from "@/components/dashboard/page-header";
 import { formatCurrency, formatCompact } from "@/lib/utils";
-import { Wallet, TrendingUp, Users, Link2 } from "lucide-react";
+import { Wallet, TrendingUp, Users, Link2, LayoutDashboard } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -153,12 +154,11 @@ export default async function OverviewPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">النظرة العامة</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          ملخّص حيّ لأرباحك وحجم التداول والإحالات.
-        </p>
-      </header>
+      <PageHeader
+        icon={LayoutDashboard}
+        title="النظرة العامة"
+        subtitle="ملخّص حيّ لأرباحك وحجم التداول والإحالات."
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

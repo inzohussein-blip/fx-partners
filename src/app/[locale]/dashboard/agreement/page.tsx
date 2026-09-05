@@ -1,7 +1,8 @@
+import { PageHeader } from "@/components/dashboard/page-header";
 import { createClient } from "@/lib/supabase/server";
 import { AgreementSigner } from "@/components/dashboard/agreement-signer";
 import { AgreementDownload } from "@/components/dashboard/agreement-download";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, FileSignature } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -37,12 +38,11 @@ export default async function AgreementPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">اتفاقية الشراكة</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          وقّع اتفاقية الشراكة إلكترونياً واحتفظ بنسخة PDF موقّعة.
-        </p>
-      </header>
+      <PageHeader
+        icon={FileSignature}
+        title={"اتفاقية الشراكة"}
+        subtitle={"وقّع اتفاقية الشراكة إلكترونياً واحتفظ بنسخة PDF موقّعة."}
+      />
 
       {signedAt ? (
         <section className="card-surface p-8 text-center">

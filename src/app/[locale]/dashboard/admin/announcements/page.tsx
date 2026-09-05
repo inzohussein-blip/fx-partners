@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Megaphone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   AnnouncementsManager,
@@ -20,12 +22,11 @@ export default async function AdminAnnouncementsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">الإعلانات والتحديثات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          انشر تحديثات تظهر للوكلاء في جرس الإشعارات وصفحة التحديثات.
-        </p>
-      </header>
+      <PageHeader
+        icon={Megaphone}
+        title={"الإعلانات والتحديثات"}
+        subtitle={"انشر تحديثات تظهر للوكلاء في جرس الإشعارات وصفحة التحديثات."}
+      />
 
       <AnnouncementsManager items={items} />
     </div>

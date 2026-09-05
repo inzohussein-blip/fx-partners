@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Radio } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   SignalsManager,
@@ -33,13 +35,11 @@ export default async function AdminSignalsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">التوصيات والبثّ</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          انشر تحليلاً أو توصية لتظهر فوراً للوكلاء وتُبثّ إلى تلغرام وقنوات
-          الويبهوكس.
-        </p>
-      </header>
+      <PageHeader
+        icon={Radio}
+        title={"التوصيات والبثّ"}
+        subtitle={"انشر تحليلاً أو توصية لتظهر فوراً للوكلاء وتُبثّ إلى تلغرام وقنوات الويبهوكس."}
+      />
 
       <SignalsManager signals={signals} hooks={hooks} brokers={brokers} />
     </div>

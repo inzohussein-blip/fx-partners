@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { CandlestickChart } from "lucide-react";
 import { TradingViewWidget } from "@/components/tradingview-widget";
 
 const BASE = "https://s3.tradingview.com/external-embedding";
@@ -5,12 +7,11 @@ const BASE = "https://s3.tradingview.com/external-embedding";
 export default function MarketsNewsPage() {
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">الأسواق والأخبار</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          التقويم الاقتصادي والأخبار المؤثّرة على حركة العملات — محدّثة لحظياً.
-        </p>
-      </header>
+      <PageHeader
+        icon={CandlestickChart}
+        title={"الأسواق والأخبار"}
+        subtitle={"التقويم الاقتصادي والأخبار المؤثّرة على حركة العملات — محدّثة لحظياً."}
+      />
 
       {/* Ticker tape */}
       <div className="card-surface overflow-hidden p-2">

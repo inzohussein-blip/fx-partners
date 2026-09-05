@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SettingsForm } from "@/components/dashboard/settings-form";
 import { TelegramConnect } from "@/components/dashboard/telegram-connect";
@@ -49,12 +51,11 @@ export default async function SettingsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">الإعدادات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          حدّث بيانات ملفك الشخصي ومعلومات التواصل.
-        </p>
-      </header>
+      <PageHeader
+        icon={Settings}
+        title={"الإعدادات"}
+        subtitle={"حدّث بيانات ملفك الشخصي ومعلومات التواصل."}
+      />
 
       <SettingsForm profile={profile} />
       <TelegramConnect linked={telegramLinked} />

@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { PostsTable, type PostRow } from "@/components/dashboard/posts-table";
-import { Plus } from "lucide-react";
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Plus, FileText } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -18,18 +19,17 @@ export default async function AdminPostsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-white">المنشورات</h1>
-          <p className="mt-1 text-sm text-slate-400">
-            أنشئ وحرّر منشورات المدونة بدون كود.
-          </p>
-        </div>
-        <Button href="/dashboard/admin/posts/new">
-          <Plus className="h-4 w-4" />
-          منشور جديد
-        </Button>
-      </div>
+      <PageHeader
+        icon={FileText}
+        title="المنشورات"
+        subtitle="أنشئ وحرّر منشورات المدونة بدون كود."
+        action={
+          <Button href="/dashboard/admin/posts/new">
+            <Plus className="h-4 w-4" />
+            منشور جديد
+          </Button>
+        }
+      />
 
       <PostsTable rows={posts} />
     </div>

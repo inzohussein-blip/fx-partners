@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Megaphone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ReferralGenerator } from "@/components/dashboard/referral-generator";
 import { getSiteUrl } from "@/lib/utils";
@@ -62,12 +64,11 @@ export default async function MarketingPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">أدوات التسويق</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          ولّد روابط إحالة ديناميكية وتابع أداء كل حملة.
-        </p>
-      </header>
+      <PageHeader
+        icon={Megaphone}
+        title={"أدوات التسويق"}
+        subtitle={"ولّد روابط إحالة ديناميكية وتابع أداء كل حملة."}
+      />
 
       <ReferralGenerator
         ibId={ibId}

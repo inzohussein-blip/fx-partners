@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Building2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   BrokersManager,
@@ -71,13 +73,11 @@ export default async function AdminBrokersPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">دليل شركات التداول</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          أضِف الشركات وروابط الإحالة المتعددة، وأشرِف على مراجعات العملاء
-          (موافقة/حذف/رد الإدارة).
-        </p>
-      </header>
+      <PageHeader
+        icon={Building2}
+        title={"دليل شركات التداول"}
+        subtitle={"أضِف الشركات وروابط الإحالة المتعددة، وأشرِف على مراجعات العملاء (موافقة/حذف/رد الإدارة)."}
+      />
 
       <BrokersManager brokers={brokers} pending={pending} countries={countries} />
     </div>

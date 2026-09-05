@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { CalendarClock } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import {
   MeetingsManager,
@@ -39,13 +41,11 @@ export default async function AdminMeetingsPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">اجتماعات الشراكات B2B</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          انشر مواعيد متاحة على صفحة B2B، وأدر حجوزات شركات التداول والوكلاء
-          الرئيسيين. تصلك إشعارات تلغرام عند كل حجز جديد.
-        </p>
-      </header>
+      <PageHeader
+        icon={CalendarClock}
+        title={"اجتماعات الشراكات B2B"}
+        subtitle={"انشر مواعيد متاحة على صفحة B2B، وأدر حجوزات شركات التداول والوكلاء الرئيسيين. تصلك إشعارات تلغرام عند كل حجز جديد."}
+      />
 
       <MeetingsManager slots={slots} bookings={bookings} />
     </div>

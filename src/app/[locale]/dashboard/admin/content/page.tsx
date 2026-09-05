@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Type } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ContentEditor, type ContentField } from "@/components/dashboard/content-editor";
 
@@ -63,12 +65,11 @@ export default async function AdminContentPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">نصوص الموقع</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          عدّل نصوص الصفحات مباشرةً — تُحدّث الواجهة العامة فوراً.
-        </p>
-      </header>
+      <PageHeader
+        icon={Type}
+        title={"نصوص الموقع"}
+        subtitle={"عدّل نصوص الصفحات مباشرةً — تُحدّث الواجهة العامة فوراً."}
+      />
 
       <div className="space-y-5">
         {BLOCKS.map((block) => (

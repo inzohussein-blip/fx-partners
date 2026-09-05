@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Handshake } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PartnersManager } from "@/components/dashboard/partners-manager";
 
@@ -27,12 +29,11 @@ export default async function AdminPartnersPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-white">الشركاء</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          أضِف وحرّر شركات التداول والسيولة والتقنية المعروضة في صفحة B2B.
-        </p>
-      </header>
+      <PageHeader
+        icon={Handshake}
+        title={"الشركاء"}
+        subtitle={"أضِف وحرّر شركات التداول والسيولة والتقنية المعروضة في صفحة B2B."}
+      />
 
       <PartnersManager
         partners={partners.map((p) => ({

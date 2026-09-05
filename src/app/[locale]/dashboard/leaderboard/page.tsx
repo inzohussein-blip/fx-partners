@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/dashboard/page-header";
 import { createClient } from "@/lib/supabase/server";
 import { TIERS } from "@/lib/levels";
 import { formatCurrency } from "@/lib/utils";
@@ -74,13 +75,11 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">لوحة المتصدّرين</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          أفضل 10 وكلاء هذا الموسم — بالأداء لا بالأسماء. الهويات مجهّلة برمز الوكيل
-          (IB) لحماية الخصوصية.
-        </p>
-      </header>
+      <PageHeader
+        icon={Trophy}
+        title={"لوحة المتصدّرين"}
+        subtitle={"أفضل 10 وكلاء هذا الموسم — بالأداء لا بالأسماء. الهويات مجهّلة برمز الوكيل (IB) لحماية الخصوصية."}
+      />
 
       {/* Podium — top 3 */}
       <div className="grid gap-4 sm:grid-cols-3">

@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { categoryMeta, timeAgo, type Announcement } from "@/lib/announcements";
 
@@ -24,12 +26,11 @@ export default async function UpdatesPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">آخر التحديثات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          كل جديد في FX Partners: الميزات، العروض، وتغييرات نسب العمولات.
-        </p>
-      </header>
+      <PageHeader
+        icon={Sparkles}
+        title={"آخر التحديثات"}
+        subtitle={"كل جديد في FX Partners: الميزات، العروض، وتغييرات نسب العمولات."}
+      />
 
       {items.length === 0 ? (
         <div className="card-surface p-10 text-center text-sm text-slate-500">

@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/dashboard/page-header";
+import { Radio } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SignalsFeed } from "@/components/dashboard/signals-feed";
 import type { Signal } from "@/lib/signals";
@@ -25,12 +27,11 @@ export default async function SignalsPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">التوصيات والتحليلات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          توصيات وتحليلات فنية فورية من فريق FX Partners — تتحدّث لحظياً.
-        </p>
-      </header>
+      <PageHeader
+        icon={Radio}
+        title={"التوصيات والتحليلات"}
+        subtitle={"توصيات وتحليلات فنية فورية من فريق FX Partners — تتحدّث لحظياً."}
+      />
 
       <SignalsFeed initial={signals} />
     </div>

@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/dashboard/page-header";
 import { createClient } from "@/lib/supabase/server";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { WithdrawForm } from "@/components/dashboard/withdraw-form";
@@ -75,12 +76,11 @@ export default async function WalletPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <h1 className="text-2xl font-bold text-white">المحفظة والسحوبات</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          تابع رصيدك وقدّم طلبات سحب الأرباح.
-        </p>
-      </header>
+      <PageHeader
+        icon={Wallet}
+        title={"المحفظة والسحوبات"}
+        subtitle={"تابع رصيدك وقدّم طلبات سحب الأرباح."}
+      />
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="الرصيد المتاح" value={formatCurrency(balance)} icon={Wallet} />
