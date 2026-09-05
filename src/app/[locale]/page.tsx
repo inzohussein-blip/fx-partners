@@ -20,7 +20,6 @@ import { Team } from "@/components/marketing/team";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
 import { Contact } from "@/components/marketing/contact";
-import { LogoMark } from "@/components/logo";
 import {
   ArrowLeft,
   ShieldCheck,
@@ -172,14 +171,20 @@ export default async function HomePage({
               </div>
             </div>
 
-            {/* Glowing brand emblem */}
-            <div className="relative hidden lg:block" aria-hidden>
-              <div className="relative mx-auto grid aspect-square max-w-md place-items-center">
-                <div className="absolute inset-0 rounded-full bg-brand-500/10 blur-3xl" />
-                <div className="absolute inset-8 rounded-full border border-white/5" />
-                <div className="absolute inset-20 rounded-full border border-white/5" />
-                <div className="hero-glow absolute inset-12 rounded-full opacity-80" />
-                <LogoMark className="relative h-48 w-48 drop-shadow-[0_12px_40px_rgba(0,209,230,0.35)]" />
+            {/* Platform showcase — global markets on desktop + mobile */}
+            <div className="relative" aria-hidden>
+              <div className="absolute -inset-6 rounded-[2rem] bg-brand-500/10 blur-3xl" />
+              <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_24px_80px_-20px_rgba(0,140,255,0.4)] ring-1 ring-white/5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/hero-platform.webp"
+                  alt="منصة FX Partners للتداول العالمي عبر الحاسوب والجوال"
+                  width={1200}
+                  height={675}
+                  fetchPriority="high"
+                  className="h-full w-full object-cover"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/40 via-transparent to-transparent" />
               </div>
             </div>
           </div>
