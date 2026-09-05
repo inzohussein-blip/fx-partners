@@ -37,13 +37,13 @@ export async function reorderRecords(
   const { supabase, admin } = await requireAdmin();
   if (!admin) return { ok: false, error: "غير مصرّح" };
 
-  const results = await Promise.all(
-    orderedIds.map((id, index) =>
-      supabase.from(table).update({ sort_order: index }).eq("id", id)
-    )
-  );
-  const failed = results.find((r) => r.error);
-  if (failed?.error) return { ok: false, error: failed.error.message };
+  // Apply the whole order in one atomic statement (see migration 0022) so a
+  // failure can't leave rows with a partial/inconsistent sort_order.
+  const { error } = await supabase.rpc("reorder_records", {
+    p_table: table,
+    p_ids: orderedIds,
+  });
+  if (error) return { ok: false, error: error.message };
 
   for (const p of paths) revalidatePath(p);
   return { ok: true };

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { Pencil, Check } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 type Ctx = { isAdmin: boolean; editMode: boolean };
 const AdminEditContext = createContext<Ctx>({ isAdmin: false, editMode: false });
@@ -15,15 +16,45 @@ const KEY = "fxp_edit_mode";
 /**
  * Provides admin edit state to the marketing pages and renders a floating
  * toggle (only for admins) that turns on-page inline editing on/off.
+ *
+ * Admin status is resolved on the client (after hydration) so the public
+ * marketing pages stay statically rendered — the shared server layout no
+ * longer reads auth cookies on every request. RLS lets a signed-in user read
+ * only their own profile row, so this discloses nothing to anonymous visitors.
  */
 export function AdminEditProvider({
-  isAdmin,
   children,
 }: {
-  isAdmin: boolean;
   children: React.ReactNode;
 }) {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
+  // Detect admin client-side; only signed-in admins ever see edit affordances.
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user || cancelled) return;
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .maybeSingle();
+        if (!cancelled) setIsAdmin(profile?.role === "admin");
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Remember the toggle across navigations (per session).
   useEffect(() => {

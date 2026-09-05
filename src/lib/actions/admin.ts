@@ -205,22 +205,14 @@ export async function saveContentField(
   if (!admin) return { ok: false, error: "غير مصرّح" };
   if (!key || !field) return { ok: false, error: "بيانات ناقصة" };
 
-  const { data: existing } = await supabase
-    .from("site_content")
-    .select("value")
-    .eq("key", key)
-    .maybeSingle();
-
-  const merged = { ...((existing?.value as Record<string, unknown>) ?? {}), [field]: value };
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { error } = await supabase.from("site_content").upsert(
-    { key, value: merged, updated_by: user?.id ?? null, updated_at: new Date().toISOString() },
-    { onConflict: "key" }
-  );
+  // Merge the single field atomically in Postgres (see migration 0023) so
+  // concurrent edits to different fields of the same key don't clobber each
+  // other via a read-modify-write race.
+  const { error } = await supabase.rpc("set_content_field", {
+    p_key: key,
+    p_field: field,
+    p_value: value,
+  });
   if (error) return { ok: false, error: error.message };
 
   revalidatePublic();

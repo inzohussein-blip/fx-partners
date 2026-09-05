@@ -11,6 +11,11 @@ import { ArrowRight } from "lucide-react";
 
 export const revalidate = 60;
 
+/** Heuristic: does this body contain HTML tags (TipTap output) or is it legacy plain text/Markdown? */
+function isHtml(body: string | null | undefined): boolean {
+  return !!body && /<([a-z][a-z0-9]*)\b[^>]*>/i.test(body);
+}
+
 type Post = {
   title: string;
   body: string | null;
@@ -111,11 +116,19 @@ export default async function PostPage({
             </time>
           )}
 
-          {/* Admin-authored rich HTML (TipTap). Writes are RLS-restricted to admins. */}
-          <div
-            className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white"
-            dangerouslySetInnerHTML={{ __html: post.body ?? "" }}
-          />
+          {/* Admin-authored content. New posts are rich HTML (TipTap); legacy
+              posts were stored as plain text/Markdown — render those verbatim so
+              they don't show raw markup. Writes are RLS-restricted to admins. */}
+          {isHtml(post.body) ? (
+            <div
+              className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white"
+              dangerouslySetInnerHTML={{ __html: post.body ?? "" }}
+            />
+          ) : (
+            <div className="prose prose-invert mt-8 max-w-none whitespace-pre-wrap text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white">
+              {post.body ?? ""}
+            </div>
+          )}
 
           <div className="mt-12 border-t border-white/5 pt-6">
             <Link

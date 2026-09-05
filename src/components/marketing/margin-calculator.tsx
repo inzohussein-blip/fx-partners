@@ -38,8 +38,14 @@ const usd = (n: number) =>
 
 function parseLeverage(s: string | null): number {
   if (!s) return 100;
-  const m = s.match(/1\s*:\s*(\d+)/);
-  return m ? Number(m[1]) : Number(s.replace(/\D/g, "")) || 100;
+  // "1:500" style ratios.
+  const ratio = s.match(/1\s*:\s*(\d+)/);
+  if (ratio) return Number(ratio[1]);
+  // Bare numbers like "500". Guard against "1:Unlimited" (digits → "1"),
+  // which would otherwise imply 1× leverage and hugely inflate the margin —
+  // fall back to a conservative default instead.
+  const n = Number(s.replace(/\D/g, ""));
+  return n > 1 ? n : 100;
 }
 
 function brokerHref(b: Broker): string {

@@ -21,7 +21,10 @@ export function AnimatedCounter({
   suffix?: string;
   className?: string;
 }) {
-  const [value, setValue] = useState(0);
+  // Initialise to the final value so the server, crawlers, and no-JS visitors
+  // see the real number (not 0). The count-up resets to 0 only once the element
+  // scrolls into view on a motion-enabled client.
+  const [value, setValue] = useState(to);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
@@ -41,6 +44,7 @@ export function AnimatedCounter({
       ([entry]) => {
         if (entry.isIntersecting && !started.current) {
           started.current = true;
+          setValue(0);
           const start = performance.now();
           const tick = (now: number) => {
             const p = Math.min((now - start) / duration, 1);
