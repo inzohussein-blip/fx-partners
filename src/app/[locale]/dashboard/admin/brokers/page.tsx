@@ -7,6 +7,7 @@ import {
   type PendingReview,
   type CountryStat,
 } from "@/components/dashboard/brokers-manager";
+import { ReorderPanel } from "@/components/dashboard/reorder-panel";
 
 export const dynamic = "force-dynamic";
 
@@ -78,6 +79,28 @@ export default async function AdminBrokersPage() {
         title={"دليل شركات التداول"}
         subtitle={"أضِف الشركات وروابط الإحالة المتعددة، وأشرِف على مراجعات العملاء (موافقة/حذف/رد الإدارة)."}
       />
+
+      {brokers.length > 1 && (
+        <details className="card-surface p-5">
+          <summary className="cursor-pointer text-sm font-semibold text-white">
+            ترتيب عرض الشركات (سحب وإفلات)
+          </summary>
+          <p className="mt-1 text-xs text-slate-500">
+            اسحب الشركات لإعادة ترتيبها كما تظهر للزوّار، ثم احفظ.
+          </p>
+          <div className="mt-4">
+            <ReorderPanel
+              table="brokers"
+              items={brokers.map((b) => ({
+                id: b.id,
+                label: b.name,
+                sublabel: b.status === "partnered" ? "شريك" : "غير شريك",
+                logo: b.logo_url,
+              }))}
+            />
+          </div>
+        </details>
+      )}
 
       <BrokersManager brokers={brokers} pending={pending} countries={countries} />
     </div>

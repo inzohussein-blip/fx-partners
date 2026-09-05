@@ -5,6 +5,7 @@ import {
   ResourcesManager,
   type AdminResource,
 } from "@/components/dashboard/resources-manager";
+import { ReorderPanel } from "@/components/dashboard/reorder-panel";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +37,20 @@ export default async function AdminResourcesPage() {
         title="الأدوات المجانية"
         subtitle="أضِف مؤشرات وقوالب وكتب — يشترط النظام فتح حساب عبر رابط الشركة قبل التحميل."
       />
+      {resources.length > 1 && (
+        <details className="card-surface p-5">
+          <summary className="cursor-pointer text-sm font-semibold text-white">
+            ترتيب عرض الأدوات (سحب وإفلات)
+          </summary>
+          <div className="mt-4">
+            <ReorderPanel
+              table="trading_resources"
+              items={resources.map((r) => ({ id: r.id, label: r.title, sublabel: r.kind }))}
+            />
+          </div>
+        </details>
+      )}
+
       <ResourcesManager resources={resources} brokers={brokers} />
     </div>
   );
