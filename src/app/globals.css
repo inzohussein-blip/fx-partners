@@ -221,3 +221,10 @@ summary:focus-visible,
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-thumb { @apply bg-ink-600 rounded-full; }
 ::-webkit-scrollbar-track { @apply bg-ink-900; }
+
+/* Hero visual — fade the render's own rectangular edges into the page so the
+   globe/devices appear to float in the background (no visible image frame). */
+.hero-visual {
+  -webkit-mask-image: radial-gradient(ellipse 66% 58% at 50% 50%, #000 30%, transparent 86%);
+  mask-image: radial-gradient(ellipse 66% 58% at 50% 50%, #000 30%, transparent 86%);
+}

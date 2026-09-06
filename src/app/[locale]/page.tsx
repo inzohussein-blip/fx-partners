@@ -30,12 +30,8 @@ import {
   BarChart3,
   Globe,
   Trophy,
-  Play,
-  Zap,
-  Headphones,
-  MessagesSquare,
 } from "lucide-react";
-import { MarketStrip } from "@/components/marketing/market-strip";
+import { Hero } from "@/components/marketing/hero";
 import { AnimatedStat } from "@/components/marketing/animated-counter";
 import { EditableText } from "@/components/admin-edit/editable-text";
 
@@ -61,16 +57,6 @@ export default async function HomePage({
 }) {
   setRequestLocale(locale);
   const t = await getTranslations();
-
-  // Arabic keeps the CMS-editable content; English uses the message catalog.
-  const heroFallback = {
-    titleTop: t("Hero.titleTop"),
-    titleAccent: t("Hero.titleAccent"),
-    subtitle: t("Hero.subtitle"),
-    cta: t("Common.startPartnership"),
-  };
-  const hero =
-    locale === "ar" ? await getContent("home.hero", heroFallback) : heroFallback;
 
   const statsFallback = {
     partners: t("Stats.partners"),
@@ -114,13 +100,6 @@ export default async function HomePage({
     { label: t("Stats.payoutLabel"), value: stats.payout, icon: Trophy },
   ];
 
-  const trustItems = [
-    { icon: BarChart3, title: "أسعار تنافسية", desc: "تداول بتكاليف أقل." },
-    { icon: ShieldCheck, title: "آمن ومرخّص", desc: "أموالك أولويتنا." },
-    { icon: Zap, title: "تنفيذ سريع", desc: "تداول دون تأخير." },
-    { icon: Headphones, title: "دعم 24/6", desc: "نحن هنا من أجلك." },
-  ];
-
   return (
     <>
       <OrganizationJsonLd />
@@ -129,123 +108,8 @@ export default async function HomePage({
       {/* Live ticker tape */}
       <MarketTicker />
 
-      {/* Hero */}
-      <section className="pro-hero relative">
-        <span className="aurora aurora-1" aria-hidden />
-        <span className="aurora aurora-2" aria-hidden />
-        <Container className="relative py-20 sm:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            {/* Copy */}
-            <div className="text-center lg:text-start">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand-200 backdrop-blur">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400/70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-400" />
-                </span>
-                {t("Hero.badge")}
-              </span>
-              <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl">
-                <EditableText contentKey="home.hero" field="titleTop" label="العنوان الرئيسي">
-                  {hero.titleTop}
-                </EditableText>{" "}
-                <span className="text-gradient">
-                  <EditableText contentKey="home.hero" field="titleAccent" label="الكلمة المميّزة">
-                    {hero.titleAccent}
-                  </EditableText>
-                </span>
-              </h1>
-              <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-relaxed text-slate-300 lg:mx-0">
-                <EditableText contentKey="home.hero" field="subtitle" label="وصف الهيرو" multiline>
-                  {hero.subtitle}
-                </EditableText>
-              </p>
-              <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-                <Button href="/login" className="text-base">
-                  {hero.cta}
-                  <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
-                </Button>
-                <Button
-                  href="/forum"
-                  variant="secondary"
-                  className="text-base"
-                >
-                  <MessagesSquare className="h-4 w-4" />
-                  {t("Hero.enterForum")}
-                </Button>
-                <a
-                  href="#tools"
-                  className="group inline-flex items-center gap-3 text-sm font-semibold text-slate-200 transition hover:text-white"
-                >
-                  <span className="grid h-11 w-11 place-items-center rounded-full border border-brand-500/40 bg-brand-500/10 text-brand-300 transition group-hover:bg-brand-500/20">
-                    <Play className="h-4 w-4 translate-x-px" fill="currentColor" />
-                  </span>
-                  {t("Common.viewRates")}
-                </a>
-              </div>
-            </div>
-
-            {/* Platform showcase — global markets on desktop + mobile */}
-            <div className="relative">
-              <div className="absolute -inset-8 rounded-[2.5rem] bg-accent-500/15 blur-3xl" aria-hidden />
-              <div className="animate-float">
-                <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 shadow-[0_30px_90px_-24px_rgba(0,140,255,0.55)] ring-1 ring-white/10">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/hero-platform.webp"
-                    alt="منصة FX Partners للتداول العالمي عبر الحاسوب والجوال"
-                    width={1200}
-                    height={675}
-                    fetchPriority="high"
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900/50 via-transparent to-transparent" />
-                </div>
-              </div>
-
-              {/* Floating live stat chips */}
-              <div className="absolute -start-4 top-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-white/10 bg-ink-900/85 px-4 py-3 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.8)] backdrop-blur-md sm:flex">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-500/15 text-brand-300 ring-1 ring-brand-500/25">
-                  <Users className="h-5 w-5" />
-                </span>
-                <div className="text-start">
-                  <div className="text-base font-extrabold text-white">{t("Stats.partners")}</div>
-                  <div className="text-[11px] text-slate-400">{t("Stats.partnersLabel")}</div>
-                </div>
-              </div>
-              <div className="absolute -end-4 bottom-10 z-20 hidden items-center gap-2.5 rounded-2xl border border-white/10 bg-ink-900/85 px-4 py-3 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.8)] backdrop-blur-md sm:flex">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/25">
-                  <TrendingUp className="h-5 w-5" />
-                </span>
-                <div className="text-start">
-                  <div className="text-base font-extrabold text-white">{t("Stats.volume")}</div>
-                  <div className="text-[11px] text-slate-400">{t("Stats.volumeLabel")}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Inline benefit row — glass cards */}
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {trustItems.map((item) => (
-              <div
-                key={item.title}
-                className="glass-card flex items-center gap-3.5 p-4 transition hover:-translate-y-0.5 hover:border-brand-500/30"
-              >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
-                  <item.icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-slate-400">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* Market strip — instruments with mini charts (matches brand hero) */}
-      <MarketStrip />
+      {/* Hero — visual + copy + live ticker bar */}
+      <Hero locale={locale} />
 
       {/* Social proof — trusted-by logo marquee */}
       <LogoCarousel partners={partners} />
