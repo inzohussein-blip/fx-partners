@@ -115,7 +115,12 @@ export default async function HomePage({
       <LogoCarousel partners={partners} />
 
       {/* Impact stats band */}
-      <section className="py-14">
+      <section className="ambient-section py-16">
+        <span
+          className="ambient inset-x-1/4 top-0 h-64"
+          style={{ background: "radial-gradient(circle, rgba(0,140,255,0.28) 0%, transparent 70%)" }}
+          aria-hidden
+        />
         <Container>
           <div className="mb-8 flex items-center gap-3">
             <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">
@@ -146,7 +151,12 @@ export default async function HomePage({
 
       {/* Why choose us — features */}
       <Reveal>
-      <section className="py-16 sm:py-20">
+      <section className="ambient-section py-16 sm:py-24">
+        <span
+          className="ambient -start-24 top-1/4 h-80 w-80"
+          style={{ background: "radial-gradient(circle, rgba(0,209,230,0.22) 0%, transparent 70%)" }}
+          aria-hidden
+        />
         <Container>
           <SectionHeading
             eyebrow={t("Features.badge")}
@@ -226,10 +236,31 @@ export default async function HomePage({
       </Reveal>
 
       {/* CTA */}
-      <section className="py-12">
+      <section className="py-16">
         <Container>
-          <div className="card-surface relative overflow-hidden p-10 text-center sm:p-16">
-            <div className="hero-glow absolute inset-0 opacity-70" />
+          <div className="card-surface relative isolate overflow-hidden p-10 text-center sm:p-16">
+            {/* Layered brand glow + fading grid, matching the hero treatment */}
+            <div
+              className="absolute inset-0 -z-10"
+              style={{
+                background:
+                  "radial-gradient(70% 90% at 50% 0%, rgba(0,140,255,0.28) 0%, transparent 62%), radial-gradient(60% 80% at 15% 100%, rgba(0,209,230,0.20) 0%, transparent 66%)",
+              }}
+              aria-hidden
+            />
+            <div
+              className="absolute inset-0 -z-10 opacity-60"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(0,209,230,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,209,230,0.06) 1px, transparent 1px)",
+                backgroundSize: "42px 42px",
+                maskImage:
+                  "radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 82%)",
+                WebkitMaskImage:
+                  "radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 82%)",
+              }}
+              aria-hidden
+            />
             <div className="relative">
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
                 <EditableText contentKey="home.cta" field="heading" label="عنوان الدعوة">
