@@ -187,6 +187,12 @@ export default async function HomePage({
       </section>
       </Reveal>
 
+      {/* How to start — 3 steps. Kept high on the page: a visitor decides to
+          join once the path to joining is obvious. */}
+      <Reveal>
+        <Steps />
+      </Reveal>
+
       {/* What can be traded — asset-class grid */}
       <Reveal>
         <Instruments />
@@ -195,11 +201,6 @@ export default async function HomePage({
       {/* Live market chart (TradingView Lightweight Charts) */}
       <Reveal>
         <Markets />
-      </Reveal>
-
-      {/* How to start — 3 steps */}
-      <Reveal>
-        <Steps />
       </Reveal>
 
       {/* Interactive tools (calculator / comparison / backtest) in tabs */}
@@ -215,11 +216,6 @@ export default async function HomePage({
         <Testimonials />
       </Reveal>
 
-      {/* FAQ */}
-      <Reveal>
-        <Faq />
-      </Reveal>
-
       {/* About */}
       <Reveal>
         <About />
@@ -228,6 +224,11 @@ export default async function HomePage({
       {/* Team */}
       <Reveal>
         <Team />
+      </Reveal>
+
+      {/* FAQ — objection handling, placed right before the closing CTA */}
+      <Reveal>
+        <Faq />
       </Reveal>
 
       {/* Contact */}
