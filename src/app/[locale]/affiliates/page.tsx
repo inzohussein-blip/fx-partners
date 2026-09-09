@@ -19,6 +19,11 @@ import {
   Award,
   Sparkles,
   Handshake,
+  Network,
+  Building2,
+  Scale,
+  Users,
+  ShieldCheck,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -82,8 +87,9 @@ export default async function AffiliatesPage() {
             برنامج الوكلاء (IB / Affiliate)
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
-            احصل على أرباح من كل عميل تحيله. اختر بين نسبة من الأرباح (Revenue
-            Share) أو مبلغ ثابت لكل عميل مؤهّل (CPA).
+            انضمّ كوكيل فرعي (Sub-IB) تحت حسابات FX Partners الماستر لدى شبكة من
+            الشركات المرخّصة — واربح من كل عميل تحيله، أياً كانت الشركة التي
+            يختارها، عبر نسبة من الأرباح (Revenue Share) أو مبلغ ثابت (CPA).
           </p>
 
           <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
@@ -97,6 +103,75 @@ export default async function AffiliatesPage() {
                 <div className="mt-1 text-sm text-slate-400">{r.label}</div>
               </div>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Identity: we are a Master IB, you join as a Sub-IB across a whole network */}
+      <section className="ambient-section py-16">
+        <span
+          className="ambient inset-x-1/4 top-0 h-64"
+          style={{ background: "radial-gradient(circle, rgba(0,209,223,0.20) 0%, transparent 70%)" }}
+          aria-hidden
+        />
+        <Container>
+          <div className="card-surface relative overflow-hidden p-8 sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-3 py-1 text-xs font-medium text-brand-200">
+                  <Network className="h-3.5 w-3.5" aria-hidden />
+                  نموذج الوكيل الماستر
+                </span>
+                <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">
+                  تنضمّ عبرنا كـ <span className="text-gradient">Sub-IB</span> — لا كوكيل
+                  لبروكر واحد
+                </h2>
+                <p className="mt-4 leading-relaxed text-slate-300">
+                  نحن لسنا شركة تداول. <span className="font-semibold text-white">FX Partners</span>{" "}
+                  وكيل ماستر (Master IB) يملك حسابات شراكة لدى شبكة من الشركات
+                  المرخّصة. حين تنضمّ إلينا تصبح وكيلاً فرعياً (Sub-IB) تحت هذه
+                  الحسابات — فتربح عمولات من الشبكة كلها عبر جهة واحدة، بدل التفاوض
+                  مع كل شركة على حدة.
+                </p>
+              </div>
+              <ul className="space-y-3">
+                {[
+                  {
+                    icon: Building2,
+                    title: "شبكة كاملة، جهة واحدة",
+                    desc: "عمولات من عدّة شركات مرخّصة عبر حساب ماستر واحد.",
+                  },
+                  {
+                    icon: Scale,
+                    title: "شروط أقوى",
+                    desc: "بحكم حجمنا كوكيل ماستر نحصل على نسب أفضل نمرّرها إليك.",
+                  },
+                  {
+                    icon: Users,
+                    title: "حرية العميل",
+                    desc: "عميلك يختار الشركة الأنسب له من الشبكة — وأنت تربح في كل الأحوال.",
+                  },
+                  {
+                    icon: ShieldCheck,
+                    title: "لا تعارض",
+                    desc: "لسنا بروكر ولا ننافسك على عملائك — دورنا ربطك بالشركات فقط.",
+                  },
+                ].map((f) => (
+                  <li
+                    key={f.title}
+                    className="flex gap-3 rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/5"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
+                      <f.icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <div className="font-semibold text-white">{f.title}</div>
+                      <p className="mt-0.5 text-sm leading-relaxed text-slate-400">{f.desc}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </Container>
       </section>
