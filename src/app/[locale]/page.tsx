@@ -28,10 +28,13 @@ import {
   Link2,
   Users,
   BarChart3,
+  Building2,
   Globe,
   Trophy,
 } from "lucide-react";
 import { Hero } from "@/components/marketing/hero";
+import { BrokerNetwork } from "@/components/marketing/broker-network";
+import { HowItWorks } from "@/components/marketing/how-it-works";
 import { AnimatedStat } from "@/components/marketing/animated-counter";
 import { EditableText } from "@/components/admin-edit/editable-text";
 
@@ -59,10 +62,10 @@ export default async function HomePage({
   const t = await getTranslations();
 
   const statsFallback = {
-    partners: t("Stats.partners"),
-    volume: t("Stats.volume"),
-    countries: t("Stats.countries"),
+    brokersCount: t("Stats.brokersCount"),
+    agents: t("Stats.agents"),
     payout: t("Stats.payout"),
+    countries: t("Stats.countries"),
   };
   const stats =
     locale === "ar" ? await getContent("home.stats", statsFallback) : statsFallback;
@@ -94,10 +97,10 @@ export default async function HomePage({
   ] as const;
 
   const statCards = [
-    { label: t("Stats.partnersLabel"), value: stats.partners, icon: Users },
-    { label: t("Stats.volumeLabel"), value: stats.volume, icon: BarChart3 },
+    { label: t("Stats.brokersLabel"), value: stats.brokersCount, icon: Building2 },
+    { label: t("Stats.agentsLabel"), value: stats.agents, icon: Users },
+    { label: t("Stats.payoutLabel"), value: stats.payout, icon: Wallet },
     { label: t("Stats.countriesLabel"), value: stats.countries, icon: Globe },
-    { label: t("Stats.payoutLabel"), value: stats.payout, icon: Trophy },
   ];
 
   return (
@@ -110,6 +113,9 @@ export default async function HomePage({
 
       {/* Hero — visual + copy + live ticker bar */}
       <Hero locale={locale} />
+
+      {/* Proof band: the licensed brokers we connect to */}
+      <BrokerNetwork />
 
       {/* Social proof — trusted-by logo marquee */}
       <LogoCarousel partners={partners} />
@@ -185,6 +191,11 @@ export default async function HomePage({
           </div>
         </Container>
       </section>
+      </Reveal>
+
+      {/* How we work — the identity explainer (master IB role) */}
+      <Reveal>
+        <HowItWorks />
       </Reveal>
 
       {/* How to start — 3 steps. Kept high on the page: a visitor decides to

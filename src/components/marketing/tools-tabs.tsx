@@ -52,13 +52,14 @@ export function ToolsTabs() {
     >
       <Container className="pt-16 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-          أدوات الشركاء
+          <Scale className="h-3.5 w-3.5" />
+          أدوات محايدة
         </span>
         <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
-          كل ما تحتاجه لاتخاذ القرار
+          لسنا طرفاً — نقارن بين شركائنا بحياد
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-slate-400">
-          حاسبات وأدوات تفاعلية في مكان واحد — اختر الأداة التي تناسبك.
+          حاسبات ومقارنات تفاعلية تساعدك على اختيار الأنسب لك بين شركات التداول الشريكة — بشفافية كاملة ودون انحياز.
         </p>
 
         {/* Tab bar */}

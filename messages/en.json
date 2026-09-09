@@ -45,7 +45,11 @@
     "countries": "60+",
     "countriesLabel": "Countries",
     "payout": "$4.6M+",
-    "payoutLabel": "Paid out"
+    "payoutLabel": "Commissions paid to agents",
+    "brokersCount": "40+",
+    "brokersLabel": "Partner brokers",
+    "agents": "2,400+",
+    "agentsLabel": "Active agents in the network"
   },
   "Features": {
     "badge": "Features",
@@ -328,5 +332,27 @@
       "title": "Get paid",
       "desc": "Track earnings live and withdraw via multiple methods."
     }
+  },
+  "HowItWorks": {
+    "badge": "How we work",
+    "heading": "Your role is clear — ours is clearer",
+    "subheading": "We're the third party between the client/agent and the brokers — we handle the negotiating, pooling and payouts on your behalf.",
+    "s1Title": "We negotiate the terms",
+    "s1Desc": "We negotiate tighter spreads and higher rates with licensed brokers — terms you can't get by signing up directly.",
+    "s2Title": "We pool the volume",
+    "s2Desc": "We aggregate our whole network's trading volume, so your commission is calculated at master level, not as a single agent.",
+    "s3Title": "We split commissions transparently",
+    "s3Desc": "Every agent's earnings post automatically to their wallet, with live tracking of each click, referral and trade.",
+    "s4Title": "We support you in Arabic",
+    "s4Desc": "An Arabic-speaking team walks the trader and the agent from sign-up to withdrawal, around the clock.",
+    "roleClientTitle": "Are you a trader?",
+    "roleClientDesc": "We connect you to the right licensed broker on terms we negotiated for you — at no extra cost.",
+    "roleAgentTitle": "Are you an IB?",
+    "roleAgentDesc": "Join as an agent under the master umbrella and earn higher rates with a Sub-IB network and full support."
+  },
+  "BrokerNetwork": {
+    "heading": "We connect you to a network of licensed brokers",
+    "subheading": "On terms we negotiate on your behalf — you choose, we guarantee the best.",
+    "cta": "Browse all brokers"
   }
 }
