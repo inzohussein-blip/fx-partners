@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { HeroTicker } from "@/components/marketing/hero-ticker";
 import { ConnectionDiagram } from "@/components/marketing/connection-diagram";
+import { HeroLeaderboard, type LeaderRow } from "@/components/marketing/hero-leaderboard";
 import { MessagesSquare, Users, Share2 } from "lucide-react";
 
 /**
@@ -16,18 +17,18 @@ import { MessagesSquare, Users, Share2 } from "lucide-react";
  * source order (first column renders right); LTR flips it back with `ltr:order-*`.
  * Copy stays start-aligned, so Arabic reads right-aligned as it should.
  */
-/** Published partner brokers for the hero's network diagram (best-effort). */
-async function getPartnerBrokers() {
+/** Top-rated published brokers for the hero leaderboard visual (best-effort). */
+async function getPartnerBrokers(): Promise<LeaderRow[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
     const supabase = createClient();
     const { data } = await supabase
       .from("brokers")
-      .select("name,logo_url")
+      .select("name,slug,logo_url,rating,reviews_count,status")
       .eq("is_published", true)
-      .order("sort_order")
+      .order("rating", { ascending: false })
       .limit(5);
-    return (data as { name: string; logo_url: string | null }[] | null) ?? [];
+    return (data as LeaderRow[] | null) ?? [];
   } catch {
     return [];
   }
@@ -46,7 +47,8 @@ export async function Hero({ locale }: { locale: string }) {
   const hero =
     locale === "ar" ? await getContent("home.hero", fallback) : fallback;
 
-  // Real partner brokers power the network node of the identity diagram.
+  // Real top-rated brokers power the hero leaderboard; when there is no data
+  // yet we fall back to the identity (connection) diagram, which needs none.
   const brokers = await getPartnerBrokers();
 
   return (
@@ -58,7 +60,13 @@ export async function Hero({ locale }: { locale: string }) {
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-6">
           {/* ---------- Visual asset (right in RTL) ---------- */}
           <div className="relative order-first lg:order-1 ltr:lg:order-2">
-            <ConnectionDiagram brokers={brokers} />
+            {brokers.length > 0 ? (
+              <HeroLeaderboard brokers={brokers} />
+            ) : (
+              <ConnectionDiagram
+                brokers={brokers.map((b) => ({ name: b.name, logo_url: b.logo_url }))}
+              />
+            )}
           </div>
 
           {/* ---------- Copy + CTAs (left in RTL) ---------- */}
