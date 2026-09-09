@@ -11,6 +11,8 @@ import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
 import { BrokerBoard, type BoardPost } from "@/components/brokers/broker-board";
+import { BrokerTabs } from "@/components/brokers/broker-tabs";
+import { RatingBreakdown } from "@/components/brokers/rating-breakdown";
 import {
   statusLabel,
   linkHref,
@@ -357,9 +359,21 @@ export default async function BrokerDetailPage({
         </Container>
       </section>
 
+      {/* Sticky in-page tabs */}
+      <BrokerTabs
+        tabs={[
+          { id: "overview", label: "نظرة عامة" },
+          { id: "ratings", label: "التقييم" },
+          { id: "accounts", label: "روابط الحسابات" },
+          { id: "reviews", label: "آراء العملاء" },
+          { id: "community", label: "النقاش" },
+        ]}
+      />
+
+
       {/* Description */}
       {broker.description && (
-        <section className="py-10">
+        <section id="overview" className="scroll-mt-24 py-10">
           <Container>
             <div className="card-surface p-6 sm:p-8">
               <h2 className="text-lg font-semibold text-white">عن الشركة</h2>
@@ -371,9 +385,17 @@ export default async function BrokerDetailPage({
         </section>
       )}
 
+      {/* Rating breakdown */}
+      <section id="ratings" className="scroll-mt-24 pb-10 pt-2">
+        <Container>
+          <h2 className="mb-5 text-xl font-bold text-white">تقييم الشركة</h2>
+          <RatingBreakdown broker={broker} />
+        </Container>
+      </section>
+
       {/* Referral links */}
       {links.length > 0 && (
-        <section className="pb-10">
+        <section id="accounts" className="scroll-mt-24 pb-10">
           <Container>
             <h2 className="text-xl font-bold text-white">روابط الفتح والمميزات</h2>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -422,7 +444,7 @@ export default async function BrokerDetailPage({
       </section>
 
       {/* Reviews */}
-      <section id="reviews" className="scroll-mt-20 pt-6">
+      <section id="reviews" className="scroll-mt-24 pt-6">
         <Container>
           <BrokerReviews
             brokerId={broker.id}
@@ -433,7 +455,7 @@ export default async function BrokerDetailPage({
       </section>
 
       {/* Discussion board */}
-      <section className="pb-24 pt-14">
+      <section id="community" className="scroll-mt-24 pb-24 pt-14">
         <Container>
           <BrokerBoard
             brokerId={broker.id}
