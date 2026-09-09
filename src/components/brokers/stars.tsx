@@ -26,7 +26,7 @@ export function Stars({
         ))}
       </div>
       <div
-        className="absolute inset-0 flex overflow-hidden text-amber-400"
+        className="absolute inset-0 flex overflow-hidden text-brand-400"
         style={{ width: `${pct}%` }}
       >
         {[0, 1, 2, 3, 4].map((i) => (
@@ -65,7 +65,7 @@ export function StarInput({
         >
           <Star
             style={{ width: size, height: size }}
-            className={n <= shown ? "text-amber-400" : "text-slate-600"}
+            className={n <= shown ? "text-brand-400" : "text-slate-600"}
             fill={n <= shown ? "currentColor" : "none"}
           />
         </button>

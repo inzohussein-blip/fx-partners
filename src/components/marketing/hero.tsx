@@ -88,6 +88,16 @@ export async function Hero({ locale }: { locale: string }) {
               </EditableText>
             </p>
 
+            {/* Trust line — review-platform credibility (brand brief) */}
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-semibold text-brand-200/90 lg:justify-start">
+              {t("Hero.trustLine").split("·").map((part, i) => (
+                <span key={i} className="inline-flex items-center gap-3">
+                  {i > 0 && <span className="text-brand-400/50">•</span>}
+                  {part.trim()}
+                </span>
+              ))}
+            </div>
+
             {/* Two audience paths — our visitors are two different people —
                 plus the community entry point. */}
             <div className="mt-9 flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">

@@ -9,7 +9,7 @@ import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
-import { BrokerHighlight } from "@/components/marketing/broker-highlight";
+import { TopRatedBrokers } from "@/components/marketing/top-rated-brokers";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Instruments } from "@/components/marketing/instruments";
@@ -155,6 +155,11 @@ export default async function HomePage({
         </Container>
       </section>
 
+      {/* Top Rated Brokers — review-platform proof grid */}
+      <Reveal>
+        <TopRatedBrokers />
+      </Reveal>
+
       {/* Why choose us — features */}
       <Reveal>
       <section className="ambient-section py-16 sm:py-24">
@@ -216,11 +221,6 @@ export default async function HomePage({
 
       {/* Interactive tools (calculator / comparison / backtest) in tabs */}
       <ToolsTabs />
-
-      {/* Top brokers directory carousel */}
-      <Reveal>
-        <BrokerHighlight />
-      </Reveal>
 
       {/* Testimonials */}
       <Reveal>

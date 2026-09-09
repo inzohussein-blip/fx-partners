@@ -35,7 +35,8 @@
     "browseRates": "Browse exclusive rates",
     "viewAllMarkets": "View All Markets",
     "ctaTrader": "I'm a trader — compare brokers",
-    "ctaAgent": "I'm an IB — master partnership"
+    "ctaAgent": "I'm an IB — master partnership",
+    "trustLine": "Real Reviews · Real Data · Real Traders"
   },
   "Stats": {
     "partners": "2,400+",
@@ -354,5 +355,14 @@
     "heading": "We connect you to a network of licensed brokers",
     "subheading": "On terms we negotiate on your behalf — you choose, we guarantee the best.",
     "cta": "Browse all brokers"
+  },
+  "TopBrokers": {
+    "badge": "Top rated",
+    "heading": "Top Rated Brokers",
+    "subheading": "Ranked on real user reviews, trading conditions and expert analysis.",
+    "viewAll": "View all brokers",
+    "readReview": "Read review",
+    "reviews": "reviews",
+    "empty": "Top brokers will appear here once added."
   }
 }
