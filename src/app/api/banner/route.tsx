@@ -41,7 +41,7 @@ export async function GET(req: Request) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: unit * 0.03 }}>
-          <span style={{ color: "#00D1E6", fontSize: unit * 0.17, fontWeight: 800 }}>
+          <span style={{ color: "#00D1DF", fontSize: unit * 0.17, fontWeight: 800 }}>
             FX
           </span>
           <span style={{ fontSize: unit * 0.17, fontWeight: 800 }}>Partners</span>

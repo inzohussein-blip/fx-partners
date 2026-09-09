@@ -9,35 +9,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand identity — Electric Cyan (#00D1E6) primary accent
+        // Brand identity — Primary Cyan (#00D1DF) per Partners FX brand brief
         brand: {
-          50: "#e6fbfe",
-          100: "#c0f4fb",
-          200: "#8aeaf6",
-          300: "#4dddef",
-          400: "#00D1E6", // electric cyan — primary accent
-          500: "#00b3c7", // primary cyan (surfaces/rings)
-          600: "#0092a6",
-          700: "#0e7686",
-          800: "#155e6b",
-          900: "#164e58",
-          950: "#083038",
+          50: "#e6fbfc",
+          100: "#c0f4f7",
+          200: "#88e9ee",
+          300: "#4dddE4",
+          400: "#00D1DF", // primary cyan — CTAs, active icons, links
+          500: "#00b6c4", // primary cyan (surfaces/rings)
+          600: "#0295a2",
+          700: "#0c7681",
+          800: "#135e67",
+          900: "#154e56",
+          950: "#083035",
         },
-        // Accent — Bright Blue (#008CFF): buttons, links, highlights
+        // Secondary — Teal (#0EC6C7): gradients, highlights, hover (brand brief)
         accent: {
-          300: "#5cb2ff",
-          400: "#2a9cff",
-          500: "#008CFF",
-          600: "#0070d6",
-          700: "#0057a8",
+          300: "#5fd8d9",
+          400: "#18c3c4",
+          500: "#0EC6C7",
+          600: "#0aa1a2",
+          700: "#0b7f80",
         },
-        // Backgrounds — deep institutional navy (brand identity palette)
+        // Backgrounds — Deep Teal / Charcoal (brand brief), kept dark & premium
         ink: {
-          900: "#0A0F14", // main page background (Deep Navy)
-          800: "#111c27", // panels
-          700: "#202F3C", // raised surfaces (Charcoal Navy)
-          600: "#2b3f4f", // borders / hover
-          500: "#0E3A5F", // ocean-blue accent surface
+          900: "#0A1417", // main page background (deep teal-charcoal)
+          800: "#12222a", // panels
+          700: "#2E3F46", // raised surfaces (brief: Deep Background)
+          600: "#405961", // borders / hover (brief: Elements)
+          500: "#123A40", // teal accent surface
         },
         // Premium metallic typography / logo
         silver: {
@@ -65,7 +65,7 @@ const config: Config = {
         "grid-faint":
           "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)",
         // Primary brand gradient — Electric Cyan → Bright Blue
-        "brand-gradient": "linear-gradient(90deg, #00D1E6 0%, #008CFF 100%)",
+        "brand-gradient": "linear-gradient(90deg, #00D1DF 0%, #0EC6C7 100%)",
       },
     },
   },
