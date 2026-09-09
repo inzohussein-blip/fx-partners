@@ -364,5 +364,24 @@
     "readReview": "Read review",
     "reviews": "reviews",
     "empty": "Top brokers will appear here once added."
+  },
+  "CompareTeaser": {
+    "badge": "Quick compare",
+    "heading": "Compare Brokers",
+    "subheading": "Pick two brokers to compare side by side: spreads, leverage, regulation and ratings.",
+    "select1": "Select broker 1",
+    "select2": "Select broker 2",
+    "selectPlaceholder": "— select a broker —",
+    "cta": "Compare now",
+    "hint": "Pick two different brokers to compare.",
+    "f1t": "Spreads comparison",
+    "f1d": "See real trading costs",
+    "f2t": "Account types",
+    "f2d": "Find what suits you",
+    "f3t": "Trading platforms",
+    "f3d": "MT4 · MT5 · & more",
+    "f4t": "Regulations",
+    "f4d": "Trade with peace of mind",
+    "empty": "Add at least two brokers from the dashboard to enable comparison."
   }
 }

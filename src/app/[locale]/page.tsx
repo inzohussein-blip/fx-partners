@@ -10,6 +10,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { TopRatedBrokers } from "@/components/marketing/top-rated-brokers";
+import { CompareTeaser } from "@/components/marketing/compare-teaser";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Instruments } from "@/components/marketing/instruments";
@@ -158,6 +159,11 @@ export default async function HomePage({
       {/* Top Rated Brokers — review-platform proof grid */}
       <Reveal>
         <TopRatedBrokers />
+      </Reveal>
+
+      {/* Compare Brokers teaser — pick two and jump into the head-to-head */}
+      <Reveal>
+        <CompareTeaser />
       </Reveal>
 
       {/* Why choose us — features */}
