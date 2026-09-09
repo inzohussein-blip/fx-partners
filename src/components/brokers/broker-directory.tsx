@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
-import { BadgeCheck, Gift, Search, ArrowLeft, Building2 } from "lucide-react";
+import { BadgeCheck, Gift, Search, ArrowLeft, Building2, SlidersHorizontal, X } from "lucide-react";
 
 type Filter = "all" | "partnered" | "not_partnered" | "bonus";
 type Sort = "rating" | "reviews" | "name" | "spread";
@@ -60,6 +61,15 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
   const [sort, setSort] = useState<Sort>("rating");
   const [q, setQ] = useState("");
   const [toggles, setToggles] = useState<Record<string, boolean>>({});
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    document.body.style.overflow = sheetOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sheetOpen]);
 
   const rows = useMemo(() => {
     let list = brokers.slice();
@@ -94,10 +104,8 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     Object.values(toggles).filter(Boolean).length +
     (q.trim() ? 1 : 0);
 
-  return (
-    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-      {/* Filters sidebar */}
-      <aside className="space-y-5 lg:sticky lg:top-20 lg:self-start">
+  const renderFilters = () => (
+    <>
         <div className="relative">
           <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
           <input
@@ -182,7 +190,74 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             </select>
           </div>
         </div>
+          </>
+  );
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+      {/* Filters — sidebar on desktop, bottom-sheet on mobile */}
+      <aside className="hidden lg:block lg:sticky lg:top-20 lg:self-start">
+        <div className="space-y-5">{renderFilters()}</div>
       </aside>
+
+      {/* Mobile: filter trigger */}
+      <button
+        type="button"
+        onClick={() => setSheetOpen(true)}
+        className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 lg:hidden"
+      >
+        <span className="inline-flex items-center gap-2">
+          <SlidersHorizontal className="h-4 w-4 text-brand-300" />
+          الفلاتر والترتيب
+        </span>
+        {activeCount > 0 && (
+          <span className="grid h-5 min-w-5 place-items-center rounded-full bg-brand-500 px-1.5 text-[11px] font-bold text-white">
+            {activeCount}
+          </span>
+        )}
+      </button>
+
+      {/* Mobile bottom-sheet */}
+      {mounted &&
+        sheetOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-[100] lg:hidden">
+            <div
+              className="absolute inset-0 bg-black/70"
+              onClick={() => setSheetOpen(false)}
+              aria-hidden
+            />
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="الفلاتر"
+              style={{ backgroundColor: "#0b1a1c" }}
+              className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-white/10 p-5 pb-8 shadow-2xl"
+            >
+              <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-white/15" aria-hidden />
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-base font-bold text-white">الفلاتر والترتيب</h3>
+                <button
+                  type="button"
+                  onClick={() => setSheetOpen(false)}
+                  aria-label="إغلاق"
+                  className="grid h-9 w-9 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="space-y-5">{renderFilters()}</div>
+              <button
+                type="button"
+                onClick={() => setSheetOpen(false)}
+                className="btn-gradient mt-6 w-full rounded-xl px-5 py-3 text-sm font-bold text-white shadow-glow"
+              >
+                عرض {rows.length} شركة
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
 
       {/* Results */}
       <div className="min-w-0 space-y-6">
