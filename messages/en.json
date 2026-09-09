@@ -27,13 +27,15 @@
     "en": "English"
   },
   "Hero": {
-    "badge": "Collaboration & Growth — B2B & IB",
-    "titleTop": "Stronger Together,",
-    "titleAccent": "Greater Success",
-    "subtitle": "We partner with agents and global brokers to unlock new opportunities and drive growth — with top commission rates and full earnings transparency.",
+    "badge": "Partnership broker · Master IB",
+    "titleTop": "We're not a broker.",
+    "titleAccent": "We're your route to the best ones.",
+    "subtitle": "We link traders and IB agents to a network of licensed brokers, on terms we negotiate on your behalf and commission rates you can't reach alone.",
     "enterForum": "Enter the forum",
     "browseRates": "Browse exclusive rates",
-    "viewAllMarkets": "View All Markets"
+    "viewAllMarkets": "View All Markets",
+    "ctaTrader": "I'm a trader — compare brokers",
+    "ctaAgent": "I'm an IB — master partnership"
   },
   "Stats": {
     "partners": "2,400+",

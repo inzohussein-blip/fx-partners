@@ -2,9 +2,11 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { getContent } from "@/lib/content";
+import { createClient } from "@/lib/supabase/server";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { HeroTicker } from "@/components/marketing/hero-ticker";
-import { ArrowLeft, MessagesSquare, Percent } from "lucide-react";
+import { ConnectionDiagram } from "@/components/marketing/connection-diagram";
+import { MessagesSquare, Users, Share2 } from "lucide-react";
 
 /**
  * Homepage hero — the settled "Partners FX" design.
@@ -14,6 +16,23 @@ import { ArrowLeft, MessagesSquare, Percent } from "lucide-react";
  * source order (first column renders right); LTR flips it back with `ltr:order-*`.
  * Copy stays start-aligned, so Arabic reads right-aligned as it should.
  */
+/** Published partner brokers for the hero's network diagram (best-effort). */
+async function getPartnerBrokers() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  try {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("brokers")
+      .select("name,logo_url")
+      .eq("is_published", true)
+      .order("sort_order")
+      .limit(5);
+    return (data as { name: string; logo_url: string | null }[] | null) ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export async function Hero({ locale }: { locale: string }) {
   const t = await getTranslations();
 
@@ -27,6 +46,9 @@ export async function Hero({ locale }: { locale: string }) {
   const hero =
     locale === "ar" ? await getContent("home.hero", fallback) : fallback;
 
+  // Real partner brokers power the network node of the identity diagram.
+  const brokers = await getPartnerBrokers();
+
   return (
     <section className="pro-hero relative">
       <span className="aurora aurora-1" aria-hidden />
@@ -35,23 +57,8 @@ export async function Hero({ locale }: { locale: string }) {
       <Container className="relative pb-12 pt-16 sm:pb-16 sm:pt-24">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-6">
           {/* ---------- Visual asset (right in RTL) ---------- */}
-          <div className="relative order-first lg:order-1 lg:-ms-6 ltr:lg:order-2 xl:-ms-12">
-            {/* Blue halo behind the globe / devices */}
-            <div
-              className="absolute left-1/2 top-1/2 h-[85%] w-[85%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-500/25 blur-[90px]"
-              aria-hidden
-            />
-            <div className="animate-float">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/hero-platform.webp"
-                alt="منصة FX Partners: شبكات الكرة الأرضية الرقمية مع منصة التداول على الحاسوب والجوال"
-                width={1200}
-                height={675}
-                fetchPriority="high"
-                className="hero-visual relative w-full"
-              />
-            </div>
+          <div className="relative order-first lg:order-1 ltr:lg:order-2">
+            <ConnectionDiagram brokers={brokers} />
           </div>
 
           {/* ---------- Copy + CTAs (left in RTL) ---------- */}
@@ -64,11 +71,11 @@ export async function Hero({ locale }: { locale: string }) {
               {t("Hero.badge")}
             </span>
 
-            <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.22] tracking-tight text-white sm:text-5xl xl:text-6xl">
+            <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.22] tracking-tight text-white sm:text-5xl">
               <EditableText contentKey="home.hero" field="titleTop" label="العنوان الرئيسي">
                 {hero.titleTop}
-              </EditableText>{" "}
-              <span className="text-gradient">
+              </EditableText>
+              <span className="mt-1 block text-gradient">
                 <EditableText contentKey="home.hero" field="titleAccent" label="الكلمة المميّزة">
                   {hero.titleAccent}
                 </EditableText>
@@ -81,22 +88,23 @@ export async function Hero({ locale }: { locale: string }) {
               </EditableText>
             </p>
 
-            {/* Three CTAs: glowing primary, hairline outline, dark glass */}
+            {/* Two audience paths — our visitors are two different people —
+                plus the community entry point. */}
             <div className="mt-9 flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
               <Link
-                href="/login"
+                href="/compare"
                 className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white shadow-glow transition hover:opacity-95"
               >
-                {hero.cta}
-                <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
+                <Users className="h-4 w-4" />
+                {t("Hero.ctaTrader")}
               </Link>
 
               <Link
                 href="/affiliates"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-4 py-3 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5"
               >
-                <Percent className="h-4 w-4 text-brand-300" />
-                {t("Hero.browseRates")}
+                <Share2 className="h-4 w-4 text-brand-300" />
+                {t("Hero.ctaAgent")}
               </Link>
 
               <Link
