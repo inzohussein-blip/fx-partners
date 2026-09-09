@@ -28,7 +28,7 @@ const NODE_STYLE: React.CSSProperties = {
   padding: "8px 12px",
   width: 190,
   textAlign: "right",
-  fontFamily: "var(--font-cairo), sans-serif",
+  fontFamily: "var(--font-sans), sans-serif",
 };
 
 export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {

@@ -111,7 +111,7 @@ export default async function AffiliatesPage() {
       <section className="ambient-section py-16">
         <span
           className="ambient inset-x-1/4 top-0 h-64"
-          style={{ background: "radial-gradient(circle, rgba(0,209,223,0.20) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(0,140,255,0.20) 0%, transparent 70%)" }}
           aria-hidden
         />
         <Container>
