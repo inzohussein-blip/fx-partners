@@ -250,7 +250,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
-                className="btn-gradient mt-6 w-full rounded-xl px-5 py-3 text-sm font-bold text-white shadow-glow"
+                className="btn-gradient mt-6 w-full rounded-xl px-5 py-3 text-sm font-bold text-ink-900 shadow-glow"
               >
                 عرض {rows.length} شركة
               </button>

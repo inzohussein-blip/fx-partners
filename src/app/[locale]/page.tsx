@@ -126,7 +126,7 @@ export default async function HomePage({
       <section className="ambient-section py-16">
         <span
           className="ambient inset-x-1/4 top-0 h-64"
-          style={{ background: "radial-gradient(circle, rgba(0,140,255,0.28) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(201,162,39,0.28) 0%, transparent 70%)" }}
           aria-hidden
         />
         <Container>
@@ -177,7 +177,7 @@ export default async function HomePage({
       <section className="ambient-section py-16 sm:py-24">
         <span
           className="ambient -start-24 top-1/4 h-80 w-80"
-          style={{ background: "radial-gradient(circle, rgba(0,209,230,0.22) 0%, transparent 70%)" }}
+          style={{ background: "radial-gradient(circle, rgba(230,193,90,0.22) 0%, transparent 70%)" }}
           aria-hidden
         />
         <Container>
@@ -268,7 +268,7 @@ export default async function HomePage({
               className="absolute inset-0 -z-10"
               style={{
                 background:
-                  "radial-gradient(70% 90% at 50% 0%, rgba(0,140,255,0.28) 0%, transparent 62%), radial-gradient(60% 80% at 15% 100%, rgba(0,209,230,0.20) 0%, transparent 66%)",
+                  "radial-gradient(70% 90% at 50% 0%, rgba(201,162,39,0.28) 0%, transparent 62%), radial-gradient(60% 80% at 15% 100%, rgba(230,193,90,0.20) 0%, transparent 66%)",
               }}
               aria-hidden
             />
@@ -276,7 +276,7 @@ export default async function HomePage({
               className="absolute inset-0 -z-10 opacity-60"
               style={{
                 backgroundImage:
-                  "linear-gradient(to right, rgba(0,209,230,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,209,230,0.06) 1px, transparent 1px)",
+                  "linear-gradient(to right, rgba(230,193,90,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(230,193,90,0.06) 1px, transparent 1px)",
                 backgroundSize: "42px 42px",
                 maskImage:
                   "radial-gradient(70% 70% at 50% 40%, #000 0%, transparent 82%)",

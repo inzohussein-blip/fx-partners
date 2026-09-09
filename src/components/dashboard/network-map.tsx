@@ -21,7 +21,7 @@ type Selected =
 
 const NODE_STYLE: React.CSSProperties = {
   background: "#111c27",
-  border: "1px solid rgba(0,209,230,0.25)",
+  border: "1px solid rgba(230,193,90,0.25)",
   borderRadius: 12,
   color: "#e2e8f0",
   fontSize: 12,
@@ -56,7 +56,7 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
           value: b.name,
           sub: b.status,
         },
-        style: { ...NODE_STYLE, borderColor: "rgba(0,209,230,0.5)", fontWeight: 700 },
+        style: { ...NODE_STYLE, borderColor: "rgba(230,193,90,0.5)", fontWeight: 700 },
       });
 
       const children = [...b.links, ...b.coupons];
@@ -90,7 +90,7 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
           source: `b_${b.id}`,
           target: nid,
           animated: isLink,
-          style: { stroke: "rgba(0,209,230,0.35)" },
+          style: { stroke: "rgba(230,193,90,0.35)" },
         });
       });
 
@@ -186,7 +186,7 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
           <button
             onClick={save}
             disabled={busy}
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-60"
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90 disabled:opacity-60"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             حفظ

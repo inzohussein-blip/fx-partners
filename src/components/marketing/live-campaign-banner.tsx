@@ -97,7 +97,7 @@ export function LiveCampaignBanner() {
           <Link
             href={`/brokers/${campaign.broker_slug}`}
             onClick={close}
-            className="relative inline-flex shrink-0 items-center gap-1 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
+            className="relative inline-flex shrink-0 items-center gap-1 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
           >
             {campaign.cta_label || "سجّل الآن"}
             <ArrowLeft className="h-4 w-4" />

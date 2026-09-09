@@ -368,7 +368,7 @@ export function BrokersManager({
             <button
               onClick={submitBroker}
               disabled={busy === "broker"}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-ink-900 transition hover:opacity-90 disabled:opacity-60"
             >
               {busy === "broker" ? <Loader2 className="h-4 w-4 animate-spin" /> : "حفظ"}
             </button>

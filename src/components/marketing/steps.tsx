@@ -40,7 +40,7 @@ export async function Steps() {
               <div className="relative mx-auto grid h-[104px] w-[104px] place-items-center">
                 <div className="absolute inset-0 rounded-full bg-brand-500/5 blur-xl" />
                 <div className="relative grid h-[104px] w-[104px] place-items-center rounded-full border border-white/[0.06] bg-ink-800">
-                  <span className="grid h-14 w-14 place-items-center rounded-full bg-brand-gradient text-white shadow-glow">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-brand-gradient text-ink-900 shadow-glow">
                     <s.icon className="h-6 w-6" />
                   </span>
                 </div>

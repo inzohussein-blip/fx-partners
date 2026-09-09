@@ -29,7 +29,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
         className="absolute -inset-8 -z-10 rounded-[2.5rem]"
         style={{
           background:
-            "radial-gradient(60% 60% at 72% 8%, rgba(0,140,255,0.28) 0%, transparent 70%), radial-gradient(50% 50% at 20% 90%, rgba(0,209,230,0.18) 0%, transparent 72%)",
+            "radial-gradient(60% 60% at 72% 8%, rgba(201,162,39,0.28) 0%, transparent 70%), radial-gradient(50% 50% at 20% 90%, rgba(230,193,90,0.18) 0%, transparent 72%)",
         }}
       />
 

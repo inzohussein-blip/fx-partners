@@ -68,7 +68,7 @@ export function RiskCalculator() {
             onClick={() => setMode("size")}
             className={cn(
               "inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-              mode === "size" ? "bg-brand-gradient text-white shadow-glow" : "text-slate-400 hover:text-white"
+              mode === "size" ? "bg-brand-gradient text-ink-900 shadow-glow" : "text-slate-400 hover:text-white"
             )}
           >
             <Calculator className="h-4 w-4" /> حجم الصفقة
@@ -77,7 +77,7 @@ export function RiskCalculator() {
             onClick={() => setMode("pip")}
             className={cn(
               "inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-              mode === "pip" ? "bg-brand-gradient text-white shadow-glow" : "text-slate-400 hover:text-white"
+              mode === "pip" ? "bg-brand-gradient text-ink-900 shadow-glow" : "text-slate-400 hover:text-white"
             )}
           >
             <Coins className="h-4 w-4" /> قيمة النقطة
@@ -171,7 +171,7 @@ export function RiskCalculator() {
           </p>
           <Link
             href="/compare"
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
           >
             أفضل الشركات
             <ArrowLeft className="h-4 w-4" />

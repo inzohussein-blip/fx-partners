@@ -250,7 +250,7 @@ export default async function VsPage({
                         href={url}
                         target="_blank"
                         rel="nofollow noopener noreferrer sponsored"
-                        className="btn-gradient inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
+                        className="btn-gradient inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
                       >
                         فتح حساب {brk.name}
                         <ExternalLink className="h-4 w-4" />

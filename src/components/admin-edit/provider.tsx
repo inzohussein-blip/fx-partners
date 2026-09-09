@@ -86,7 +86,7 @@ export function AdminEditProvider({
           onClick={toggle}
           className={`fixed bottom-5 end-5 z-[60] inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold shadow-glow transition ${
             editMode
-              ? "bg-brand-gradient text-white"
+              ? "bg-brand-gradient text-ink-900"
               : "border border-white/15 bg-ink-800/90 text-slate-200 backdrop-blur hover:bg-ink-700"
           }`}
           aria-pressed={editMode}

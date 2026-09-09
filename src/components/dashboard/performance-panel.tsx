@@ -14,9 +14,9 @@ export type StatusCounts = {
 // funnel order active → funded → registered → lead. The legend labels below
 // carry identity so colour is never the sole cue.
 const SEGMENTS = [
-  { key: "active", label: "نشط", color: "#00D1E6" },
+  { key: "active", label: "نشط", color: "#E6C15A" },
   { key: "funded", label: "مموّل", color: "#f5c451" },
-  { key: "registered", label: "مسجّل", color: "#2a9cff" },
+  { key: "registered", label: "مسجّل", color: "#E6C15A" },
   { key: "lead", label: "مهتم", color: "#64748b" },
 ] as const;
 
@@ -186,7 +186,7 @@ export function PerformancePanel({
               {formatCurrency(curEarn)}
             </div>
             <div className="mt-2">
-              <Sparkline values={series.map((s) => s.earnings)} color="#00D1E6" />
+              <Sparkline values={series.map((s) => s.earnings)} color="#E6C15A" />
             </div>
           </div>
 
@@ -199,7 +199,7 @@ export function PerformancePanel({
               {curRef}
             </div>
             <div className="mt-2">
-              <Sparkline values={series.map((s) => s.referrals)} color="#008CFF" />
+              <Sparkline values={series.map((s) => s.referrals)} color="#C9A227" />
             </div>
           </div>
 

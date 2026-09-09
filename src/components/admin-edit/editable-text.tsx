@@ -56,7 +56,7 @@ export function EditableText({
         {children}
         <button
           onClick={start}
-          className="absolute -top-2.5 -end-2.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-brand-gradient text-white shadow-glow"
+          className="absolute -top-2.5 -end-2.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-brand-gradient text-ink-900 shadow-glow"
           aria-label={`تعديل ${label ?? field}`}
         >
           <Pencil className="h-3 w-3" />
@@ -78,7 +78,7 @@ export function EditableText({
             <button
               onClick={save}
               disabled={busy}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90 disabled:opacity-60"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
               حفظ

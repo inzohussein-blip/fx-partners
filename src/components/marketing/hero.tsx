@@ -111,7 +111,7 @@ export async function Hero({ locale }: { locale: string }) {
             <div className="mt-9 flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
               <Link
                 href="/compare"
-                className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white shadow-glow transition hover:opacity-95"
+                className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-ink-900 shadow-glow transition hover:opacity-95"
               >
                 <Users className="h-4 w-4" />
                 {t("Hero.ctaTrader")}

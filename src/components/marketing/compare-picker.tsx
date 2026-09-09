@@ -56,7 +56,7 @@ export function ComparePicker({ options }: { options: Option[] }) {
         type="button"
         onClick={go}
         disabled={!ready || pending}
-        className="btn-gradient inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white shadow-glow transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+        className="btn-gradient inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-ink-900 shadow-glow transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
       >
         {pending ? (
           <Loader2 className="h-4 w-4 animate-spin" />

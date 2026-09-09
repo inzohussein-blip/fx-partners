@@ -384,7 +384,7 @@ export function BrokerComparison() {
               <button
                 type="button"
                 onClick={next}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
               >
                 التالي
                 <ArrowLeft className="h-4 w-4" />

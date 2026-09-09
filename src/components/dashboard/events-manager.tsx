@@ -111,7 +111,7 @@ export function EventsManager({
         <button
           onClick={add}
           disabled={busy === "add"}
-          className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90 disabled:opacity-60"
         >
           {busy === "add" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           إضافة حدث

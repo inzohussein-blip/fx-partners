@@ -125,7 +125,7 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
                 <td key={b.id} className="p-3 text-center">
                   <Link
                     href={link ? linkHref(link) : `/brokers/${b.slug}`}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-3 py-2 text-xs font-semibold text-white shadow-glow transition hover:opacity-90"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-3 py-2 text-xs font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
                   >
                     فتح حساب
                     <ArrowLeft className="h-3.5 w-3.5 rtl:rotate-0 ltr:rotate-180" />

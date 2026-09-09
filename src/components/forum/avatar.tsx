@@ -25,7 +25,7 @@ export function Avatar({
   return (
     <span
       aria-hidden
-      className="grid shrink-0 place-items-center rounded-full bg-brand-gradient font-semibold text-white"
+      className="grid shrink-0 place-items-center rounded-full bg-brand-gradient font-semibold text-ink-900"
       style={{ width: size, height: size, fontSize: size * 0.42 }}
     >
       {initial}

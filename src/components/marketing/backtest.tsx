@@ -155,7 +155,7 @@ export function Backtest() {
         handleScale: false,
       });
       const area = chart.addAreaSeries({
-        lineColor: "#00D1E6",
+        lineColor: "#E6C15A",
         topColor: "rgba(34,211,238,0.35)",
         bottomColor: "rgba(34,211,238,0)",
         lineWidth: 2,
