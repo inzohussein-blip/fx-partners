@@ -11,6 +11,7 @@ import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { TopRatedBrokers } from "@/components/marketing/top-rated-brokers";
 import { CompareTeaser } from "@/components/marketing/compare-teaser";
+import { LatestReviews } from "@/components/marketing/latest-reviews";
 import { MarketTicker } from "@/components/marketing/market-ticker";
 import { LogoCarousel } from "@/components/marketing/logo-carousel";
 import { Instruments } from "@/components/marketing/instruments";
@@ -164,6 +165,11 @@ export default async function HomePage({
       {/* Compare Brokers teaser — pick two and jump into the head-to-head */}
       <Reveal>
         <CompareTeaser />
+      </Reveal>
+
+      {/* Latest Reviews — recent approved user reviews across brokers */}
+      <Reveal>
+        <LatestReviews />
       </Reveal>
 
       {/* Why choose us — features */}

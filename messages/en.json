@@ -383,5 +383,12 @@
     "f4t": "Regulations",
     "f4d": "Trade with peace of mind",
     "empty": "Add at least two brokers from the dashboard to enable comparison."
+  },
+  "LatestReviews": {
+    "badge": "Trader reviews",
+    "heading": "Latest Reviews",
+    "subheading": "Real experiences from traders about the brokers in our network.",
+    "viewAll": "All reviews",
+    "empty": "No published reviews yet."
   }
 }
