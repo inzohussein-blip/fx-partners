@@ -59,7 +59,7 @@ export function HeadToHeadPicker({
         <button
           onClick={go}
           disabled={!a || !b || a === b}
-          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-5 py-3 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90 disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-50"
         >
           قارن
           <ArrowLeft className="h-4 w-4" />

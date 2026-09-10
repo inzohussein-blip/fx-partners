@@ -267,7 +267,7 @@ export default async function BrokerDetailPage({
                     href={primaryHref}
                     target="_blank"
                     rel="nofollow noopener noreferrer sponsored"
-                    className="btn-gradient inline-flex items-center gap-2 rounded-xl px-6 py-3 text-base font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
+                    className="btn-gradient inline-flex items-center gap-2 rounded-xl px-6 py-3 text-base font-semibold text-white shadow-glow transition hover:opacity-90"
                   >
                     افتح حساباً الآن
                     <ExternalLink className="h-4 w-4" />
@@ -423,7 +423,7 @@ export default async function BrokerDetailPage({
                       href={linkHref(l)}
                       target="_blank"
                       rel="nofollow noopener noreferrer sponsored"
-                      className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
+                      className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
                     >
                       فتح حساب
                       <ExternalLink className="h-4 w-4" />

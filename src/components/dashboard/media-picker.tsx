@@ -93,7 +93,7 @@ export function MediaPicker({
         title="معرض الوسائط"
         description="اختر صورة موجودة أو ارفع جديدة."
         footer={
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90">
             {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
             رفع صورة جديدة
             <input type="file" accept="image/*" hidden onChange={onUpload} disabled={uploading} />

@@ -58,7 +58,7 @@ export function CouponCard({ coupon }: { coupon: Coupon }) {
           </div>
           <button
             onClick={copyAndGo}
-            className="inline-flex items-center gap-1.5 bg-brand-gradient px-4 text-sm font-semibold text-ink-900 transition hover:opacity-90"
+            className="inline-flex items-center gap-1.5 bg-brand-gradient px-4 text-sm font-semibold text-white transition hover:opacity-90"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? "تم النسخ" : "انسخ وانتقل"}

@@ -215,7 +215,7 @@ export function MarginCalculator() {
                 </p>
                 <Link
                   href={brokerHref(bestBroker)}
-                  className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
+                  className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
                 >
                   افتح الحساب الآن
                   <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />

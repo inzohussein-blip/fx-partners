@@ -91,7 +91,7 @@ export function ProfileProgress({ steps }: { steps: OnboardingStep[] }) {
         </ul>
 
         {complete && (
-          <div className="mt-5 flex items-center gap-3 rounded-xl bg-brand-gradient p-4 text-ink-900 shadow-glow">
+          <div className="mt-5 flex items-center gap-3 rounded-xl bg-brand-gradient p-4 text-white shadow-glow">
             <Gift className="h-6 w-6 shrink-0" aria-hidden />
             <p className="text-sm font-semibold">
               حسابك جاهز تماماً — ابدأ بمشاركة روابطك واكسب من كل إحالة.

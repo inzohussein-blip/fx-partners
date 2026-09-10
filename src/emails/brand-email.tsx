@@ -70,7 +70,7 @@ export function CtaButton({ href, label }: { href: string; label: string }) {
         <tr>
           <td
             style={{
-              backgroundColor: "#866818",
+              backgroundColor: "#004884",
               backgroundImage: "linear-gradient(90deg,#2563eb,#22d3ee)",
               borderRadius: "10px",
             }}

@@ -59,7 +59,7 @@ export function BrokerSubscribe({
             <button
               type="submit"
               disabled={busy}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-gradient px-5 py-3 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90 disabled:opacity-60"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-60"
             >
               {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "اشترك"}
             </button>

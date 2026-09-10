@@ -35,7 +35,7 @@ export function Team() {
             <div key={m.name} className="card-surface p-6 text-center">
               <div
                 dir="ltr"
-                className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-brand-gradient text-xl font-bold text-ink-900"
+                className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-brand-gradient text-xl font-bold text-white"
               >
                 {initials(m.name)}
               </div>

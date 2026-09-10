@@ -36,7 +36,25 @@
     "viewAllMarkets": "View All Markets",
     "ctaTrader": "I'm a trader — compare brokers",
     "ctaAgent": "I'm an IB — master partnership",
-    "trustLine": "Real Reviews · Real Data · Real Traders"
+    "trustLine": "Real Reviews · Real Data · Real Traders",
+    "features": {
+      "regulated": {
+        "title": "Licensed network",
+        "desc": "FCA · ASIC · CySEC"
+      },
+      "verified": {
+        "title": "Verified reviews",
+        "desc": "From real traders"
+      },
+      "terms": {
+        "title": "Negotiated terms",
+        "desc": "Better than signing up direct"
+      },
+      "support": {
+        "title": "Arabic support",
+        "desc": "Dedicated account manager"
+      }
+    }
   },
   "Stats": {
     "partners": "2,400+",

@@ -32,7 +32,7 @@ export async function HowItWorks() {
     <section className="ambient-section py-16 sm:py-24">
       <span
         className="ambient inset-x-1/4 top-8 h-72"
-        style={{ background: "radial-gradient(circle, rgba(201,162,39,0.20) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(0,144,252,0.20) 0%, transparent 70%)" }}
         aria-hidden
       />
       <Container>

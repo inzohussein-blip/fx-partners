@@ -46,7 +46,7 @@ export async function TopRatedBrokers() {
     <section className="ambient-section py-16 sm:py-20">
       <span
         className="ambient inset-x-1/3 top-0 h-64"
-        style={{ background: "radial-gradient(circle, rgba(230,193,90,0.18) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(84,216,240,0.18) 0%, transparent 70%)" }}
         aria-hidden
       />
       <Container>

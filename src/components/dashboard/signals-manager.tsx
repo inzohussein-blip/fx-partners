@@ -141,7 +141,7 @@ export function SignalsManager({
             <button
               onClick={publish}
               disabled={busy === "signal"}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-ink-900 transition hover:opacity-90 disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
             >
               {busy === "signal" ? <Loader2 className="h-4 w-4 animate-spin" /> : "نشر وبثّ"}
             </button>

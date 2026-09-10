@@ -109,7 +109,7 @@ export default async function OffersPage() {
                     {c.broker_slug && (
                       <Link
                         href={`/brokers/${c.broker_slug}`}
-                        className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
+                        className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
                       >
                         {c.cta_label || "سجّل الآن"}
                         <ArrowLeft className="h-4 w-4" />

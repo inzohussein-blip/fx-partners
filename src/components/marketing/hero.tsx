@@ -5,19 +5,28 @@ import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { HeroTicker } from "@/components/marketing/hero-ticker";
-import { ConnectionDiagram } from "@/components/marketing/connection-diagram";
+import { HeroGlobe } from "@/components/marketing/hero-globe";
 import { HeroLeaderboard, type LeaderRow } from "@/components/marketing/hero-leaderboard";
-import { MessagesSquare, Users, Share2 } from "lucide-react";
+import {
+  MessagesSquare,
+  Users,
+  Share2,
+  ShieldCheck,
+  BadgeCheck,
+  Zap,
+  Headphones,
+} from "lucide-react";
 
 /**
- * Homepage hero — the settled "Partners FX" design.
+ * Homepage hero — the approved Partners FX composition.
  *
- * Layout (per the approved mockup): the platform visual sits on the RIGHT and
- * the copy on the LEFT — in both directions. RTL gets that from the natural
- * source order (first column renders right); LTR flips it back with `ltr:order-*`.
- * Copy stays start-aligned, so Arabic reads right-aligned as it should.
+ * The copy column comes first in the DOM, so RTL renders it on the right and
+ * the visual stage on the left (LTR mirrors it naturally). In the stage the
+ * glowing network globe sits behind and the broker-comparison window overlaps
+ * it in front, with two stat chips floating around the composition.
  */
-/** Top-rated published brokers for the hero leaderboard visual (best-effort). */
+
+/** Top-rated published brokers for the hero comparison window (best-effort). */
 async function getPartnerBrokers(): Promise<LeaderRow[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
@@ -47,39 +56,36 @@ export async function Hero({ locale }: { locale: string }) {
   const hero =
     locale === "ar" ? await getContent("home.hero", fallback) : fallback;
 
-  // Real top-rated brokers power the hero leaderboard; when there is no data
-  // yet we fall back to the identity (connection) diagram, which needs none.
   const brokers = await getPartnerBrokers();
+
+  const features = [
+    { icon: ShieldCheck, key: "regulated" },
+    { icon: BadgeCheck, key: "verified" },
+    { icon: Zap, key: "terms" },
+    { icon: Headphones, key: "support" },
+  ] as const;
 
   return (
     <section className="pro-hero relative">
       <span className="aurora aurora-1" aria-hidden />
       <span className="aurora aurora-2" aria-hidden />
 
-      <Container className="relative pb-12 pt-16 sm:pb-16 sm:pt-24">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-6">
-          {/* ---------- Visual asset (right in RTL) ---------- */}
-          <div className="relative order-first lg:order-1 ltr:lg:order-2">
-            {brokers.length > 0 ? (
-              <HeroLeaderboard brokers={brokers} />
-            ) : (
-              <ConnectionDiagram
-                brokers={brokers.map((b) => ({ name: b.name, logo_url: b.logo_url }))}
-              />
-            )}
-          </div>
-
-          {/* ---------- Copy + CTAs (left in RTL) ---------- */}
-          <div className="relative order-last text-center lg:order-2 lg:text-start ltr:lg:order-1">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold text-brand-200 backdrop-blur">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400/70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-400" />
+      <Container className="relative pb-10 pt-14 sm:pb-14 sm:pt-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8">
+          {/* ---------- Copy + CTAs (right in RTL) ---------- */}
+          <div className="relative text-center lg:text-start">
+            {/* Eyebrow */}
+            <div className="flex items-center justify-center gap-3.5 lg:justify-start">
+              <span className="text-[11px] font-extrabold uppercase tracking-[0.28em] text-slate-400">
+                {t("Hero.badge")}
               </span>
-              {t("Hero.badge")}
-            </span>
+              <span
+                className="h-px w-14 bg-gradient-to-l from-brand-300 to-transparent"
+                aria-hidden
+              />
+            </div>
 
-            <h1 className="mt-6 text-balance text-4xl font-extrabold leading-[1.22] tracking-tight text-white sm:text-5xl">
+            <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.5] tracking-tight text-white sm:text-5xl">
               <EditableText contentKey="home.hero" field="titleTop" label="العنوان الرئيسي">
                 {hero.titleTop}
               </EditableText>
@@ -90,28 +96,17 @@ export async function Hero({ locale }: { locale: string }) {
               </span>
             </h1>
 
-            <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-slate-300/90 sm:text-lg lg:mx-0">
+            <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-relaxed text-slate-300/90 sm:text-[17px] lg:mx-0">
               <EditableText contentKey="home.hero" field="subtitle" label="وصف الهيرو" multiline>
                 {hero.subtitle}
               </EditableText>
             </p>
 
-            {/* Trust line — review-platform credibility (brand brief) */}
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs font-semibold text-brand-200/90 lg:justify-start">
-              {t("Hero.trustLine").split("·").map((part, i) => (
-                <span key={i} className="inline-flex items-center gap-3">
-                  {i > 0 && <span className="text-brand-400/50">•</span>}
-                  {part.trim()}
-                </span>
-              ))}
-            </div>
-
-            {/* Two audience paths — our visitors are two different people —
-                plus the community entry point. */}
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
+            {/* Audience paths + community entry point */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 lg:justify-start">
               <Link
                 href="/compare"
-                className="btn-gradient inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-ink-900 shadow-glow transition hover:opacity-95"
+                className="btn-gradient inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white shadow-glow transition hover:opacity-95"
               >
                 <Users className="h-4 w-4" />
                 {t("Hero.ctaTrader")}
@@ -119,7 +114,7 @@ export async function Hero({ locale }: { locale: string }) {
 
               <Link
                 href="/affiliates"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-6 py-3.5 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5"
               >
                 <Share2 className="h-4 w-4 text-brand-300" />
                 {t("Hero.ctaAgent")}
@@ -127,11 +122,59 @@ export async function Hero({ locale }: { locale: string }) {
 
               <Link
                 href="/forum"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-slate-200 backdrop-blur-md transition hover:bg-white/[0.12] hover:text-white"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-5 py-3.5 text-sm font-semibold text-slate-200 backdrop-blur-md transition hover:bg-white/[0.12] hover:text-white"
               >
                 <MessagesSquare className="h-4 w-4" />
                 {t("Hero.enterForum")}
               </Link>
+            </div>
+
+            {/* Four proof points */}
+            <div className="mx-auto mt-10 grid max-w-lg grid-cols-1 gap-4 sm:grid-cols-2 lg:mx-0">
+              {features.map((f) => (
+                <div key={f.key} className="flex items-center gap-3 text-start">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-brand-500/20 bg-brand-500/10 text-brand-300">
+                    <f.icon className="h-[18px] w-[18px]" />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="text-[13px] font-bold text-white">
+                      {t(`Hero.features.${f.key}.title`)}
+                    </div>
+                    <div className="mt-0.5 text-[11px] text-slate-400">
+                      {t(`Hero.features.${f.key}.desc`)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ---------- Visual stage: globe behind, comparison window in front ---------- */}
+          <div className="relative mx-auto h-[430px] w-full max-w-[34rem] sm:h-[510px] lg:h-[580px]">
+            <HeroGlobe className="absolute end-0 top-0 aspect-square w-[88%] max-w-[32rem]" />
+
+            {/* Comparison window overlaps the globe */}
+            <div className="absolute bottom-2 start-0 z-10 w-full max-w-[26rem]">
+              <HeroLeaderboard brokers={brokers} />
+            </div>
+
+            {/* Floating stat chips — values come from the editable Stats copy */}
+            <div className="absolute start-1 top-3 z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
+              <div className="text-lg font-extrabold text-gradient" dir="ltr">
+                {t("Stats.brokersCount")}
+              </div>
+              <div className="mt-0.5 text-[11px] text-slate-400">
+                {t("Stats.brokersLabel")}
+              </div>
+            </div>
+
+            <div className="absolute end-0 top-[38%] z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
+              <div className="text-lg font-extrabold text-gradient" dir="ltr">
+                {t("Stats.agents")}
+              </div>
+              <div className="mt-0.5 text-[11px] text-slate-400">
+                {t("Stats.agentsLabel")}
+              </div>
             </div>
           </div>
         </div>

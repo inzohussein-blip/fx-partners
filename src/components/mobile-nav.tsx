@@ -118,7 +118,7 @@ export function MobileNav({
               </Link>
               <Link
                 href="/login"
-                className="btn-gradient flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-center text-sm font-semibold text-ink-900"
+                className="btn-gradient flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-center text-sm font-semibold text-white"
               >
                 {dashboardLabel}
                 <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />

@@ -60,7 +60,7 @@ export function ResourceCard({ resource }: { resource: TradingResource }) {
         )}
         <button
           onClick={onClick}
-          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90"
+          className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
         >
           {gated ? <Lock className="h-4 w-4" /> : <Download className="h-4 w-4" />}
           تحميل مجاني
@@ -114,7 +114,7 @@ export function ResourceCard({ resource }: { resource: TradingResource }) {
               <button
                 onClick={download}
                 disabled={account.trim().length < 3}
-                className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-ink-900 shadow-glow transition hover:opacity-90 disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-50"
               >
                 <CheckCircle2 className="h-4 w-4" />
                 تأكيد وتحميل الأداة

@@ -20,8 +20,8 @@ export function LogoMark({ className }: { className?: string }) {
         <linearGradient id="fx-metal" x1="8" y1="6" x2="34" y2="40" gradientUnits="userSpaceOnUse">
           <stop stopColor="#F5F7FA" />
           <stop offset="0.32" stopColor="#C0CACC" />
-          <stop offset="0.62" stopColor="#E6C15A" />
-          <stop offset="1" stopColor="#C9A227" />
+          <stop offset="0.62" stopColor="#54D8F0" />
+          <stop offset="1" stopColor="#0090FC" />
         </linearGradient>
         <filter id="fx-shadow" x="-30%" y="-20%" width="160%" height="150%">
           <feDropShadow dx="0" dy="1.1" stdDeviation="1.1" floodColor="#020617" floodOpacity="0.5" />
