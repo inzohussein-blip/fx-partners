@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { isRated } from "@/lib/brokers";
 import { ArrowLeft, BadgeCheck, Building2, Star } from "lucide-react";
 
 export type LeaderRow = {
@@ -132,15 +133,21 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
                     <BadgeCheck className="h-3 w-3 shrink-0 text-brand-300" />
                   )}
                 </div>
-                <MiniStars value={b.rating} />
+                {isRated(b) ? (
+                  <MiniStars value={b.rating} />
+                ) : (
+                  <span className="mt-0.5 block text-[10px] text-slate-500">
+                    لم تُقيَّم بعد
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="text-end text-base font-extrabold text-brand-300" dir="ltr">
-              {b.rating.toFixed(1)}
+              {isRated(b) ? b.rating.toFixed(1) : "—"}
             </div>
             <div className="text-end text-[10px] text-slate-500" dir="ltr">
-              {b.reviews_count}+
+              {isRated(b) ? `${b.reviews_count}+` : "—"}
             </div>
           </li>
         ))}

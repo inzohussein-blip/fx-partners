@@ -23,6 +23,9 @@ async function getTopBrokers(): Promise<TopBroker[]> {
       .from("brokers")
       .select("id,slug,name,logo_url,status,rating,reviews_count")
       .eq("is_published", true)
+      // This section *is* the ratings proof — a broker with no reviews yet has
+      // no rating to prove, so it stays out rather than showing a hollow 0.0.
+      .gt("reviews_count", 0)
       .order("rating", { ascending: false })
       .order("reviews_count", { ascending: false })
       .limit(6);

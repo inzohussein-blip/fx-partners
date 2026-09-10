@@ -17,6 +17,7 @@ import {
   statusLabel,
   linkHref,
   regulatorMeta,
+  isRated,
   type Broker,
   type BrokerReview,
 } from "@/lib/brokers";
@@ -107,7 +108,8 @@ export async function generateMetadata({
 
   const ogUrl =
     `${getSiteUrl()}/api/og/broker?name=${encodeURIComponent(broker.name)}` +
-    `&rating=${broker.rating.toFixed(1)}&reviews=${broker.reviews_count}` +
+    `&rating=${isRated(broker) ? broker.rating.toFixed(1) : ""}` +
+    `&reviews=${isRated(broker) ? broker.reviews_count : ""}` +
     `&bonus=${encodeURIComponent(broker.deposit_bonus || broker.welcome_bonus || "")}` +
     `&partnered=${broker.status === "partnered" ? "1" : "0"}`;
 
@@ -250,10 +252,18 @@ export default async function BrokerDetailPage({
                 </span>
               </div>
               <div className="mt-2 flex items-center gap-2">
-                <Stars value={broker.rating} size={18} />
-                <span className="text-sm text-slate-400" dir="ltr">
-                  {broker.rating.toFixed(1)} · {broker.reviews_count} مراجعة
-                </span>
+                {isRated(broker) ? (
+                  <>
+                    <Stars value={broker.rating} size={18} />
+                    <span className="text-sm text-slate-400" dir="ltr">
+                      {broker.rating.toFixed(1)} · {broker.reviews_count} مراجعة
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-sm text-slate-400">
+                    لا توجد مراجعات بعد — كن أول من يقيّم هذه الشركة
+                  </span>
+                )}
               </div>
               {broker.badges && broker.badges.length > 0 && (
                 <div className="mt-3">

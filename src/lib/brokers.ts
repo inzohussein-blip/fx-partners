@@ -42,6 +42,16 @@ export type Broker = {
   broker_links?: BrokerLink[];
 };
 
+/**
+ * A broker counts as rated only once real reviews exist. Until then the stored
+ * rating is 0, and printing "0.0 ★" reads as a *bad* score rather than "not
+ * rated yet" — the opposite of the truth, on a page traders act on. Every
+ * rating surface checks this and renders an unrated state instead.
+ */
+export function isRated(b: { rating: number; reviews_count: number }): boolean {
+  return b.reviews_count > 0 && b.rating > 0;
+}
+
 /** Common financial regulators shown as trust badges. */
 export const REGULATORS: Record<string, { label: string; flag: string }> = {
   fca: { label: "FCA", flag: "🇬🇧" },

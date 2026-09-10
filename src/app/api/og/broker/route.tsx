@@ -5,12 +5,16 @@ export const runtime = "edge";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const name = searchParams.get("name") || "شركة تداول";
-  const rating = searchParams.get("rating") || "0.0";
-  const reviews = searchParams.get("reviews") || "0";
+  const rating = searchParams.get("rating") || "";
+  const reviews = searchParams.get("reviews") || "";
   const bonus = searchParams.get("bonus") || "";
   const partnered = searchParams.get("partnered") === "1";
 
-  const stars = Math.round(Number(rating));
+  // A broker with no reviews yet has no score. Painting five grey stars and
+  // "0.0" would publish a *bad* rating for it across every share preview, so
+  // the unrated case says so in words instead.
+  const rated = rating !== "" && Number(reviews) > 0;
+  const stars = rated ? Math.round(Number(rating)) : 0;
 
   return new ImageResponse(
     (
@@ -57,12 +61,16 @@ export async function GET(req: Request) {
 
           {/* Stars */}
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ display: "flex", fontSize: 46, color: "#fbbf24" }}>
-              {"★".repeat(stars)}
-              <span style={{ color: "#334155" }}>{"★".repeat(5 - stars)}</span>
-            </span>
+            {rated ? (
+              <span style={{ display: "flex", fontSize: 46, color: "#fbbf24" }}>
+                {"★".repeat(stars)}
+                <span style={{ color: "#334155" }}>{"★".repeat(5 - stars)}</span>
+              </span>
+            ) : (
+              <span style={{ display: "flex" }} />
+            )}
             <span style={{ fontSize: 34, color: "#cbd5e1" }}>
-              {rating} · {reviews} مراجعة
+              {rated ? `${rating} · ${reviews} مراجعة` : "لا توجد مراجعات بعد"}
             </span>
           </div>
         </div>

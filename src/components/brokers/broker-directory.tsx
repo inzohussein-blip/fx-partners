@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
-import { statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
+import { statusLabel, regulatorMeta, isRated, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Gift, Search, ArrowLeft, Building2, SlidersHorizontal, X } from "lucide-react";
 
@@ -309,12 +309,16 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                     <StatusBadge status={b.status} />
                   </td>
                   <td className="px-5 py-4">
-                    <div className="flex items-center gap-2">
-                      <Stars value={b.rating} />
-                      <span className="text-xs text-slate-500" dir="ltr">
-                        {b.rating.toFixed(1)} ({b.reviews_count})
-                      </span>
-                    </div>
+                    {isRated(b) ? (
+                      <div className="flex items-center gap-2">
+                        <Stars value={b.rating} />
+                        <span className="text-xs text-slate-500" dir="ltr">
+                          {b.rating.toFixed(1)} ({b.reviews_count})
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-slate-500">لم تُقيَّم بعد</span>
+                    )}
                   </td>
                   <td className="px-5 py-4 text-slate-300" dir="ltr">
                     {b.spread_from != null ? `${b.spread_from} نقطة` : "—"}
@@ -365,10 +369,16 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
               </div>
             )}
             <div className="mt-3 flex items-center gap-2">
-              <Stars value={b.rating} />
-              <span className="text-xs text-slate-500" dir="ltr">
-                {b.rating.toFixed(1)} ({b.reviews_count})
-              </span>
+              {isRated(b) ? (
+                <>
+                  <Stars value={b.rating} />
+                  <span className="text-xs text-slate-500" dir="ltr">
+                    {b.rating.toFixed(1)} ({b.reviews_count})
+                  </span>
+                </>
+              ) : (
+                <span className="text-xs text-slate-500">لم تُقيَّم بعد</span>
+              )}
             </div>
             <div className="mt-3 flex flex-wrap gap-2 text-xs">
               {b.spread_from != null && (
