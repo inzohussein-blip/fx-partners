@@ -22,11 +22,27 @@ export async function GET() {
   );
 
   if (!configured) {
+    // The commonest failure by far: the values are set, but under the
+    // un-prefixed names. Next.js only exposes NEXT_PUBLIC_* to the browser and
+    // the app reads the prefixed names, so un-prefixed ones are invisible here.
+    const unprefixed = {
+      SUPABASE_URL: Boolean(process.env.SUPABASE_URL),
+      SUPABASE_ANON_KEY: Boolean(process.env.SUPABASE_ANON_KEY),
+    };
+    const misprefixed = unprefixed.SUPABASE_URL || unprefixed.SUPABASE_ANON_KEY;
+
     return NextResponse.json(
       {
         configured: false,
-        diagnosis:
-          "NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY are not present in this build. Add them in Vercel → Settings → Environment Variables (Production) and redeploy — NEXT_PUBLIC_* vars are inlined at build time, so adding them without a rebuild changes nothing.",
+        missing: {
+          NEXT_PUBLIC_SUPABASE_URL: !process.env.NEXT_PUBLIC_SUPABASE_URL,
+          NEXT_PUBLIC_SUPABASE_ANON_KEY:
+            !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        },
+        foundUnprefixed: misprefixed ? unprefixed : undefined,
+        diagnosis: misprefixed
+          ? "The values exist but under the wrong names: SUPABASE_URL / SUPABASE_ANON_KEY are set, while the app reads NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY. Rename them in Vercel (keep the same values) and redeploy. Leave SUPABASE_SERVICE_ROLE_KEY un-prefixed — it must never reach the browser."
+          : "NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY are not present in this build. Add them in Vercel → Settings → Environment Variables (Production) and redeploy — NEXT_PUBLIC_* vars are inlined at build time, so adding them without a rebuild changes nothing.",
       },
       { headers: { "cache-control": "no-store" } }
     );
