@@ -4,24 +4,19 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
-import { createClient } from "@/lib/supabase/server";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
-import { ToolsTabs } from "@/components/marketing/tools-tabs";
+import { Hero } from "@/components/marketing/hero";
+import { BrokerNetwork } from "@/components/marketing/broker-network";
 import { TopRatedBrokers } from "@/components/marketing/top-rated-brokers";
 import { CompareTeaser } from "@/components/marketing/compare-teaser";
 import { LatestReviews } from "@/components/marketing/latest-reviews";
-import { MarketTicker } from "@/components/marketing/market-ticker";
-import { LogoCarousel } from "@/components/marketing/logo-carousel";
-import { Instruments } from "@/components/marketing/instruments";
-import { Steps } from "@/components/marketing/steps";
-import { MarketsLazy as Markets } from "@/components/marketing/markets-lazy";
-import { About } from "@/components/marketing/about";
-import { Team } from "@/components/marketing/team";
+import { HowItWorks } from "@/components/marketing/how-it-works";
+import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
-import { Contact } from "@/components/marketing/contact";
+import { EditableText } from "@/components/admin-edit/editable-text";
 import {
   ArrowLeft,
   ShieldCheck,
@@ -30,31 +25,22 @@ import {
   Link2,
   Users,
   BarChart3,
-  Building2,
-  Globe,
   Trophy,
 } from "lucide-react";
-import { Hero } from "@/components/marketing/hero";
-import { BrokerNetwork } from "@/components/marketing/broker-network";
-import { HowItWorks } from "@/components/marketing/how-it-works";
-import { AnimatedStat } from "@/components/marketing/animated-counter";
-import { EditableText } from "@/components/admin-edit/editable-text";
 
-async function getPartners() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
-  try {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("partners")
-      .select("id,name,logo_url")
-      .eq("is_active", true)
-      .order("sort_order");
-    return data ?? [];
-  } catch {
-    return [];
-  }
-}
-
+/**
+ * Homepage — one deliberate narrative, not a pile of sections:
+ *   identity & proof (hero) → who we connect to → the product (ratings,
+ *   comparison, reviews) → how the master-IB model works → why us → tools →
+ *   voices → objections → act.
+ *
+ * Sections deliberately kept off this page live on as components: the top
+ * market ticker (the hero carries its own), the partner logo marquee (the
+ * broker network band covers it), the standalone stats band (the hero chips
+ * carry those figures), the 3-step starter (folded into How-it-works), plus
+ * instruments, the market chart, about, team and contact — each of which
+ * lengthened the page without moving a visitor forward.
+ */
 export default async function HomePage({
   params: { locale },
 }: {
@@ -62,15 +48,6 @@ export default async function HomePage({
 }) {
   setRequestLocale(locale);
   const t = await getTranslations();
-
-  const statsFallback = {
-    brokersCount: t("Stats.brokersCount"),
-    agents: t("Stats.agents"),
-    payout: t("Stats.payout"),
-    countries: t("Stats.countries"),
-  };
-  const stats =
-    locale === "ar" ? await getContent("home.stats", statsFallback) : statsFallback;
 
   const ctaFallback = {
     heading: t("Cta.heading"),
@@ -85,9 +62,9 @@ export default async function HomePage({
     subtitle: t("Features.subheading"),
   };
   const featuresCopy =
-    locale === "ar" ? await getContent("home.features", featuresFallback) : featuresFallback;
-
-  const partners = await getPartners();
+    locale === "ar"
+      ? await getContent("home.features", featuresFallback)
+      : featuresFallback;
 
   const features = [
     { icon: TrendingUp, key: "revenueShare" },
@@ -98,172 +75,95 @@ export default async function HomePage({
     { icon: Users, key: "multiTier" },
   ] as const;
 
-  const statCards = [
-    { label: t("Stats.brokersLabel"), value: stats.brokersCount, icon: Building2 },
-    { label: t("Stats.agentsLabel"), value: stats.agents, icon: Users },
-    { label: t("Stats.payoutLabel"), value: stats.payout, icon: Wallet },
-    { label: t("Stats.countriesLabel"), value: stats.countries, icon: Globe },
-  ];
-
   return (
     <>
       <OrganizationJsonLd />
       <SiteHeader />
 
-      {/* Live ticker tape */}
-      <MarketTicker />
-
-      {/* Hero — visual + copy + live ticker bar */}
+      {/* 1 — Identity + the comparison proof, with its own live ticker */}
       <Hero locale={locale} />
 
-      {/* Proof band: the licensed brokers we connect to */}
+      {/* 2 — Who we connect you to */}
       <BrokerNetwork />
 
-      {/* Social proof — trusted-by logo marquee */}
-      <LogoCarousel partners={partners} />
-
-      {/* Impact stats band */}
-      <section className="ambient-section py-16">
-        <span
-          className="ambient inset-x-1/4 top-0 h-64"
-          style={{ background: "radial-gradient(circle, rgba(0,144,252,0.28) 0%, transparent 70%)" }}
-          aria-hidden
-        />
-        <Container>
-          <div className="mb-8 flex items-center gap-3">
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-300">
-              <span className="h-px w-8 bg-brand-400/60" />
-              أثرنا بالأرقام
-            </span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-white/10 to-transparent" />
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {statCards.map((s) => (
-              <div
-                key={s.label}
-                className="card-surface group p-6 text-center transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
-              >
-                <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
-                  <s.icon className="h-5 w-5" />
-                </span>
-                <AnimatedStat
-                  value={s.value}
-                  className="mt-4 block text-3xl font-extrabold text-gradient"
-                />
-                <div className="mt-1 text-xs text-slate-400">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* Top Rated Brokers — review-platform proof grid */}
+      {/* 3 — The product: top-rated brokers */}
       <Reveal>
         <TopRatedBrokers />
       </Reveal>
 
-      {/* Compare Brokers teaser — pick two and jump into the head-to-head */}
+      {/* 4 — The primary action: compare two brokers */}
       <Reveal>
         <CompareTeaser />
       </Reveal>
 
-      {/* Latest Reviews — recent approved user reviews across brokers */}
+      {/* 5 — Social proof from real reviews */}
       <Reveal>
         <LatestReviews />
       </Reveal>
 
-      {/* Why choose us — features */}
-      <Reveal>
-      <section className="ambient-section py-16 sm:py-24">
-        <span
-          className="ambient -start-24 top-1/4 h-80 w-80"
-          style={{ background: "radial-gradient(circle, rgba(84,216,240,0.22) 0%, transparent 70%)" }}
-          aria-hidden
-        />
-        <Container>
-          <SectionHeading
-            eyebrow={t("Features.badge")}
-            icon={Trophy}
-            title={featuresCopy.title}
-            subtitle={featuresCopy.subtitle}
-          />
-
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {features.map((f) => (
-              <div
-                key={f.key}
-                className="card-surface group p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
-              >
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
-                  <f.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-white">
-                  {t(`Features.${f.key}.title`)}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                  {t(`Features.${f.key}.desc`)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-      </Reveal>
-
-      {/* How we work — the identity explainer (master IB role) */}
+      {/* 6 — How the master-IB model works (the identity explainer) */}
       <Reveal>
         <HowItWorks />
       </Reveal>
 
-      {/* How to start — 3 steps. Kept high on the page: a visitor decides to
-          join once the path to joining is obvious. */}
+      {/* 7 — Why choose us */}
       <Reveal>
-        <Steps />
+        <section className="ambient-section py-16 sm:py-24">
+          <span
+            className="ambient -start-24 top-1/4 h-80 w-80"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(0,144,252,0.22) 0%, transparent 70%)",
+            }}
+            aria-hidden
+          />
+          <Container>
+            <SectionHeading
+              eyebrow={t("Features.badge")}
+              icon={Trophy}
+              title={featuresCopy.title}
+              subtitle={featuresCopy.subtitle}
+            />
+
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((f) => (
+                <div
+                  key={f.key}
+                  className="card-surface group p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
+                >
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
+                    <f.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-white">
+                    {t(`Features.${f.key}.title`)}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                    {t(`Features.${f.key}.desc`)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
       </Reveal>
 
-      {/* What can be traded — asset-class grid */}
-      <Reveal>
-        <Instruments />
-      </Reveal>
-
-      {/* Live market chart (TradingView Lightweight Charts) */}
-      <Reveal>
-        <Markets />
-      </Reveal>
-
-      {/* Interactive tools (calculator / comparison / backtest) in tabs */}
+      {/* 8 — Interactive tools */}
       <ToolsTabs />
 
-      {/* Testimonials */}
+      {/* 9 — Voices */}
       <Reveal>
         <Testimonials />
       </Reveal>
 
-      {/* About */}
-      <Reveal>
-        <About />
-      </Reveal>
-
-      {/* Team */}
-      <Reveal>
-        <Team />
-      </Reveal>
-
-      {/* FAQ — objection handling, placed right before the closing CTA */}
+      {/* 10 — Objection handling */}
       <Reveal>
         <Faq />
       </Reveal>
 
-      {/* Contact */}
-      <Reveal>
-        <Contact />
-      </Reveal>
-
-      {/* CTA */}
+      {/* 11 — Act */}
       <section className="py-16">
         <Container>
           <div className="card-surface relative isolate overflow-hidden p-10 text-center sm:p-16">
-            {/* Layered brand glow + fading grid, matching the hero treatment */}
             <div
               className="absolute inset-0 -z-10"
               style={{
@@ -292,7 +192,12 @@ export default async function HomePage({
                 </EditableText>
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-slate-300">
-                <EditableText contentKey="home.cta" field="subheading" label="وصف الدعوة" multiline>
+                <EditableText
+                  contentKey="home.cta"
+                  field="subheading"
+                  label="وصف الدعوة"
+                  multiline
+                >
                   {cta.subheading}
                 </EditableText>
               </p>
