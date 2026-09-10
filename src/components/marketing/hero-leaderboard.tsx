@@ -39,13 +39,13 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
     <div
       className={cn(
         "w-full max-w-[26rem] overflow-hidden rounded-2xl border backdrop-blur",
-        "border-brand-500/25 shadow-[0_50px_110px_-34px_rgba(0,0,0,0.95)]"
+        "border-brand-500/30 shadow-[0_50px_110px_-34px_rgba(0,0,0,0.95)]"
       )}
       style={{
         backgroundImage:
           "linear-gradient(180deg, rgba(10,32,54,0.97) 0%, rgba(4,16,30,0.98) 100%)",
         boxShadow:
-          "0 50px 110px -34px rgba(0,0,0,0.95), inset 0 1px 0 rgba(84,216,240,0.18)",
+          "0 50px 110px -34px rgba(0,0,0,0.95), inset 0 1px 0 rgba(84,216,240,0.22)",
       }}
     >
       {/* Window chrome */}
@@ -75,7 +75,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
             key={b.slug}
             className={cn(
               "grid grid-cols-[22px_1fr_52px_54px] items-center gap-2 border-b border-white/[0.05] px-4 py-3",
-              i === 0 && "bg-gradient-to-l from-brand-500/[0.16] to-transparent"
+              i === 0 && "bg-gradient-to-l from-brand-500/[0.2] to-transparent"
             )}
           >
             <span

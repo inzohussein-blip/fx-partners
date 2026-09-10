@@ -151,15 +151,15 @@ export async function Hero({ locale }: { locale: string }) {
 
           {/* ---------- Visual stage: globe behind, comparison window in front ---------- */}
           <div className="relative mx-auto h-[430px] w-full max-w-[34rem] sm:h-[510px] lg:h-[580px]">
-            <HeroGlobe className="absolute end-0 top-0 aspect-square w-[88%] max-w-[32rem]" />
+            <HeroGlobe className="absolute end-0 -top-4 aspect-square w-[96%] max-w-[34rem]" />
 
             {/* Comparison window overlaps the globe */}
-            <div className="absolute bottom-2 start-0 z-10 w-full max-w-[26rem]">
+            <div className="absolute bottom-0 start-0 z-10 w-full max-w-[25rem]">
               <HeroLeaderboard brokers={brokers} />
             </div>
 
             {/* Floating stat chips — values come from the editable Stats copy */}
-            <div className="absolute start-1 top-3 z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
+            <div className="absolute start-0 top-1 z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
               <div className="text-lg font-extrabold text-gradient" dir="ltr">
                 {t("Stats.brokersCount")}
               </div>
@@ -168,7 +168,7 @@ export async function Hero({ locale }: { locale: string }) {
               </div>
             </div>
 
-            <div className="absolute end-0 top-[38%] z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
+            <div className="absolute end-0 top-[44%] z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
               <div className="text-lg font-extrabold text-gradient" dir="ltr">
                 {t("Stats.agents")}
               </div>

@@ -61,7 +61,7 @@ export function HeroGlobe({ className = "" }: { className?: string }) {
           </g>
 
           {/* Network links */}
-          <g stroke="#54D8F0" strokeWidth="1.1" opacity=".75" filter="url(#fxg-glow)" fill="none">
+          <g stroke="#54D8F0" strokeWidth="1.2" opacity=".75" filter="url(#fxg-glow)" fill="none">
             <path d="M-120,-60 L-40,-96 L46,-58" />
             <path d="M-40,-96 L20,-10 L110,-40" />
             <path d="M20,-10 L-30,70 L70,96" />
@@ -95,11 +95,14 @@ export function HeroGlobe({ className = "" }: { className?: string }) {
             r="196"
             fill="none"
             stroke="#BFEBFF"
-            strokeWidth="1"
-            opacity=".45"
+            strokeWidth="1.4"
+            opacity=".6"
             strokeDasharray="300 940"
             strokeDashoffset="-70"
           />
+
+          {/* Orbiting highlight node on the rim */}
+          <circle cx="0" cy="-196" r="6" fill="#BFEBFF" filter="url(#fxg-glow)" />
         </g>
       </svg>
     </div>
