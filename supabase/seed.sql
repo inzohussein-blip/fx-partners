@@ -1,168 +1,100 @@
 -- ===========================================================================
--- FX Partners — Seed data (marketing content + demo partners/posts)
--- Run AFTER schema.sql. Safe to re-run (upserts by key/slug).
+-- FX Partners — بذرة الشركات
+-- ===========================================================================
+-- هذا الملف يُنشئ صفوف الشركات الست بأسمائها ومعرّفاتها الصحيحة فقط.
+--
+-- ما الذي لن تجده هنا عمداً: التراخيص، السبريد، البونصات، التقييمات،
+-- الحد الأدنى للإيداع، والرافعة. هذه ادّعاءات مالية عن شركات حقيقية،
+-- ولا يجوز أن تُكتب من تخمين — أي رقم خاطئ هنا يضلّل متداولاً يبني عليه
+-- قراراً مالياً، ويضعك في موضع المسؤولية.
+--
+-- لذلك كل الصفوف تُدرج بـ is_published = false: لا تظهر على الموقع إطلاقاً
+-- حتى تملأ التفاصيل من المصدر الرسمي لكل شركة وتنشرها يدوياً (القسم 2 و 3).
+--
+-- آمن للتشغيل أكثر من مرّة: on conflict do nothing لا يمسّ أي تعديل أجريته.
 -- ===========================================================================
 
--- Editable page content -----------------------------------------------------
-insert into public.site_content (key, value) values
-  ('home.hero', jsonb_build_object(
-      'titleTop', 'أقوى معاً،',
-      'titleAccent', 'نجاح أعظم',
-      'subtitle', 'نشارك الوكلاء وشركات التداول العالمية لفتح فرص جديدة ودفع النمو، بأعلى نسب العمولات وشفافية كاملة في الأرباح.',
-      'cta', 'ابدأ الشراكة الآن'
-  )),
-  ('home.stats', jsonb_build_object(
-      'partners', '2,400+',
-      'volume', '$18B+',
-      'countries', '60+',
-      'payout', '$4.6M+'
-  )),
-  ('affiliates.rates', jsonb_build_object(
-      'revenue_share', 'حتى 60%',
-      'cpa', 'حتى $1,200',
-      'sub_ib', 'نظام متعدد المستويات'
-  ))
-on conflict (key) do update set value = excluded.value, updated_at = now();
+begin;
 
--- Demo B2B / broker partners -------------------------------------------------
-insert into public.partners (name, category, description, sort_order) values
-  ('Global Markets Ltd', 'broker', 'وسيط عالمي منظّم يقدّم فروقات تنافسية.', 1),
-  ('LiquidBridge', 'liquidity', 'مزوّد سيولة من الطبقة الأولى.', 2),
-  ('TradeTech Systems', 'technology', 'حلول MT4/MT5 وواجهات API.', 3)
-on conflict do nothing;
+-- ---------------------------------------------------------------------------
+-- 1) الشركات — الأسماء والمعرّفات فقط
+-- ---------------------------------------------------------------------------
+insert into public.brokers (slug, name, status, description, sort_order, is_published)
+values
+  ('oneroyal', 'One Royal',       'not_partnered',
+   'أكمل وصف الشركة من موقعها الرسمي.', 1, false),
 
--- Demo blog posts ------------------------------------------------------------
-insert into public.posts (slug, title, excerpt, body, status, published_at) values
-  ('welcome-to-fx-partners',
-   'أهلاً بك في FX Partners',
-   'كل ما تحتاج معرفته لبدء رحلتك كشريك مالي معنا.',
-   E'# أهلاً بك\n\nنحن سعداء بانضمامك إلى شبكة شركاء FX Partners...',
-   'published', now()),
-  ('how-ib-commissions-work',
-   'كيف تعمل عمولات الوكلاء (IB)؟',
-   'شرح مبسّط لنظام Revenue Share و CPA وكيفية احتساب أرباحك.',
-   E'# نظام العمولات\n\nنقدّم نموذجين رئيسيين للأرباح...',
-   'published', now())
+  ('vantage',  'Vantage Markets', 'not_partnered',
+   'أكمل وصف الشركة من موقعها الرسمي.', 2, false),
+
+  ('inzo',     'INZO',            'not_partnered',
+   'أكمل وصف الشركة من موقعها الرسمي.', 3, false),
+
+  ('altima',   'Altima',          'not_partnered',
+   'أكمل وصف الشركة من موقعها الرسمي.', 4, false),
+
+  ('tnfx',     'TNFX',            'not_partnered',
+   'أكمل وصف الشركة من موقعها الرسمي.', 5, false),
+
+  ('xm',       'XM',              'not_partnered',
+   'أكمل وصف الشركة من موقعها الرسمي.', 6, false)
 on conflict (slug) do nothing;
 
--- Demo in-app announcements / changelog --------------------------------------
-insert into public.announcements (title, body, category, published_at) values
-  ('رفعنا عمولة تداول الذهب 5%',
-   'ابتداءً من هذا الأسبوع، زدنا نسبة عمولتك على تداولات الذهب (XAU) بنسبة 5% لجميع المستويات. شارك رابط إحالتك الآن!',
-   'commission', now()),
-  ('لوحة المتصدّرين متاحة الآن',
-   'تابع ترتيبك بين أفضل 10 وكلاء وارتقِ في المستويات لزيادة نسبة عمولتك تلقائياً.',
-   'feature', now() - interval '2 days'),
-  ('حاسبة مقارنة الوسطاء الجديدة',
-   'جرّب حاسبة المقارنة على الصفحة الرئيسية لترى كم ستربح أكثر مع FX Partners مقابل وسيطك الحالي.',
-   'feature', now() - interval '5 days')
-on conflict do nothing;
+commit;
 
--- Demo B2B meeting slots (next few business days, 30 min, UTC) ----------------
-insert into public.meeting_slots (starts_at, duration_min, status)
-select gs, 30, 'open'
-from generate_series(
-  date_trunc('day', now()) + interval '1 day' + interval '13 hours',
-  date_trunc('day', now()) + interval '5 days' + interval '13 hours',
-  interval '1 day'
-) as gs
-on conflict do nothing;
 
--- Demo broker directory ------------------------------------------------------
-insert into public.brokers
-  (slug, name, status, deposit_bonus, welcome_bonus, description, badges,
-   spread_from, leverage_max, bonus_no_deposit, bonus_withdrawable, supports_gold, licenses, sort_order)
-values
-  ('alpha-markets', 'Alpha Markets', 'partnered', '100%', '$50',
-   E'شركة تداول عالمية منظّمة تقدّم فروقات تنافسية وتنفيذاً سريعاً على منصّتي MT4/MT5.\n\nسحوبات سريعة ودعم عربي على مدار الساعة.',
-   array['hot','platinum'], 0.1, '1:2000', true, true, true, array['fca','cysec'], 1),
-  ('titan-fx', 'Titan FX', 'partnered', '50%', null,
-   E'بيئة تداول ECN بفروقات من 0.0 نقطة، مناسبة للمتداولين المحترفين وصنّاع السوق.',
-   array['low_spread'], 0.0, '1:500', false, true, true, array['asic','fsca'], 2),
-  ('nova-trade', 'Nova Trade', 'not_partnered', null, '$25',
-   E'شركة ناشئة تقدّم حساباً تجريبياً سخياً وأدوات تعليمية للمبتدئين.',
-   array['best_welcome'], 0.6, '1:1000', true, false, false, array['fsa'], 3)
-on conflict (slug) do nothing;
+-- ===========================================================================
+-- 2) قالب تعبئة التفاصيل — كرّره لكل شركة
+-- ===========================================================================
+-- انسخ الكتلة التالية، غيّر الـ slug، واملأ ما تتحقّق منه فقط.
+-- اترك أي حقل لا تعرفه على حاله؛ الواجهة تُخفي الحقول الفارغة تلقائياً
+-- ولا تعرض أصفاراً أو شرطات مكان البيانات الناقصة.
+--
+--   licenses: مصفوفة من الرموز المدعومة في الموقع فقط:
+--     fca · asic · cysec · dfsa · fsa · fsca · fscm · cbcs
+--     ضَع فقط ترخيصاً تحقّقت من رقمه على سجلّ الجهة الرقابية نفسها.
+--
+--   status:   'partnered' فقط إذا كان لديك اتفاقية ماستر فعلية معها.
+--   badges:   وسوم تسويقية اختيارية تظهر بجانب الاسم.
+--
+-- update public.brokers set
+--   status             = 'partnered',
+--   logo_url           = 'https://.../logo.svg',
+--   description        = 'وصف من المصدر الرسمي.',
+--   licenses           = array['fca','cysec'],
+--   spread_from        = 0.0,
+--   leverage_max       = '1:500',
+--   min_deposit        = 100,
+--   deposit_methods    = 'تحويل بنكي، بطاقات، محافظ إلكترونية',
+--   deposit_bonus      = null,
+--   welcome_bonus      = null,
+--   bonus_no_deposit   = false,
+--   bonus_withdrawable = false,
+--   supports_gold      = true,
+--   supports_ea        = true,
+--   allows_hedging     = true,
+--   allows_scalping    = true,
+--   swap_free          = true,
+--   badges             = array['low_spread']
+-- where slug = 'oneroyal';
 
--- Demo referral links for the partnered brokers ------------------------------
-insert into public.broker_links (broker_id, label, referral_url, agent_commission, client_benefits)
-select b.id, 'الحساب القياسي', 'https://example.com/ref/' || b.slug, '$6 لكل لوت', 'سبريد مخفض + بدون عمولة'
-from public.brokers b where b.slug in ('alpha-markets', 'titan-fx')
-on conflict do nothing;
 
--- Demo approved reviews ------------------------------------------------------
-insert into public.broker_reviews (broker_id, user_name, comment, stars, is_approved)
-select b.id, 'متداول عربي', 'تجربة ممتازة، السحب سريع والدعم متعاون.', 5, true
-from public.brokers b where b.slug = 'alpha-markets'
-on conflict do nothing;
+-- ===========================================================================
+-- 3) النشر — بعد التحقّق فقط
+-- ===========================================================================
+-- انشر شركة واحدة بعد أن تكتمل بياناتها:
+--
+-- update public.brokers set is_published = true where slug = 'oneroyal';
+--
+-- ملاحظة: rating و reviews_count تُبنى من مراجعات المستخدمين الحقيقية في
+-- جدول broker_reviews. لا تكتبها يدوياً — تقييم مُصطنع على منصّة مقارنة
+-- هو بالضبط ما يجعل الزائر لا يثق بك.
 
--- Demo exclusive coupons -----------------------------------------------------
-insert into public.coupons (broker_id, broker_slug, broker_name, title, code, referral_url, description)
-select b.id, b.slug, b.name, 'بونص إيداع 100% حصري', 'FXP100',
-       '/brokers/' || b.slug, 'استخدم الكود عند فتح الحساب للحصول على مضاعفة إيداعك.'
-from public.brokers b where b.slug = 'alpha-markets'
-on conflict do nothing;
 
--- Demo discussion thread + staff reply ---------------------------------------
-with t as (
-  insert into public.broker_posts (broker_id, author_name, body)
-  select b.id, 'خالد', 'كم يستغرق السحب عبر التحويل البنكي مع هذه الشركة؟'
-  from public.brokers b where b.slug = 'alpha-markets'
-  returning id, broker_id
-)
-insert into public.broker_posts (broker_id, parent_id, author_name, body, is_staff)
-select t.broker_id, t.id, 'إدارة FX Partners',
-       'عادةً خلال 24 ساعة عمل، وأحياناً أسرع عبر المحافظ الإلكترونية.', true
-from t;
-
--- Demo per-instrument spreads for the /spreads heatmap ------------------------
-insert into public.broker_spreads (broker_id, instrument, category, spread)
-select b.id, s.instrument, s.category, s.spread
-from public.brokers b
-join (values
-  -- forex
-  ('alpha-markets','EURUSD','forex',0.2), ('titan-fx','EURUSD','forex',0.0), ('nova-trade','EURUSD','forex',0.9),
-  ('alpha-markets','GBPUSD','forex',0.4), ('titan-fx','GBPUSD','forex',0.2), ('nova-trade','GBPUSD','forex',1.2),
-  ('alpha-markets','USDJPY','forex',0.3), ('titan-fx','USDJPY','forex',0.1), ('nova-trade','USDJPY','forex',1.0),
-  -- metals
-  ('alpha-markets','XAUUSD','metals',12), ('titan-fx','XAUUSD','metals',9), ('nova-trade','XAUUSD','metals',22),
-  ('alpha-markets','XAGUSD','metals',2.1), ('titan-fx','XAGUSD','metals',1.6), ('nova-trade','XAGUSD','metals',3.4),
-  -- indices
-  ('alpha-markets','US30','indices',1.8), ('titan-fx','US30','indices',1.2), ('nova-trade','US30','indices',3.0),
-  ('alpha-markets','NAS100','indices',1.0), ('titan-fx','NAS100','indices',0.8), ('nova-trade','NAS100','indices',2.2),
-  -- crypto
-  ('alpha-markets','BTCUSD','crypto',35), ('titan-fx','BTCUSD','crypto',28), ('nova-trade','BTCUSD','crypto',60)
-) as s(slug, instrument, category, spread) on s.slug = b.slug
-on conflict (broker_id, instrument) do nothing;
-
--- Demo operational specs for the quick comparison grid ------------------------
-update public.brokers set supports_ea=true,  allows_hedging=true,  swap_free=true,  allows_scalping=true,  min_deposit=10,  deposit_methods=array['آسيا سيل','زين كاش','عملات رقمية','فيزا']            where slug='alpha-markets';
-update public.brokers set supports_ea=true,  allows_hedging=true,  swap_free=false, allows_scalping=true,  min_deposit=200, deposit_methods=array['تحويل بنكي','فيزا','عملات رقمية']                     where slug='titan-fx';
-update public.brokers set supports_ea=false, allows_hedging=false, swap_free=true,  allows_scalping=false, min_deposit=25,  deposit_methods=array['زين كاش','فيزا']                                        where slug='nova-trade';
-
--- Demo trading-calendar events ------------------------------------------------
-insert into public.broker_events (broker_id, title, description, kind, country, event_date, event_time)
-select b.id, e.title, e.descr, e.kind, e.country, (current_date + e.days), e.etime
-from (values
-  ('alpha-markets', 'إغلاق مبكر لتداول الذهب', E'بسبب عطلة يوم الاستقلال الأمريكي تُغلق تداولات الذهب (XAUUSD) الساعة 17:00 GMT.', 'hours', 'US', 2, '17:00 GMT'),
-  ('titan-fx', 'رفع الهامش مؤقتاً على المؤشرات', E'يُرفع الهامش المطلوب على US30 وNAS100 بنسبة 50% خلال عطلة نهاية الأسبوع.', 'margin', 'US', 4, null)
-) as e(slug, title, descr, kind, country, days, etime)
-join public.brokers b on b.slug = e.slug
-on conflict do nothing;
-
-insert into public.broker_events (broker_id, title, description, kind, country, event_date, event_time)
-values
-  (null, 'رأس السنة الصينية — سيولة منخفضة', E'انخفاض السيولة على أزواج الين واليوان خلال عطلة رأس السنة الصينية عبر معظم الشركات.', 'holiday', 'CN', current_date + 6, null),
-  (null, 'قرار الفائدة الأمريكي (FOMC)', E'تقلّب عالٍ متوقّع على الدولار والذهب — راجع الهامش قبل الإعلان.', 'news', 'US', 8, '18:00 GMT')
-on conflict do nothing;
-
--- Demo gated trading resources ------------------------------------------------
-insert into public.trading_resources (title, description, kind, file_url, broker_id, sort_order)
-select r.title, r.descr, r.kind, r.url,
-       (select id from public.brokers where slug = r.slug), r.ord
-from (values
-  ('مؤشر السيولة الذكي (MT5)', E'مؤشر يرصد مناطق السيولة ونقاط الدخول على منصة MetaTrader 5.', 'indicator', 'https://example.com/resources/liquidity.ex5', 'alpha-markets', 1),
-  ('قالب تحليل الذهب اليومي', E'قالب MetaTrader جاهز بكل المؤشرات اللازمة لتحليل الذهب.', 'template', 'https://example.com/resources/gold.tpl', 'titan-fx', 2),
-  ('كتاب: إدارة رأس المال', E'دليل PDF مجاني في إدارة المخاطر ورأس المال للمتداولين.', 'ebook', 'https://example.com/resources/risk.pdf', null, 3)
-) as r(title, descr, kind, url, slug, ord)
-on conflict do nothing;
+-- ===========================================================================
+-- 4) فحص الحالة
+-- ===========================================================================
+-- select slug, name, status, is_published,
+--        coalesce(array_length(licenses,1),0) as licenses_count,
+--        spread_from, rating, reviews_count
+-- from public.brokers order by sort_order;
