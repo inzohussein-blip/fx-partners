@@ -34,6 +34,7 @@ function MiniStars({ value }: { value: number }) {
  */
 export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
   const rows = brokers.slice(0, 4);
+  const isEmpty = rows.length === 0;
 
   return (
     <div
@@ -68,8 +69,28 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
         <span className="text-end">مراجعات</span>
       </div>
 
-      {/* Rows */}
+      {/* Rows — real brokers, or honest placeholders so the composition holds */}
       <ul>
+        {isEmpty &&
+          [0, 1, 2, 3].map((i) => (
+            <li
+              key={`skeleton-${i}`}
+              className="grid grid-cols-[22px_1fr_52px_54px] items-center gap-2 border-b border-white/[0.05] px-4 py-3"
+              aria-hidden
+            >
+              <span className="h-[21px] w-[21px] rounded-md bg-white/5" />
+              <div className="flex min-w-0 items-center gap-2.5">
+                <span className="h-[31px] w-[31px] shrink-0 rounded-lg border border-brand-500/15 bg-brand-500/5" />
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <span className="block h-2.5 w-24 rounded bg-white/[0.07]" />
+                  <span className="block h-2 w-14 rounded bg-white/[0.05]" />
+                </div>
+              </div>
+              <span className="ms-auto block h-3 w-7 rounded bg-white/[0.07]" />
+              <span className="ms-auto block h-2 w-8 rounded bg-white/[0.05]" />
+            </li>
+          ))}
+
         {rows.map((b, i) => (
           <li
             key={b.slug}
