@@ -408,9 +408,11 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
 
 function BrokerLogo({ broker }: { broker: Broker }) {
   if (broker.logo_url) {
-    // eslint-disable-next-line @next/next/no-img-element
     return (
-      <img loading="lazy" decoding="async"
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        loading="lazy"
+        decoding="async"
         src={broker.logo_url}
         alt={broker.name}
         className="h-9 w-9 rounded-lg object-contain"
