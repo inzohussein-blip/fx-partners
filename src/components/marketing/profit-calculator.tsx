@@ -75,7 +75,24 @@ export function ProfitCalculator() {
   const [currency, setCurrency] = useState("usd");
   const [rates, setRates] = useState<Record<string, number>>(FALLBACK);
 
+  const [ratesLoaded, setRatesLoaded] = useState(false);
+
+  /**
+   * Live FX rates, fetched only once they can change an answer.
+   *
+   * This component is the default tab of the tools section on the homepage, so
+   * it used to fire two third-party requests on every single landing-page
+   * visit. That sent each visitor's IP to hosts we do not control before they
+   * touched anything, made the landing page depend on somebody else's uptime,
+   * and cost a round trip that almost nobody needed — the calculator defaults
+   * to USD, where the rate is 1 and the response is irrelevant.
+   *
+   * It now runs when the visitor picks a non-USD currency, and not before. The
+   * bundled FALLBACK table answers in the meantime, so the number is never
+   * blank.
+   */
   useEffect(() => {
+    if (currency === "usd" || ratesLoaded) return;
     let active = true;
     const urls = [
       "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
@@ -89,6 +106,7 @@ export function ProfitCalculator() {
           const j = await r.json();
           if (active && j?.usd) {
             setRates(j.usd);
+            setRatesLoaded(true);
             return;
           }
         } catch {
@@ -99,7 +117,7 @@ export function ProfitCalculator() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [currency, ratesLoaded]);
 
   const perLot = TIERS[tierIdx].perLot;
   const inst = INSTRUMENTS[instIdx];
