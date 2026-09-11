@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { sendTelegram } from "@/lib/telegram";
+import { sendTelegram, escapeTelegram as esc } from "@/lib/telegram";
 import { sendRawEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 
@@ -97,13 +97,13 @@ export async function bookMeeting(input: unknown): Promise<ActionResult> {
     await sendTelegram(
       adminChat,
       `📅 <b>حجز اجتماع B2B جديد</b>\n` +
-        `الشركة: <b>${d.companyName}</b>\n` +
-        `المسؤول: ${d.contactName}\n` +
+        `الشركة: <b>${esc(d.companyName)}</b>\n` +
+        `المسؤول: ${esc(d.contactName)}\n` +
         `النوع: ${typeLabel}\n` +
         `الموعد: ${when} (UTC)\n` +
-        `البريد: ${d.email}` +
-        (d.phone ? `\nالهاتف: ${d.phone}` : "") +
-        (d.message ? `\nملاحظة: ${d.message}` : "")
+        `البريد: ${esc(d.email)}` +
+        (d.phone ? `\nالهاتف: ${esc(d.phone)}` : "") +
+        (d.message ? `\nملاحظة: ${esc(d.message)}` : "")
     );
   }
 

@@ -38,9 +38,13 @@ export async function GET(
     // fall back to home on any failure
   }
 
-  const target = dest.startsWith("http")
-    ? dest
-    : `${origin}${dest.startsWith("/") ? dest : `/${dest}`}`;
+  // Second line of defence behind the database constraint (migration 0026):
+  // only ever redirect to a path on this origin. An absolute URL, a
+  // protocol-relative "//evil.example", or anything that does not start with a
+  // single "/" falls back to the homepage rather than carrying the visitor off
+  // the brand domain.
+  const safePath = /^\/(?!\/)/.test(dest) ? dest : "/";
+  const target = `${origin}${safePath}`;
 
   const response = NextResponse.redirect(target);
   response.cookies.set("fxp_ref", params.slug, {

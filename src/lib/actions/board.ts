@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { sendTelegram } from "@/lib/telegram";
+import { sendTelegram, escapeTelegram as esc } from "@/lib/telegram";
 import { getSiteUrl } from "@/lib/utils";
 
 type ActionResult = { ok: boolean; error?: string };
@@ -62,9 +62,9 @@ export async function createBoardPost(input: unknown): Promise<ActionResult> {
     await sendTelegram(
       adminChat,
       `💬 <b>نقاش جديد في المنتدى</b>\n` +
-        `الشركة: <b>${broker?.name ?? "—"}</b>\n` +
-        `من: ${d.authorName}\n` +
-        `السؤال: ${excerpt}\n\n` +
+        `الشركة: <b>${esc(broker?.name ?? "—")}</b>\n` +
+        `من: ${esc(d.authorName)}\n` +
+        `السؤال: ${esc(excerpt)}\n\n` +
         (broker?.slug ? `${getSiteUrl()}/brokers/${broker.slug}#board` : "")
     );
   }

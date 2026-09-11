@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { sendTelegram } from "@/lib/telegram";
+import { sendTelegram, escapeTelegram as esc } from "@/lib/telegram";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -25,10 +25,10 @@ export async function sendContactMessage(input: unknown): Promise<ActionResult> 
     await sendTelegram(
       adminChat,
       `📨 <b>رسالة تواصل جديدة</b>\n` +
-        `الاسم: ${d.name}\n` +
-        `البريد: ${d.email}\n` +
-        (d.subject ? `الموضوع: ${d.subject}\n` : "") +
-        `\n${d.message}`
+        `الاسم: ${esc(d.name)}\n` +
+        `البريد: ${esc(d.email)}\n` +
+        (d.subject ? `الموضوع: ${esc(d.subject)}\n` : "") +
+        `\n${esc(d.message)}`
     );
   }
 

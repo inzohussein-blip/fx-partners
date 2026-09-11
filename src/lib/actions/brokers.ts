@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { sendTelegram } from "@/lib/telegram";
+import { sendTelegram, escapeTelegram as esc } from "@/lib/telegram";
 import { sendRawEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 import { BADGE_KEYS, REGULATOR_KEYS } from "@/lib/brokers";
@@ -281,10 +281,10 @@ export async function submitBrokerReview(input: unknown): Promise<ActionResult> 
     await sendTelegram(
       adminChat,
       `📝 <b>مراجعة جديدة بانتظار الموافقة</b>\n` +
-        `الشركة: <b>${broker?.name ?? "—"}</b>\n` +
+        `الشركة: <b>${esc(broker?.name ?? "—")}</b>\n` +
         `التقييم: ${"⭐".repeat(d.stars)} (${d.stars}/5)\n` +
-        `الاسم: ${d.userName}\n` +
-        `التعليق: ${excerpt}\n\n` +
+        `الاسم: ${esc(d.userName)}\n` +
+        `التعليق: ${esc(excerpt)}\n\n` +
         `راجِعها: ${getSiteUrl()}/dashboard/admin/brokers`
     );
   }

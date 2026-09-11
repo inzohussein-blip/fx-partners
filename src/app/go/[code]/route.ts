@@ -34,7 +34,11 @@ export async function GET(
       .eq("code", params.code)
       .maybeSingle();
 
-    if (!link?.referral_url) return NextResponse.redirect(site);
+    // Broker URLs are admin-managed, so this is not an agent-facing hole —
+    // but a mistyped or pasted "javascript:" / "data:" value must never become
+    // a redirect target, so the scheme is checked rather than assumed.
+    const dest = link?.referral_url;
+    if (!dest || !/^https?:\/\//i.test(dest)) return NextResponse.redirect(site);
 
     const headers = req.headers;
     const country =
@@ -71,7 +75,7 @@ export async function GET(
       })
       .then(() => {});
 
-    return NextResponse.redirect(link.referral_url, 302);
+    return NextResponse.redirect(dest, 302);
   } catch {
     return NextResponse.redirect(site);
   }
