@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Megaphone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ReferralGenerator } from "@/components/dashboard/referral-generator";
+import { ReviewRequest } from "@/components/dashboard/review-request";
 import { getSiteUrl } from "@/lib/utils";
 import { getReferralClicks, getBrokerClicks } from "@/lib/clicks";
 import { ClickAnalytics } from "@/components/dashboard/click-analytics";
@@ -12,7 +13,7 @@ async function getData() {
   const siteUrl = getSiteUrl();
 
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    return { ibId: null, ibCode: null, links: [], siteUrl };
+    return { ibId: null, ibCode: null, links: [], brokers: [], siteUrl };
   }
 
   try {
@@ -20,7 +21,7 @@ async function getData() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (!user) return { ibId: null, ibCode: null, links: [], siteUrl };
+    if (!user) return { ibId: null, ibCode: null, links: [], brokers: [], siteUrl };
 
     const { data: ib } = await supabase
       .from("ib_accounts")
@@ -28,7 +29,7 @@ async function getData() {
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (!ib) return { ibId: null, ibCode: null, links: [], siteUrl };
+    if (!ib) return { ibId: null, ibCode: null, links: [], brokers: [], siteUrl };
 
     const { data: links } = await supabase
       .from("referral_links")
@@ -36,14 +37,21 @@ async function getData() {
       .eq("ib_id", ib.id)
       .order("created_at", { ascending: false });
 
+    const { data: brokers } = await supabase
+      .from("brokers")
+      .select("slug,name")
+      .eq("is_published", true)
+      .order("sort_order");
+
     return {
       ibId: ib.id,
       ibCode: ib.ib_code,
       links: links ?? [],
+      brokers: (brokers as { slug: string; name: string }[] | null) ?? [],
       siteUrl,
     };
   } catch {
-    return { ibId: null, ibCode: null, links: [], siteUrl };
+    return { ibId: null, ibCode: null, links: [], brokers: [], siteUrl };
   }
 }
 
@@ -55,7 +63,7 @@ const BANNERS = [
 ];
 
 export default async function MarketingPage() {
-  const { ibId, ibCode, links, siteUrl } = await getData();
+  const { ibId, ibCode, links, brokers, siteUrl } = await getData();
 
   // RLS scopes both to this agent: their own referral clicks, and the broker
   // clicks their traffic produced. Neither query can see another agent's rows.
@@ -100,6 +108,8 @@ export default async function MarketingPage() {
         initialLinks={links}
         siteUrl={siteUrl}
       />
+
+      <ReviewRequest brokers={brokers} siteUrl={siteUrl} />
 
       <section className="card-surface p-6">
         <h2 className="text-lg font-semibold text-white">البانرات الدعائية</h2>

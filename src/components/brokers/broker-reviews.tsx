@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { submitBrokerReview } from "@/lib/actions/brokers";
 import { Stars, StarInput } from "@/components/brokers/stars";
@@ -33,6 +33,23 @@ export function BrokerReviews({
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const [invited, setInvited] = useState(false);
+
+  // `?review=1` is the link an agent sends a client they have just onboarded.
+  // Landing mid-page on a long broker review, the form is far below the fold,
+  // so the deep link scrolls to it and marks it — otherwise the person who
+  // followed an explicit "leave a review" link has to go hunting for the box.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (new URLSearchParams(window.location.search).get("review") !== "1") return;
+    setInvited(true);
+    const t = setTimeout(
+      () => formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }),
+      300
+    );
+    return () => clearTimeout(t);
+  }, []);
 
   // Live moderation: refetch approved reviews when the table changes.
   useEffect(() => {
@@ -101,9 +118,20 @@ export function BrokerReviews({
           مراجعات العملاء ({reviews.length})
         </h2>
         {reviews.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-500">
-            لا توجد مراجعات بعد. كن أول من يشارك تجربته!
-          </p>
+          <button
+            type="button"
+            onClick={() =>
+              formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" })
+            }
+            className="mt-4 w-full rounded-2xl border border-dashed border-brand-500/30 bg-brand-500/[0.04] px-5 py-8 text-center transition hover:border-brand-400/50 hover:bg-brand-500/[0.08]"
+          >
+            <span className="block text-sm font-bold text-white">
+              لا توجد مراجعات بعد — كن أول من يشارك تجربته
+            </span>
+            <span className="mt-1.5 block text-xs text-slate-400">
+              تجربتك الحقيقية مع هذه الشركة تساعد متداولاً آخر على القرار.
+            </span>
+          </button>
         ) : (
           <ul className="mt-5 space-y-4">
             {reviews.map((r) => (
@@ -139,7 +167,12 @@ export function BrokerReviews({
       </div>
 
       {/* Submission form */}
-      <div className="card-surface h-fit p-6">
+      <div
+        ref={formRef}
+        className={`card-surface h-fit scroll-mt-24 p-6 ${
+          invited ? "ring-2 ring-brand-400/50" : ""
+        }`}
+      >
         {done ? (
           <div className="text-center">
             <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/15 text-brand-300">
@@ -159,6 +192,12 @@ export function BrokerReviews({
         ) : (
           <form onSubmit={submit} className="space-y-4">
             <h3 className="font-bold text-white">أضف مراجعتك</h3>
+            {invited && (
+              <p className="rounded-lg bg-brand-500/10 px-3 py-2 text-xs leading-relaxed text-brand-100">
+                شاركنا تجربتك الحقيقية مع هذه الشركة — الإيداع والسحب والتنفيذ
+                والدعم. تُنشر بعد مراجعة الإدارة.
+              </p>
+            )}
             <div>
               <label className="mb-1.5 block text-sm text-slate-300">تقييمك</label>
               <StarInput value={stars} onChange={setStars} />
