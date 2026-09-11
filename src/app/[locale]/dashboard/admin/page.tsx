@@ -96,7 +96,7 @@ export default async function AdminPage() {
         subtitle={"اعتماد الوكلاء (IBs) ومعالجة طلبات السحب."}
       />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4">
         <StatCard
           label="وكلاء بانتظار الاعتماد"
           value={String(pendingIbs.length)}

@@ -83,11 +83,26 @@ export function DashboardSidebar({
 
   return (
     <aside className="flex w-full flex-col gap-1 border-b border-white/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
-      <div className="mb-4 flex items-center justify-between px-2">
+      <div className="mb-4 flex items-center justify-between gap-2 px-2">
         <Link href="/">
           <Logo />
         </Link>
-        <AnnouncementsBell />
+        <div className="flex items-center gap-1">
+          <AnnouncementsBell />
+          {/* Sign out lived only in the block below, which is hidden under
+              `md`, and otherwise behind ⌘K — so on a phone there was no way
+              to sign out of the dashboard at all. */}
+          <form action="/auth/sign-out" method="post" className="md:hidden">
+            <button
+              type="submit"
+              aria-label="تسجيل الخروج"
+              title="تسجيل الخروج"
+              className="grid h-10 w-10 place-items-center rounded-xl text-slate-400 transition hover:bg-red-500/10 hover:text-red-300"
+            >
+              <LogOut className="h-[18px] w-[18px]" />
+            </button>
+          </form>
+        </div>
       </div>
 
       <button
@@ -103,13 +118,25 @@ export function DashboardSidebar({
         <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-xs">⌘K</kbd>
       </button>
 
-      <nav className="flex flex-row gap-1 overflow-x-auto md:flex-col md:gap-0.5 md:overflow-visible">
+      {/* Below `md` this is a horizontal strip. Labels used to be hidden under
+          `sm`, which left a dozen unlabelled icons with no accessible name at
+          all — a screen reader announced each one as just "link". They stay
+          visible and the row scrolls instead. */}
+      <nav className="no-scrollbar -mx-1 flex flex-row gap-1 overflow-x-auto px-1 md:mx-0 md:flex-col md:gap-0.5 md:overflow-visible md:px-0">
         {navGroups.map((group) => (
           <div key={group.label} className="contents md:mt-3 md:block md:first:mt-0">
             {group.label && (
-              <div className="hidden px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600 md:block">
-                {group.label}
-              </div>
+              <>
+                {/* A hairline keeps the phone strip from reading as one
+                    undifferentiated run of thirteen icons. */}
+                <span
+                  className="mx-1 my-2 w-px shrink-0 self-stretch bg-white/10 first:hidden md:hidden"
+                  aria-hidden
+                />
+                <div className="hidden px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600 md:block">
+                  {group.label}
+                </div>
+              </>
             )}
             {group.items.map((link) => {
               const active =
@@ -120,15 +147,16 @@ export function DashboardSidebar({
                   key={link.href}
                   href={link.href}
                   data-tour={link.tour}
+                  aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex flex-1 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition md:flex-none",
+                    "flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-[13px] font-medium transition md:gap-3 md:text-sm",
                     active
                       ? "bg-brand-500/15 text-brand-200"
                       : "text-slate-400 hover:bg-white/5 hover:text-white"
                   )}
                 >
-                  <link.icon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{link.label}</span>
+                  <link.icon className="h-4 w-4 shrink-0" />
+                  <span>{link.label}</span>
                 </Link>
               );
             })}

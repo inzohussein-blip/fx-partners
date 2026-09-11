@@ -83,7 +83,7 @@ export default async function WalletPage() {
         subtitle={"تابع رصيدك وقدّم طلبات سحب الأرباح."}
       />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4">
         <StatCard label="الرصيد المتاح" value={formatCurrency(balance)} icon={Wallet} />
         <StatCard label="قيد التحصيل" value={formatCurrency(pending)} icon={Clock} />
         <StatCard
