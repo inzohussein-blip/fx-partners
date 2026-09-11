@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -28,11 +29,20 @@ import {
   MessagesSquare,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "شراكة الشركات (Brokers / B2B)",
-  description:
-    "شركات التداول: وزّعوا عروضكم على جمهور عربي مؤهّل وشبكة وكلاء IB عبر اتفاقية ماستر واحدة مع FX Partners.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "شراكة شركات التداول — اتفاقية وكيل ماستر (Master IB)",
+    description:
+      "شركات التداول: وزّعوا عروضكم على جمهور عربي مؤهّل وشبكة وكلاء IB عبر اتفاقية ماستر واحدة مع FX Partners — تغطية تسويقية كاملة، إدارة وكلاء، ومتابعة أداء شفّافة.",
+    path: "/brokers",
+    keywords: KEYWORDS.brokers,
+    locale,
+  });
+}
 
 const categoryIcon: Record<string, typeof Building2> = {
   broker: Building2,

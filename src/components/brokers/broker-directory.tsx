@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { useQueryState } from "nuqs";
 import { Link } from "@/i18n/navigation";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
@@ -59,7 +60,10 @@ function LicenseBadges({ licenses }: { licenses?: string[] }) {
 export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<Sort>("rating");
-  const [q, setQ] = useState("");
+  // The search term lives in the URL, not component state: it makes a filtered
+  // view shareable, lets the site declare a real SearchAction to Google, and
+  // gives an assistant a URL it can hand a user ("/compare?q=xm").
+  const [q, setQ] = useQueryState("q", { defaultValue: "", clearOnDefault: true });
   const [toggles, setToggles] = useState<Record<string, boolean>>({});
   const [sheetOpen, setSheetOpen] = useState(false);
   const [mounted, setMounted] = useState(false);

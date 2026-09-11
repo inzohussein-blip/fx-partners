@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -6,10 +7,20 @@ import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft, Newspaper } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "المدونة",
-  description: "أخبار ومقالات FX Partners حول التداول والشراكة المالية.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "مدوّنة التداول — شروحات واستراتيجيات بالعربية",
+    description:
+      "مقالات وشروحات في التداول والفوركس: أساسيات السوق، إدارة المخاطر، استراتيجيات، وكيف تختار شركة تداول — بالعربية.",
+    path: "/blog",
+    keywords: KEYWORDS.blog,
+    locale,
+  });
+}
 
 export const revalidate = 60;
 

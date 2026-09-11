@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -8,10 +9,19 @@ import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "خريطة الموقع",
-  description: "دليل كامل بكل صفحات وأقسام FX Partners.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "خريطة الموقع",
+    description:
+      "دليل كامل بكل صفحات وأقسام FX Partners: الشركات، المقارنات، الأدوات، المنتدى، والمدوّنة.",
+    path: "/sitemap",
+    locale,
+  });
+}
 
 async function getLists() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return { brokers: [], posts: [] };

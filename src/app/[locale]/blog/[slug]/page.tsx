@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { pageMeta } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
@@ -42,30 +43,18 @@ async function getPost(slug: string): Promise<Post | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: { slug: string; locale: string };
 }): Promise<Metadata> {
   const post = await getPost(params.slug);
-  if (!post) return { title: "منشور غير موجود | FX Partners" };
+  if (!post) return { title: "منشور غير موجود" };
 
-  const title = post.title;
-  const description = post.excerpt ?? undefined;
-  const url = `${getSiteUrl()}/blog/${params.slug}`;
-  const ogImage = `${getSiteUrl()}/api/banner?size=wide`;
-
-  return {
-    title,
-    description,
-    alternates: { canonical: url },
-    openGraph: {
-      type: "article",
-      title,
-      description,
-      url,
-      publishedTime: post.published_at ?? undefined,
-      images: [{ url: ogImage, width: 1200, height: 630 }],
-    },
-    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
-  };
+  return pageMeta({
+    title: post.title,
+    description: post.excerpt ?? `${post.title} — مدوّنة FX Partners.`,
+    path: `/blog/${params.slug}`,
+    locale: params.locale,
+    type: "article",
+  });
 }
 
 export default async function PostPage({

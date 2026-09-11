@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
-export const metadata: Metadata = {
-  title: "الشروط والأحكام",
-  description:
-    "شروط استخدام منصة FX Partners — طبيعة الخدمة، الإفصاح عن الشراكة، وتحذير المخاطر.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "الشروط والأحكام",
+    description:
+      "شروط استخدام منصة FX Partners — طبيعة الخدمة كوسيط شراكة، الإفصاح عن العلاقة مع الشركات، وتحذير المخاطر.",
+    path: "/terms",
+    locale,
+  });
+}
 
 const SECTIONS: { title: string; body: string[] }[] = [
   {

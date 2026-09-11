@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -7,10 +8,19 @@ import { ContactForm } from "@/components/marketing/contact-form";
 import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
 import { getContent } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "اتصل بنا",
-  description: "تواصل مع فريق FX Partners — الدعم، الشراكات، والاستفسارات على مدار الساعة.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "اتصل بنا",
+    description:
+      "تواصل مع فريق FX Partners — الدعم، طلبات الشراكة مع الشركات، واستفسارات الوكلاء.",
+    path: "/contact",
+    locale,
+  });
+}
 
 export default async function ContactPage() {
   const info = await getContent("site.contact", {

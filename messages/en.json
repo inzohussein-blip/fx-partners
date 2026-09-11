@@ -100,7 +100,7 @@
     }
   },
   "TrustedBy": {
-    "label": "Trusted by partners and brokers worldwide"
+    "label": "Brokers in the FX Partners network"
   },
   "Markets": {
     "badge": "Markets now",
@@ -187,22 +187,7 @@
   "Testimonials": {
     "badge": "Testimonials",
     "heading": "Partners worldwide trust us",
-    "subheading": "Real experiences from agents, marketers, and brokers in our network.",
-    "one": {
-      "quote": "Since joining as an agent, tracking my commissions and referrals is fully transparent, and withdrawals always arrive on time.",
-      "name": "Ahmed Al-Shammari",
-      "role": "Certified IB"
-    },
-    "two": {
-      "quote": "The dashboard gives me everything I need: referral links, live stats, and accurate per-campaign reports.",
-      "name": "Sarah Abdullah",
-      "role": "Marketing partner"
-    },
-    "three": {
-      "quote": "Working with FX Partners at the enterprise level was seamless — fast technical integration and flexible terms.",
-      "name": "Global Markets Ltd",
-      "role": "Brokerage (B2B)"
-    }
+    "subheading": "Real experiences from agents, marketers, and brokers in our network."
   },
   "Faq": {
     "badge": "Before you start",

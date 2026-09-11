@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -10,11 +11,20 @@ import { CalendarDays, Building2 } from "lucide-react";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "تقويم عطلات وأحداث شركات التداول",
-  description:
-    "تابع عطلات التداول الرسمية وتغييرات الهامش وساعات التداول لكل شركة تداول في مكان واحد — لا تُفاجأ بأي تغيير يؤثّر على صفقاتك.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "تقويم عطلات شركات التداول وتغييرات الهامش",
+    description:
+      "تابع عطلات التداول الرسمية وتغييرات الهامش وساعات التداول لكل شركة في مكان واحد — لا تُفاجأ بأي تغيير يؤثّر على صفقاتك المفتوحة.",
+    path: "/calendar",
+    keywords: KEYWORDS.tools,
+    locale,
+  });
+}
 
 function fmtDate(iso: string): { day: string; rest: string } {
   const d = new Date(iso + "T00:00:00");

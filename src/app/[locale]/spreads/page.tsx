@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -11,11 +12,20 @@ import { Gauge } from "lucide-react";
 
 export const revalidate = 300; // ISR: cache 5 min
 
-export const metadata: Metadata = {
-  title: "مقارنة السبريد بين شركات التداول",
-  description:
-    "قارن السبريد الحقيقي لكل أداة (ذهب، فوركس، مؤشرات، عملات رقمية) عبر أفضل شركات التداول — جدول حراري يُظهر الأرخص فوراً.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "مقارنة السبريد بين شركات التداول — الذهب والفوركس",
+    description:
+      "قارن السبريد الحقيقي لكل أداة (الذهب، أزواج العملات، المؤشرات، العملات الرقمية) عبر شركات التداول — جدول حراري يُظهر الأرخص فوراً ويكشف تكلفة التداول الفعلية.",
+    path: "/spreads",
+    keywords: KEYWORDS.spreads,
+    locale,
+  });
+}
 
 export default async function SpreadsPage() {
   const rows = await getBrokerSpreads();

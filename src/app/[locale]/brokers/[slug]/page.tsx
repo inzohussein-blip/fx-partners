@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { pageMeta } from "@/lib/seo";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
@@ -94,14 +95,14 @@ async function getIsAdmin(): Promise<boolean> {
 }
 
 export async function generateMetadata({
-  params: { slug },
+  params: { slug, locale },
 }: {
-  params: { slug: string };
+  params: { slug: string; locale: string };
 }): Promise<Metadata> {
   const broker = await getBroker(slug);
-  if (!broker) return { title: "شركة غير موجودة | FX Partners" };
+  if (!broker) return { title: "شركة غير موجودة" };
 
-  const title = `${broker.name} — مراجعة وتقييم | FX Partners`;
+  const title = `${broker.name} — مراجعة وتقييم وتراخيص`;
   const description =
     broker.description?.slice(0, 155) ??
     `مراجعة شركة ${broker.name}: التقييمات، البونصات، وروابط الإحالة.`;
@@ -113,24 +114,20 @@ export async function generateMetadata({
     `&bonus=${encodeURIComponent(broker.deposit_bonus || broker.welcome_bonus || "")}` +
     `&partnered=${broker.status === "partnered" ? "1" : "0"}`;
 
-  return {
+  return pageMeta({
     title,
     description,
-    alternates: { canonical: `${getSiteUrl()}/brokers/${broker.slug}` },
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      url: `${getSiteUrl()}/brokers/${broker.slug}`,
-      images: [{ url: ogUrl, width: 1200, height: 630, alt: broker.name }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogUrl],
-    },
-  };
+    path: `/brokers/${broker.slug}`,
+    locale,
+    type: "article",
+    image: ogUrl,
+    keywords: [
+      `${broker.name} مراجعة`,
+      `${broker.name} ترخيص`,
+      `هل ${broker.name} مرخصة`,
+      "شركات تداول مرخصة",
+    ],
+  });
 }
 
 export default async function BrokerDetailPage({

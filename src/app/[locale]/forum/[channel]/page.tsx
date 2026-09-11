@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { SiteHeader } from "@/components/site-header";
@@ -15,14 +16,18 @@ export const revalidate = 30;
 export async function generateMetadata({
   params,
 }: {
-  params: { channel: string };
+  params: { channel: string; locale: string };
 }): Promise<Metadata> {
   const channel = await getChannel(params.channel);
   if (!channel) return { title: "قناة غير موجودة" };
-  return {
+  return pageMeta({
     title: `${channel.name} — منتدى FX Partners`,
-    description: channel.description ?? undefined,
-  };
+    description:
+      channel.description ??
+      `قناة ${channel.name} في منتدى FX Partners: تحليلات وأخبار ونقاش مع المتداولين.`,
+    path: `/forum/${params.channel}`,
+    locale: params.locale,
+  });
 }
 
 export default async function ChannelPage({

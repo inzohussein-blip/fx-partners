@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -12,10 +13,20 @@ import { Building2, ExternalLink, ArrowRight, BadgeCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "مقارنة مباشرة بين شركتين | FX Partners",
-  description: "قارن شركتي تداول جنباً إلى جنب: البونص، العمولات، الحالة، والتقييمات.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "مقارنة مباشرة بين شركتي تداول",
+    description:
+      "قارن شركتي تداول جنباً إلى جنب: التراخيص، السبريد، البونص، الحد الأدنى للإيداع، والتقييمات — في جدول واحد.",
+    path: "/compare/vs",
+    keywords: KEYWORDS.compare,
+    locale,
+  });
+}
 
 async function getBroker(slug: string): Promise<Broker | null> {
   if (!slug || !process.env.NEXT_PUBLIC_SUPABASE_URL) return null;

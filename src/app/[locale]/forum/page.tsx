@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -8,11 +9,20 @@ import { PostCard } from "@/components/forum/post-card";
 import { getChannels, getLatestPosts } from "@/lib/forum";
 import { BadgeCheck, Radio, MessagesSquare, Newspaper } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "المنتدى والقنوات",
-  description:
-    "منتدى تداول تفاعلي: أخبار وتحليلات رسمية من FX Partners وقنوات خاصة للوكلاء، ونقاشات مباشرة مع المجتمع.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "منتدى فوركس عربي — تحليلات وأخبار وقنوات الوكلاء",
+    description:
+      "منتدى تداول عربي تفاعلي: تحليلات وأخبار من القنوات الرسمية، قنوات خاصة للوكلاء (IB)، ونقاش مباشر مع مجتمع المتداولين.",
+    path: "/forum",
+    keywords: KEYWORDS.forum,
+    locale,
+  });
+}
 
 export const revalidate = 30;
 

@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { pageMeta, KEYWORDS, SITE } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -6,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { Hero } from "@/components/marketing/hero";
 import { BrokerNetwork } from "@/components/marketing/broker-network";
 import { TopRatedBrokers } from "@/components/marketing/top-rated-brokers";
@@ -41,6 +42,25 @@ import {
  * instruments, the market chart, about, team and contact — each of which
  * lengthened the page without moving a visitor forward.
  */
+
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  const lang = locale === "en" ? "en" : "ar";
+  return pageMeta({
+    title:
+      lang === "ar"
+        ? "مقارنة شركات التداول المرخّصة وبرنامج وكلاء IB | FX Partners"
+        : "Compare licensed brokers and join the IB network | FX Partners",
+    description: SITE.description[lang],
+    path: "/",
+    keywords: KEYWORDS.home,
+    locale,
+  });
+}
+
 export default async function HomePage({
   params: { locale },
 }: {
@@ -77,7 +97,6 @@ export default async function HomePage({
 
   return (
     <>
-      <OrganizationJsonLd />
       <SiteHeader />
 
       {/* 1 — Identity + the comparison proof, with its own live ticker */}

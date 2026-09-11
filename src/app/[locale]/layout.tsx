@@ -15,6 +15,7 @@ import { getSiteUrl } from "@/lib/utils";
 import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner";
 import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
+import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import "../globals.css";
 
 // Cairo carries both Arabic (primary language) and Latin/numbers — a single,
@@ -41,18 +42,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "Metadata" });
   const ogImage = `${getSiteUrl()}/api/banner?size=wide`;
+  // No `alternates` here on purpose. Metadata inherits down the tree, so a
+  // canonical set on the layout is inherited by every page that does not
+  // declare its own — which pointed the whole site at the homepage and told
+  // Google that /compare, /tools and the rest were duplicates of "/".
+  // Each page now declares its own canonical via pageMeta().
   return {
     title: { default: t("title"), template: "%s | FX Partners" },
     description: t("description"),
     metadataBase: new URL(getSiteUrl()),
-    alternates: {
-      canonical: locale === "ar" ? "/" : "/en",
-      languages: {
-        ar: "/",
-        en: "/en",
-        "x-default": "/",
-      },
-    },
     openGraph: {
       type: "website",
       url: locale === "ar" ? "/" : "/en",
@@ -101,8 +99,22 @@ export default async function LocaleLayout({
         <link rel="dns-prefetch" href="https://s3.tradingview.com" />
         <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
         <link rel="dns-prefetch" href="https://api.binance.com" />
+
+        {/* Machine-readable entry points, advertised so an agent that lands on
+            any page can find the structured data without guessing at paths. */}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+        <link
+          rel="alternate"
+          type="application/json"
+          href="/api/public/brokers"
+          title="بيانات الشركات"
+        />
       </head>
       <body>
+        {/* The entity record belongs on every page, not just the homepage —
+            a crawler that enters on a broker page should learn who publishes
+            it without having to reach "/" first. */}
+        <OrganizationJsonLd locale={locale} />
         <NextIntlClientProvider messages={messages}>
           <ServiceWorkerRegister />
           <SkipLink />

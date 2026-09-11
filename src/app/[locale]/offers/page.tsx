@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -10,11 +11,20 @@ import { Crosshair, ArrowLeft, Flame, Ticket } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "القنّاص المالي — عروض التداول الحصرية | FX Partners",
-  description:
-    "أحدث عروض وبونصات شركات التداول، محدّثة لحظياً. اقتنص الفرصة قبل انتهائها.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "عروض وبونصات شركات التداول",
+    description:
+      "أحدث عروض وبونصات شركات التداول المتاحة عبر FX Partners — بونص الإيداع، البونص الترحيبي، والعروض بدون إيداع، مع شروط كل عرض ومدّته.",
+    path: "/offers",
+    keywords: KEYWORDS.offers,
+    locale,
+  });
+}
 
 type Campaign = {
   id: string;

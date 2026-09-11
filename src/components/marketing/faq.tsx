@@ -12,8 +12,25 @@ export async function Faq() {
     subtitle: t("subheading"),
   });
 
+  // FAQPage structured data, built from the same strings the section renders.
+  // Google requires the markup to match the visible answers exactly, so it is
+  // derived from `t` rather than written out a second time.
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((i) => ({
+      "@type": "Question",
+      name: t(`q${i}`),
+      acceptedAnswer: { "@type": "Answer", text: t(`a${i}`) },
+    })),
+  };
+
   return (
     <section className="py-16 sm:py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <Container className="max-w-3xl">
         <SectionHeading
           eyebrow={t("badge")}

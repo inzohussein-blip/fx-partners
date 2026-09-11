@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { Wrench } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "أدوات وحاسبات التداول | FX Partners",
-  description:
-    "حاسبة الأرباح، حاسبة المخاطرة وقيمة النقطة، مقارنة العمولات، ومحاكي الأداء — كل أدوات المتداول في مكان واحد.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "حاسبات التداول — اللوت والهامش وقيمة النقطة",
+    description:
+      "حاسبة الأرباح، حاسبة المخاطرة وقيمة النقطة، حاسبة الهامش، مقارنة العمولات، ومحاكي الأداء — أدوات المتداول كاملة بالعربية ومجاناً.",
+    path: "/tools",
+    keywords: KEYWORDS.tools,
+    locale,
+  });
+}
 
 export default function ToolsPage() {
   return (

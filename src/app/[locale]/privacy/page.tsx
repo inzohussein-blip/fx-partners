@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 
-export const metadata: Metadata = {
-  title: "سياسة الخصوصية",
-  description:
-    "كيف تجمع FX Partners بياناتك وتستخدمها وتحميها — الشفافية الكاملة في التعامل مع بياناتك.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "سياسة الخصوصية",
+    description:
+      "كيف تجمع FX Partners بياناتك وتستخدمها وتحميها.",
+    path: "/privacy",
+    locale,
+  });
+}
 
 const SECTIONS: { title: string; body: string[] }[] = [
   {

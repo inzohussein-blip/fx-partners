@@ -33,6 +33,12 @@ export async function BrokerNetwork() {
   const items: (Broker | null)[] =
     brokers.length > 0 ? brokers : Array.from({ length: 8 }, () => null);
 
+  // The band adapts to how many brokers are actually listed: a static grid
+  // reads better (and links better) for a handful, while a scrolling marquee
+  // is what a long roster needs. Eight is where a loop stops stuttering.
+  const marquee = brokers.length >= 8;
+  const track: (Broker | null)[] = marquee ? [...brokers, ...brokers] : items;
+
   return (
     <section className="border-y border-white/[0.06] bg-white/[0.015] py-10">
       <Container>
@@ -55,18 +61,42 @@ export async function BrokerNetwork() {
             </Link>
           </div>
 
-          <div className="grid flex-1 grid-cols-2 gap-3 sm:grid-cols-3 lg:max-w-2xl lg:grid-cols-4">
-            {items.map((b, i) => (
-              <BrokerTile key={b?.slug ?? i} broker={b} />
-            ))}
-          </div>
+          {marquee ? (
+            <div className="marquee-group marquee-mask min-w-0 flex-1 overflow-hidden lg:max-w-2xl">
+              <div className="animate-marquee flex items-center gap-3">
+                {track.map((b, i) => (
+                  <div key={`${b?.slug ?? i}-${i}`} className="w-40 shrink-0">
+                    <BrokerTile
+                      broker={b}
+                      /* The second copy exists only to close the loop
+                         seamlessly — it must not be read out twice or become a
+                         duplicate tab stop. */
+                      duplicate={i >= brokers.length}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="grid flex-1 grid-cols-2 gap-3 sm:grid-cols-3 lg:max-w-2xl lg:grid-cols-4">
+              {items.map((b, i) => (
+                <BrokerTile key={b?.slug ?? i} broker={b} />
+              ))}
+            </div>
+          )}
         </div>
       </Container>
     </section>
   );
 }
 
-function BrokerTile({ broker }: { broker: Broker | null }) {
+function BrokerTile({
+  broker,
+  duplicate = false,
+}: {
+  broker: Broker | null;
+  duplicate?: boolean;
+}) {
   const inner = (
     <div className="flex h-16 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 backdrop-blur-md transition hover:border-white/20 hover:bg-white/[0.06]">
       {broker?.logo_url ? (
@@ -87,11 +117,15 @@ function BrokerTile({ broker }: { broker: Broker | null }) {
       )}
     </div>
   );
-  return broker ? (
-    <Link href={`/brokers/${broker.slug}`} title={broker.name}>
+  if (!broker) return inner;
+  return (
+    <Link
+      href={`/brokers/${broker.slug}`}
+      title={broker.name}
+      aria-hidden={duplicate || undefined}
+      tabIndex={duplicate ? -1 : undefined}
+    >
       {inner}
     </Link>
-  ) : (
-    inner
   );
 }

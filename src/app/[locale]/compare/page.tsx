@@ -9,15 +9,26 @@ import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import { SpecsGrid } from "@/components/brokers/specs-grid";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Scale, ListChecks } from "lucide-react";
-import type { Broker } from "@/lib/brokers";
+import { isRated, type Broker } from "@/lib/brokers";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "مقارنة شركات التداول | FX Partners",
-  description:
-    "دليل ومقارنة شركات التداول (Forex Brokers): التقييمات، البونصات، وعمولات الوكلاء — قارن واختر شركتك بثقة.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "مقارنة شركات التداول المرخّصة — التراخيص والسبريد والشروط",
+    description:
+      "قارن شركات التداول (الفوركس) في مكان واحد: الجهة الرقابية ورقم الترخيص لكل كيان، السبريد، الحد الأدنى للإيداع، الحسابات الإسلامية بدون فوائد، والعروض — بالعربية ومن مصادر قابلة للتحقّق.",
+    path: "/compare",
+    keywords: KEYWORDS.compare,
+    locale,
+  });
+}
 
 async function getBrokers(): Promise<Broker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
@@ -45,9 +56,49 @@ export default async function ComparePage() {
       "تقييمات حقيقية، بونصات محدّثة، وعمولات وكلاء شفّافة — كل ما تحتاجه لاختيار شركتك في مكان واحد.",
   });
 
+  // ItemList structured data: tells a search engine (and an agent) that this
+  // page *is* the broker directory and what is on it, in order — which is what
+  // turns "أفضل شركات التداول" into a list result rather than a blue link.
+  const base = getSiteUrl();
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "دليل شركات التداول على FX Partners",
+    numberOfItems: brokers.length,
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: brokers.map((b, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: b.name,
+      url: `${base}/brokers/${b.slug}`,
+      ...(isRated(b)
+        ? {
+            item: {
+              "@type": "Product",
+              name: b.name,
+              url: `${base}/brokers/${b.slug}`,
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: b.rating.toFixed(1),
+                reviewCount: b.reviews_count,
+                bestRating: 5,
+                worstRating: 1,
+              },
+            },
+          }
+        : {}),
+    })),
+  };
+
   return (
     <>
       <SiteHeader />
+      {brokers.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        />
+      )}
 
       <section className="hero-glow">
         <Container className="py-16 text-center">

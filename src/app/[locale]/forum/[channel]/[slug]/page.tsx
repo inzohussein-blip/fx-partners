@@ -11,6 +11,8 @@ import { Comments } from "@/components/forum/comments";
 import { ViewPing } from "@/components/forum/view-ping";
 import { getPost, getComments, getReactionState } from "@/lib/forum";
 import { createClient } from "@/lib/supabase/server";
+import { pageMeta } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/utils";
 import { BadgeCheck, Eye, ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -22,14 +24,20 @@ function isHtml(body: string | null | undefined): boolean {
 export async function generateMetadata({
   params,
 }: {
-  params: { channel: string; slug: string };
+  params: { channel: string; slug: string; locale: string };
 }): Promise<Metadata> {
   const post = await getPost(params.channel, params.slug);
   if (!post) return { title: "منشور غير موجود" };
-  return {
+  return pageMeta({
     title: `${post.title} — منتدى FX Partners`,
-    description: post.excerpt ?? undefined,
-  };
+    description:
+      post.excerpt ??
+      `${post.title} — نقاش في منتدى FX Partners، قناة ${post.channel?.name ?? "المجتمع"}.`,
+    path: `/forum/${params.channel}/${params.slug}`,
+    locale: params.locale,
+    type: "article",
+    ...(post.cover_image ? { image: post.cover_image } : {}),
+  });
 }
 
 export default async function ForumPostPage({
@@ -67,9 +75,61 @@ export default async function ForumPostPage({
   }
   const isAuthed = !!currentUserId;
 
+  // DiscussionForumPosting is the schema type Google added specifically for
+  // forum threads — it is what lets a post surface as a discussion result
+  // rather than competing as a thin article. Counts come from the real rows;
+  // nothing here is padded.
+  const base = getSiteUrl();
+  const discussionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "DiscussionForumPosting",
+    "@id": `${base}/forum/${params.channel}/${params.slug}`,
+    url: `${base}/forum/${params.channel}/${params.slug}`,
+    headline: post.title,
+    ...(post.excerpt ? { description: post.excerpt } : {}),
+    datePublished: post.created_at,
+    inLanguage: "ar",
+    author: {
+      "@type": "Person",
+      name: post.author_name ?? "عضو",
+    },
+    publisher: { "@id": `${base}/#organization` },
+    isPartOf: {
+      "@type": "WebPage",
+      name: post.channel?.name ?? "المنتدى",
+      url: `${base}/forum/${params.channel}`,
+    },
+    interactionStatistic: [
+      {
+        "@type": "InteractionCounter",
+        interactionType: "https://schema.org/CommentAction",
+        userInteractionCount: comments.length,
+      },
+      {
+        "@type": "InteractionCounter",
+        interactionType: "https://schema.org/ViewAction",
+        userInteractionCount: post.views,
+      },
+    ],
+    ...(comments.length
+      ? {
+          comment: comments.slice(0, 20).map((c) => ({
+            "@type": "Comment",
+            text: c.body,
+            datePublished: c.created_at,
+            author: { "@type": "Person", name: c.author_name ?? "عضو" },
+          })),
+        }
+      : {}),
+  };
+
   return (
     <>
       <SiteHeader />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(discussionJsonLd) }}
+      />
       <ViewPing postId={post.id} />
       <article className="pb-24">
         <Container className="max-w-3xl pt-10">

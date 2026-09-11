@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -11,11 +12,20 @@ import { Download } from "lucide-react";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "أدوات ومؤشرات تداول مجانية",
-  description:
-    "حمّل مؤشرات MetaTrader وقوالب التحليل والكتب التعليمية مجاناً — أدوات حصرية من FX Partners لمساعدتك على التداول باحتراف.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "أدوات ومؤشرات MetaTrader مجانية",
+    description:
+      "حمّل مؤشرات MetaTrader وقوالب التحليل والكتب التعليمية مجاناً — أدوات مختارة من FX Partners لمساعدتك على التداول باحتراف.",
+    path: "/free-tools",
+    keywords: KEYWORDS.tools,
+    locale,
+  });
+}
 
 export default async function ResourcesPage() {
   const resources = await getResources();

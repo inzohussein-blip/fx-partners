@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
@@ -26,11 +27,20 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "برنامج الوكلاء (IB / Affiliate)",
-  description:
-    "نظام الإحالة، نسب الأرباح، والفوائد لوكلاء FX Partners. Revenue Share و CPA ونظام Sub-IB متعدد المستويات.",
-};
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return pageMeta({
+    title: "برنامج وكلاء IB — العمولات ونظام Sub-IB",
+    description:
+      "كن وكيلاً (IB) مع FX Partners: Revenue Share و CPA ونظام Sub-IB متعدّد المستويات، شروط تفاوضنا عليها نيابةً عنك مع الشركات، ولوحة متابعة لعملائك وأرباحك.",
+    path: "/affiliates",
+    keywords: KEYWORDS.affiliates,
+    locale,
+  });
+}
 
 export default async function AffiliatesPage() {
   const rates = await getContent("affiliates.rates", {
