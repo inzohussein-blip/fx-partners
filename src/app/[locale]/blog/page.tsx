@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { getContent } from "@/lib/content";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
+import { EditableText } from "@/components/admin-edit/editable-text";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft, Newspaper } from "lucide-react";
 
@@ -52,6 +54,11 @@ function fmtDate(iso: string | null) {
 }
 
 export default async function BlogPage() {
+  const copy = await getContent("page.blog", {
+    title: "رؤى وأخبار التداول",
+    subtitle: "مقالات وتحليلات حول التداول وبرامج الشراكة المالية.",
+  });
+
   const posts = await getPosts();
   const [featured, ...rest] = posts;
 
@@ -59,16 +66,20 @@ export default async function BlogPage() {
     <>
       <SiteHeader />
       <section className="hero-glow">
-        <Container className="py-16 text-center">
+        <Container className="py-9 text-center sm:py-16">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <Newspaper className="h-3.5 w-3.5" />
             المدونة
           </span>
-          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
-            رؤى وأخبار التداول
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+            <EditableText contentKey="page.blog" field="title" label="عنوان المدوّنة">
+              {copy.title}
+            </EditableText>
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-slate-300">
-            مقالات وتحليلات حول التداول وبرامج الشراكة المالية.
+            <EditableText contentKey="page.blog" field="subtitle" label="وصف المدوّنة" multiline>
+              {copy.subtitle}
+            </EditableText>
           </p>
         </Container>
       </section>

@@ -63,11 +63,11 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
       </div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[22px_1fr_52px_54px] gap-2 border-b border-white/[0.05] px-4 py-2.5 text-[11px] text-slate-500">
+      <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-white/[0.05] px-4 py-2.5 text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
         <span>#</span>
         <span>الشركة</span>
         <span className="text-end">التقييم</span>
-        <span className="text-end">مراجعات</span>
+        <span className="hidden text-end sm:block">مراجعات</span>
       </div>
 
       {/* Rows — real brokers, or honest placeholders so the composition holds */}
@@ -76,7 +76,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           [0, 1, 2, 3].map((i) => (
             <li
               key={`skeleton-${i}`}
-              className="grid grid-cols-[22px_1fr_52px_54px] items-center gap-2 border-b border-white/[0.05] px-4 py-3"
+              className="grid grid-cols-[22px_1fr_52px] items-center gap-2 border-b border-white/[0.05] px-4 py-3 sm:grid-cols-[22px_1fr_52px_54px]"
               aria-hidden
             >
               <span className="h-[21px] w-[21px] rounded-md bg-white/5" />
@@ -88,7 +88,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
                 </div>
               </div>
               <span className="ms-auto block h-3 w-7 rounded bg-white/[0.07]" />
-              <span className="ms-auto block h-2 w-8 rounded bg-white/[0.05]" />
+              <span className="ms-auto hidden h-2 w-8 rounded bg-white/[0.05] sm:block" />
             </li>
           ))}
 
@@ -96,7 +96,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           <li
             key={b.slug}
             className={cn(
-              "grid grid-cols-[22px_1fr_52px_54px] items-center gap-2 border-b border-white/[0.05] px-4 py-3",
+              "grid grid-cols-[22px_1fr_52px] items-center gap-2 border-b border-white/[0.05] px-4 py-3 sm:grid-cols-[22px_1fr_52px_54px]",
               i === 0 && "bg-gradient-to-l from-brand-500/[0.2] to-transparent"
             )}
           >
@@ -146,7 +146,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
             <div className="text-end text-base font-extrabold text-brand-300" dir="ltr">
               {isRated(b) ? b.rating.toFixed(1) : "—"}
             </div>
-            <div className="text-end text-[10px] text-slate-500" dir="ltr">
+            <div className="hidden text-end text-[10px] text-slate-500 sm:block" dir="ltr">
               {isRated(b) ? `${b.reviews_count}+` : "—"}
             </div>
           </li>

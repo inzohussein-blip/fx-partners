@@ -88,15 +88,15 @@ export default async function AffiliatesPage() {
       <SiteHeader />
 
       <section className="hero-glow">
-        <Container className="py-20 text-center">
+        <Container className="py-10 text-center sm:py-20">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <Handshake className="h-3.5 w-3.5" aria-hidden />
             برنامج الشراكة
           </span>
-          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
             برنامج الوكلاء (IB / Affiliate)
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
+          <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
             انضمّ كوكيل فرعي (Sub-IB) تحت حسابات FX Partners الماستر لدى شبكة من
             الشركات المرخّصة — واربح من كل عميل تحيله، أياً كانت الشركة التي
             يختارها، عبر نسبة من الأرباح (Revenue Share) أو مبلغ ثابت (CPA).

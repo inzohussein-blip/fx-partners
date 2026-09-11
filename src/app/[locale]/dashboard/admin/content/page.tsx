@@ -7,7 +7,9 @@ import { CONTENT_REGISTRY } from "@/lib/content-registry";
 export const dynamic = "force-dynamic";
 
 export default async function AdminContentPage() {
-  const values: Record<string, Record<string, string>> = {};
+  // Values can be strings or arrays (list blocks), so they stay `unknown`
+  // here and are narrowed per field by the editor.
+  const values: Record<string, Record<string, unknown>> = {};
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();
@@ -17,7 +19,7 @@ export default async function AdminContentPage() {
       .select("key,value")
       .in("key", keys);
     for (const row of data ?? []) {
-      values[row.key] = (row.value as Record<string, string>) ?? {};
+      values[row.key] = (row.value as Record<string, unknown>) ?? {};
     }
   }
 

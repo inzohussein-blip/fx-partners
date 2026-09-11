@@ -7,7 +7,7 @@ export default function CompareLoading() {
     <>
       <SiteHeader />
       <section className="hero-glow">
-        <Container className="py-16 text-center">
+        <Container className="py-9 text-center sm:py-16">
           <Skeleton className="mx-auto h-10 w-2/3" />
           <Skeleton className="mx-auto mt-5 h-5 w-1/2" />
         </Container>

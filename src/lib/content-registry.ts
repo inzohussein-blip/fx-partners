@@ -8,6 +8,16 @@ export type ContentField = {
   name: string;
   label: string;
   multiline?: boolean;
+  /**
+   * "list" stores an array of objects instead of a string — for sections whose
+   * length the owner controls (testimonials today). The Content Studio renders
+   * add/remove rows for `itemFields`; the page reads the array and hides the
+   * section when it is empty.
+   */
+  type?: "text" | "list";
+  itemFields?: { name: string; label: string; multiline?: boolean }[];
+  /** Shown under the field in the editor when the format needs explaining. */
+  hint?: string;
 };
 
 export type ContentBlock = {
@@ -22,6 +32,7 @@ export const CONTENT_GROUPS = [
   "الصفحة الرئيسية",
   "التذييل والتواصل",
   "صفحات داخلية",
+  "من نحن",
 ] as const;
 
 export const CONTENT_REGISTRY: ContentBlock[] = [
@@ -153,6 +164,124 @@ export const CONTENT_REGISTRY: ContentBlock[] = [
     fields: [
       { name: "title", label: "العنوان" },
       { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.offers",
+    group: "صفحات داخلية",
+    title: "صفحة العروض — العنوان",
+    description: "عنوان ووصف أعلى صفحة العروض والبونصات.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.forum",
+    group: "صفحات داخلية",
+    title: "صفحة المنتدى — العنوان",
+    description: "عنوان ووصف أعلى صفحة المنتدى.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.blog",
+    group: "صفحات داخلية",
+    title: "صفحة المدوّنة — العنوان",
+    description: "عنوان ووصف أعلى صفحة المدوّنة.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.tools",
+    group: "صفحات داخلية",
+    title: "صفحة الأدوات — العنوان",
+    description: "عنوان ووصف أعلى صفحة حاسبات التداول.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.free-tools",
+    group: "صفحات داخلية",
+    title: "الأدوات المجانية — العنوان",
+    description: "عنوان ووصف أعلى صفحة الأدوات والمؤشرات المجانية.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.calendar",
+    group: "صفحات داخلية",
+    title: "صفحة التقويم — العنوان",
+    description: "عنوان ووصف أعلى صفحة تقويم العطلات والأحداث.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.brokers",
+    group: "صفحات داخلية",
+    title: "صفحة الشركات B2B — العنوان",
+    description: "عنوان ووصف أعلى صفحة شراكة الشركات.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
+    key: "page.affiliates",
+    group: "صفحات داخلية",
+    title: "صفحة الوكلاء — العنوان",
+    description: "عنوان ووصف أعلى صفحة برنامج الوكلاء.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+
+  // ---- Testimonials: a list the owner grows, not a fixed three ------------
+  {
+    key: "home.testimonials",
+    group: "الصفحة الرئيسية",
+    title: "آراء الشركاء",
+    description:
+      "شهادات حقيقية فقط. القسم لا يظهر على الموقع ما دامت القائمة فارغة — لا تكتب شهادة لم يقلها أحد.",
+    fields: [
+      {
+        name: "items",
+        label: "الشهادات",
+        type: "list",
+        hint: "أضف شهادة واحدة لكل شخص وافق على نشر رأيه.",
+        itemFields: [
+          { name: "quote", label: "نص الشهادة", multiline: true },
+          { name: "name", label: "الاسم" },
+          { name: "role", label: "الصفة" },
+        ],
+      },
+    ],
+  },
+
+  // ---- About page --------------------------------------------------------
+  {
+    key: "page.about.company",
+    group: "من نحن",
+    title: "بيانات الشركة",
+    description:
+      "تظهر في صفحة «من نحن». كل حقل تتركه فارغاً يختفي من الصفحة بدل أن يعرض قيمة مؤقّتة.",
+    fields: [
+      { name: "legal_name", label: "الاسم القانوني" },
+      { name: "founded", label: "سنة التأسيس" },
+      { name: "location", label: "المقرّ" },
+      { name: "registration", label: "رقم التسجيل" },
+      { name: "email", label: "بريد التواصل" },
     ],
   },
 ];

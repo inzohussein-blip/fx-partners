@@ -38,6 +38,7 @@ export default async function ResourcesPage() {
           <Breadcrumbs items={[{ label: "الأدوات المجانية" }]} />
           <div className="mt-6">
             <SectionHeading
+              as="h1"
               eyebrow="مكتبة الأدوات"
               icon={Download}
               title="أدوات ومؤشرات تداول مجانية"

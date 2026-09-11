@@ -12,6 +12,7 @@ export function SectionHeading({
   subtitle,
   align = "center",
   className = "",
+  as = "h2",
 }: {
   eyebrow?: string;
   icon?: LucideIcon;
@@ -19,8 +20,15 @@ export function SectionHeading({
   subtitle?: React.ReactNode;
   align?: "center" | "start";
   className?: string;
+  /**
+   * Heading level. Sections are h2 by default, but a few pages use this
+   * component for their *main* heading — those pass "h1" so the page states
+   * its topic instead of shipping with no h1 at all.
+   */
+  as?: "h1" | "h2";
 }) {
   const centered = align === "center";
+  const Heading = as;
   return (
     <div
       className={`${
@@ -33,13 +41,13 @@ export function SectionHeading({
           {eyebrow}
         </span>
       )}
-      <h2
+      <Heading
         className={`${
           eyebrow ? "mt-5" : ""
-        } text-3xl font-bold text-white sm:text-4xl`}
+        } text-[26px] font-bold leading-[1.3] text-white sm:text-3xl sm:leading-tight lg:text-4xl`}
       >
         {title}
-      </h2>
+      </Heading>
       {subtitle && (
         <p className="mt-4 leading-relaxed text-slate-400">{subtitle}</p>
       )}

@@ -43,6 +43,7 @@ export default async function SpreadsPage() {
           <Breadcrumbs items={[{ label: "مقارنة السبريد" }]} />
           <div className="mt-6">
             <SectionHeading
+              as="h1"
               eyebrow="السبريد"
               icon={Gauge}
               title={copy.title}

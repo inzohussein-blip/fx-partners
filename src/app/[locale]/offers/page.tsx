@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getContent } from "@/lib/content";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
+import { EditableText } from "@/components/admin-edit/editable-text";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CouponCard, type Coupon } from "@/components/marketing/coupon-card";
@@ -68,6 +70,11 @@ async function getCoupons(): Promise<Coupon[]> {
 }
 
 export default async function OffersPage() {
+  const copy = await getContent("page.offers", {
+    title: "عروض حصرية.. اقتنصها قبل انتهائها",
+    subtitle: "أحدث بونصات وعروض شركات التداول، محدّثة لحظياً من فريق FX Partners.",
+  });
+
   const [campaigns, coupons] = await Promise.all([getCampaigns(), getCoupons()]);
 
   return (
@@ -75,16 +82,20 @@ export default async function OffersPage() {
       <SiteHeader />
 
       <section className="hero-glow">
-        <Container className="py-16 text-center">
+        <Container className="py-9 text-center sm:py-16">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <Crosshair className="h-3.5 w-3.5" />
             القنّاص المالي
           </span>
-          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
-            عروض حصرية.. اقتنصها قبل انتهائها
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+            <EditableText contentKey="page.offers" field="title" label="عنوان صفحة العروض">
+              {copy.title}
+            </EditableText>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-300">
-            أحدث بونصات وعروض شركات التداول، محدّثة لحظياً من فريق FX Partners.
+          <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
+            <EditableText contentKey="page.offers" field="subtitle" label="وصف صفحة العروض" multiline>
+              {copy.subtitle}
+            </EditableText>
           </p>
         </Container>
       </section>

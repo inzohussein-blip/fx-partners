@@ -164,7 +164,7 @@ export default async function VsPage({
       <SiteHeader />
 
       <section className="hero-glow">
-        <Container className="py-12 text-center">
+        <Container className="py-8 text-center sm:py-12">
           <h1 className="text-3xl font-extrabold text-white sm:text-4xl">مقارنة مباشرة</h1>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">
             قارن شركتين جنباً إلى جنب واتخذ قرارك بثقة.

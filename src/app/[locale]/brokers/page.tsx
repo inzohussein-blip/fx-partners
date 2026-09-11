@@ -166,7 +166,7 @@ export default async function BrokersPage() {
 
       {/* Hero */}
       <section className="hero-glow">
-        <Container className="py-20 text-center">
+        <Container className="py-10 text-center sm:py-20">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <Handshake className="h-3.5 w-3.5" aria-hidden />
             شراكات B2B

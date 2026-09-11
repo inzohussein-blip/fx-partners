@@ -47,7 +47,7 @@ export default async function ContactPage() {
               <MessageCircle className="h-3.5 w-3.5" aria-hidden />
               تواصل معنا
             </span>
-            <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
+            <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
               لديك سؤال أو عرض شراكة؟
             </h1>
             <p className="mt-4 text-lg text-slate-300">

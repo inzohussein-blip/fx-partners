@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { getContent } from "@/lib/content";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
+import { EditableText } from "@/components/admin-edit/editable-text";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ChannelCard } from "@/components/forum/channel-card";
 import { PostCard } from "@/components/forum/post-card";
@@ -27,6 +29,11 @@ export async function generateMetadata({
 export const revalidate = 30;
 
 export default async function ForumHub() {
+  const copy = await getContent("page.forum", {
+    title: "منتدى التداول والقنوات",
+    subtitle: "أخبار وتحليلات رسمية، قنوات خاصة بالوكلاء المعتمدين، ونقاشات حية بين المتداولين.",
+  });
+
   const [channels, latest] = await Promise.all([getChannels(), getLatestPosts(9)]);
   const official = channels.filter((c) => c.kind === "official");
   const agents = channels.filter((c) => c.kind === "agent");
@@ -35,16 +42,20 @@ export default async function ForumHub() {
     <>
       <SiteHeader />
       <section className="hero-glow">
-        <Container className="py-16 text-center">
+        <Container className="py-9 text-center sm:py-16">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <MessagesSquare className="h-3.5 w-3.5" />
             مجتمع FX Partners
           </span>
-          <h1 className="mt-5 text-4xl font-extrabold text-white sm:text-5xl">
-            منتدى التداول والقنوات
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+            <EditableText contentKey="page.forum" field="title" label="عنوان صفحة المنتدى">
+              {copy.title}
+            </EditableText>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-slate-300">
-            أخبار وتحليلات رسمية، قنوات خاصة بالوكلاء المعتمدين، ونقاشات حية بين المتداولين.
+            <EditableText contentKey="page.forum" field="subtitle" label="وصف صفحة المنتدى" multiline>
+              {copy.subtitle}
+            </EditableText>
           </p>
         </Container>
       </section>

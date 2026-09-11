@@ -55,6 +55,7 @@ export default async function CalendarPage() {
           <Breadcrumbs items={[{ label: "التقويم المالي" }]} />
           <div className="mt-6">
             <SectionHeading
+              as="h1"
               eyebrow="التقويم"
               icon={CalendarDays}
               title="تقويم عطلات وأحداث الشركات"

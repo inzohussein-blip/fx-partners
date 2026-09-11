@@ -8,23 +8,26 @@ import {
   CONTENT_GROUPS,
   type ContentBlock,
 } from "@/lib/content-registry";
-import { FileText, Pencil, Search, Loader2, Check } from "lucide-react";
+import { FileText, Pencil, Search, Loader2, Check, Plus, Trash2 } from "lucide-react";
 
 const inputCls =
   "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+
+type ListItem = Record<string, string>;
+type DraftValue = string | ListItem[];
 
 export function ContentStudio({
   blocks,
   values,
 }: {
   blocks: ContentBlock[];
-  values: Record<string, Record<string, string>>;
+  values: Record<string, Record<string, unknown>>;
 }) {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [group, setGroup] = useState<string>("all");
   const [editing, setEditing] = useState<ContentBlock | null>(null);
-  const [draft, setDraft] = useState<Record<string, string>>({});
+  const [draft, setDraft] = useState<Record<string, DraftValue>>({});
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedKey, setSavedKey] = useState<string | null>(null);
@@ -45,7 +48,15 @@ export function ContentStudio({
     setEditing(block);
     setError(null);
     setDraft(
-      Object.fromEntries(block.fields.map((f) => [f.name, values[block.key]?.[f.name] ?? ""]))
+      Object.fromEntries(
+        block.fields.map((f) => {
+          const stored = values[block.key]?.[f.name];
+          if (f.type === "list") {
+            return [f.name, Array.isArray(stored) ? (stored as ListItem[]) : []];
+          }
+          return [f.name, typeof stored === "string" ? stored : ""];
+        })
+      )
     );
   }
 
@@ -94,6 +105,15 @@ export function ContentStudio({
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((b) => {
           const preview = Object.values(values[b.key] ?? {})
+            .map((v) =>
+              Array.isArray(v)
+                ? v.length
+                  ? `${v.length} عنصر`
+                  : ""
+                : typeof v === "string"
+                  ? v
+                  : ""
+            )
             .filter(Boolean)
             .join(" · ");
           return (
@@ -160,27 +180,116 @@ export function ContentStudio({
         }
       >
         <div className="space-y-4">
-          {editing?.fields.map((f) => (
-            <label key={f.name} className="block">
-              <span className="mb-1.5 block text-sm text-slate-300">{f.label}</span>
-              {f.multiline ? (
-                <textarea
-                  rows={3}
-                  value={draft[f.name] ?? ""}
-                  onChange={(e) => setDraft((d) => ({ ...d, [f.name]: e.target.value }))}
-                  className={inputCls}
-                  dir="auto"
-                />
-              ) : (
-                <input
-                  value={draft[f.name] ?? ""}
-                  onChange={(e) => setDraft((d) => ({ ...d, [f.name]: e.target.value }))}
-                  className={inputCls}
-                  dir="auto"
-                />
-              )}
-            </label>
-          ))}
+          {editing?.fields.map((f) => {
+            if (f.type === "list") {
+              const items = (draft[f.name] as ListItem[] | undefined) ?? [];
+              const setItems = (next: ListItem[]) =>
+                setDraft((d) => ({ ...d, [f.name]: next }));
+              return (
+                <div key={f.name}>
+                  <span className="mb-1.5 block text-sm text-slate-300">{f.label}</span>
+                  {f.hint && <p className="mb-3 text-xs text-slate-500">{f.hint}</p>}
+
+                  <div className="space-y-3">
+                    {items.map((item, i) => (
+                      <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+                        <div className="mb-2 flex items-center justify-between">
+                          <span className="text-xs font-semibold text-slate-400">#{i + 1}</span>
+                          <button
+                            type="button"
+                            onClick={() => setItems(items.filter((_, j) => j !== i))}
+                            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-rose-300 transition hover:bg-rose-500/10"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            حذف
+                          </button>
+                        </div>
+                        <div className="space-y-2">
+                          {(f.itemFields ?? []).map((sub) => (
+                            <label key={sub.name} className="block">
+                              <span className="mb-1 block text-xs text-slate-400">{sub.label}</span>
+                              {sub.multiline ? (
+                                <textarea
+                                  rows={3}
+                                  value={item[sub.name] ?? ""}
+                                  onChange={(e) =>
+                                    setItems(
+                                      items.map((it, j) =>
+                                        j === i ? { ...it, [sub.name]: e.target.value } : it
+                                      )
+                                    )
+                                  }
+                                  className={inputCls}
+                                  dir="auto"
+                                />
+                              ) : (
+                                <input
+                                  value={item[sub.name] ?? ""}
+                                  onChange={(e) =>
+                                    setItems(
+                                      items.map((it, j) =>
+                                        j === i ? { ...it, [sub.name]: e.target.value } : it
+                                      )
+                                    )
+                                  }
+                                  className={inputCls}
+                                  dir="auto"
+                                />
+                              )}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setItems([
+                        ...items,
+                        Object.fromEntries((f.itemFields ?? []).map((sf) => [sf.name, ""])),
+                      ])
+                    }
+                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-dashed border-white/15 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-brand-400/50 hover:text-white"
+                  >
+                    <Plus className="h-4 w-4" />
+                    إضافة عنصر
+                  </button>
+
+                  {items.length === 0 && (
+                    <p className="mt-3 text-xs text-slate-500">
+                      القائمة فارغة — القسم لن يظهر على الموقع.
+                    </p>
+                  )}
+                </div>
+              );
+            }
+
+            const value = typeof draft[f.name] === "string" ? (draft[f.name] as string) : "";
+            return (
+              <label key={f.name} className="block">
+                <span className="mb-1.5 block text-sm text-slate-300">{f.label}</span>
+                {f.multiline ? (
+                  <textarea
+                    rows={3}
+                    value={value}
+                    onChange={(e) => setDraft((d) => ({ ...d, [f.name]: e.target.value }))}
+                    className={inputCls}
+                    dir="auto"
+                  />
+                ) : (
+                  <input
+                    value={value}
+                    onChange={(e) => setDraft((d) => ({ ...d, [f.name]: e.target.value }))}
+                    className={inputCls}
+                    dir="auto"
+                  />
+                )}
+                {f.hint && <p className="mt-1 text-xs text-slate-500">{f.hint}</p>}
+              </label>
+            );
+          })}
           {error && <p className="text-sm text-red-300">{error}</p>}
         </div>
       </Dialog>
