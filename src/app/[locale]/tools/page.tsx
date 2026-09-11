@@ -52,7 +52,7 @@ export default async function ToolsPage() {
         </Container>
       </section>
 
-      <ToolsTabs />
+      <ToolsTabs showIntro={false} />
 
       <SiteFooter />
     </>

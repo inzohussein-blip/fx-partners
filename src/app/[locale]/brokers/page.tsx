@@ -192,16 +192,23 @@ export default async function BrokersPage() {
           </div>
 
           {/* Reach */}
-          <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+          {/* Three numbers. Stacked one-per-row with desktop padding they cost
+              a phone ~900px of scrolling; side by side they are one glance. */}
+          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-2.5 sm:mt-14 sm:gap-4">
             {reach.map((r) => (
-              <div key={r.label} className="card-surface p-6">
-                <span className="mx-auto grid h-11 w-11 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
-                  <r.icon className="h-5 w-5" />
+              <div key={r.label} className="card-surface p-3 text-center sm:p-6">
+                <span className="mx-auto grid h-8 w-8 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 sm:h-11 sm:w-11">
+                  <r.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                 </span>
-                <div className="mt-4 text-2xl font-extrabold text-gradient" dir="ltr">
+                <div
+                  className="mt-2.5 text-lg font-extrabold text-gradient sm:mt-4 sm:text-2xl"
+                  dir="ltr"
+                >
                   {r.value}
                 </div>
-                <div className="mt-1 text-xs text-slate-400">{r.label}</div>
+                <div className="mt-1 text-[10px] leading-tight text-slate-400 sm:text-xs">
+                  {r.label}
+                </div>
               </div>
             ))}
           </div>

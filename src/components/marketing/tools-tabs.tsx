@@ -42,7 +42,12 @@ const TABS = [
   { key: "backtest", label: "محاكي الأداء", icon: LineChart },
 ] as const;
 
-export function ToolsTabs() {
+/**
+ * `showIntro` is off on /tools, where the page already states the same thing
+ * in its <h1>. Two near-identical headings stacked on top of each other read
+ * as a bug on a laptop and fill the whole screen on a phone.
+ */
+export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
   const [tab, setTab] = useState<(typeof TABS)[number]["key"]>("calc");
 
   return (
@@ -50,20 +55,24 @@ export function ToolsTabs() {
       id="tools"
       className="border-y border-white/5 bg-ink-900/30"
     >
-      <Container className="pt-16 text-center">
-        <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-          <Scale className="h-3.5 w-3.5" />
-          أدوات محايدة
-        </span>
-        <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
-          لسنا طرفاً — نقارن بين شركائنا بحياد
-        </h2>
-        <p className="mx-auto mt-4 max-w-xl text-slate-400">
-          حاسبات ومقارنات تفاعلية تساعدك على اختيار الأنسب لك بين شركات التداول الشريكة — بشفافية كاملة ودون انحياز.
-        </p>
+      <Container className={showIntro ? "pt-10 text-center sm:pt-16" : "pt-8 text-center"}>
+        {showIntro && (
+          <>
+            <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+              <Scale className="h-3.5 w-3.5" />
+              أدوات محايدة
+            </span>
+            <h2 className="mt-5 text-[26px] font-bold leading-[1.3] text-white sm:text-3xl sm:leading-tight lg:text-4xl">
+              لسنا طرفاً — نقارن بين شركائنا بحياد
+            </h2>
+            <p className="mx-auto mt-3.5 max-w-xl text-[15px] text-slate-400 sm:mt-4 sm:text-base">
+              حاسبات ومقارنات تفاعلية تساعدك على اختيار الأنسب لك بين شركات التداول الشريكة — بشفافية كاملة ودون انحياز.
+            </p>
+          </>
+        )}
 
         {/* Tab bar */}
-        <div className="mt-8 inline-flex flex-wrap justify-center gap-2 rounded-2xl border border-white/10 bg-ink-900/50 p-1.5">
+        <div className={`${showIntro ? "mt-8" : "mt-0"} inline-flex flex-wrap justify-center gap-2 rounded-2xl border border-white/10 bg-ink-900/50 p-1.5`}>
           {TABS.map((tb) => {
             const on = tab === tb.key;
             return (

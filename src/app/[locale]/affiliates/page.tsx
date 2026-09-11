@@ -102,15 +102,18 @@ export default async function AffiliatesPage() {
             يختارها، عبر نسبة من الأرباح (Revenue Share) أو مبلغ ثابت (CPA).
           </p>
 
-          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mx-auto mt-8 grid max-w-3xl gap-2.5 sm:mt-10 sm:grid-cols-3 sm:gap-4">
             {[
               { label: "Revenue Share", value: rates.revenue_share },
               { label: "CPA", value: rates.cpa },
               { label: "Sub-IB", value: rates.sub_ib },
             ].map((r) => (
-              <div key={r.label} className="card-surface p-6">
-                <div className="text-2xl font-bold text-brand-300">{r.value}</div>
-                <div className="mt-1 text-sm text-slate-400">{r.label}</div>
+              <div
+                key={r.label}
+                className="card-surface flex items-center justify-between gap-3 p-3.5 sm:block sm:p-6"
+              >
+                <div className="text-lg font-bold text-brand-300 sm:text-2xl">{r.value}</div>
+                <div className="text-xs text-slate-400 sm:mt-1 sm:text-sm">{r.label}</div>
               </div>
             ))}
           </div>

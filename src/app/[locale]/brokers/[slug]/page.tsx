@@ -163,10 +163,15 @@ export default async function BrokerDetailPage({
       label: "التراخيص",
       value: `${broker.licenses!.length} جهة رقابية`,
     },
-    (broker.deposit_bonus || broker.welcome_bonus) && {
+    broker.deposit_bonus && {
       icon: Gift,
-      label: "البونص",
-      value: broker.deposit_bonus || broker.welcome_bonus || "",
+      label: "بونص الإيداع",
+      value: broker.deposit_bonus,
+    },
+    broker.welcome_bonus && {
+      icon: Sparkles,
+      label: "البونص الترحيبي",
+      value: broker.welcome_bonus,
     },
   ].filter(Boolean) as { icon: typeof Activity; label: string; value: string }[];
 
@@ -292,54 +297,29 @@ export default async function BrokerDetailPage({
 
           {/* Why this broker — highlights */}
           {highlights.length > 0 && (
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            /* The four facts a visitor came here for. One per row with desktop
+               padding they cost ~700px of scrolling on a phone before the
+               review even starts; two-up they are one glance. */
+            <div className="mt-6 grid grid-cols-2 gap-2.5 sm:mt-8 sm:gap-4 lg:grid-cols-4">
               {highlights.map((h, i) => (
-                <div key={i} className="card-surface flex items-center gap-3 p-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
-                    <h.icon className="h-5 w-5" />
+                <div
+                  key={i}
+                  className="card-surface flex items-center gap-2.5 p-3 sm:gap-3 sm:p-4"
+                >
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 sm:h-10 sm:w-10">
+                    <h.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </span>
                   <div className="min-w-0">
-                    <div className="text-xs text-slate-500">{h.label}</div>
-                    <div className="truncate font-semibold text-white" dir="auto">
+                    <div className="text-[10px] text-slate-500 sm:text-xs">{h.label}</div>
+                    <div
+                      className="truncate text-[13px] font-semibold text-white sm:text-base"
+                      dir="auto"
+                    >
                       {h.value}
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
-          )}
-
-          {/* Bonuses */}
-          {(broker.deposit_bonus || broker.welcome_bonus) && (
-            <div className="mt-6 flex flex-wrap gap-3">
-              {broker.deposit_bonus && (
-                <span className="inline-flex items-center gap-2 rounded-xl bg-amber-500/10 px-4 py-2 text-sm text-amber-300">
-                  <Gift className="h-4 w-4" /> بونص إيداع: {broker.deposit_bonus}
-                </span>
-              )}
-              {broker.welcome_bonus && (
-                <span className="inline-flex items-center gap-2 rounded-xl bg-brand-500/10 px-4 py-2 text-sm text-brand-200">
-                  <Sparkles className="h-4 w-4" /> بونص ترحيبي: {broker.welcome_bonus}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Specs strip: spread / leverage */}
-          {(broker.spread_from != null || broker.leverage_max) && (
-            <div className="mt-4 flex flex-wrap gap-3">
-              {broker.spread_from != null && (
-                <span className="inline-flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-sm text-slate-200">
-                  <Activity className="h-4 w-4 text-brand-300" /> السبريد من{" "}
-                  <span dir="ltr" className="font-semibold">{broker.spread_from} نقطة</span>
-                </span>
-              )}
-              {broker.leverage_max && (
-                <span className="inline-flex items-center gap-2 rounded-xl bg-white/5 px-4 py-2 text-sm text-slate-200">
-                  <Gauge className="h-4 w-4 text-brand-300" /> رافعة حتى{" "}
-                  <span dir="ltr" className="font-semibold">{broker.leverage_max}</span>
-                </span>
-              )}
             </div>
           )}
 
