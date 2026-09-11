@@ -13,7 +13,9 @@
     "calendar": "Calendar",
     "resources": "Free tools",
     "forum": "Forum",
-    "more": "More"
+    "more": "More",
+    "about": "About us",
+    "contact": "Contact"
   },
   "Common": {
     "getStarted": "Get started",

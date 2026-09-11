@@ -26,6 +26,8 @@ export function SiteHeader() {
     { href: "/calendar", label: t("calendar") },
     { href: "/free-tools", label: t("resources") },
     { href: "/offers", label: t("offers") },
+    { href: "/about", label: t("about") },
+    { href: "/contact", label: t("contact") },
   ];
 
   // Mobile drawer shows the full list.

@@ -128,13 +128,22 @@ export default async function ComparePage() {
               <span className="text-brand-300">الشركات</span>.
             </div>
           ) : (
-            <div className="space-y-6">
+            /* On a phone the head-to-head picker filled the entire second
+               screen before a single broker appeared. Someone who opens the
+               directory wants the directory; picking two names to compare is
+               the follow-up, so it moves below the list on small screens and
+               keeps its place above on desktop, where both fit at once. */
+            <div className="flex flex-col gap-6">
               {brokers.length >= 2 && (
-                <HeadToHeadPicker
-                  options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
-                />
+                <div className="order-2 lg:order-1">
+                  <HeadToHeadPicker
+                    options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
+                  />
+                </div>
               )}
-              <BrokerDirectory brokers={brokers} />
+              <div className="order-1 lg:order-2">
+                <BrokerDirectory brokers={brokers} />
+              </div>
             </div>
           )}
         </Container>

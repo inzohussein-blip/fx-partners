@@ -353,38 +353,39 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
       </div>
 
       {/* Cards (mobile) */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:hidden">
+      <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-4 lg:hidden">
         {rows.map((b) => (
           <Link
             key={b.id}
             href={`/brokers/${b.slug}`}
-            className="card-surface block p-5 transition hover:ring-1 hover:ring-brand-500/30"
+            className="card-surface block p-4 transition hover:ring-1 hover:ring-brand-500/30 sm:p-5"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                 <BrokerLogo broker={b} />
-                <span className="font-semibold text-white">{b.name}</span>
+                <span className="truncate font-semibold text-white">{b.name}</span>
               </div>
               <StatusBadge status={b.status} />
             </div>
             {b.badges && b.badges.length > 0 && (
-              <div className="mt-3">
+              <div className="mt-2.5">
                 <BrokerBadges badges={b.badges} />
               </div>
             )}
-            <div className="mt-3 flex items-center gap-2">
+            {/* Rating and the headline numbers share one line. As separate
+                rows each card ran past 300px on a phone and only two fit on a
+                screen — in a list whose whole job is scanning several. */}
+            <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
               {isRated(b) ? (
-                <>
+                <span className="inline-flex items-center gap-1.5">
                   <Stars value={b.rating} />
-                  <span className="text-xs text-slate-500" dir="ltr">
+                  <span className="text-slate-500" dir="ltr">
                     {b.rating.toFixed(1)} ({b.reviews_count})
                   </span>
-                </>
+                </span>
               ) : (
-                <span className="text-xs text-slate-500">لم تُقيَّم بعد</span>
+                <span className="text-slate-500">لم تُقيَّم بعد</span>
               )}
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2 text-xs">
               {b.spread_from != null && (
                 <span className="rounded-full bg-white/5 px-2 py-1 text-slate-300" dir="ltr">
                   سبريد {b.spread_from}
