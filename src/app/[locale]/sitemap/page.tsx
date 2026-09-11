@@ -48,29 +48,52 @@ async function getLists() {
   }
 }
 
+// The HTML sitemap is a real internal-linking surface, not a formality: it is
+// often the shortest crawl path to a page no menu links to. It listed eight of
+// the site's public routes and skipped the rest, so half the site depended on
+// the XML sitemap alone.
 const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = [
   {
     title: "الرئيسية",
     links: [
       { href: "/", label: "الصفحة الرئيسية" },
-      { href: "/affiliates", label: "برنامج الوكلاء" },
-      { href: "/brokers", label: "تعاون الشركات (B2B)" },
+      { href: "/about", label: "من نحن" },
+      { href: "/affiliates", label: "برنامج الوكلاء (IB)" },
+      { href: "/brokers", label: "شراكة الشركات (B2B)" },
     ],
   },
   {
-    title: "الأدوات والمقارنات",
+    title: "المقارنات",
     links: [
-      { href: "/compare", label: "قارن الشركات" },
-      { href: "/tools", label: "حاسبات الفوركس" },
-      { href: "/offers", label: "القنّاص المالي — العروض" },
+      { href: "/compare", label: "قارن شركات التداول" },
+      { href: "/compare/vs", label: "مقارنة مباشرة بين شركتين" },
+      { href: "/spreads", label: "مقارنة السبريد" },
+      { href: "/offers", label: "العروض والبونصات" },
     ],
   },
   {
-    title: "المحتوى والحساب",
+    title: "الأدوات",
     links: [
-      { href: "/blog", label: "المدونة" },
+      { href: "/tools", label: "حاسبات التداول" },
+      { href: "/free-tools", label: "أدوات ومؤشرات مجانية" },
+      { href: "/calendar", label: "تقويم العطلات والأحداث" },
+    ],
+  },
+  {
+    title: "المحتوى والمجتمع",
+    links: [
+      { href: "/forum", label: "المنتدى" },
+      { href: "/blog", label: "المدوّنة" },
+    ],
+  },
+  {
+    title: "الحساب والتواصل",
+    links: [
       { href: "/login", label: "تسجيل الدخول / إنشاء حساب" },
       { href: "/dashboard", label: "لوحة الشريك" },
+      { href: "/contact", label: "اتصل بنا" },
+      { href: "/terms", label: "الشروط والأحكام" },
+      { href: "/privacy", label: "سياسة الخصوصية" },
     ],
   },
 ];

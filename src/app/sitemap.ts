@@ -9,6 +9,7 @@ const STATIC_PATHS = [
   "",
   "/affiliates",
   "/compare",
+  "/compare/vs",
   "/spreads",
   "/tools",
   "/calendar",
@@ -17,7 +18,18 @@ const STATIC_PATHS = [
   "/brokers",
   "/forum",
   "/blog",
+  "/about",
+  // Trust pages. They rank for nothing, and on a site about money they are
+  // exactly what a reader (and a quality rater) checks before believing the
+  // rest — so they belong in the index rather than being reachable only from
+  // the footer.
+  "/contact",
+  "/terms",
+  "/privacy",
 ];
+
+/** Pages whose value is trust rather than traffic — indexed, ranked lower. */
+const LOW_PRIORITY = new Set(["/contact", "/terms", "/privacy", "/sitemap"]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
@@ -47,7 +59,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   };
 
   for (const path of STATIC_PATHS) {
-    push(path, now, "weekly", path === "" ? 1 : 0.8);
+    const priority = path === "" ? 1 : LOW_PRIORITY.has(path) ? 0.3 : 0.8;
+    push(path, now, LOW_PRIORITY.has(path) ? "yearly" : "weekly", priority);
   }
 
   // Dynamic content: broker landing pages + blog posts.

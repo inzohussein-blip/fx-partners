@@ -46,6 +46,7 @@ export async function SiteFooter() {
         <div>
           <h4 className="text-sm font-semibold text-white">{t("account")}</h4>
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
+            <li><Link href="/about" className="hover:text-white">{t("about")}</Link></li>
             <li><Link href="/login" className="hover:text-white">{t("login")}</Link></li>
             <li><Link href="/dashboard" className="hover:text-white">{t("dashboard")}</Link></li>
             <li><Link href="/contact" className="hover:text-white">{t("contactUs")}</Link></li>
