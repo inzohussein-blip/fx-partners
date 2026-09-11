@@ -34,7 +34,11 @@ export default async function DashboardLayout({
         <DashboardSidebar email={email} isAdmin={isAdmin} />
         <main className="flex-1 overflow-x-hidden p-4 sm:p-8">{children}</main>
       </div>
-      <OnboardingTour />
+      {/* The tour narrates the overview page, and every step targets an
+          element in the sidebar nav. Shown on every dashboard route it covers
+          whatever the user actually navigated to — on a phone, the entire
+          screen. It belongs on the landing page only. */}
+      <OnboardingTour onlyOn="/dashboard" />
     </CommandPalette>
   );
 }

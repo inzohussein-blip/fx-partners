@@ -3,6 +3,8 @@ import { Megaphone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ReferralGenerator } from "@/components/dashboard/referral-generator";
 import { getSiteUrl } from "@/lib/utils";
+import { getReferralClicks, getBrokerClicks } from "@/lib/clicks";
+import { ClickAnalytics } from "@/components/dashboard/click-analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +57,13 @@ const BANNERS = [
 export default async function MarketingPage() {
   const { ibId, ibCode, links, siteUrl } = await getData();
 
+  // RLS scopes both to this agent: their own referral clicks, and the broker
+  // clicks their traffic produced. Neither query can see another agent's rows.
+  const [refClicks, brokerClicks] = await Promise.all([
+    getReferralClicks(30),
+    getBrokerClicks(30),
+  ]);
+
   const ref =
     links.length > 0 ? `${siteUrl}/r/${links[0].slug}` : siteUrl;
   const bannerUrl = (size: string) =>
@@ -69,6 +78,21 @@ export default async function MarketingPage() {
         title={"أدوات التسويق"}
         subtitle={"ولّد روابط إحالة ديناميكية وتابع أداء كل حملة."}
       />
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <ClickAnalytics
+          title="النقرات على روابط إحالتك"
+          subtitle="كل زيارة وصلت عبر /r/ الخاص بك."
+          series={refClicks.series}
+          countries={refClicks.countries}
+        />
+        <ClickAnalytics
+          title="نقرات وصلت إلى حسابات الشركات"
+          subtitle="زوّارك الذين تابعوا إلى رابط شركة تداول."
+          series={brokerClicks.series}
+          countries={brokerClicks.countries}
+        />
+      </div>
 
       <ReferralGenerator
         ibId={ibId}

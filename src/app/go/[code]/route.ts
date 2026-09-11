@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Branded broker-link redirector: /go/<code>
- * Logs the click (country + referrer) via the service role, then 302s to the
- * real referral URL. Fails open — always redirects even if logging fails.
+ * Branded broker-link redirector: `/go/<code>`.
+ *
+ * Logs the click, then 302s to the real referral URL. Fails open — a logging
+ * error never costs the visitor the redirect.
+ *
+ * The click now also carries the referring agent. A visitor who arrived
+ * through `/r/<slug>` is holding an `fxp_ref` cookie; resolving it here is
+ * what answers the question a master IB actually needs — which agent drives
+ * traffic that reaches a broker — and it was previously unanswerable, because
+ * the two tracking paths never met.
  */
 export async function GET(
   req: Request,
@@ -28,13 +36,29 @@ export async function GET(
 
     if (!link?.referral_url) return NextResponse.redirect(site);
 
-    // Best-effort click log (never blocks the redirect meaningfully).
     const headers = req.headers;
     const country =
       headers.get("x-vercel-ip-country") ||
       headers.get("cf-ipcountry") ||
       null;
     const referer = headers.get("referer");
+
+    // Attribute to the agent whose link brought this visitor, if any. An
+    // unknown or expired slug simply leaves the click unattributed rather
+    // than blocking it.
+    const refSlug = cookies().get("fxp_ref")?.value ?? null;
+    let ibId: string | null = null;
+    if (refSlug) {
+      const { data: refLink } = await admin
+        .from("referral_links")
+        .select("ib_id")
+        .eq("slug", refSlug)
+        .eq("is_active", true)
+        .maybeSingle();
+      ibId = (refLink?.ib_id as string | undefined) ?? null;
+    }
+
+    // Best-effort click log (never blocks the redirect meaningfully).
     admin
       .from("broker_link_clicks")
       .insert({
@@ -42,6 +66,8 @@ export async function GET(
         broker_id: link.broker_id,
         country,
         referer: referer ? referer.slice(0, 300) : null,
+        ib_id: ibId,
+        ref_slug: refSlug,
       })
       .then(() => {});
 

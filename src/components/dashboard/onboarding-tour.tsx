@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { usePathname } from "@/i18n/navigation";
 import { Sparkles, X } from "lucide-react";
 
 const STORAGE_KEY = "fx_tour_done_v1";
@@ -49,19 +50,22 @@ function readDone(): boolean {
   }
 }
 
-export function OnboardingTour() {
+export function OnboardingTour({ onlyOn }: { onlyOn?: string }) {
+  const pathname = usePathname();
   const [active, setActive] = useState(false);
   const [step, setStep] = useState(0);
   const [rect, setRect] = useState<Rect | null>(null);
 
-  // Start once, only for first-time visitors, after layout settles.
+  // Start once, only for first-time visitors, after layout settles — and only
+  // on the route the tour is written about, if one is given.
   useEffect(() => {
     if (readDone()) return;
+    if (onlyOn && pathname !== onlyOn) return;
     const t = setTimeout(() => {
       if (document.querySelector(STEPS[0].selector)) setActive(true);
     }, 700);
     return () => clearTimeout(t);
-  }, []);
+  }, [onlyOn, pathname]);
 
   const finish = useCallback(() => {
     try {
