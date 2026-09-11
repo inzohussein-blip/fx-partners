@@ -131,6 +131,22 @@ export const KEYWORDS = {
 
 export type KeywordSet = keyof typeof KEYWORDS;
 
+/**
+ * Is the English locale a real translation yet?
+ *
+ * It is not. Every page's copy is written in Arabic with no locale branch, so
+ * /en/compare serves the Arabic page under `lang="en"`. Declaring that as the
+ * English version does active harm rather than nothing: the hreflang cluster
+ * promises English and delivers Arabic, which makes Google distrust the whole
+ * cluster including the Arabic side, and every page ships as a near-exact
+ * duplicate on a second URL.
+ *
+ * So until the copy is actually translated, /en stays crawlable but
+ * unindexed, is not offered as an hreflang alternate, and is left out of the
+ * sitemap. Flip this to true once translations land and all three follow.
+ */
+export const EN_TRANSLATED = false;
+
 /** Canonical URL for a path in a given locale (Arabic is unprefixed). */
 export function canonicalUrl(path: string, locale: string = "ar"): string {
   const base = getSiteUrl();
@@ -162,13 +178,22 @@ export function pageMeta(opts: {
     title,
     description,
     ...(keywords?.length ? { keywords: [...keywords] } : {}),
+    // An untranslated /en is not an alternate — it is the same page again.
+    ...(EN_TRANSLATED || locale === "ar"
+      ? {}
+      : { robots: { index: false, follow: true } }),
     alternates: {
       canonical: url,
-      languages: {
-        ar: `${base}${clean || "/"}`,
-        en: `${base}/en${clean}`,
-        "x-default": `${base}${clean || "/"}`,
-      },
+      languages: EN_TRANSLATED
+        ? {
+            ar: `${base}${clean || "/"}`,
+            en: `${base}/en${clean}`,
+            "x-default": `${base}${clean || "/"}`,
+          }
+        : {
+            ar: `${base}${clean || "/"}`,
+            "x-default": `${base}${clean || "/"}`,
+          },
     },
     openGraph: {
       type,

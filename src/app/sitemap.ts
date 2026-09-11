@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
+import { EN_TRANSLATED } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -49,11 +50,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency,
       priority,
+      // While /en is untranslated it is the Arabic page on a second URL, so it
+      // is not listed as an alternate and not submitted at all.
       alternates: {
-        languages: {
-          ar: `${base}${path || "/"}`,
-          en: `${base}/en${path}`,
-        },
+        languages: EN_TRANSLATED
+          ? { ar: `${base}${path || "/"}`, en: `${base}/en${path}` }
+          : { ar: `${base}${path || "/"}` },
       },
     });
   };
