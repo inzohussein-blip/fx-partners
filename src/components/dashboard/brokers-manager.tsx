@@ -446,7 +446,7 @@ export function BrokersManager({
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-fg">{b.name}</span>
                       <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] ${
+                        className={`rounded-full px-2 py-0.5 text-xs sm:text-[10px] ${
                           b.status === "partnered"
                             ? "bg-emerald-500/15 text-emerald-300"
                             : "bg-fg/5 text-slate-400"
@@ -455,7 +455,7 @@ export function BrokersManager({
                         {b.status === "partnered" ? "شريك" : "غير متعاقد"}
                       </span>
                       {!b.is_published && (
-                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[10px] text-slate-500">
+                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-xs sm:text-[10px] text-slate-500">
                           مخفي
                         </span>
                       )}
@@ -576,7 +576,7 @@ function LinksEditor({
                   {l.label ? `${l.label} · ` : ""}
                   {l.referral_url}
                 </div>
-                <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[11px] text-slate-500">
+                <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs sm:text-[11px] text-slate-500">
                   {l.code && (
                     <span dir="ltr" className="text-brand-300">
                       /go/{l.code}
@@ -608,12 +608,12 @@ function LinksEditor({
 
       {countryStats.length > 0 && (
         <div className="mt-3 rounded-lg border border-fg/5 bg-ink-900/40 p-3">
-          <div className="text-[11px] font-medium text-slate-500">أهم الدول (نقرات)</div>
+          <div className="text-xs sm:text-[11px] font-medium text-slate-500">أهم الدول (نقرات)</div>
           <div className="mt-2 flex flex-wrap gap-2">
             {countryStats.map((c) => (
               <span
                 key={c.country}
-                className="inline-flex items-center gap-1 rounded-full bg-fg/5 px-2 py-0.5 text-[11px] text-slate-300"
+                className="inline-flex items-center gap-1 rounded-full bg-fg/5 px-2 py-0.5 text-xs sm:text-[11px] text-slate-300"
                 dir="ltr"
               >
                 {c.country} · {c.hits}

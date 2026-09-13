@@ -60,7 +60,7 @@ export default async function AdminClicksPage() {
             <h2 className="text-sm font-bold text-fg sm:text-base">
               أي وكيل يقود إلى حسابات الشركات
             </h2>
-            <p className="mt-0.5 text-[11px] text-slate-500 sm:text-xs">
+            <p className="mt-0.5 text-xs sm:text-[11px] text-slate-500 sm:text-xs">
               النقرات على روابط الشركات منسوبةً إلى الوكيل الذي جلب الزائر.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default async function AdminClicksPage() {
                   <span className="block truncate text-sm font-medium text-fg">
                     {a.display_name || a.ib_code}
                   </span>
-                  <span className="block text-[11px] text-slate-500" dir="ltr">
+                  <span className="block text-xs sm:text-[11px] text-slate-500" dir="ltr">
                     {a.ib_code}
                   </span>
                 </span>
@@ -104,7 +104,7 @@ export default async function AdminClicksPage() {
             search never passed an agent link. Saying so is more useful than
             quietly folding those clicks into a total. */}
         {brokerClicks.total > 0 && (
-          <p className="mt-5 flex items-start gap-2 border-t border-fg/5 pt-4 text-[11px] leading-relaxed text-slate-500">
+          <p className="mt-5 flex items-start gap-2 border-t border-fg/5 pt-4 text-xs sm:text-[11px] leading-relaxed text-slate-500">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <span>
               {unattributed.toLocaleString("en-US")} من أصل{" "}

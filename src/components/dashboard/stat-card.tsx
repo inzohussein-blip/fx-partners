@@ -54,7 +54,7 @@ export function StatCard({
           </span>
         )}
       </div>
-      {hint && <div className="mt-1 text-[10px] text-slate-500 sm:text-xs">{hint}</div>}
+      {hint && <div className="mt-1 text-xs sm:text-[10px] text-slate-500 sm:text-xs">{hint}</div>}
     </div>
   );
 }

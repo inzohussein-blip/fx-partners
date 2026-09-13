@@ -152,7 +152,7 @@ export default async function LeaderboardPage() {
                     <td className="px-5 py-3 font-mono text-fg" dir="ltr">
                       {r.masked_code}
                       {r.is_me && (
-                        <span className="ms-2 rounded bg-brand-500/20 px-1.5 py-0.5 text-[10px] text-brand-200">
+                        <span className="ms-2 rounded bg-brand-500/20 px-1.5 py-0.5 text-xs sm:text-[10px] text-brand-200">
                           أنت
                         </span>
                       )}

@@ -104,7 +104,7 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
                 {b.deposit_methods && b.deposit_methods.length ? (
                   <div className="flex flex-wrap justify-center gap-1">
                     {b.deposit_methods.map((m) => (
-                      <span key={m} className="rounded-full bg-brand-500/10 px-2 py-0.5 text-[11px] text-brand-200">
+                      <span key={m} className="rounded-full bg-brand-500/10 px-2 py-0.5 text-xs sm:text-[11px] text-brand-200">
                         {m}
                       </span>
                     ))}

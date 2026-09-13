@@ -270,11 +270,11 @@ function PostNode({
               {post.author_name || "مستخدم"}
             </span>
             {post.is_staff && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-brand-500/15 px-2 py-0.5 text-[10px] text-brand-200">
+              <span className="inline-flex items-center gap-1 rounded-full bg-brand-500/15 px-2 py-0.5 text-xs sm:text-[10px] text-brand-200">
                 <ShieldCheck className="h-3 w-3" /> الإدارة
               </span>
             )}
-            <span className="text-[11px] text-slate-600">{timeAgo(post.created_at)}</span>
+            <span className="text-xs sm:text-[11px] text-slate-600">{timeAgo(post.created_at)}</span>
           </div>
         </div>
 

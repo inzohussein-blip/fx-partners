@@ -235,12 +235,12 @@ export function SignalsManager({
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="font-medium text-fg">{s.title}</span>
                       {s.symbol && (
-                        <span className="rounded bg-fg/5 px-1.5 py-0.5 text-[10px] text-slate-400" dir="ltr">
+                        <span className="rounded bg-fg/5 px-1.5 py-0.5 text-xs sm:text-[10px] text-slate-400" dir="ltr">
                           {s.symbol}
                         </span>
                       )}
                       {dir && (
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] ${dir.className}`}>
+                        <span className={`rounded-full px-2 py-0.5 text-xs sm:text-[10px] ${dir.className}`}>
                           {dir.emoji} {dir.label}
                         </span>
                       )}

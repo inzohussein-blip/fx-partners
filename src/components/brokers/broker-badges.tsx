@@ -11,7 +11,7 @@ export function BrokerBadges({
   const list = (badges ?? []).map((k) => badgeMeta(k)).filter(Boolean);
   if (list.length === 0) return null;
 
-  const pad = size === "md" ? "px-2.5 py-1 text-xs" : "px-2 py-0.5 text-[10px]";
+  const pad = size === "md" ? "px-2.5 py-1 text-xs" : "px-2 py-0.5 text-xs sm:text-[10px]";
 
   return (
     <div className="flex flex-wrap gap-1.5">

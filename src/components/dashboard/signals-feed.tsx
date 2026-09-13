@@ -85,7 +85,7 @@ export function SignalsFeed({ initial }: { initial: Signal[] }) {
                 </span>
               )}
               {dir && (
-                <span className={`rounded-full px-2 py-0.5 text-[11px] ${dir.className}`}>
+                <span className={`rounded-full px-2 py-0.5 text-xs sm:text-[11px] ${dir.className}`}>
                   {dir.emoji} {dir.label}
                 </span>
               )}

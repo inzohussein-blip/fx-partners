@@ -73,7 +73,7 @@ function Donut({ counts }: { counts: StatusCounts }) {
       <div className="absolute inset-0 grid place-items-center">
         <div className="text-center">
           <div className="text-2xl font-extrabold text-fg">{total}</div>
-          <div className="text-[10px] text-slate-500">إجمالي العملاء</div>
+          <div className="text-xs sm:text-[10px] text-slate-500">إجمالي العملاء</div>
         </div>
       </div>
     </div>
@@ -216,7 +216,7 @@ export function PerformancePanel({
                 style={{ width: `${Math.min(100, conversion)}%` }}
               />
             </div>
-            <div className="mt-1.5 text-[10px] text-slate-600">
+            <div className="mt-1.5 text-xs sm:text-[10px] text-slate-600">
               مموّل + نشط من الإجمالي
             </div>
           </div>

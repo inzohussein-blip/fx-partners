@@ -310,7 +310,7 @@ export default async function BrokerDetailPage({
                     <h.icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </span>
                   <div className="min-w-0">
-                    <div className="text-[10px] text-slate-500 sm:text-xs">{h.label}</div>
+                    <div className="text-xs sm:text-[10px] text-slate-500 sm:text-xs">{h.label}</div>
                     <div
                       className="truncate text-[13px] font-semibold text-fg sm:text-base"
                       dir="auto"

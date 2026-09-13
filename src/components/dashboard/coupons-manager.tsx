@@ -132,11 +132,11 @@ export function CouponsManager({
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-fg">{c.title}</span>
-                    <span className="rounded bg-brand-500/15 px-2 py-0.5 font-mono text-[11px] text-brand-200" dir="ltr">
+                    <span className="rounded bg-brand-500/15 px-2 py-0.5 font-mono text-xs sm:text-[11px] text-brand-200" dir="ltr">
                       {c.code}
                     </span>
                     {!c.is_active && (
-                      <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[10px] text-slate-500">
+                      <span className="rounded-full bg-fg/5 px-2 py-0.5 text-xs sm:text-[10px] text-slate-500">
                         متوقف
                       </span>
                     )}

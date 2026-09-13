@@ -135,14 +135,14 @@ export function AnnouncementsManager({
                 <li key={a.id} className="flex items-start justify-between gap-3 py-4">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] ${meta.className}`}>
+                      <span className={`rounded-full px-2 py-0.5 text-xs sm:text-[10px] ${meta.className}`}>
                         {meta.emoji} {meta.label}
                       </span>
-                      <span className="text-[10px] text-slate-600">
+                      <span className="text-xs sm:text-[10px] text-slate-600">
                         {timeAgo(a.published_at)}
                       </span>
                       {!a.is_published && (
-                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[10px] text-slate-500">
+                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-xs sm:text-[10px] text-slate-500">
                           مخفي
                         </span>
                       )}

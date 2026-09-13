@@ -17,7 +17,7 @@ function SourceNode({
       </span>
       <div className="min-w-0">
         <div className="text-sm font-bold text-fg">{title}</div>
-        <div className="text-[11px] leading-tight text-slate-400">{subtitle}</div>
+        <div className="text-xs sm:text-[11px] leading-tight text-slate-400">{subtitle}</div>
       </div>
     </div>
   );
@@ -85,10 +85,10 @@ export function ConnectionDiagram({
           <div className="mt-2 text-base font-extrabold tracking-wide text-fg">
             FX Partners
           </div>
-          <div className="mt-1.5 rounded-full bg-brand-500/15 px-3 py-1 text-[11px] font-semibold text-brand-200">
+          <div className="mt-1.5 rounded-full bg-brand-500/15 px-3 py-1 text-xs sm:text-[11px] font-semibold text-brand-200">
             وسيط الشراكة · Master IB
           </div>
-          <p className="mt-3 text-center text-[11px] leading-relaxed text-slate-400">
+          <p className="mt-3 text-center text-xs sm:text-[11px] leading-relaxed text-slate-400">
             نتفاوض على الشروط · نجمّع الأحجام · نوزّع العمولات
           </p>
         </div>
@@ -116,7 +116,7 @@ export function ConnectionDiagram({
               ) : (
                 <Building2 className="h-3 w-3 shrink-0 text-accent-300" />
               )}
-              <span className="truncate text-[11px] font-semibold text-slate-300">{tile.name}</span>
+              <span className="truncate text-xs sm:text-[11px] font-semibold text-slate-300">{tile.name}</span>
             </div>
           ))}
         </div>

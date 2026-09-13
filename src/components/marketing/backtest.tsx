@@ -302,7 +302,7 @@ export function Backtest() {
                 <span className="text-sm text-slate-300">{inst.label}</span>
                 <span
                   className={cn(
-                    "inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium",
+                    "inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs sm:text-[10px] font-medium",
                     real
                       ? "bg-emerald-500/10 text-emerald-400"
                       : "bg-fg/5 text-slate-500"

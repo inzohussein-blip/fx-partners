@@ -99,7 +99,7 @@ export function RatingBreakdown({ broker }: { broker: Broker }) {
           ))}
         </div>
       </div>
-      <p className="mt-5 text-[11px] leading-relaxed text-slate-500">
+      <p className="mt-5 text-xs sm:text-[11px] leading-relaxed text-slate-500">
         تقييم استرشادي مبنيّ على تقييمات المستخدمين الحقيقية وبيانات الشركة المتاحة (التراخيص، السبريد، العروض).
       </p>
     </div>

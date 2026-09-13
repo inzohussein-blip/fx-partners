@@ -55,13 +55,13 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--c-window-dot)]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--c-window-dot)]" />
         </div>
-        <span className="text-[11px] font-semibold text-slate-400">
+        <span className="text-xs sm:text-[11px] font-semibold text-slate-400">
           مقارنة شركات التداول — FX Partners
         </span>
       </div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-fg/[0.05] px-4 py-2.5 text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
+      <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-fg/[0.05] px-4 py-2.5 text-xs sm:text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
         <span>#</span>
         <span>الشركة</span>
         <span className="text-end">التقييم</span>
@@ -100,7 +100,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           >
             <span
               className={cn(
-                "grid h-[21px] w-[21px] place-items-center rounded-md text-[11px] font-extrabold",
+                "grid h-[21px] w-[21px] place-items-center rounded-md text-xs sm:text-[11px] font-extrabold",
                 i === 0
                   ? "bg-brand-gradient text-white"
                   : "bg-fg/5 text-slate-400"
@@ -134,7 +134,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
                 {isRated(b) ? (
                   <MiniStars value={b.rating} />
                 ) : (
-                  <span className="mt-0.5 block text-[10px] text-slate-500">
+                  <span className="mt-0.5 block text-xs sm:text-[10px] text-slate-500">
                     لم تُقيَّم بعد
                   </span>
                 )}
@@ -144,7 +144,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
             <div className="text-end text-base font-extrabold text-brand-300" dir="ltr">
               {isRated(b) ? b.rating.toFixed(1) : "—"}
             </div>
-            <div className="hidden text-end text-[10px] text-slate-500 sm:block" dir="ltr">
+            <div className="hidden text-end text-xs sm:text-[10px] text-slate-500 sm:block" dir="ltr">
               {isRated(b) ? `${b.reviews_count}+` : "—"}
             </div>
           </li>

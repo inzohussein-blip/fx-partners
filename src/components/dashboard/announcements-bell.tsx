@@ -82,7 +82,7 @@ export function AnnouncementsBell() {
       >
         <Bell className="h-4 w-4" />
         {unread > 0 && (
-          <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-brand-gradient px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-brand-gradient px-1 text-xs sm:text-[10px] font-bold text-white">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
@@ -114,11 +114,11 @@ export function AnnouncementsBell() {
                   <li key={a.id} className="px-4 py-3">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`rounded-full px-2 py-0.5 text-[10px] ${meta.className}`}
+                        className={`rounded-full px-2 py-0.5 text-xs sm:text-[10px] ${meta.className}`}
                       >
                         {meta.emoji} {meta.label}
                       </span>
-                      <span className="text-[10px] text-slate-600">
+                      <span className="text-xs sm:text-[10px] text-slate-600">
                         {timeAgo(a.published_at)}
                       </span>
                     </div>

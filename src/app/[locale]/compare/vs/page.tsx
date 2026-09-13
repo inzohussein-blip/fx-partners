@@ -107,7 +107,7 @@ function Head({ b, win }: { b: Broker; win?: boolean }) {
         </span>
       </div>
       {win && (
-        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[11px] text-emerald-300">
+        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs sm:text-[11px] text-emerald-300">
           <BadgeCheck className="h-3 w-3" /> الأعلى تقييماً
         </span>
       )}

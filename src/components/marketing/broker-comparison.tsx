@@ -275,7 +275,7 @@ export function BrokerComparison() {
                           <span className="text-sm font-bold text-fg">
                             FX Partners
                           </span>
-                          <span className="rounded-full bg-brand-500/20 px-2 py-0.5 text-[10px] text-brand-200">
+                          <span className="rounded-full bg-brand-500/20 px-2 py-0.5 text-xs sm:text-[10px] text-brand-200">
                             مستوى {result.tier.label}
                           </span>
                         </div>

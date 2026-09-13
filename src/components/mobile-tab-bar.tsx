@@ -69,7 +69,7 @@ export function MobileTabBar() {
                   className={cn(
                     // 64px tall: comfortably above the 44px minimum touch
                     // target, with the label and icon both inside it.
-                    "flex h-16 flex-col items-center justify-center gap-1 text-[10px] font-semibold transition",
+                    "flex h-16 flex-col items-center justify-center gap-1 text-xs sm:text-[10px] font-semibold transition",
                     active ? "text-brand-300" : "text-slate-500 active:text-slate-300"
                   )}
                 >

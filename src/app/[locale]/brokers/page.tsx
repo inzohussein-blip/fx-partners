@@ -206,7 +206,7 @@ export default async function BrokersPage() {
                 >
                   {r.value}
                 </div>
-                <div className="mt-1 text-[10px] leading-tight text-slate-400 sm:text-xs">
+                <div className="mt-1 text-xs sm:text-[10px] leading-tight text-slate-400 sm:text-xs">
                   {r.label}
                 </div>
               </div>

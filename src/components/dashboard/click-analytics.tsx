@@ -80,7 +80,7 @@ export function ClickAnalytics({
           <div>
             <h2 className="text-sm font-bold text-fg sm:text-base">{title}</h2>
             {subtitle && (
-              <p className="mt-0.5 text-[11px] text-slate-500 sm:text-xs">{subtitle}</p>
+              <p className="mt-0.5 text-xs sm:text-[11px] text-slate-500 sm:text-xs">{subtitle}</p>
             )}
           </div>
         </div>
@@ -97,7 +97,7 @@ export function ClickAnalytics({
                 onClick={() => setDays(d)}
                 aria-pressed={days === d}
                 className={cn(
-                  "rounded-md px-2.5 py-1 text-[11px] font-semibold transition",
+                  "rounded-md px-2.5 py-1 text-xs sm:text-[11px] font-semibold transition",
                   days === d
                     ? "bg-brand-500/20 text-brand-200"
                     : "text-slate-500 hover:text-slate-300"

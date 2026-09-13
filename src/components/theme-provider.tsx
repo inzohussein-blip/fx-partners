@@ -8,10 +8,16 @@ import { ThemeProvider as NextThemes } from "next-themes";
  * `attribute="class"` is what pairs with Tailwind's `darkMode: "class"` and
  * with the `:root.light` token block in globals.css.
  *
- * The default is dark: this is a dark-first financial interface, and someone
- * arriving with no preference should see the identity the brand was designed
- * around. `enableSystem` still means a visitor whose device asks for light
- * gets light on their first visit, without having to find the switch.
+ * `defaultTheme` is "system", which is what actually makes `enableSystem` do
+ * anything: with a fixed default, next-themes uses that default whenever
+ * nothing is stored, and the device preference is consulted only after the
+ * visitor picks "System" by hand. Measured — a phone set to light was still
+ * being served the dark theme on a first visit.
+ *
+ * So a visitor arriving on a light device sees the daytime interface, one on
+ * a dark device sees the dark one, and either can override it. To open on the
+ * dark brand identity regardless of the device instead, change this to
+ * "dark"; nothing else needs to move.
  *
  * `disableTransitionOnChange` suppresses every CSS transition for the instant
  * the class flips. Without it, hundreds of elements carrying `transition`
@@ -22,7 +28,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextThemes
       attribute="class"
-      defaultTheme="dark"
+      defaultTheme="system"
       enableSystem
       disableTransitionOnChange
       storageKey="fxp-theme"

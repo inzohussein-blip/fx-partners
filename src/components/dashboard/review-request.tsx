@@ -85,7 +85,7 @@ export function ReviewRequest({
           <h2 className="text-sm font-bold text-fg sm:text-base">
             اطلب مراجعة من عملائك
           </h2>
-          <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500 sm:text-xs">
+          <p className="mt-0.5 text-xs sm:text-[11px] leading-relaxed text-slate-500 sm:text-xs">
             التقييمات الحقيقية هي ما يجعل صفحة الشركة تستحقّ القراءة — وهي لا
             تأتي إلا بالطلب. اختر الشركة وأرسل الرابط لعميل تعامل معها فعلاً.
           </p>
@@ -123,7 +123,7 @@ export function ReviewRequest({
             )}
           </button>
         </div>
-        <p className="mt-1.5 text-[11px] text-slate-500">
+        <p className="mt-1.5 text-xs sm:text-[11px] text-slate-500">
           يفتح صفحة الشركة على نموذج المراجعة مباشرةً.
         </p>
       </div>

@@ -135,7 +135,7 @@ export function DashboardSidebar({
                   className="mx-1 my-2 w-px shrink-0 self-stretch bg-fg/10 first:hidden md:hidden"
                   aria-hidden
                 />
-                <div className="hidden px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600 md:block">
+                <div className="hidden px-3 pb-1 pt-1 text-xs sm:text-[10px] font-semibold uppercase tracking-wider text-slate-600 md:block">
                   {group.label}
                 </div>
               </>

@@ -76,7 +76,7 @@ export function AdminTabs() {
     <div className="no-scrollbar -mx-1 flex gap-x-3 gap-y-4 overflow-x-auto border-b border-fg/5 px-1 pb-4 sm:mx-0 sm:flex-wrap sm:gap-x-6 sm:overflow-visible sm:px-0">
       {groups.map((group) => (
         <div key={group.label} className="flex shrink-0 flex-col gap-1.5">
-          <span className="px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
+          <span className="px-1 text-xs sm:text-[10px] font-semibold uppercase tracking-wider text-slate-600">
             {group.label}
           </span>
           <div className="flex gap-1.5 sm:flex-wrap">

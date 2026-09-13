@@ -199,7 +199,7 @@ export default async function AboutPage() {
               {POLICY.map((p, i) => (
                 <div key={p.title} className="card-surface p-5">
                   <h3 className="flex items-start gap-3 text-sm font-bold text-fg">
-                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-brand-500/15 text-[11px] font-extrabold text-brand-300">
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-brand-500/15 text-xs sm:text-[11px] font-extrabold text-brand-300">
                       {i + 1}
                     </span>
                     {p.title}

@@ -103,7 +103,7 @@ export default async function CalendarPage() {
                                     </span>
                                   )}
                                   {e.country && (
-                                    <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[11px] text-slate-400">
+                                    <span className="rounded-full bg-fg/5 px-2 py-0.5 text-xs sm:text-[11px] text-slate-400">
                                       {e.country}
                                     </span>
                                   )}

@@ -47,7 +47,7 @@ export function ResourceCard({ resource }: { resource: TradingResource }) {
             {kind.emoji}
           </span>
           <div className="min-w-0">
-            <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[11px] text-slate-400">
+            <span className="rounded-full bg-fg/5 px-2 py-0.5 text-xs sm:text-[11px] text-slate-400">
               {kind.label}
             </span>
             <h3 className="mt-1 truncate font-bold text-fg">{resource.title}</h3>

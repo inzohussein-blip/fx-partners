@@ -128,7 +128,7 @@ export function CampaignsManager({
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-fg">{c.title}</span>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] ${
+                      className={`rounded-full px-2 py-0.5 text-xs sm:text-[10px] ${
                         c.is_active
                           ? "bg-emerald-500/15 text-emerald-300"
                           : "bg-fg/5 text-slate-500"

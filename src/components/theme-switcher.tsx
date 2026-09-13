@@ -56,7 +56,7 @@ export function ThemeSwitcher({ className }: { className?: string }) {
         aria-label="تغيير مظهر الموقع"
         aria-haspopup="menu"
         aria-expanded={open}
-        className="grid h-10 w-10 place-items-center rounded-xl text-slate-400 transition hover:bg-fg/5 hover:text-fg"
+        className="grid h-12 w-12 place-items-center rounded-xl text-slate-400 transition hover:bg-fg/5 hover:text-fg sm:h-10 sm:w-10"
       >
         {Icon ? (
           <Icon className="h-[18px] w-[18px]" />
@@ -83,7 +83,7 @@ export function ThemeSwitcher({ className }: { className?: string }) {
                   setOpen(false);
                 }}
                 className={cn(
-                  "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+                  "flex min-h-12 w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition sm:min-h-0",
                   active
                     ? "bg-brand-500/15 text-brand-200"
                     : "text-slate-300 hover:bg-fg/5 hover:text-fg"

@@ -104,7 +104,7 @@ export function LevelBadges({ referrals, totalEarned, withdrawals }: Stats) {
                 title={b.label}
               >
                 <Icon className="h-5 w-5" />
-                <span className="text-[10px] leading-tight">{b.label}</span>
+                <span className="text-xs sm:text-[10px] leading-tight">{b.label}</span>
               </div>
             );
           })}

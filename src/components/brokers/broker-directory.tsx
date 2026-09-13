@@ -48,7 +48,7 @@ function LicenseBadges({ licenses }: { licenses?: string[] }) {
       {list.map((r, i) => (
         <span
           key={i}
-          className="inline-flex items-center gap-0.5 rounded bg-emerald-500/10 px-1.5 py-0.5 text-[10px] text-emerald-300"
+          className="inline-flex items-center gap-0.5 rounded bg-emerald-500/10 px-1.5 py-0.5 text-xs sm:text-[10px] text-emerald-300"
         >
           {r!.flag} {r!.label}
         </span>
@@ -130,7 +130,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                   setToggles({});
                   setQ("");
                 }}
-                className="text-[11px] text-brand-300 hover:text-brand-200"
+                className="text-xs sm:text-[11px] text-brand-300 hover:text-brand-200"
               >
                 مسح الفلاتر
               </button>
@@ -166,7 +166,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                     <span
                       onClick={() => setToggles((s) => ({ ...s, [tg.key]: !s[tg.key] }))}
                       className={cn(
-                        "grid h-4 w-4 place-items-center rounded border text-[10px] transition",
+                        "grid h-4 w-4 place-items-center rounded border text-xs sm:text-[10px] transition",
                         on ? "border-brand-400 bg-brand-500 text-white" : "border-fg/20"
                       )}
                     >
@@ -215,7 +215,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
           الفلاتر والترتيب
         </span>
         {activeCount > 0 && (
-          <span className="grid h-5 min-w-5 place-items-center rounded-full bg-brand-500 px-1.5 text-[11px] font-bold text-white">
+          <span className="grid h-5 min-w-5 place-items-center rounded-full bg-brand-500 px-1.5 text-xs sm:text-[11px] font-bold text-white">
             {activeCount}
           </span>
         )}
@@ -446,7 +446,7 @@ function StatusBadge({ status }: { status: Broker["status"] }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium",
+        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs sm:text-[11px] font-medium",
         partnered
           ? "bg-emerald-500/15 text-emerald-300"
           : "bg-fg/5 text-slate-400"

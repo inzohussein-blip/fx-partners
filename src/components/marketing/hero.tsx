@@ -85,7 +85,7 @@ export async function Hero({ locale }: { locale: string }) {
           {/* ---------- A · Copy + CTAs ---------- */}
           <div className="order-1 text-center lg:order-none lg:col-start-1 lg:row-start-1 lg:text-start">
             <div className="flex items-center justify-center gap-3.5 lg:justify-start">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.24em] text-slate-400 sm:text-[11px] sm:tracking-[0.28em]">
+              <span className="text-xs sm:text-[10px] font-extrabold uppercase tracking-[0.24em] text-slate-400 sm:text-[11px] sm:tracking-[0.28em]">
                 {t("Hero.badge")}
               </span>
               <span
@@ -165,7 +165,7 @@ export async function Hero({ locale }: { locale: string }) {
               <div className="text-lg font-extrabold text-gradient" dir="ltr">
                 {t("Stats.brokersCount")}
               </div>
-              <div className="mt-0.5 text-[11px] text-slate-400">
+              <div className="mt-0.5 text-xs sm:text-[11px] text-slate-400">
                 {t("Stats.brokersLabel")}
               </div>
             </div>
@@ -174,7 +174,7 @@ export async function Hero({ locale }: { locale: string }) {
               <div className="text-lg font-extrabold text-gradient" dir="ltr">
                 {t("Stats.agents")}
               </div>
-              <div className="mt-0.5 text-[11px] text-slate-400">
+              <div className="mt-0.5 text-xs sm:text-[11px] text-slate-400">
                 {t("Stats.agentsLabel")}
               </div>
             </div>
@@ -196,7 +196,7 @@ export async function Hero({ locale }: { locale: string }) {
                   <div className="text-[12px] font-bold leading-tight text-fg lg:text-[13px]">
                     {t(`Hero.features.${f.key}.title`)}
                   </div>
-                  <div className="mt-0.5 text-[10px] leading-tight text-slate-400 lg:text-[11px]">
+                  <div className="mt-0.5 text-xs sm:text-[10px] leading-tight text-slate-400 lg:text-xs sm:text-[11px]">
                     {t(`Hero.features.${f.key}.desc`)}
                   </div>
                 </div>

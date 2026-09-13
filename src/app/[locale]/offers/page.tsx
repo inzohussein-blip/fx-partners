@@ -120,7 +120,7 @@ export default async function OffersPage() {
                 <div key={c.id} className="card-surface relative overflow-hidden p-6">
                   <div className="hero-glow absolute inset-0 opacity-50" />
                   <div className="relative">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/15 px-2.5 py-0.5 text-[11px] text-orange-300">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/15 px-2.5 py-0.5 text-xs sm:text-[11px] text-orange-300">
                       <Flame className="h-3 w-3" /> عرض نشط
                     </span>
                     <h3 className="mt-3 text-lg font-bold text-fg">{c.title}</h3>

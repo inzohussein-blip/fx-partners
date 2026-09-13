@@ -47,7 +47,7 @@ export default async function UpdatesPage() {
                 </span>
                 <div className="card-surface p-5">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`rounded-full px-2.5 py-0.5 text-[11px] ${meta.className}`}>
+                    <span className={`rounded-full px-2.5 py-0.5 text-xs sm:text-[11px] ${meta.className}`}>
                       {meta.label}
                     </span>
                     <span className="text-xs text-slate-500">

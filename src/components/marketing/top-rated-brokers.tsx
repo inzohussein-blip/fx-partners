@@ -78,7 +78,7 @@ export async function TopRatedBrokers() {
               className="card-surface group relative flex flex-col p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
             >
               {i === 0 && (
-                <span className="absolute end-5 top-5 inline-flex items-center gap-1 rounded-full bg-brand-500/15 px-2.5 py-1 text-[10px] font-bold text-brand-200">
+                <span className="absolute end-5 top-5 inline-flex items-center gap-1 rounded-full bg-brand-500/15 px-2.5 py-1 text-xs sm:text-[10px] font-bold text-brand-200">
                   <Award className="h-3 w-3" /> #1
                 </span>
               )}
@@ -100,7 +100,7 @@ export async function TopRatedBrokers() {
                 <div className="min-w-0">
                   <h3 className="truncate text-lg font-bold text-fg">{b.name}</h3>
                   {b.status === "partnered" && (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-300">
+                    <span className="inline-flex items-center gap-1 text-xs sm:text-[11px] font-medium text-emerald-300">
                       <BadgeCheck className="h-3 w-3" /> شريك معتمد
                     </span>
                   )}
@@ -113,7 +113,7 @@ export async function TopRatedBrokers() {
                 </span>
                 <div className="flex flex-col">
                   <Stars value={b.rating} size={15} />
-                  <span className="mt-1 text-[11px] text-slate-500" dir="ltr">
+                  <span className="mt-1 text-xs sm:text-[11px] text-slate-500" dir="ltr">
                     {b.reviews_count.toLocaleString("en-US")} {t("reviews")}
                   </span>
                 </div>

@@ -53,7 +53,7 @@ export function MobileNav({
         type="button"
         onClick={() => setOpen(true)}
         aria-label="القائمة"
-        className="grid h-10 w-10 place-items-center rounded-xl border border-fg/10 text-slate-300 transition hover:text-fg"
+        className="grid h-12 w-12 place-items-center rounded-xl border border-fg/10 text-slate-300 transition hover:text-fg sm:h-10 sm:w-10"
       >
         <Menu className="h-5 w-5" />
       </button>

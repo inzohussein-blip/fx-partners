@@ -210,7 +210,7 @@ export function MeetingsManager({
                     </p>
                   </div>
                   <span
-                    className={`rounded-full px-2.5 py-1 text-[10px] ${
+                    className={`rounded-full px-2.5 py-1 text-xs sm:text-[10px] ${
                       b.status === "confirmed"
                         ? "bg-brand-500/15 text-brand-200"
                         : b.status === "cancelled"

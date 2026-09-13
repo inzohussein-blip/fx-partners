@@ -149,7 +149,7 @@ export function BrokerReviews({
                       {r.user_name || "عميل"}
                     </span>
                     {r.is_admin_reply && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-brand-500/15 px-2 py-0.5 text-[10px] text-brand-200">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-brand-500/15 px-2 py-0.5 text-xs sm:text-[10px] text-brand-200">
                         <ShieldCheck className="h-3 w-3" /> الإدارة
                       </span>
                     )}

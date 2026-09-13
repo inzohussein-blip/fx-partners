@@ -202,12 +202,12 @@ function ChannelBlock({ channel, posts }: { channel: Channel; posts: ForumPost[]
                 <div className="flex items-center gap-2">
                   <span className="truncate text-sm font-medium text-fg">{p.title}</span>
                   {p.status === "draft" && (
-                    <span className="rounded bg-gold-500/10 px-1.5 py-0.5 text-[10px] text-gold-400">
+                    <span className="rounded bg-gold-500/10 px-1.5 py-0.5 text-xs sm:text-[10px] text-gold-400">
                       مسودة
                     </span>
                   )}
                   {p.is_pinned && (
-                    <span className="rounded bg-brand-500/10 px-1.5 py-0.5 text-[10px] text-brand-300">
+                    <span className="rounded bg-brand-500/10 px-1.5 py-0.5 text-xs sm:text-[10px] text-brand-300">
                       مثبّت
                     </span>
                   )}

@@ -116,7 +116,7 @@ export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
                   <div className="whitespace-nowrap text-sm font-bold leading-tight text-fg">
                     {m.symbol}
                   </div>
-                  <div className="truncate text-[11px] leading-tight text-slate-400">
+                  <div className="truncate text-xs sm:text-[11px] leading-tight text-slate-400">
                     {m.name}
                   </div>
                   <div className="mt-1 flex flex-nowrap items-baseline gap-1.5" dir="ltr">

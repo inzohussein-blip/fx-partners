@@ -55,7 +55,7 @@ export function MediaLibrary({ items }: { items: MediaItem[] }) {
                 <img src={m.url} alt={m.name} loading="lazy" decoding="async" className="h-full w-full object-contain" />
               </div>
               <div className="flex items-center justify-between gap-2 p-2.5">
-                <span className="truncate text-[11px] text-slate-500" dir="ltr">{m.name}</span>
+                <span className="truncate text-xs sm:text-[11px] text-slate-500" dir="ltr">{m.name}</span>
                 <div className="flex shrink-0 items-center gap-1">
                   <button
                     onClick={() => copy(m.url)}
