@@ -10,7 +10,16 @@ on:
       - "supabase/migrations/**"
       - "supabase/functions/**"
       - ".github/workflows/supabase.yml"
-  workflow_dispatch: {}
+  # Manual run, with an opt-in for the seed files. Migrations always apply;
+  # the seeds only run when you ask, because they are content, not schema —
+  # and running them is the one job that otherwise means opening the SQL
+  # editor and pasting by hand.
+  workflow_dispatch:
+    inputs:
+      run_seeds:
+        description: "Also run supabase/seed.sql and seed_forum.sql"
+        type: boolean
+        default: false
 
 # Never let two deploys race against the same database.
 concurrency:
@@ -62,6 +71,34 @@ jobs:
       - name: Migration state after applying
         if: always()
         run: supabase migration list --linked
+
+      # Both seed files are safe to run repeatedly: the broker seed upserts by
+      # slug, and the forum seed refuses to run at all until an admin account
+      # exists, with a message saying why.
+      #
+      # This uses an explicit connection string rather than deriving the pooler
+      # host from the project ref — that derivation differs by region and would
+      # fail in a way that looks like a database problem. Copy it from
+      # Supabase → Project Settings → Database → Connection string (URI), and
+      # store it as the SUPABASE_DB_URL secret.
+      - name: Run seeds
+        if: inputs.run_seeds
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SUPABASE_DB_URL:-}" ]; then
+            echo "::error::seeds requested but the SUPABASE_DB_URL secret is not set"
+            exit 1
+          fi
+          command -v psql >/dev/null || {
+            sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+          }
+          for f in supabase/seed.sql supabase/seed_forum.sql; do
+            [ -f "$f" ] || continue
+            echo "→ $f"
+            psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f "$f"
+          done
 
       - name: Deploy edge functions
         run: |
