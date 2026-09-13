@@ -1,11 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { sendContactMessage } from "@/lib/actions/contact";
 import { Loader2, Check, Send } from "lucide-react";
 
-type Values = { name: string; email: string; subject: string; message: string };
+type Values = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  /** Honeypot — hidden from people, so only an automated filler touches it. */
+  company?: string;
+};
 
 export function ContactForm() {
   const {
@@ -16,10 +23,16 @@ export function ContactForm() {
   } = useForm<Values>();
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // When the form first rendered, so the server can tell a typed message from
+  // one submitted in under two seconds.
+  const openedAt = useRef(Date.now());
 
   async function onSubmit(values: Values) {
     setError(null);
-    const res = await sendContactMessage(values);
+    const res = await sendContactMessage({
+      ...values,
+      elapsed: Date.now() - openedAt.current,
+    });
     if (res.ok) {
       setDone(true);
       reset();
@@ -53,6 +66,19 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="card-surface space-y-4 p-6 sm:p-8">
+      {/* Honeypot. Hidden from sight and from screen readers, and excluded
+          from tab order, so nobody filling this form in earnest can reach it —
+          a value here means the submission was automated. */}
+      <div className="hidden" aria-hidden>
+        <label htmlFor="c-company">Company</label>
+        <input
+          id="c-company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("company")}
+        />
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="c-name" className="mb-1.5 block text-sm text-slate-300">

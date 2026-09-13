@@ -17,6 +17,8 @@ import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../globals.css";
 
 // Cairo carries both Arabic (primary language) and Latin/numbers — a single,
@@ -147,6 +149,13 @@ export default async function LocaleLayout({
           />
         </NextIntlClientProvider>
         </ThemeProvider>
+        {/* Traffic and real-user Core Web Vitals. The site had no measurement
+            of any kind: no idea how many visitors arrive, from where, which
+            page converts, or what the vitals look like on the phones this is
+            actually built for — only lab numbers from a local machine. Both
+            scripts are deferred and load from the same origin. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
