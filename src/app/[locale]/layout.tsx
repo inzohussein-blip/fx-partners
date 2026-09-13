@@ -12,7 +12,11 @@ import {
 import { routing, type Locale } from "@/i18n/routing";
 import { AdminEditProvider } from "@/components/admin-edit/provider";
 import { getSiteUrl } from "@/lib/utils";
-import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner";
+import {
+  LiveCampaignBanner,
+  type Campaign,
+} from "@/components/marketing/live-campaign-banner";
+import { createClient } from "@/lib/supabase/server";
 import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
@@ -23,6 +27,14 @@ import "../globals.css";
 
 // Cairo carries both Arabic (primary language) and Latin/numbers — a single,
 // consistent type voice across the whole site.
+//
+// Two subsets, and both are load-bearing: `arabic` (30kB) for the copy, and
+// `latin` (33kB) for the digits, currency symbols and the ~150 `dir="ltr"`
+// spans — broker names, spreads, leverage ratios — that a comparison site is
+// made of. The browser skips `latin-ext` on its own via unicode-range, so it
+// is never fetched. Pinning explicit weights was measured and is worse here:
+// the design uses 400/500/600/700/800, and static instances would mean ten
+// files instead of these two variable ones.
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   variable: "--font-sans",
@@ -77,6 +89,23 @@ export async function generateMetadata({
   };
 }
 
+/** The active campaign, read on the server so no page ships a database client. */
+async function getActiveCampaign(): Promise<Campaign | null> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
+  try {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("campaigns")
+      .select("id,broker_slug,title,message,cta_label")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(1);
+    return (data?.[0] as Campaign) ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export default async function LocaleLayout({
   children,
   params: { locale },
@@ -87,7 +116,10 @@ export default async function LocaleLayout({
   if (!routing.locales.includes(locale as Locale)) notFound();
   setRequestLocale(locale);
 
-  const messages = await getMessages();
+  const [messages, campaign] = await Promise.all([
+    getMessages(),
+    getActiveCampaign(),
+  ]);
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -133,7 +165,7 @@ export default async function LocaleLayout({
               <NuqsAdapter>{children}</NuqsAdapter>
             </AdminEditProvider>
           </div>
-          <LiveCampaignBanner />
+          <LiveCampaignBanner initial={campaign} />
           <Toaster
             theme="dark"
             position="top-center"

@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   createBoardPost,
   deleteBoardPost,
@@ -28,6 +27,18 @@ export type BoardPost = {
   dislikes: number;
   created_at: string;
 };
+
+/**
+ * Imports the browser Supabase client on demand.
+ *
+ * Kept as a dynamic import so the SDK lands in its own chunk instead of the
+ * broker page bundle — see the effect below for why the board can afford to
+ * fetch it late.
+ */
+async function loadClient() {
+  const { createClient } = await import("@/lib/supabase/client");
+  return createClient();
+}
 
 const VOTER_KEY = "fx_voter_key";
 const NAME_KEY = "fx_board_name";
@@ -74,9 +85,13 @@ export function BrokerBoard({
   const [myVotes, setMyVotes] = useState<Record<string, 1 | -1>>({});
   const [voterKey, setVoterKey] = useState("");
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  // Held once the SDK has been imported, so `refresh` can reuse it.
+  const clientRef = useRef<Awaited<ReturnType<typeof loadClient>> | null>(null);
+
   const refresh = useCallback(async () => {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
-    const supabase = createClient();
+    const supabase = clientRef.current;
+    if (!supabase) return;
     const { data } = await supabase
       .from("broker_posts")
       .select("id,parent_id,author_name,body,is_staff,likes,dislikes,created_at")
@@ -85,43 +100,85 @@ export function BrokerBoard({
     if (data) setPosts(data as BoardPost[]);
   }, [brokerId]);
 
-  // Load voter key + this browser's existing votes, and subscribe to changes.
+  /**
+   * Wire up the live layer — this browser's existing votes, plus a
+   * subscription to new posts — but only once the board is near the viewport.
+   *
+   * The posts themselves are server-rendered into `initial`, so the discussion
+   * is in the HTML for a crawler and for a reader who never scrolls this far.
+   * What waits is the Supabase client: about 52kB of auth and realtime SDK for
+   * a section that sits at the bottom of a long broker page. Importing it
+   * dynamically keeps it out of the page bundle, and gating that import on an
+   * intersection keeps it off the connection of everyone who reads the
+   * licences and the spread and leaves.
+   */
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
-    const key = getVoterKey();
-    setVoterKey(key);
-    const supabase = createClient();
+    const el = rootRef.current;
+    if (!el) return;
 
-    (async () => {
+    let cancelled = false;
+    let channel: { unsubscribe: () => void } | null = null;
+    let supabase: Awaited<ReturnType<typeof loadClient>> | null = null;
+
+    async function connect() {
+      supabase = await loadClient();
+      if (cancelled) return;
+      clientRef.current = supabase;
+
+      const key = getVoterKey();
+      setVoterKey(key);
+
       const { data } = await supabase
         .from("broker_post_votes")
         .select("post_id,value")
         .eq("voter_key", key);
-      if (data) {
+      if (!cancelled && data) {
         const map: Record<string, 1 | -1> = {};
         for (const v of data as { post_id: string; value: number }[]) {
           map[v.post_id] = v.value === 1 ? 1 : -1;
         }
         setMyVotes(map);
       }
-    })();
+      if (cancelled) return;
 
-    const channel = supabase
-      .channel(`broker_board:${brokerId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "broker_posts",
-          filter: `broker_id=eq.${brokerId}`,
-        },
-        () => refresh()
-      )
-      .subscribe();
+      channel = supabase
+        .channel(`broker_board:${brokerId}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "broker_posts",
+            filter: `broker_id=eq.${brokerId}`,
+          },
+          () => refresh()
+        )
+        .subscribe();
+    }
+
+    if (typeof IntersectionObserver === "undefined") {
+      void connect();
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        void connect();
+      },
+      // A screen of lead time, so the board is live by the time it is read.
+      { rootMargin: "600px 0px" }
+    );
+    io.observe(el);
 
     return () => {
-      supabase.removeChannel(channel);
+      cancelled = true;
+      io.disconnect();
+      if (channel && supabase) supabase.removeChannel(channel as never);
     };
   }, [brokerId, refresh]);
 
@@ -168,7 +225,7 @@ export function BrokerBoard({
   const totalCount = posts.length;
 
   return (
-    <div id="board" className="scroll-mt-24">
+    <div id="board" ref={rootRef} className="scroll-mt-24">
       <div className="flex items-center gap-2">
         <MessageSquare className="h-5 w-5 text-brand-300" />
         <h2 className="text-xl font-bold text-fg">

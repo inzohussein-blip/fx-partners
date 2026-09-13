@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { Link } from "@/i18n/navigation";
 import { Megaphone, X, ArrowLeft } from "lucide-react";
 
-type Campaign = {
+export type Campaign = {
   id: string;
   broker_slug: string | null;
   title: string;
@@ -32,43 +31,28 @@ function dismiss(id: string) {
   }
 }
 
-export function LiveCampaignBanner() {
+export function LiveCampaignBanner({ initial }: { initial: Campaign | null }) {
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [entering, setEntering] = useState(false);
 
+  /**
+   * The campaign now arrives from the server as a prop.
+   *
+   * This component used to query Supabase from the browser, which put the
+   * auth SDK — about 52kB — into the shared bundle of every page on the site,
+   * paid for by every visitor whether or not a campaign was running. The
+   * layout is a server component and can read the campaign while it renders,
+   * so no client-side database access is needed at all.
+   *
+   * The realtime subscription went with it. A promotional banner appearing on
+   * the next page view rather than being pushed mid-scroll is not worth a
+   * websocket and an SDK on every page.
+   */
   useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
-    const supabase = createClient();
-
-    function show(c: Campaign) {
-      if (dismissed(c.id)) return;
-      setCampaign(c);
-      requestAnimationFrame(() => setEntering(true));
-    }
-
-    (async () => {
-      const { data } = await supabase
-        .from("campaigns")
-        .select("id,broker_slug,title,message,cta_label")
-        .eq("is_active", true)
-        .order("created_at", { ascending: false })
-        .limit(1);
-      if (data && data[0]) show(data[0] as Campaign);
-    })();
-
-    const channel = supabase
-      .channel("campaigns_live")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "campaigns" },
-        (payload) => show(payload.new as Campaign)
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
+    if (!initial || dismissed(initial.id)) return;
+    setCampaign(initial);
+    requestAnimationFrame(() => setEntering(true));
+  }, [initial]);
 
   if (!campaign) return null;
 

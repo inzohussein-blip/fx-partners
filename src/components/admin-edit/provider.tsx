@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { Pencil, Check } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 type Ctx = { isAdmin: boolean; editMode: boolean };
 const AdminEditContext = createContext<Ctx>({ isAdmin: false, editMode: false });
@@ -30,12 +29,27 @@ export function AdminEditProvider({
   const [isAdmin, setIsAdmin] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
-  // Detect admin client-side; only signed-in admins ever see edit affordances.
+  /**
+   * Detect admin client-side; only signed-in admins ever see edit affordances.
+   *
+   * Two things keep the Supabase client off the critical path here. It is
+   * imported dynamically rather than at module scope — that alone was putting
+   * ~52kB of auth SDK into the shared bundle of every public page, because
+   * this provider sits in the root layout. And it is only imported at all when
+   * a Supabase session cookie is present, so an anonymous visitor never
+   * downloads it: there is no signed-in user for it to ask about.
+   */
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    // Supabase stores its session as `sb-<project-ref>-auth-token`.
+    const hasSession =
+      typeof document !== "undefined" && /(^|;\s*)sb-[^=]*-auth-token=/.test(document.cookie);
+    if (!hasSession) return;
+
     let cancelled = false;
     (async () => {
       try {
+        const { createClient } = await import("@/lib/supabase/client");
         const supabase = createClient();
         const {
           data: { user },

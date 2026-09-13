@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { submitBrokerReview } from "@/lib/actions/brokers";
 import { Stars, StarInput } from "@/components/brokers/stars";
 import type { BrokerReview } from "@/lib/brokers";
@@ -26,7 +25,7 @@ export function BrokerReviews({
   brokerSlug: string;
   initial: BrokerReview[];
 }) {
-  const [reviews, setReviews] = useState<BrokerReview[]>(initial);
+  const reviews = initial;
   const [name, setName] = useState("");
   const [stars, setStars] = useState(5);
   const [comment, setComment] = useState("");
@@ -51,39 +50,16 @@ export function BrokerReviews({
     return () => clearTimeout(t);
   }, []);
 
-  // Live moderation: refetch approved reviews when the table changes.
-  useEffect(() => {
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
-    const supabase = createClient();
-
-    async function refresh() {
-      const { data } = await supabase
-        .from("broker_reviews")
-        .select("id,user_name,comment,stars,is_admin_reply,created_at")
-        .eq("broker_id", brokerId)
-        .eq("is_approved", true)
-        .order("created_at", { ascending: false });
-      if (data) setReviews(data as BrokerReview[]);
-    }
-
-    const channel = supabase
-      .channel(`broker_reviews:${brokerId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "broker_reviews",
-          filter: `broker_id=eq.${brokerId}`,
-        },
-        () => refresh()
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [brokerId]);
+  /**
+   * No live subscription here, on purpose.
+   *
+   * Every review is held for moderation before it is published, so there is
+   * never a moment where a visitor is waiting to watch one appear — the next
+   * page load shows it. Subscribing put the Supabase auth SDK (~52kB) into the
+   * bundle of the broker detail page, which is the most visited page on the
+   * site and mostly read on a phone. The server already renders the approved
+   * list into `initial`.
+   */
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
