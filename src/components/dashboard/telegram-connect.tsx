@@ -27,7 +27,7 @@ export function TelegramConnect({ linked }: { linked: boolean }) {
     <section className="card-surface p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
             <Send className="h-4 w-4 text-brand-300" />
             تنبيهات تليغرام
           </h2>

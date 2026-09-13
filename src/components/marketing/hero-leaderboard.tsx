@@ -44,18 +44,16 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
         "border-brand-500/30 shadow-[0_50px_110px_-34px_rgba(0,0,0,0.95)]"
       )}
       style={{
-        backgroundImage:
-          "linear-gradient(180deg, rgba(10,32,54,0.97) 0%, rgba(4,16,30,0.98) 100%)",
-        boxShadow:
-          "0 50px 110px -34px rgba(0,0,0,0.95), inset 0 1px 0 rgba(84,216,240,0.22)",
+        backgroundImage: "var(--c-window-bg)",
+        boxShadow: "var(--c-window-shadow), inset 0 1px 0 var(--c-window-inset)",
       }}
     >
       {/* Window chrome */}
-      <div className="flex items-center justify-between border-b border-white/[0.07] bg-brand-500/[0.06] px-4 py-3">
+      <div className="flex items-center justify-between border-b border-fg/[0.07] bg-brand-500/[0.06] px-4 py-3">
         <div className="flex gap-1.5" aria-hidden>
-          <span className="h-2.5 w-2.5 rounded-full bg-[#22384f]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#22384f]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#22384f]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--c-window-dot)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--c-window-dot)]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--c-window-dot)]" />
         </div>
         <span className="text-[11px] font-semibold text-slate-400">
           مقارنة شركات التداول — FX Partners
@@ -63,7 +61,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
       </div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-white/[0.05] px-4 py-2.5 text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
+      <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-fg/[0.05] px-4 py-2.5 text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
         <span>#</span>
         <span>الشركة</span>
         <span className="text-end">التقييم</span>
@@ -76,19 +74,19 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           [0, 1, 2, 3].map((i) => (
             <li
               key={`skeleton-${i}`}
-              className="grid grid-cols-[22px_1fr_52px] items-center gap-2 border-b border-white/[0.05] px-4 py-3 sm:grid-cols-[22px_1fr_52px_54px]"
+              className="grid grid-cols-[22px_1fr_52px] items-center gap-2 border-b border-fg/[0.05] px-4 py-3 sm:grid-cols-[22px_1fr_52px_54px]"
               aria-hidden
             >
-              <span className="h-[21px] w-[21px] rounded-md bg-white/5" />
+              <span className="h-[21px] w-[21px] rounded-md bg-fg/5" />
               <div className="flex min-w-0 items-center gap-2.5">
                 <span className="h-[31px] w-[31px] shrink-0 rounded-lg border border-brand-500/15 bg-brand-500/5" />
                 <div className="min-w-0 flex-1 space-y-1.5">
-                  <span className="block h-2.5 w-24 rounded bg-white/[0.07]" />
-                  <span className="block h-2 w-14 rounded bg-white/[0.05]" />
+                  <span className="block h-2.5 w-24 rounded bg-fg/[0.07]" />
+                  <span className="block h-2 w-14 rounded bg-fg/[0.05]" />
                 </div>
               </div>
-              <span className="ms-auto block h-3 w-7 rounded bg-white/[0.07]" />
-              <span className="ms-auto hidden h-2 w-8 rounded bg-white/[0.05] sm:block" />
+              <span className="ms-auto block h-3 w-7 rounded bg-fg/[0.07]" />
+              <span className="ms-auto hidden h-2 w-8 rounded bg-fg/[0.05] sm:block" />
             </li>
           ))}
 
@@ -96,7 +94,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           <li
             key={b.slug}
             className={cn(
-              "grid grid-cols-[22px_1fr_52px] items-center gap-2 border-b border-white/[0.05] px-4 py-3 sm:grid-cols-[22px_1fr_52px_54px]",
+              "grid grid-cols-[22px_1fr_52px] items-center gap-2 border-b border-fg/[0.05] px-4 py-3 sm:grid-cols-[22px_1fr_52px_54px]",
               i === 0 && "bg-gradient-to-l from-brand-500/[0.2] to-transparent"
             )}
           >
@@ -105,7 +103,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
                 "grid h-[21px] w-[21px] place-items-center rounded-md text-[11px] font-extrabold",
                 i === 0
                   ? "bg-brand-gradient text-white"
-                  : "bg-white/5 text-slate-400"
+                  : "bg-fg/5 text-slate-400"
               )}
             >
               {i + 1}
@@ -128,7 +126,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
               )}
               <div className="min-w-0">
                 <div className="flex items-center gap-1">
-                  <span className="truncate text-[13px] font-bold text-white">{b.name}</span>
+                  <span className="truncate text-[13px] font-bold text-fg">{b.name}</span>
                   {b.status === "partnered" && (
                     <BadgeCheck className="h-3 w-3 shrink-0 text-brand-300" />
                   )}

@@ -77,7 +77,7 @@ function LoginForm() {
 
   return (
     <AuthShell>
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-fg">
             {mode === "sign-in" ? t("signInTitle") : t("signUpTitle")}
           </h1>
           <p className="mt-2 text-sm text-slate-400">
@@ -92,9 +92,9 @@ function LoginForm() {
           </div>
 
           <div className="my-5 flex items-center gap-3 text-xs text-slate-500">
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-fg/10" />
             {t("orDivider")}
-            <span className="h-px flex-1 bg-white/10" />
+            <span className="h-px flex-1 bg-fg/10" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">

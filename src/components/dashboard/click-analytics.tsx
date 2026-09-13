@@ -31,8 +31,8 @@ function shortDay(iso: string): string {
 function ClickTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-lg border border-white/10 bg-ink-900/95 px-3 py-2 text-xs shadow-xl">
-      <div className="mb-1 font-medium text-white">{label}</div>
+    <div className="rounded-lg border border-fg/10 bg-ink-900/95 px-3 py-2 text-xs shadow-xl">
+      <div className="mb-1 font-medium text-fg">{label}</div>
       <div className="text-slate-300">نقرات: {payload[0]?.value ?? 0}</div>
     </div>
   );
@@ -78,7 +78,7 @@ export function ClickAnalytics({
             <MousePointerClick className="h-4 w-4" />
           </span>
           <div>
-            <h2 className="text-sm font-bold text-white sm:text-base">{title}</h2>
+            <h2 className="text-sm font-bold text-fg sm:text-base">{title}</h2>
             {subtitle && (
               <p className="mt-0.5 text-[11px] text-slate-500 sm:text-xs">{subtitle}</p>
             )}
@@ -89,7 +89,7 @@ export function ClickAnalytics({
           <span className="text-lg font-extrabold text-gradient sm:text-xl" dir="ltr">
             {total.toLocaleString("en-US")}
           </span>
-          <div className="flex rounded-lg border border-white/10 p-0.5">
+          <div className="flex rounded-lg border border-fg/10 p-0.5">
             {([7, 30] as const).map((d) => (
               <button
                 key={d}
@@ -111,7 +111,7 @@ export function ClickAnalytics({
       </div>
 
       {total === 0 ? (
-        <p className="mt-6 rounded-xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-slate-500">
+        <p className="mt-6 rounded-xl border border-dashed border-fg/10 px-4 py-8 text-center text-sm text-slate-500">
           لا توجد نقرات في هذه الفترة بعد.
         </p>
       ) : (
@@ -129,7 +129,7 @@ export function ClickAnalytics({
           </div>
 
           {countries.length > 0 && (
-            <div className="mt-5 border-t border-white/5 pt-4">
+            <div className="mt-5 border-t border-fg/5 pt-4">
               <div className="mb-3 flex items-center gap-2 text-xs font-semibold text-slate-400">
                 <Globe className="h-3.5 w-3.5" />
                 الدول الأكثر نقراً
@@ -140,7 +140,7 @@ export function ClickAnalytics({
                     <span className="w-10 shrink-0 text-xs font-medium text-slate-300" dir="ltr">
                       {c.country}
                     </span>
-                    <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/5">
+                    <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-fg/5">
                       <span
                         className="block h-full rounded-full bg-brand-gradient"
                         style={{ width: `${(c.clicks / maxCountry) * 100}%` }}

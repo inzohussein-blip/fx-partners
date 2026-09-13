@@ -96,14 +96,14 @@ function Spark({ values, id }: { values: number[]; id: string }) {
  */
 export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
   return (
-    <div className="relative border-t border-white/[0.06] bg-white/[0.02] backdrop-blur-sm">
+    <div className="relative border-t border-fg/[0.06] bg-fg/[0.02] backdrop-blur-sm">
       <Container className="py-5">
         <div className="grid gap-3 xl:grid-cols-[1fr_auto] xl:items-center xl:gap-5">
           <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {MARKETS.map((m) => (
               <li
                 key={m.symbol}
-                className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.04] px-3.5 py-3 backdrop-blur-md transition hover:border-white/20 hover:bg-white/[0.07]"
+                className="flex items-center gap-2.5 rounded-2xl border border-fg/10 bg-fg/[0.04] px-3.5 py-3 backdrop-blur-md transition hover:border-fg/20 hover:bg-fg/[0.07]"
               >
                 <span
                   className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-xs font-bold ring-1 ${m.tone}`}
@@ -113,14 +113,14 @@ export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
                 </span>
 
                 <div className="min-w-0 flex-1">
-                  <div className="whitespace-nowrap text-sm font-bold leading-tight text-white">
+                  <div className="whitespace-nowrap text-sm font-bold leading-tight text-fg">
                     {m.symbol}
                   </div>
                   <div className="truncate text-[11px] leading-tight text-slate-400">
                     {m.name}
                   </div>
                   <div className="mt-1 flex flex-nowrap items-baseline gap-1.5" dir="ltr">
-                    <span className="whitespace-nowrap text-sm font-semibold tabular-nums text-white">
+                    <span className="whitespace-nowrap text-sm font-semibold tabular-nums text-fg">
                       {m.price}
                     </span>
                     <span className="whitespace-nowrap text-xs font-semibold text-emerald-400">
@@ -136,7 +136,7 @@ export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
 
           <Link
             href="/compare"
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur-md transition hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-fg/10 bg-fg/[0.03] px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur-md transition hover:border-fg/20 hover:bg-fg/[0.08] hover:text-fg"
           >
             {viewAllLabel}
             <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />

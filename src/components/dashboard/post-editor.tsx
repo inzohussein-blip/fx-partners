@@ -71,7 +71,7 @@ export function PostEditor({ post }: { post?: PostInput }) {
             <MediaPicker onSelect={(url) => set("cover_image", url)} label="اختر أو ارفع الغلاف" />
             {form.cover_image && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={form.cover_image} alt="" className="h-10 w-16 rounded-lg border border-white/10 object-cover" />
+              <img src={form.cover_image} alt="" className="h-10 w-16 rounded-lg border border-fg/10 object-cover" />
             )}
           </div>
         </div>
@@ -86,7 +86,7 @@ export function PostEditor({ post }: { post?: PostInput }) {
           <select
             value={form.status}
             onChange={(e) => set("status", e.target.value as PostInput["status"])}
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none sm:w-48"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none sm:w-48"
           >
             {statuses.map((s) => (
               <option key={s.value} value={s.value}>
@@ -167,7 +167,7 @@ function Text({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className={`w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none ${
+        className={`w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none ${
           mono ? "font-mono text-sm" : ""
         }`}
       />

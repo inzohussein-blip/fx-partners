@@ -50,7 +50,7 @@ export function LikeButton({
       className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition disabled:opacity-60 ${
         liked
           ? "border-rose-500/40 bg-rose-500/10 text-rose-300"
-          : "border-white/10 text-slate-300 hover:bg-white/5 hover:text-white"
+          : "border-fg/10 text-slate-300 hover:bg-fg/5 hover:text-fg"
       }`}
     >
       <Heart className={`h-4 w-4 ${liked ? "fill-current" : ""}`} />

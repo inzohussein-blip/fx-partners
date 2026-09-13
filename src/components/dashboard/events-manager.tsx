@@ -24,7 +24,7 @@ const KIND_LABELS: Record<string, string> = {
 };
 
 const input =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function EventsManager({
   events,
@@ -129,13 +129,13 @@ export function EventsManager({
                 <CalendarDays className="h-4 w-4" />
               </span>
               <div className="min-w-0 flex-1">
-                <div className="truncate font-medium text-white">{e.title}</div>
+                <div className="truncate font-medium text-fg">{e.title}</div>
                 <div className="text-xs text-slate-500">
                   <span dir="ltr">{e.event_date}</span> · {KIND_LABELS[e.kind] ?? e.kind}
                   {e.broker_name ? ` · ${e.broker_name}` : " · عام"}
                 </div>
               </div>
-              <button onClick={() => toggle(e.id, !e.is_active)} disabled={busy === e.id} className="p-2 text-slate-400 hover:text-white" aria-label={e.is_active ? "إخفاء" : "إظهار"}>
+              <button onClick={() => toggle(e.id, !e.is_active)} disabled={busy === e.id} className="p-2 text-slate-400 hover:text-fg" aria-label={e.is_active ? "إخفاء" : "إظهار"}>
                 {e.is_active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
               </button>
               <button onClick={() => remove(e.id)} disabled={busy === e.id} className="p-2 text-slate-400 hover:text-red-300" aria-label="حذف">

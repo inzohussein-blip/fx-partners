@@ -57,7 +57,7 @@ function timeAgo(iso: string): string {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function BrokerBoard({
   brokerId,
@@ -171,7 +171,7 @@ export function BrokerBoard({
     <div id="board" className="scroll-mt-24">
       <div className="flex items-center gap-2">
         <MessageSquare className="h-5 w-5 text-brand-300" />
-        <h2 className="text-xl font-bold text-white">
+        <h2 className="text-xl font-bold text-fg">
           منتدى النقاش ({totalCount})
         </h2>
       </div>
@@ -254,19 +254,19 @@ function PostNode({
 
   return (
     <div
-      className={indent > 0 ? "border-s border-white/10 ps-4" : ""}
+      className={indent > 0 ? "border-s border-fg/10 ps-4" : ""}
       style={indent > 0 ? { marginInlineStart: 4 } : undefined}
     >
       <div
         className={`rounded-2xl border p-4 ${
           post.is_staff
             ? "border-brand-500/30 bg-brand-500/[0.06]"
-            : "border-white/5 bg-ink-900/40"
+            : "border-fg/5 bg-ink-900/40"
         }`}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-white">
+            <span className="text-sm font-semibold text-fg">
               {post.author_name || "مستخدم"}
             </span>
             {post.is_staff && (
@@ -288,7 +288,7 @@ function PostNode({
             className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 transition ${
               my === 1
                 ? "bg-emerald-500/15 text-emerald-300"
-                : "text-slate-400 hover:bg-white/5 hover:text-white"
+                : "text-slate-400 hover:bg-fg/5 hover:text-fg"
             }`}
           >
             <ThumbsUp className="h-3.5 w-3.5" /> {post.likes}
@@ -298,14 +298,14 @@ function PostNode({
             className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 transition ${
               my === -1
                 ? "bg-red-500/15 text-red-300"
-                : "text-slate-400 hover:bg-white/5 hover:text-white"
+                : "text-slate-400 hover:bg-fg/5 hover:text-fg"
             }`}
           >
             <ThumbsDown className="h-3.5 w-3.5" /> {post.dislikes}
           </button>
           <button
             onClick={() => setReplying((r) => !r)}
-            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-slate-400 transition hover:bg-white/5 hover:text-white"
+            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-slate-400 transition hover:bg-fg/5 hover:text-fg"
           >
             <Reply className="h-3.5 w-3.5" /> رد
           </button>

@@ -45,7 +45,7 @@ export async function Faq() {
               key={i}
               className="card-surface group px-5 py-4 [&_summary::-webkit-details-marker]:hidden"
             >
-              <summary className="flex cursor-pointer items-center justify-between gap-4 font-medium text-white">
+              <summary className="flex cursor-pointer items-center justify-between gap-4 font-medium text-fg">
                 {t(`q${i}`)}
                 <Plus className="h-4 w-4 shrink-0 text-brand-400 transition group-open:rotate-45" />
               </summary>

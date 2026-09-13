@@ -171,12 +171,12 @@ export default async function BrokersPage() {
             <Handshake className="h-3.5 w-3.5" aria-hidden />
             شراكات B2B
           </span>
-          <h1 className="mt-5 text-4xl font-extrabold leading-[1.35] text-white sm:text-5xl">
+          <h1 className="mt-5 text-4xl font-extrabold leading-[1.35] text-fg sm:text-5xl">
             شركات التداول:{" "}
             <span className="text-gradient">وزّعوا عروضكم عبر شبكتنا</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">
-            <span className="font-semibold text-white">FX Partners</span> وكيل ماستر
+            <span className="font-semibold text-fg">FX Partners</span> وكيل ماستر
             (Master IB) ومنصّة مقارنة عربية. نوصل شركتك إلى متداولين يقارنون قبل
             التسجيل وإلى شبكة وكلاء Sub-IB — عبر اتفاقية واحدة بدل عشرات العقود.
           </p>
@@ -184,7 +184,7 @@ export default async function BrokersPage() {
             <Button href="#booking">احجز مكالمة شراكة</Button>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5"
+              className="inline-flex items-center gap-2 rounded-xl border border-fg/20 px-5 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-fg/5"
             >
               راسلنا
               <ArrowLeft className="h-4 w-4" />
@@ -238,7 +238,7 @@ export default async function BrokersPage() {
                 <div className="grid h-11 w-11 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                   <b.icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-white">{b.title}</h3>
+                <h3 className="mt-4 text-lg font-semibold text-fg">{b.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">{b.desc}</p>
               </div>
             ))}
@@ -255,7 +255,7 @@ export default async function BrokersPage() {
                 <Network className="h-3.5 w-3.5" aria-hidden />
                 ما الذي تحصل عليه
               </div>
-              <h3 className="mt-4 text-2xl font-bold text-white">حزمة الحضور الكاملة</h3>
+              <h3 className="mt-4 text-2xl font-bold text-fg">حزمة الحضور الكاملة</h3>
               <ul className="mt-6 space-y-3">
                 {deliverables.map((d) => (
                   <li key={d} className="flex items-start gap-2.5 text-sm text-slate-300">
@@ -271,7 +271,7 @@ export default async function BrokersPage() {
                 <Scale className="h-3.5 w-3.5" aria-hidden />
                 معايير القبول
               </div>
-              <h3 className="mt-4 text-2xl font-bold text-white">لا نُدرج كل شركة</h3>
+              <h3 className="mt-4 text-2xl font-bold text-fg">لا نُدرج كل شركة</h3>
               <p className="mt-3 text-sm leading-relaxed text-slate-400">
                 مصداقيتنا أمام المتداولين هي رأس مالنا. لذلك نراجع كل شركة قبل
                 إدراجها، ونرفض ما لا يستوفي المعايير.
@@ -307,7 +307,7 @@ export default async function BrokersPage() {
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <s.icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-white">{s.title}</h3>
+                <h3 className="mt-4 text-lg font-semibold text-fg">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.desc}</p>
               </div>
             ))}
@@ -335,10 +335,10 @@ export default async function BrokersPage() {
                 return (
                   <div key={p.id} className="card-surface p-6">
                     <div className="flex items-center gap-3">
-                      <div className="grid h-10 w-10 place-items-center rounded-lg bg-white/5 text-brand-300">
+                      <div className="grid h-10 w-10 place-items-center rounded-lg bg-fg/5 text-brand-300">
                         <Icon className="h-5 w-5" />
                       </div>
-                      <h3 className="font-semibold text-white">{p.name}</h3>
+                      <h3 className="font-semibold text-fg">{p.name}</h3>
                     </div>
                     {p.description && (
                       <p className="mt-3 text-sm text-slate-400">{p.description}</p>

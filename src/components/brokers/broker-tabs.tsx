@@ -39,7 +39,7 @@ export function BrokerTabs({ tabs }: { tabs: Tab[] }) {
   if (present.length < 2) return null;
 
   return (
-    <nav className="sticky top-16 z-30 border-y border-white/[0.06] bg-ink-900/85 backdrop-blur">
+    <nav className="sticky top-16 z-30 border-y border-fg/[0.06] bg-ink-900/85 backdrop-blur">
       <Container>
         <ul className="no-scrollbar -mb-px flex gap-1 overflow-x-auto">
           {present.map((t) => {
@@ -52,7 +52,7 @@ export function BrokerTabs({ tabs }: { tabs: Tab[] }) {
                     "inline-flex items-center border-b-2 px-4 py-3.5 text-sm font-semibold transition",
                     on
                       ? "border-brand-400 text-brand-200"
-                      : "border-transparent text-slate-400 hover:text-white"
+                      : "border-transparent text-slate-400 hover:text-fg"
                   )}
                 >
                   {t.label}

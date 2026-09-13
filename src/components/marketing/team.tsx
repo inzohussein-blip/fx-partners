@@ -39,7 +39,7 @@ export function Team() {
               >
                 {initials(m.name)}
               </div>
-              <div className="mt-4 font-semibold text-white">{m.name}</div>
+              <div className="mt-4 font-semibold text-fg">{m.name}</div>
               <div className="mt-1 text-sm text-brand-300">{m.role}</div>
             </div>
           ))}

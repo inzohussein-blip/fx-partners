@@ -106,7 +106,7 @@ export function BrokerComparison() {
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
   return (
     <section id="comparison" className="py-20">
@@ -116,7 +116,7 @@ export function BrokerComparison() {
             <Sparkles className="h-3.5 w-3.5" />
             كم ستربح أكثر معنا؟
           </span>
-          <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
             قارن عمولتك خلال 3 خطوات
           </h2>
           <p className="mt-4 text-slate-400">
@@ -140,7 +140,7 @@ export function BrokerComparison() {
                         ? "border-brand-400 bg-brand-500/20 text-brand-200"
                         : done
                         ? "border-brand-500/40 bg-brand-500/15 text-brand-300"
-                        : "border-white/10 bg-white/5 text-slate-500"
+                        : "border-fg/10 bg-fg/5 text-slate-500"
                     )}
                   >
                     {done ? <Check className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
@@ -158,7 +158,7 @@ export function BrokerComparison() {
                   <div
                     className={cn(
                       "mx-2 h-0.5 flex-1 rounded-full transition",
-                      done ? "bg-brand-500/50" : "bg-white/10"
+                      done ? "bg-brand-500/50" : "bg-fg/10"
                     )}
                   />
                 )}
@@ -211,7 +211,7 @@ export function BrokerComparison() {
                       </p>
                     )}
                   </div>
-                  <div className="rounded-xl border border-white/5 bg-ink-900/40 p-4 text-sm text-slate-400">
+                  <div className="rounded-xl border border-fg/5 bg-ink-900/40 p-4 text-sm text-slate-400">
                     الحجم الشهري التقديري:{" "}
                     <span dir="ltr" className="font-bold text-brand-300">
                       {result.volume.toLocaleString("en-US")} لوت
@@ -272,7 +272,7 @@ export function BrokerComparison() {
                       <div className="hero-glow absolute inset-0 opacity-60" />
                       <div className="relative">
                         <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-white">
+                          <span className="text-sm font-bold text-fg">
                             FX Partners
                           </span>
                           <span className="rounded-full bg-brand-500/20 px-2 py-0.5 text-[10px] text-brand-200">
@@ -299,7 +299,7 @@ export function BrokerComparison() {
                     </div>
 
                     {/* Competitor */}
-                    <div className="rounded-2xl border border-white/10 bg-ink-900/40 p-5">
+                    <div className="rounded-2xl border border-fg/10 bg-ink-900/40 p-5">
                       <span className="text-sm font-bold text-slate-300">
                         وسيطك الحالي
                       </span>
@@ -373,7 +373,7 @@ export function BrokerComparison() {
                 "inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition",
                 step === 0
                   ? "cursor-not-allowed text-slate-600"
-                  : "text-slate-300 hover:bg-white/5 hover:text-white"
+                  : "text-slate-300 hover:bg-fg/5 hover:text-fg"
               )}
             >
               <ArrowRight className="h-4 w-4" />
@@ -393,7 +393,7 @@ export function BrokerComparison() {
               <button
                 type="button"
                 onClick={() => setStep(0)}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 px-5 py-2.5 text-sm font-medium text-slate-300 transition hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-fg/10 px-5 py-2.5 text-sm font-medium text-slate-300 transition hover:text-fg"
               >
                 إعادة الحساب
               </button>

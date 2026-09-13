@@ -33,7 +33,7 @@ export function ErrorState({
         <div dir="ltr" className="text-gradient text-7xl font-extrabold sm:text-8xl">
           {code}
         </div>
-        <h1 className="mt-4 text-2xl font-bold text-white">{title}</h1>
+        <h1 className="mt-4 text-2xl font-bold text-fg">{title}</h1>
         <p className="mt-3 text-slate-400">{message}</p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">

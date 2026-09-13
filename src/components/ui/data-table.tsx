@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
                 value={q}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder={searchPlaceholder}
-                className="w-full rounded-xl border border-white/10 bg-ink-900/60 py-2.5 pr-10 pl-4 text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+                className="w-full rounded-xl border border-fg/10 bg-ink-900/60 py-2.5 pr-10 pl-4 text-sm text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
               />
             </div>
           )}
@@ -117,7 +117,7 @@ export function DataTable<TData, TValue>({
         <table className="w-full min-w-[640px] text-right text-sm">
           <thead>
             {table.getHeaderGroups().map((hg) => (
-              <tr key={hg.id} className="border-b border-white/5 text-slate-400">
+              <tr key={hg.id} className="border-b border-fg/5 text-slate-400">
                 {hg.headers.map((header) => {
                   const canSort = header.column.getCanSort();
                   const sorted = header.column.getIsSorted();
@@ -129,7 +129,7 @@ export function DataTable<TData, TValue>({
                       {header.isPlaceholder ? null : canSort ? (
                         <button
                           onClick={header.column.getToggleSortingHandler()}
-                          className="inline-flex items-center gap-1 hover:text-white"
+                          className="inline-flex items-center gap-1 hover:text-fg"
                         >
                           {flexRender(
                             header.column.columnDef.header,
@@ -155,11 +155,11 @@ export function DataTable<TData, TValue>({
               </tr>
             ))}
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-fg/5">
             {table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="text-slate-300 transition-colors hover:bg-white/[0.025]"
+                className="text-slate-300 transition-colors hover:bg-fg/[0.025]"
               >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="px-3 py-3.5 first:ps-1 last:pe-1">
@@ -216,8 +216,8 @@ function PagerButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "rounded-lg bg-white/5 px-3 py-1.5 font-medium text-slate-200 transition hover:bg-white/10",
-        disabled && "cursor-not-allowed opacity-40 hover:bg-white/5"
+        "rounded-lg bg-fg/5 px-3 py-1.5 font-medium text-slate-200 transition hover:bg-fg/10",
+        disabled && "cursor-not-allowed opacity-40 hover:bg-fg/5"
       )}
     >
       {children}

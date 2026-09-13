@@ -43,21 +43,21 @@ export function Dialog({
         aria-label={title}
         className="card-surface relative z-10 my-8 w-full max-w-lg overflow-hidden"
       >
-        <div className="flex items-start justify-between gap-4 border-b border-white/5 p-5">
+        <div className="flex items-start justify-between gap-4 border-b border-fg/5 p-5">
           <div>
-            <h2 className="text-lg font-bold text-white">{title}</h2>
+            <h2 className="text-lg font-bold text-fg">{title}</h2>
             {description && <p className="mt-1 text-sm text-slate-400">{description}</p>}
           </div>
           <button
             onClick={onClose}
             aria-label="إغلاق"
-            className="shrink-0 rounded-lg p-1.5 text-slate-400 transition hover:bg-white/5 hover:text-white"
+            className="shrink-0 rounded-lg p-1.5 text-slate-400 transition hover:bg-fg/5 hover:text-fg"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
         <div className="max-h-[60vh] overflow-y-auto p-5">{children}</div>
-        {footer && <div className="flex justify-end gap-2 border-t border-white/5 p-4">{footer}</div>}
+        {footer && <div className="flex justify-end gap-2 border-t border-fg/5 p-4">{footer}</div>}
       </div>
     </div>
   );

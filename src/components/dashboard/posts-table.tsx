@@ -15,7 +15,7 @@ export type PostRow = {
 };
 
 const statusLabel: Record<string, { text: string; cls: string }> = {
-  draft: { text: "مسودة", cls: "bg-white/10 text-slate-300" },
+  draft: { text: "مسودة", cls: "bg-fg/10 text-slate-300" },
   published: { text: "منشور", cls: "bg-brand-500/10 text-brand-300" },
   archived: { text: "مؤرشف", cls: "bg-gold-500/10 text-gold-400" },
 };
@@ -28,7 +28,7 @@ const columns: ColumnDef<PostRow>[] = [
       const row = c.row.original;
       return (
         <div>
-          <div className="font-medium text-white">{row.title}</div>
+          <div className="font-medium text-fg">{row.title}</div>
           <div className="font-mono text-xs text-slate-500">/{row.slug}</div>
         </div>
       );
@@ -62,7 +62,7 @@ const columns: ColumnDef<PostRow>[] = [
       <div className="flex items-center justify-end gap-2">
         <Link
           href={`/dashboard/admin/posts/${c.row.original.id}`}
-          className="inline-flex items-center gap-1 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-white/10"
+          className="inline-flex items-center gap-1 rounded-lg bg-fg/5 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-fg/10"
         >
           <Pencil className="h-3.5 w-3.5" />
           تحرير

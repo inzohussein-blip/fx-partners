@@ -20,7 +20,7 @@ export async function Steps() {
   });
 
   return (
-    <section className="border-y border-white/5 bg-ink-900/40 py-16 sm:py-20">
+    <section className="border-y border-fg/5 bg-ink-900/40 py-16 sm:py-20">
       <Container>
         <SectionHeading
           eyebrow={t("badge")}
@@ -39,7 +39,7 @@ export async function Steps() {
             <div key={s.key} className="relative text-center">
               <div className="relative mx-auto grid h-[104px] w-[104px] place-items-center">
                 <div className="absolute inset-0 rounded-full bg-brand-500/5 blur-xl" />
-                <div className="relative grid h-[104px] w-[104px] place-items-center rounded-full border border-white/[0.06] bg-ink-800">
+                <div className="relative grid h-[104px] w-[104px] place-items-center rounded-full border border-fg/[0.06] bg-ink-800">
                   <span className="grid h-14 w-14 place-items-center rounded-full bg-brand-gradient text-white shadow-glow">
                     <s.icon className="h-6 w-6" />
                   </span>
@@ -48,7 +48,7 @@ export async function Steps() {
                   {i + 1}
                 </span>
               </div>
-              <h3 className="mt-5 text-lg font-semibold text-white">
+              <h3 className="mt-5 text-lg font-semibold text-fg">
                 {t(`${s.key}.title`)}
               </h3>
               <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-slate-400">

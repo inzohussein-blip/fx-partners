@@ -86,7 +86,7 @@ export default function TermsPage() {
       <section className="py-14">
         <Container className="max-w-3xl">
           <Breadcrumbs items={[{ label: "الشروط والأحكام" }]} />
-          <h1 className="mt-6 text-3xl font-extrabold text-white sm:text-4xl">
+          <h1 className="mt-6 text-3xl font-extrabold text-fg sm:text-4xl">
             الشروط والأحكام
           </h1>
           <p className="mt-3 text-sm text-slate-500">
@@ -96,7 +96,7 @@ export default function TermsPage() {
           <div className="mt-10 space-y-8">
             {SECTIONS.map((s) => (
               <section key={s.title}>
-                <h2 className="text-lg font-semibold text-white">{s.title}</h2>
+                <h2 className="text-lg font-semibold text-fg">{s.title}</h2>
                 {s.body.map((p, i) => (
                   <p key={i} className="mt-2 text-sm leading-relaxed text-slate-400">
                     {p}

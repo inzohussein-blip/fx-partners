@@ -37,12 +37,12 @@ export default async function UpdatesPage() {
           لا توجد تحديثات منشورة بعد.
         </div>
       ) : (
-        <ol className="relative space-y-6 border-s border-white/10 ps-6">
+        <ol className="relative space-y-6 border-s border-fg/10 ps-6">
           {items.map((a) => {
             const meta = categoryMeta(a.category);
             return (
               <li key={a.id} className="relative">
-                <span className="absolute -start-[31px] top-1 grid h-6 w-6 place-items-center rounded-full border border-white/10 bg-ink-800 text-xs">
+                <span className="absolute -start-[31px] top-1 grid h-6 w-6 place-items-center rounded-full border border-fg/10 bg-ink-800 text-xs">
                   {meta.emoji}
                 </span>
                 <div className="card-surface p-5">
@@ -54,7 +54,7 @@ export default async function UpdatesPage() {
                       {timeAgo(a.published_at)}
                     </span>
                   </div>
-                  <h2 className="mt-2 text-lg font-semibold text-white">{a.title}</h2>
+                  <h2 className="mt-2 text-lg font-semibold text-fg">{a.title}</h2>
                   <p className="mt-1.5 whitespace-pre-line text-sm leading-relaxed text-slate-400">
                     {a.body}
                   </p>

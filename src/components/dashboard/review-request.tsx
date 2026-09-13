@@ -7,7 +7,7 @@ import { Star, Copy, Check, MessageCircle } from "lucide-react";
 type BrokerOption = { slug: string; name: string };
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none";
 
 /**
  * Ask a real client for a real review.
@@ -64,7 +64,7 @@ export function ReviewRequest({
   if (brokers.length === 0) {
     return (
       <section className="card-surface p-4 sm:p-6">
-        <h2 className="flex items-center gap-2 text-sm font-bold text-white sm:text-base">
+        <h2 className="flex items-center gap-2 text-sm font-bold text-fg sm:text-base">
           <Star className="h-4 w-4 text-brand-300" />
           اطلب مراجعة من عملائك
         </h2>
@@ -82,7 +82,7 @@ export function ReviewRequest({
           <Star className="h-4 w-4" />
         </span>
         <div>
-          <h2 className="text-sm font-bold text-white sm:text-base">
+          <h2 className="text-sm font-bold text-fg sm:text-base">
             اطلب مراجعة من عملائك
           </h2>
           <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500 sm:text-xs">
@@ -114,7 +114,7 @@ export function ReviewRequest({
           <button
             type="button"
             onClick={() => copy(link, "link")}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-white/10 px-3 text-sm text-slate-300 transition hover:border-brand-400/50 hover:text-white"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-fg/10 px-3 text-sm text-slate-300 transition hover:border-brand-400/50 hover:text-fg"
           >
             {copied === "link" ? (
               <Check className="h-4 w-4 text-emerald-400" />

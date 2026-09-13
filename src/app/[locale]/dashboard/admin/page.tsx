@@ -30,7 +30,7 @@ type Withdrawal = {
 const ibStatusLabel: Record<string, { text: string; cls: string }> = {
   pending: { text: "بانتظار الاعتماد", cls: "bg-gold-500/10 text-gold-400" },
   approved: { text: "معتمد", cls: "bg-brand-500/10 text-brand-300" },
-  suspended: { text: "معلّق", cls: "bg-white/10 text-slate-300" },
+  suspended: { text: "معلّق", cls: "bg-fg/10 text-slate-300" },
   rejected: { text: "مرفوض", cls: "bg-red-500/10 text-red-300" },
 };
 
@@ -116,14 +116,14 @@ export default async function AdminPage() {
 
       {/* IB approvals */}
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">الوكلاء (IBs)</h2>
+        <h2 className="text-lg font-semibold text-fg">الوكلاء (IBs)</h2>
         {ibs.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا يوجد وكلاء بعد.</p>
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-[720px] text-right text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-slate-400">
+                <tr className="border-b border-fg/5 text-slate-400">
                   <th className="pb-3 font-medium">الوكيل</th>
                   <th className="pb-3 font-medium">الكود</th>
                   <th className="pb-3 font-medium">العمولة</th>
@@ -131,13 +131,13 @@ export default async function AdminPage() {
                   <th className="pb-3 font-medium">إجراء</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-fg/5">
                 {ibs.map((ib) => {
                   const s = ibStatusLabel[ib.status] ?? ibStatusLabel.pending;
                   return (
                     <tr key={ib.id} className="text-slate-300">
                       <td className="py-3">
-                        <div className="font-medium text-white">
+                        <div className="font-medium text-fg">
                           {ib.profiles?.full_name || "—"}
                         </div>
                         <div className="text-xs text-slate-500">
@@ -174,14 +174,14 @@ export default async function AdminPage() {
 
       {/* Withdrawals */}
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">طلبات السحب</h2>
+        <h2 className="text-lg font-semibold text-fg">طلبات السحب</h2>
         {withdrawals.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد طلبات سحب.</p>
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full min-w-[720px] text-right text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-slate-400">
+                <tr className="border-b border-fg/5 text-slate-400">
                   <th className="pb-3 font-medium">الوكيل</th>
                   <th className="pb-3 font-medium">المبلغ</th>
                   <th className="pb-3 font-medium">الطريقة</th>
@@ -189,21 +189,21 @@ export default async function AdminPage() {
                   <th className="pb-3 font-medium">إجراء</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-fg/5">
                 {withdrawals.map((w) => {
                   const s = wdStatusLabel[w.status] ?? wdStatusLabel.pending;
                   const done = w.status === "paid" || w.status === "rejected";
                   return (
                     <tr key={w.id} className="text-slate-300">
                       <td className="py-3">
-                        <div className="font-medium text-white">
+                        <div className="font-medium text-fg">
                           {w.ib_accounts?.profiles?.full_name || "—"}
                         </div>
                         <div className="font-mono text-xs text-slate-500">
                           {w.ib_accounts?.ib_code}
                         </div>
                       </td>
-                      <td className="py-3 font-semibold text-white">
+                      <td className="py-3 font-semibold text-fg">
                         {formatCurrency(Number(w.amount))}
                       </td>
                       <td className="py-3">{w.method}</td>

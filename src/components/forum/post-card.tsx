@@ -52,7 +52,7 @@ export function PostCard({
         </div>
 
         <Link href={href}>
-          <h3 className="mt-3 text-lg font-bold leading-snug text-white group-hover:text-brand-200">
+          <h3 className="mt-3 text-lg font-bold leading-snug text-fg group-hover:text-brand-200">
             {post.title}
           </h3>
         </Link>

@@ -144,7 +144,7 @@ export function ProfitCalculator() {
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             {t("badge")}
           </span>
-          <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
             {t("heading")}
           </h2>
           <p className="mt-4 text-slate-400">{t("subheading")}</p>
@@ -167,7 +167,7 @@ export function ProfitCalculator() {
                       "flex-1 rounded-xl border px-3 py-2.5 text-sm font-semibold transition",
                       i === tierIdx
                         ? "border-brand-500/40 bg-brand-500/15 text-brand-200"
-                        : "border-white/10 bg-white/5 text-slate-400 hover:text-white"
+                        : "border-fg/10 bg-fg/5 text-slate-400 hover:text-fg"
                     )}
                   >
                     <div>{t(tier.key)}</div>
@@ -189,7 +189,7 @@ export function ProfitCalculator() {
                   value={instIdx}
                   onChange={(e) => setInstIdx(Number(e.target.value))}
                   dir="ltr"
-                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
                 >
                   {INSTRUMENTS.map((it, i) => (
                     <option key={it.sym} value={i}>
@@ -206,7 +206,7 @@ export function ProfitCalculator() {
                   value={leverage}
                   onChange={(e) => setLeverage(Number(e.target.value))}
                   dir="ltr"
-                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
                 >
                   {LEVERAGES.map((l) => (
                     <option key={l} value={l}>
@@ -223,7 +223,7 @@ export function ProfitCalculator() {
                 <label className="text-sm text-slate-300">{t("lotsLabel")}</label>
                 <span
                   dir="ltr"
-                  className="rounded-lg bg-white/5 px-2.5 py-1 text-sm font-bold text-brand-300 tabular-nums"
+                  className="rounded-lg bg-fg/5 px-2.5 py-1 text-sm font-bold text-brand-300 tabular-nums"
                 >
                   {lots.toLocaleString("en-US")} {t("lot")}
                 </span>
@@ -236,7 +236,7 @@ export function ProfitCalculator() {
                 max={1000}
                 step={1}
               >
-                <Slider.Track className="relative h-1.5 grow rounded-full bg-white/10">
+                <Slider.Track className="relative h-1.5 grow rounded-full bg-fg/10">
                   <Slider.Range className="absolute h-full rounded-full bg-brand-gradient" />
                 </Slider.Track>
                 <Slider.Thumb
@@ -258,7 +258,7 @@ export function ProfitCalculator() {
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none sm:w-48"
+                className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none sm:w-48"
               >
                 {CURRENCIES.map((c) => (
                   <option key={c.code} value={c.code}>
@@ -270,7 +270,7 @@ export function ProfitCalculator() {
           </div>
 
           {/* Result */}
-          <div className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-white/5 p-8">
+          <div className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-fg/5 p-8">
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative text-center">
               <div className="text-sm text-slate-400">{t("monthlyLabel")}</div>
@@ -281,18 +281,18 @@ export function ProfitCalculator() {
                 <AnimatedNumber value={monthly} format={fmt} />
               </div>
 
-              <div className="mt-5 border-t border-white/5 pt-5">
+              <div className="mt-5 border-t border-fg/5 pt-5">
                 <div className="text-sm text-slate-400">{t("yearlyLabel")}</div>
-                <div dir="ltr" className="mt-1 text-2xl font-bold text-white">
+                <div dir="ltr" className="mt-1 text-2xl font-bold text-fg">
                   <AnimatedNumber value={yearly} format={fmt} />
                 </div>
               </div>
 
               {/* Trading details: notional + required margin */}
-              <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/5 pt-5">
+              <div className="mt-5 grid grid-cols-2 gap-3 border-t border-fg/5 pt-5">
                 <div className="rounded-xl bg-ink-900/40 p-3">
                   <div className="text-xs text-slate-500">{t("notionalLabel")}</div>
-                  <div dir="ltr" className="mt-1 text-sm font-semibold text-white">
+                  <div dir="ltr" className="mt-1 text-sm font-semibold text-fg">
                     <AnimatedNumber value={notional} format={fmt} />
                   </div>
                 </div>

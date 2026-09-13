@@ -78,9 +78,9 @@ export function SignalsFeed({ initial }: { initial: Signal[] }) {
           >
             <div className="flex flex-wrap items-center gap-2">
               <TrendingUp className="h-4 w-4 text-brand-300" />
-              <h3 className="font-semibold text-white">{s.title}</h3>
+              <h3 className="font-semibold text-fg">{s.title}</h3>
               {s.symbol && (
-                <span className="rounded-md bg-white/5 px-2 py-0.5 text-xs text-slate-300" dir="ltr">
+                <span className="rounded-md bg-fg/5 px-2 py-0.5 text-xs text-slate-300" dir="ltr">
                   {s.symbol}
                 </span>
               )}

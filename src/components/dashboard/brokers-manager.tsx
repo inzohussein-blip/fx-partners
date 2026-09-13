@@ -93,7 +93,7 @@ const EMPTY = {
 };
 
 const input =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function BrokersManager({
   brokers,
@@ -193,7 +193,7 @@ export function BrokersManager({
     <div className="space-y-8">
       {/* Broker form */}
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           {form.id ? <Pencil className="h-4 w-4 text-brand-300" /> : <Plus className="h-4 w-4 text-brand-300" />}
           {form.id ? "تعديل شركة" : "إضافة شركة"}
         </h2>
@@ -311,7 +311,7 @@ export function BrokersManager({
                   className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition ${
                     on
                       ? "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30"
-                      : "bg-white/5 text-slate-400 ring-white/10 hover:text-white"
+                      : "bg-fg/5 text-slate-400 ring-fg/10 hover:text-fg"
                   }`}
                 >
                   {r.flag} {r.label}
@@ -335,7 +335,7 @@ export function BrokersManager({
                   className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ring-1 transition ${
                     on
                       ? meta.className
-                      : "bg-white/5 text-slate-400 ring-white/10 hover:text-white"
+                      : "bg-fg/5 text-slate-400 ring-fg/10 hover:text-fg"
                   }`}
                 >
                   <span>{meta.emoji}</span>
@@ -360,7 +360,7 @@ export function BrokersManager({
             {form.id && (
               <button
                 onClick={() => setForm({ ...EMPTY })}
-                className="rounded-xl border border-white/10 px-4 py-2.5 text-sm text-slate-300 transition hover:text-white"
+                className="rounded-xl border border-fg/10 px-4 py-2.5 text-sm text-slate-300 transition hover:text-fg"
               >
                 إلغاء
               </button>
@@ -379,7 +379,7 @@ export function BrokersManager({
 
       {/* Moderation queue */}
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-lg font-semibold text-fg">
           قائمة الإشراف — تعليقات بانتظار الموافقة ({pending.length})
         </h2>
         {pending.length === 0 ? (
@@ -387,10 +387,10 @@ export function BrokersManager({
         ) : (
           <div className="mt-4 space-y-3">
             {pending.map((r) => (
-              <div key={r.id} className="rounded-xl border border-white/5 bg-ink-900/40 p-4">
+              <div key={r.id} className="rounded-xl border border-fg/5 bg-ink-900/40 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <span className="font-medium text-white">{r.user_name || "عميل"}</span>
+                    <span className="font-medium text-fg">{r.user_name || "عميل"}</span>
                     <span className="ms-2 text-xs text-slate-500">
                       على {r.broker_name}
                     </span>
@@ -421,7 +421,7 @@ export function BrokersManager({
                       refresh();
                     }}
                     disabled={busy === r.id}
-                    className="inline-flex items-center gap-1 rounded-lg bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-red-500/10 hover:text-red-300"
+                    className="inline-flex items-center gap-1 rounded-lg bg-fg/5 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-red-500/10 hover:text-red-300"
                   >
                     <X className="h-3.5 w-3.5" /> حذف
                   </button>
@@ -434,28 +434,28 @@ export function BrokersManager({
 
       {/* Brokers list */}
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">الشركات ({brokers.length})</h2>
+        <h2 className="text-lg font-semibold text-fg">الشركات ({brokers.length})</h2>
         {brokers.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد شركات بعد.</p>
         ) : (
           <ul className="mt-4 space-y-3">
             {brokers.map((b) => (
-              <li key={b.id} className="rounded-xl border border-white/5 bg-ink-900/40">
+              <li key={b.id} className="rounded-xl border border-fg/5 bg-ink-900/40">
                 <div className="flex items-center justify-between gap-3 p-4">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-white">{b.name}</span>
+                      <span className="font-semibold text-fg">{b.name}</span>
                       <span
                         className={`rounded-full px-2 py-0.5 text-[10px] ${
                           b.status === "partnered"
                             ? "bg-emerald-500/15 text-emerald-300"
-                            : "bg-white/5 text-slate-400"
+                            : "bg-fg/5 text-slate-400"
                         }`}
                       >
                         {b.status === "partnered" ? "شريك" : "غير متعاقد"}
                       </span>
                       {!b.is_published && (
-                        <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-slate-500">
+                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[10px] text-slate-500">
                           مخفي
                         </span>
                       )}
@@ -471,13 +471,13 @@ export function BrokersManager({
                     <button
                       onClick={() => togglePublish(b)}
                       disabled={busy === b.id}
-                      className="rounded-lg px-2 py-1 text-xs text-slate-400 transition hover:text-white"
+                      className="rounded-lg px-2 py-1 text-xs text-slate-400 transition hover:text-fg"
                     >
                       {b.is_published ? "إخفاء" : "نشر"}
                     </button>
                     <button
                       onClick={() => editBroker(b)}
-                      className="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                      className="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-fg/5 hover:text-fg"
                     >
                       <Pencil className="h-4 w-4" />
                     </button>
@@ -490,7 +490,7 @@ export function BrokersManager({
                     </button>
                     <button
                       onClick={() => setExpanded(expanded === b.id ? null : b.id)}
-                      className="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                      className="grid h-8 w-8 place-items-center rounded-lg text-slate-400 transition hover:bg-fg/5 hover:text-fg"
                     >
                       <ChevronDown
                         className={`h-4 w-4 transition ${expanded === b.id ? "rotate-180" : ""}`}
@@ -500,7 +500,7 @@ export function BrokersManager({
                 </div>
 
                 {expanded === b.id && (
-                  <div className="border-t border-white/5 p-4">
+                  <div className="border-t border-fg/5 p-4">
                     <LinksEditor
                       broker={b}
                       countryStats={countries[b.id] ?? []}
@@ -555,7 +555,7 @@ function LinksEditor({
 
   return (
     <div>
-      <h4 className="flex items-center justify-between gap-2 text-sm font-semibold text-white">
+      <h4 className="flex items-center justify-between gap-2 text-sm font-semibold text-fg">
         <span className="flex items-center gap-2">
           <Link2 className="h-4 w-4 text-brand-300" /> روابط الإحالة
         </span>
@@ -569,7 +569,7 @@ function LinksEditor({
           {broker.broker_links.map((l) => (
             <li
               key={l.id}
-              className="flex items-center justify-between gap-3 rounded-lg bg-white/5 px-3 py-2 text-xs"
+              className="flex items-center justify-between gap-3 rounded-lg bg-fg/5 px-3 py-2 text-xs"
             >
               <div className="min-w-0 flex-1">
                 <div className="truncate text-slate-300" dir="ltr">
@@ -607,13 +607,13 @@ function LinksEditor({
       )}
 
       {countryStats.length > 0 && (
-        <div className="mt-3 rounded-lg border border-white/5 bg-ink-900/40 p-3">
+        <div className="mt-3 rounded-lg border border-fg/5 bg-ink-900/40 p-3">
           <div className="text-[11px] font-medium text-slate-500">أهم الدول (نقرات)</div>
           <div className="mt-2 flex flex-wrap gap-2">
             {countryStats.map((c) => (
               <span
                 key={c.country}
-                className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-slate-300"
+                className="inline-flex items-center gap-1 rounded-full bg-fg/5 px-2 py-0.5 text-[11px] text-slate-300"
                 dir="ltr"
               >
                 {c.country} · {c.hits}
@@ -680,8 +680,8 @@ function AdminReplyForm({ brokerId, onDone }: { brokerId: string; onDone: () => 
   }
 
   return (
-    <div className="mt-5 border-t border-white/5 pt-4">
-      <h4 className="flex items-center gap-2 text-sm font-semibold text-white">
+    <div className="mt-5 border-t border-fg/5 pt-4">
+      <h4 className="flex items-center gap-2 text-sm font-semibold text-fg">
         <ShieldCheck className="h-4 w-4 text-brand-300" /> إضافة تقييم/رد بصفتك الإدارة
       </h4>
       <div className="mt-3 flex items-center gap-3">
@@ -703,7 +703,7 @@ function AdminReplyForm({ brokerId, onDone }: { brokerId: string; onDone: () => 
       <button
         onClick={post}
         disabled={busy}
-        className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-white/10"
+        className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-fg/5 px-3 py-2 text-xs font-semibold text-slate-200 transition hover:bg-fg/10"
       >
         {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
         نشر (يظهر فوراً)

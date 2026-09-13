@@ -53,7 +53,7 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
   return (
     <section
       id="tools"
-      className="border-y border-white/5 bg-ink-900/30"
+      className="border-y border-fg/5 bg-ink-900/30"
     >
       <Container className={showIntro ? "pt-10 text-center sm:pt-16" : "pt-8 text-center"}>
         {showIntro && (
@@ -62,7 +62,7 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
               <Scale className="h-3.5 w-3.5" />
               أدوات محايدة
             </span>
-            <h2 className="mt-5 text-[26px] font-bold leading-[1.3] text-white sm:text-3xl sm:leading-tight lg:text-4xl">
+            <h2 className="mt-5 text-[26px] font-bold leading-[1.3] text-fg sm:text-3xl sm:leading-tight lg:text-4xl">
               لسنا طرفاً — نقارن بين شركائنا بحياد
             </h2>
             <p className="mx-auto mt-3.5 max-w-xl text-[15px] text-slate-400 sm:mt-4 sm:text-base">
@@ -72,7 +72,7 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
         )}
 
         {/* Tab bar */}
-        <div className={`${showIntro ? "mt-8" : "mt-0"} inline-flex flex-wrap justify-center gap-2 rounded-2xl border border-white/10 bg-ink-900/50 p-1.5`}>
+        <div className={`${showIntro ? "mt-8" : "mt-0"} inline-flex flex-wrap justify-center gap-2 rounded-2xl border border-fg/10 bg-ink-900/50 p-1.5`}>
           {TABS.map((tb) => {
             const on = tab === tb.key;
             return (
@@ -83,7 +83,7 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
                   "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
                   on
                     ? "bg-brand-gradient text-white shadow-glow"
-                    : "text-slate-400 hover:text-white"
+                    : "text-slate-400 hover:text-fg"
                 )}
               >
                 <tb.icon className="h-4 w-4" />

@@ -74,7 +74,7 @@ export function RatingBreakdown({ broker }: { broker: Broker }) {
           </div>
         </div>
 
-        <div className="hidden w-px self-stretch bg-white/10 sm:block" />
+        <div className="hidden w-px self-stretch bg-fg/10 sm:block" />
 
         {/* Dimension bars */}
         <div className="flex-1 space-y-4">
@@ -85,11 +85,11 @@ export function RatingBreakdown({ broker }: { broker: Broker }) {
                   <d.icon className="h-4 w-4 text-brand-300" />
                   {d.label}
                 </span>
-                <span className="font-semibold text-white" dir="ltr">
+                <span className="font-semibold text-fg" dir="ltr">
                   {d.score.toFixed(1)}
                 </span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
+              <div className="h-2 overflow-hidden rounded-full bg-fg/[0.06]">
                 <div
                   className="h-full rounded-full bg-brand-gradient"
                   style={{ width: `${(d.score / 5) * 100}%` }}

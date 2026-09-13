@@ -6,6 +6,7 @@ import { useKBar } from "kbar";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
 import { AnnouncementsBell } from "@/components/dashboard/announcements-bell";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   LayoutDashboard,
   Megaphone,
@@ -82,12 +83,13 @@ export function DashboardSidebar({
   const { query } = useKBar();
 
   return (
-    <aside className="flex w-full flex-col gap-1 border-b border-white/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
+    <aside className="flex w-full flex-col gap-1 border-b border-fg/5 bg-ink-800/60 p-4 md:h-screen md:w-64 md:border-b-0 md:border-l">
       <div className="mb-4 flex items-center justify-between gap-2 px-2">
         <Link href="/">
           <Logo />
         </Link>
         <div className="flex items-center gap-1">
+          <ThemeSwitcher />
           <AnnouncementsBell />
           {/* Sign out lived only in the block below, which is hidden under
               `md`, and otherwise behind ⌘K — so on a phone there was no way
@@ -109,13 +111,13 @@ export function DashboardSidebar({
         type="button"
         data-tour="search"
         onClick={() => query.toggle()}
-        className="mb-2 hidden items-center justify-between rounded-xl border border-white/10 bg-ink-900/40 px-3 py-2 text-sm text-slate-400 transition hover:text-white md:flex"
+        className="mb-2 hidden items-center justify-between rounded-xl border border-fg/10 bg-ink-900/40 px-3 py-2 text-sm text-slate-400 transition hover:text-fg md:flex"
       >
         <span className="flex items-center gap-2">
           <Search className="h-4 w-4" />
           بحث سريع
         </span>
-        <kbd className="rounded bg-white/10 px-1.5 py-0.5 text-xs">⌘K</kbd>
+        <kbd className="rounded bg-fg/10 px-1.5 py-0.5 text-xs">⌘K</kbd>
       </button>
 
       {/* Below `md` this is a horizontal strip. Labels used to be hidden under
@@ -130,7 +132,7 @@ export function DashboardSidebar({
                 {/* A hairline keeps the phone strip from reading as one
                     undifferentiated run of thirteen icons. */}
                 <span
-                  className="mx-1 my-2 w-px shrink-0 self-stretch bg-white/10 first:hidden md:hidden"
+                  className="mx-1 my-2 w-px shrink-0 self-stretch bg-fg/10 first:hidden md:hidden"
                   aria-hidden
                 />
                 <div className="hidden px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600 md:block">
@@ -152,7 +154,7 @@ export function DashboardSidebar({
                     "flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-3 py-2.5 text-[13px] font-medium transition md:gap-3 md:text-sm",
                     active
                       ? "bg-brand-500/15 text-brand-200"
-                      : "text-slate-400 hover:bg-white/5 hover:text-white"
+                      : "text-slate-400 hover:bg-fg/5 hover:text-fg"
                   )}
                 >
                   <link.icon className="h-4 w-4 shrink-0" />
@@ -164,7 +166,7 @@ export function DashboardSidebar({
         ))}
       </nav>
 
-      <div className="mt-auto hidden border-t border-white/5 pt-4 md:block">
+      <div className="mt-auto hidden border-t border-fg/5 pt-4 md:block">
         {email && (
           <p className="truncate px-2 pb-2 text-xs text-slate-500">{email}</p>
         )}

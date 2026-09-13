@@ -15,7 +15,7 @@ export type AdminCoupon = {
 };
 
 const input =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function CouponsManager({
   coupons,
@@ -61,7 +61,7 @@ export function CouponsManager({
   return (
     <div className="space-y-8">
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <Ticket className="h-4 w-4 text-brand-300" /> إضافة كوبون حصري
         </h2>
         <p className="mt-1 text-xs text-slate-500">
@@ -122,21 +122,21 @@ export function CouponsManager({
       </section>
 
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">الكوبونات ({coupons.length})</h2>
+        <h2 className="text-lg font-semibold text-fg">الكوبونات ({coupons.length})</h2>
         {coupons.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد كوبونات بعد.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {coupons.map((c) => (
               <li key={c.id} className="flex items-center justify-between gap-3 py-4">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-white">{c.title}</span>
+                    <span className="font-medium text-fg">{c.title}</span>
                     <span className="rounded bg-brand-500/15 px-2 py-0.5 font-mono text-[11px] text-brand-200" dir="ltr">
                       {c.code}
                     </span>
                     {!c.is_active && (
-                      <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-slate-500">
+                      <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[10px] text-slate-500">
                         متوقف
                       </span>
                     )}
@@ -154,7 +154,7 @@ export function CouponsManager({
                       router.refresh();
                     }}
                     disabled={busy === c.id}
-                    className="rounded-lg px-2.5 py-1.5 text-xs text-slate-400 transition hover:text-white"
+                    className="rounded-lg px-2.5 py-1.5 text-xs text-slate-400 transition hover:text-fg"
                   >
                     {c.is_active ? "إيقاف" : "تفعيل"}
                   </button>

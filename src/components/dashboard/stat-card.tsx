@@ -34,7 +34,7 @@ export function StatCard({
         )}
       </div>
       <div className="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 sm:mt-3">
-        <span className="text-lg font-bold text-white sm:text-2xl">{value}</span>
+        <span className="text-lg font-bold text-fg sm:text-2xl">{value}</span>
         {trend && (
           <span
             dir="ltr"

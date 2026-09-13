@@ -67,7 +67,7 @@ function rankBadge(rank: number) {
   if (rank === 1) return { color: "text-amber-300", ring: "ring-amber-400/40", Icon: Trophy };
   if (rank === 2) return { color: "text-slate-300", ring: "ring-slate-300/30", Icon: Medal };
   if (rank === 3) return { color: "text-orange-300", ring: "ring-orange-400/30", Icon: Medal };
-  return { color: "text-slate-500", ring: "ring-white/10", Icon: Medal };
+  return { color: "text-slate-500", ring: "ring-fg/10", Icon: Medal };
 }
 
 export default async function LeaderboardPage() {
@@ -104,7 +104,7 @@ export default async function LeaderboardPage() {
                   <Icon className="h-7 w-7" />
                 </div>
                 <div className="mt-3 text-xs text-slate-400">المركز {r.rank}</div>
-                <div className="mt-1 font-mono text-lg font-bold text-white" dir="ltr">
+                <div className="mt-1 font-mono text-lg font-bold text-fg" dir="ltr">
                   {r.masked_code}
                 </div>
                 <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-brand-500/25 bg-brand-500/10 px-2.5 py-1 text-xs text-brand-200">
@@ -129,7 +129,7 @@ export default async function LeaderboardPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-right text-sm">
             <thead>
-              <tr className="border-b border-white/5 text-xs text-slate-500">
+              <tr className="border-b border-fg/5 text-xs text-slate-500">
                 <th className="px-5 py-3 font-medium">#</th>
                 <th className="px-5 py-3 font-medium">رمز الوكيل</th>
                 <th className="px-5 py-3 font-medium">المستوى</th>
@@ -144,12 +144,12 @@ export default async function LeaderboardPage() {
                 return (
                   <tr
                     key={r.masked_code + r.rank}
-                    className={`border-b border-white/5 transition last:border-0 ${
-                      r.is_me ? "bg-brand-500/10" : "hover:bg-white/[0.03]"
+                    className={`border-b border-fg/5 transition last:border-0 ${
+                      r.is_me ? "bg-brand-500/10" : "hover:bg-fg/[0.03]"
                     }`}
                   >
                     <td className={`px-5 py-3 font-bold ${color}`}>{r.rank}</td>
-                    <td className="px-5 py-3 font-mono text-white" dir="ltr">
+                    <td className="px-5 py-3 font-mono text-fg" dir="ltr">
                       {r.masked_code}
                       {r.is_me && (
                         <span className="ms-2 rounded bg-brand-500/20 px-1.5 py-0.5 text-[10px] text-brand-200">

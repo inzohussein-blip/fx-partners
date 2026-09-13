@@ -190,7 +190,7 @@ export function Backtest() {
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             {t("badge")}
           </span>
-          <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
             {t("heading")}
           </h2>
           <p className="mt-4 text-slate-400">{t("subheading")}</p>
@@ -207,7 +207,7 @@ export function Backtest() {
                 <select
                   value={instIdx}
                   onChange={(e) => setInstIdx(Number(e.target.value))}
-                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
                 >
                   {INSTRUMENTS.map((it, i) => (
                     <option key={it.sym} value={i}>
@@ -224,7 +224,7 @@ export function Backtest() {
                   value={year}
                   onChange={(e) => setYear(Number(e.target.value))}
                   dir="ltr"
-                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
                 >
                   {YEARS.map((y) => (
                     <option key={y} value={y}>
@@ -240,7 +240,7 @@ export function Backtest() {
                 <label className="text-sm text-slate-300">{t("clientsLabel")}</label>
                 <span
                   dir="ltr"
-                  className="rounded-lg bg-white/5 px-2.5 py-1 text-sm font-bold text-brand-300 tabular-nums"
+                  className="rounded-lg bg-fg/5 px-2.5 py-1 text-sm font-bold text-brand-300 tabular-nums"
                 >
                   {clients}
                 </span>
@@ -264,7 +264,7 @@ export function Backtest() {
                   value={lotsPer}
                   onChange={(e) => setLotsPer(Number(e.target.value))}
                   dir="ltr"
-                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
                 >
                   {LOTS_PER_CLIENT.map((l) => (
                     <option key={l} value={l}>
@@ -286,7 +286,7 @@ export function Backtest() {
                         "flex-1 rounded-lg border px-2 py-2 text-xs font-semibold transition",
                         i === tierIdx
                           ? "border-brand-500/40 bg-brand-500/15 text-brand-200"
-                          : "border-white/10 bg-white/5 text-slate-400 hover:text-white"
+                          : "border-fg/10 bg-fg/5 text-slate-400 hover:text-fg"
                       )}
                     >
                       {tc(tier.key)}
@@ -305,7 +305,7 @@ export function Backtest() {
                     "inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium",
                     real
                       ? "bg-emerald-500/10 text-emerald-400"
-                      : "bg-white/5 text-slate-500"
+                      : "bg-fg/5 text-slate-500"
                   )}
                 >
                   <span
@@ -325,7 +325,7 @@ export function Backtest() {
           </div>
 
           {/* Result */}
-          <div className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-white/5 p-8">
+          <div className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-fg/5 p-8">
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative text-center">
               <div className="text-sm text-slate-400">
@@ -335,7 +335,7 @@ export function Backtest() {
                 <AnimatedNumber value={total} format={(n) => usd.format(n)} />
               </div>
 
-              <div className="mt-6 grid grid-cols-3 gap-3 border-t border-white/5 pt-6">
+              <div className="mt-6 grid grid-cols-3 gap-3 border-t border-fg/5 pt-6">
                 <Stat label={t("monthlyLabel")}>
                   <span dir="ltr">
                     <AnimatedNumber value={monthly} format={(n) => usd.format(n)} />
@@ -371,7 +371,7 @@ function Stat({ label, children }: { label: string; children: React.ReactNode })
   return (
     <div>
       <div className="text-xs text-slate-500">{label}</div>
-      <div className="mt-1 text-sm font-bold text-white tabular-nums">{children}</div>
+      <div className="mt-1 text-sm font-bold text-fg tabular-nums">{children}</div>
     </div>
   );
 }

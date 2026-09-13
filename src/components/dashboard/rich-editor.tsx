@@ -38,7 +38,7 @@ function Btn({
       aria-label={label}
       title={label}
       className={`grid h-8 w-8 place-items-center rounded-lg text-sm transition ${
-        active ? "bg-brand-500/20 text-brand-200" : "text-slate-400 hover:bg-white/5 hover:text-white"
+        active ? "bg-brand-500/20 text-brand-200" : "text-slate-400 hover:bg-fg/5 hover:text-fg"
       }`}
     >
       {children}
@@ -56,21 +56,21 @@ function Toolbar({ editor }: { editor: Editor }) {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 p-1.5">
+    <div className="flex flex-wrap items-center gap-0.5 border-b border-fg/10 p-1.5">
       <Btn on={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} label="غامق">
         <Bold className="h-4 w-4" />
       </Btn>
       <Btn on={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} label="مائل">
         <Italic className="h-4 w-4" />
       </Btn>
-      <span className="mx-1 h-5 w-px bg-white/10" />
+      <span className="mx-1 h-5 w-px bg-fg/10" />
       <Btn on={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} label="عنوان 2">
         <Heading2 className="h-4 w-4" />
       </Btn>
       <Btn on={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} label="عنوان 3">
         <Heading3 className="h-4 w-4" />
       </Btn>
-      <span className="mx-1 h-5 w-px bg-white/10" />
+      <span className="mx-1 h-5 w-px bg-fg/10" />
       <Btn on={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive("bulletList")} label="قائمة نقطية">
         <List className="h-4 w-4" />
       </Btn>
@@ -80,7 +80,7 @@ function Toolbar({ editor }: { editor: Editor }) {
       <Btn on={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive("blockquote")} label="اقتباس">
         <Quote className="h-4 w-4" />
       </Btn>
-      <span className="mx-1 h-5 w-px bg-white/10" />
+      <span className="mx-1 h-5 w-px bg-fg/10" />
       <Btn on={setLink} active={editor.isActive("link")} label="رابط">
         <LinkIcon className="h-4 w-4" />
       </Btn>
@@ -88,7 +88,7 @@ function Toolbar({ editor }: { editor: Editor }) {
         onSelect={(url) => editor.chain().focus().setImage({ src: url }).run()}
         label="صورة"
       />
-      <span className="mx-1 h-5 w-px bg-white/10" />
+      <span className="mx-1 h-5 w-px bg-fg/10" />
       <Btn on={() => editor.chain().focus().undo().run()} label="تراجع">
         <Undo2 className="h-4 w-4" />
       </Btn>
@@ -135,14 +135,14 @@ export function RichEditor({
 
   if (!editor) {
     return (
-      <div className="rounded-xl border border-white/10 bg-ink-900/60 p-4 text-sm text-slate-500">
+      <div className="rounded-xl border border-fg/10 bg-ink-900/60 p-4 text-sm text-slate-500">
         جارٍ تحميل المحرّر…
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-white/10 bg-ink-900/60">
+    <div className="overflow-hidden rounded-xl border border-fg/10 bg-ink-900/60">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

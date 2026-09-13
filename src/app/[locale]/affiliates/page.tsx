@@ -93,7 +93,7 @@ export default async function AffiliatesPage() {
             <Handshake className="h-3.5 w-3.5" aria-hidden />
             برنامج الشراكة
           </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
             برنامج الوكلاء (IB / Affiliate)
           </h1>
           <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
@@ -135,12 +135,12 @@ export default async function AffiliatesPage() {
                   <Network className="h-3.5 w-3.5" aria-hidden />
                   نموذج الوكيل الماستر
                 </span>
-                <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">
+                <h2 className="mt-4 text-2xl font-bold text-fg sm:text-3xl">
                   تنضمّ عبرنا كـ <span className="text-gradient">Sub-IB</span> — لا كوكيل
                   لبروكر واحد
                 </h2>
                 <p className="mt-4 leading-relaxed text-slate-300">
-                  نحن لسنا شركة تداول. <span className="font-semibold text-white">FX Partners</span>{" "}
+                  نحن لسنا شركة تداول. <span className="font-semibold text-fg">FX Partners</span>{" "}
                   وكيل ماستر (Master IB) يملك حسابات شراكة لدى شبكة من الشركات
                   المرخّصة. حين تنضمّ إلينا تصبح وكيلاً فرعياً (Sub-IB) تحت هذه
                   الحسابات — فتربح عمولات من الشبكة كلها عبر جهة واحدة، بدل التفاوض
@@ -172,13 +172,13 @@ export default async function AffiliatesPage() {
                 ].map((f) => (
                   <li
                     key={f.title}
-                    className="flex gap-3 rounded-xl bg-white/[0.03] p-3 ring-1 ring-white/5"
+                    className="flex gap-3 rounded-xl bg-fg/[0.03] p-3 ring-1 ring-fg/5"
                   >
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                       <f.icon className="h-5 w-5" />
                     </span>
                     <div>
-                      <div className="font-semibold text-white">{f.title}</div>
+                      <div className="font-semibold text-fg">{f.title}</div>
                       <p className="mt-0.5 text-sm leading-relaxed text-slate-400">{f.desc}</p>
                     </div>
                   </li>
@@ -210,10 +210,10 @@ export default async function AffiliatesPage() {
                   <s.icon className="h-6 w-6" />
                 </div>
                 <div className="mt-4 inline-flex items-center gap-2">
-                  <span className="grid h-6 w-6 place-items-center rounded-full bg-white/5 text-xs font-bold text-brand-300">
+                  <span className="grid h-6 w-6 place-items-center rounded-full bg-fg/5 text-xs font-bold text-brand-300">
                     {i + 1}
                   </span>
-                  <h3 className="text-lg font-semibold text-white">{s.title}</h3>
+                  <h3 className="text-lg font-semibold text-fg">{s.title}</h3>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">{s.desc}</p>
               </div>
@@ -243,9 +243,9 @@ export default async function AffiliatesPage() {
                     الأكثر شيوعاً
                   </span>
                 )}
-                <h3 className="text-xl font-bold text-white">{t.name}</h3>
+                <h3 className="text-xl font-bold text-fg">{t.name}</h3>
                 <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-4xl font-extrabold text-white">{t.share}</span>
+                  <span className="text-4xl font-extrabold text-fg">{t.share}</span>
                   <span className="text-sm text-slate-400">Revenue Share</span>
                 </div>
                 <div className="mt-1 text-sm text-slate-400">أو CPA حتى {t.cpa}</div>
@@ -294,7 +294,7 @@ export default async function AffiliatesPage() {
                 <div className="grid h-11 w-11 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
                   <b.icon className="h-5 w-5" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-white">{b.title}</h3>
+                <h3 className="mt-4 text-lg font-semibold text-fg">{b.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">{b.desc}</p>
               </div>
             ))}
@@ -308,7 +308,7 @@ export default async function AffiliatesPage() {
           <div className="card-surface relative overflow-hidden p-10 text-center sm:p-14">
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative">
-              <h2 className="text-3xl font-bold text-white sm:text-4xl">
+              <h2 className="text-3xl font-bold text-fg sm:text-4xl">
                 ابدأ رحلتك كشريك اليوم
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-slate-300">

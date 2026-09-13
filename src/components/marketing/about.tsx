@@ -23,7 +23,7 @@ export async function About() {
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             {copy.badge}
           </span>
-          <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
             {copy.heading}
           </h2>
           <p className="mt-4 leading-relaxed text-slate-400">{copy.body}</p>
@@ -35,7 +35,7 @@ export async function About() {
                   <p.icon className="h-4 w-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-white">{p.title}</div>
+                  <div className="font-semibold text-fg">{p.title}</div>
                   <div className="text-sm text-slate-400">{p.desc}</div>
                 </div>
               </div>

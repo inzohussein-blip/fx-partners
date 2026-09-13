@@ -90,7 +90,7 @@ export function LiveCampaignBanner() {
           <Megaphone className="h-5 w-5 animate-pulse" />
         </span>
         <div className="relative min-w-0 flex-1">
-          <p className="truncate font-bold text-white">{campaign.title}</p>
+          <p className="truncate font-bold text-fg">{campaign.title}</p>
           <p className="truncate text-sm text-slate-300">{campaign.message}</p>
         </div>
         {campaign.broker_slug && (
@@ -106,7 +106,7 @@ export function LiveCampaignBanner() {
         <button
           onClick={close}
           aria-label="إغلاق"
-          className="absolute left-3 top-3 grid h-7 w-7 place-items-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-white"
+          className="absolute left-3 top-3 grid h-7 w-7 place-items-center rounded-lg text-slate-500 transition hover:bg-fg/5 hover:text-fg"
         >
           <X className="h-4 w-4" />
         </button>

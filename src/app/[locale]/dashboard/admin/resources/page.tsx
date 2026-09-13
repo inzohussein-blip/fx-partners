@@ -39,7 +39,7 @@ export default async function AdminResourcesPage() {
       />
       {resources.length > 1 && (
         <details className="card-surface p-5">
-          <summary className="cursor-pointer text-sm font-semibold text-white">
+          <summary className="cursor-pointer text-sm font-semibold text-fg">
             ترتيب عرض الأدوات (سحب وإفلات)
           </summary>
           <div className="mt-4">

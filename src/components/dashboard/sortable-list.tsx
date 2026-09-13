@@ -82,15 +82,15 @@ export function SortableList({
                 alt=""
                 loading="lazy"
                 decoding="async"
-                className="h-8 w-8 shrink-0 rounded-lg border border-white/10 bg-white object-contain p-0.5"
+                className="h-8 w-8 shrink-0 rounded-lg border border-fg/10 bg-white object-contain p-0.5"
               />
             ) : (
-              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-white/5 text-xs font-black text-brand-300">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-fg/5 text-xs font-black text-brand-300">
                 {it.label.charAt(0)}
               </span>
             )}
             <div className="min-w-0 flex-1">
-              <div className="truncate text-sm font-medium text-white">{it.label}</div>
+              <div className="truncate text-sm font-medium text-fg">{it.label}</div>
               {it.sublabel && <div className="truncate text-xs text-slate-500">{it.sublabel}</div>}
             </div>
           </li>

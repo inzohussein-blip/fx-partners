@@ -48,7 +48,7 @@ export async function LogoCarousel() {
   const loop = marquee ? [...items, ...items] : items;
 
   return (
-    <section className="border-y border-white/5 bg-ink-800/30 py-10">
+    <section className="border-y border-fg/5 bg-ink-800/30 py-10">
       <Container>
         <p className="text-center text-xs font-medium uppercase tracking-widest text-slate-500">
           {t("label")}

@@ -112,12 +112,12 @@ export default async function MarketingPage() {
       <ReviewRequest brokers={brokers} siteUrl={siteUrl} />
 
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">البانرات الدعائية</h2>
+        <h2 className="text-lg font-semibold text-fg">البانرات الدعائية</h2>
         <p className="mt-2 text-sm text-slate-400">
           بانرات جاهزة تحمل رابط إحالتك تلقائياً — عاينها وحمّلها لنشرها في قنواتك.
         </p>
         {links.length === 0 && (
-          <p className="mt-3 rounded-lg bg-white/5 px-3 py-2 text-xs text-slate-400">
+          <p className="mt-3 rounded-lg bg-fg/5 px-3 py-2 text-xs text-slate-400">
             أنشئ رابط إحالة أعلاه ليظهر داخل البانرات تلقائياً.
           </p>
         )}
@@ -125,7 +125,7 @@ export default async function MarketingPage() {
           {BANNERS.map((b) => (
             <div
               key={b.size}
-              className="flex flex-col gap-3 rounded-xl border border-white/5 bg-ink-900/40 p-4"
+              className="flex flex-col gap-3 rounded-xl border border-fg/5 bg-ink-900/40 p-4"
             >
               <div className="flex items-center justify-between">
                 <span className="text-sm text-slate-300">{b.label}</span>

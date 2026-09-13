@@ -82,7 +82,7 @@ function PartnerCard({
   return (
     <form onSubmit={save} className="card-surface p-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-white">
+        <h3 className="font-semibold text-fg">
           {isNew ? (
             <span className="inline-flex items-center gap-2 text-brand-300">
               <Plus className="h-4 w-4" /> {title}
@@ -111,7 +111,7 @@ function PartnerCard({
           <select
             value={form.category}
             onChange={(e) => set("category", e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           >
             {categories.map((c) => (
               <option key={c.value} value={c.value}>
@@ -126,7 +126,7 @@ function PartnerCard({
             <MediaPicker onSelect={(url) => set("logo_url", url)} label="اختر أو ارفع شعاراً" />
             {form.logo_url && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={form.logo_url} alt="" className="h-9 w-9 rounded-lg border border-white/10 bg-white object-contain p-0.5" />
+              <img src={form.logo_url} alt="" className="h-9 w-9 rounded-lg border border-fg/10 bg-white object-contain p-0.5" />
             )}
           </div>
         </div>
@@ -137,7 +137,7 @@ function PartnerCard({
             value={form.description ?? ""}
             onChange={(e) => set("description", e.target.value)}
             rows={2}
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           />
         </label>
         <Field
@@ -151,7 +151,7 @@ function PartnerCard({
             type="checkbox"
             checked={form.is_active ?? true}
             onChange={(e) => set("is_active", e.target.checked)}
-            className="h-4 w-4 rounded border-white/20 bg-ink-900 text-brand-500 focus:ring-brand-500"
+            className="h-4 w-4 rounded border-fg/20 bg-ink-900 text-brand-500 focus:ring-brand-500"
           />
           <span className="text-sm text-slate-300">نشط (يظهر في الموقع)</span>
         </label>
@@ -191,7 +191,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className={`w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none ${
+        className={`w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none ${
           mono ? "font-mono text-sm" : ""
         }`}
       />

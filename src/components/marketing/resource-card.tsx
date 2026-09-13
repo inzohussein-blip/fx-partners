@@ -47,10 +47,10 @@ export function ResourceCard({ resource }: { resource: TradingResource }) {
             {kind.emoji}
           </span>
           <div className="min-w-0">
-            <span className="rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-slate-400">
+            <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[11px] text-slate-400">
               {kind.label}
             </span>
-            <h3 className="mt-1 truncate font-bold text-white">{resource.title}</h3>
+            <h3 className="mt-1 truncate font-bold text-fg">{resource.title}</h3>
           </div>
         </div>
         {resource.description && (
@@ -78,13 +78,13 @@ export function ResourceCard({ resource }: { resource: TradingResource }) {
             className="card-surface relative z-10 w-full max-w-sm overflow-hidden p-0"
           >
             <div className="hero-glow relative p-6 text-center">
-              <button onClick={() => setOpen(false)} className="absolute end-3 top-3 rounded-full p-1.5 text-slate-400 hover:bg-white/10 hover:text-white" aria-label="إغلاق">
+              <button onClick={() => setOpen(false)} className="absolute end-3 top-3 rounded-full p-1.5 text-slate-400 hover:bg-fg/10 hover:text-fg" aria-label="إغلاق">
                 <X className="h-4 w-4" />
               </button>
               <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-500/15 text-brand-200 ring-1 ring-brand-500/20">
                 <Lock className="h-6 w-6" />
               </span>
-              <h2 className="mt-4 text-lg font-extrabold text-white">فعّل التحميل مجاناً</h2>
+              <h2 className="mt-4 text-lg font-extrabold text-fg">فعّل التحميل مجاناً</h2>
               <p className="mt-1 text-sm text-slate-400">
                 لتحميل «{resource.title}» افتح حساباً عبر رابطنا في {resource.brokerName} وأدخل رقم حسابك.
               </p>
@@ -107,7 +107,7 @@ export function ResourceCard({ resource }: { resource: TradingResource }) {
                   onChange={(e) => setAccount(e.target.value)}
                   placeholder="مثال: 123456"
                   dir="ltr"
-                  className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+                  className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
                 />
               </label>
 

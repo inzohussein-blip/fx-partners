@@ -44,7 +44,7 @@ export function SectionHeading({
       <Heading
         className={`${
           eyebrow ? "mt-5" : ""
-        } text-[26px] font-bold leading-[1.3] text-white sm:text-3xl sm:leading-tight lg:text-4xl`}
+        } text-[26px] font-bold leading-[1.3] text-fg sm:text-3xl sm:leading-tight lg:text-4xl`}
       >
         {title}
       </Heading>

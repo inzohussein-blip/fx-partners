@@ -29,7 +29,7 @@ export function ProfileProgress({ steps }: { steps: OnboardingStep[] }) {
               <Sparkles className="h-5 w-5" aria-hidden />
             </span>
             <div>
-              <h2 className="text-lg font-bold text-white">أكمل إعداد حسابك</h2>
+              <h2 className="text-lg font-bold text-fg">أكمل إعداد حسابك</h2>
               <p className="mt-0.5 text-sm text-slate-400">
                 {complete
                   ? "أحسنت! أكملت كل الخطوات 🎉"
@@ -42,7 +42,7 @@ export function ProfileProgress({ steps }: { steps: OnboardingStep[] }) {
 
         {/* Progress bar */}
         <div
-          className="mt-5 h-2.5 overflow-hidden rounded-full bg-white/10"
+          className="mt-5 h-2.5 overflow-hidden rounded-full bg-fg/10"
           role="progressbar"
           aria-valuenow={pct}
           aria-valuemin={0}
@@ -63,7 +63,7 @@ export function ProfileProgress({ steps }: { steps: OnboardingStep[] }) {
               className={`flex items-center gap-3 rounded-xl p-3 transition ${
                 step.completed
                   ? "bg-emerald-500/10 ring-1 ring-emerald-500/20"
-                  : "bg-white/[0.03] hover:bg-white/[0.06]"
+                  : "bg-fg/[0.03] hover:bg-fg/[0.06]"
               }`}
             >
               {step.completed ? (
@@ -73,7 +73,7 @@ export function ProfileProgress({ steps }: { steps: OnboardingStep[] }) {
               )}
               <span
                 className={`flex-1 text-sm ${
-                  step.completed ? "text-slate-500 line-through" : "font-medium text-white"
+                  step.completed ? "text-slate-500 line-through" : "font-medium text-fg"
                 }`}
               >
                 {step.label}
@@ -81,7 +81,7 @@ export function ProfileProgress({ steps }: { steps: OnboardingStep[] }) {
               {!step.completed && step.href && (
                 <Link
                   href={step.href}
-                  className="shrink-0 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-white/5 hover:text-white"
+                  className="shrink-0 rounded-lg border border-fg/10 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-fg/5 hover:text-fg"
                 >
                   أكمل
                 </Link>

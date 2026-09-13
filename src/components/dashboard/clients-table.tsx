@@ -17,7 +17,7 @@ export type ClientRow = {
 };
 
 const statusLabel: Record<string, { text: string; cls: string }> = {
-  lead: { text: "عميل محتمل", cls: "bg-white/10 text-slate-300" },
+  lead: { text: "عميل محتمل", cls: "bg-fg/10 text-slate-300" },
   registered: { text: "مسجّل", cls: "bg-blue-500/10 text-blue-300" },
   funded: { text: "مموّل", cls: "bg-gold-500/10 text-gold-400" },
   active: { text: "نشط", cls: "bg-brand-500/10 text-brand-300" },
@@ -36,7 +36,7 @@ const columns: ColumnDef<ClientRow>[] = [
     id: "client",
     header: "العميل",
     accessorFn: (r) => r.client_email || r.client_ref || "—",
-    cell: (c) => <span className="text-white">{c.getValue<string>()}</span>,
+    cell: (c) => <span className="text-fg">{c.getValue<string>()}</span>,
   },
   {
     accessorKey: "campaign",
@@ -97,7 +97,7 @@ export function ClientsTable({ rows }: { rows: ClientRow[] }) {
             "rounded-lg px-3 py-1.5 text-xs font-medium transition",
             status === f.value
               ? "bg-brand-500/15 text-brand-200"
-              : "bg-white/5 text-slate-400 hover:text-white"
+              : "bg-fg/5 text-slate-400 hover:text-fg"
           )}
         >
           {f.label}

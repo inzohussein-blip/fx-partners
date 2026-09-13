@@ -72,7 +72,7 @@ function Donut({ counts }: { counts: StatusCounts }) {
       </svg>
       <div className="absolute inset-0 grid place-items-center">
         <div className="text-center">
-          <div className="text-2xl font-extrabold text-white">{total}</div>
+          <div className="text-2xl font-extrabold text-fg">{total}</div>
           <div className="text-[10px] text-slate-500">إجمالي العملاء</div>
         </div>
       </div>
@@ -155,7 +155,7 @@ export function PerformancePanel({
     <section className="grid gap-4 lg:grid-cols-3">
       {/* Donut breakdown */}
       <div className="card-surface p-6">
-        <h3 className="text-sm font-semibold text-white">توزيع العملاء</h3>
+        <h3 className="text-sm font-semibold text-fg">توزيع العملاء</h3>
         <div className="mt-4 flex items-center gap-5">
           <Donut counts={counts} />
           <ul className="space-y-2 text-sm">
@@ -166,7 +166,7 @@ export function PerformancePanel({
                   style={{ backgroundColor: s.color }}
                 />
                 <span className="text-slate-400">{s.label}</span>
-                <span className="font-semibold text-white">{counts[s.key]}</span>
+                <span className="font-semibold text-fg">{counts[s.key]}</span>
               </li>
             ))}
           </ul>
@@ -175,14 +175,14 @@ export function PerformancePanel({
 
       {/* Delta KPIs */}
       <div className="card-surface p-6 lg:col-span-2">
-        <h3 className="text-sm font-semibold text-white">الأداء الشهري</h3>
+        <h3 className="text-sm font-semibold text-fg">الأداء الشهري</h3>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-white/5 bg-ink-900/40 p-4">
+          <div className="rounded-xl border border-fg/5 bg-ink-900/40 p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-500">أرباح الشهر</span>
               <Delta pct={deltaPct(curEarn, prevEarn)} />
             </div>
-            <div dir="ltr" className="mt-1.5 text-xl font-bold text-white">
+            <div dir="ltr" className="mt-1.5 text-xl font-bold text-fg">
               {formatCurrency(curEarn)}
             </div>
             <div className="mt-2">
@@ -190,12 +190,12 @@ export function PerformancePanel({
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/5 bg-ink-900/40 p-4">
+          <div className="rounded-xl border border-fg/5 bg-ink-900/40 p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-500">إحالات الشهر</span>
               <Delta pct={deltaPct(curRef, prevRef)} />
             </div>
-            <div dir="ltr" className="mt-1.5 text-xl font-bold text-white">
+            <div dir="ltr" className="mt-1.5 text-xl font-bold text-fg">
               {curRef}
             </div>
             <div className="mt-2">
@@ -203,14 +203,14 @@ export function PerformancePanel({
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/5 bg-ink-900/40 p-4">
+          <div className="rounded-xl border border-fg/5 bg-ink-900/40 p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs text-slate-500">معدّل التحويل</span>
             </div>
-            <div dir="ltr" className="mt-1.5 text-xl font-bold text-white">
+            <div dir="ltr" className="mt-1.5 text-xl font-bold text-fg">
               {Math.round(conversion)}%
             </div>
-            <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-fg/10">
               <div
                 className="h-full rounded-full bg-brand-gradient"
                 style={{ width: `${Math.min(100, conversion)}%` }}

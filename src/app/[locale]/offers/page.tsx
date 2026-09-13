@@ -87,7 +87,7 @@ export default async function OffersPage() {
             <Crosshair className="h-3.5 w-3.5" />
             القنّاص المالي
           </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
             <EditableText contentKey="page.offers" field="title" label="عنوان صفحة العروض">
               {copy.title}
             </EditableText>
@@ -123,7 +123,7 @@ export default async function OffersPage() {
                     <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/15 px-2.5 py-0.5 text-[11px] text-orange-300">
                       <Flame className="h-3 w-3" /> عرض نشط
                     </span>
-                    <h3 className="mt-3 text-lg font-bold text-white">{c.title}</h3>
+                    <h3 className="mt-3 text-lg font-bold text-fg">{c.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-300" dir="auto">
                       {c.message}
                     </p>

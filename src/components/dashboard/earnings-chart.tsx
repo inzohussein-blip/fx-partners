@@ -24,8 +24,8 @@ export type ChartPoint = {
 function ChartTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-lg border border-white/10 bg-ink-900/95 px-3 py-2 text-xs shadow-xl">
-      <div className="mb-1 font-medium text-white">{label}</div>
+    <div className="rounded-lg border border-fg/10 bg-ink-900/95 px-3 py-2 text-xs shadow-xl">
+      <div className="mb-1 font-medium text-fg">{label}</div>
       {payload.map((p) => (
         <div key={p.name} className="text-slate-300">
           {p.name === "earnings"
@@ -60,7 +60,7 @@ function ChartHead({
         <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
           <Icon className="h-4 w-4" />
         </span>
-        <h3 className="text-sm font-semibold text-white">{title}</h3>
+        <h3 className="text-sm font-semibold text-fg">{title}</h3>
       </div>
       <span dir="ltr" className="text-sm font-bold text-brand-300">
         {summary}

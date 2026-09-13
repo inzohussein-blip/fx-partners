@@ -55,7 +55,7 @@ export function WithdrawForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="card-surface p-6">
-      <h2 className="text-lg font-semibold text-white">طلب سحب</h2>
+      <h2 className="text-lg font-semibold text-fg">طلب سحب</h2>
       <p className="mt-1 text-sm text-slate-400">
         الرصيد المتاح:{" "}
         <span className="text-brand-300">{formatCurrency(balance)}</span>
@@ -69,7 +69,7 @@ export function WithdrawForm({
             step="0.01"
             {...register("amount")}
             placeholder="0.00"
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
           />
           {errors.amount && (
             <span className="mt-1 block text-xs text-red-300">
@@ -82,7 +82,7 @@ export function WithdrawForm({
           <span className="mb-1.5 block text-sm text-slate-300">طريقة السحب</span>
           <select
             {...register("method")}
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           >
             <option value="bank_transfer">تحويل بنكي</option>
             <option value="crypto">عملة رقمية (USDT)</option>
@@ -102,7 +102,7 @@ export function WithdrawForm({
           <input
             {...register("destination")}
             placeholder="IBAN / TRC20 / …"
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 font-mono text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 font-mono text-sm text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
           />
           {errors.destination && (
             <span className="mt-1 block text-xs text-red-300">

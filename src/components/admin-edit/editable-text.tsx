@@ -71,7 +71,7 @@ export function EditableText({
           <>
             <button
               onClick={() => setOpen(false)}
-              className="rounded-xl border border-white/10 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5"
+              className="rounded-xl border border-fg/10 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-fg/5"
             >
               إلغاء
             </button>
@@ -92,14 +92,14 @@ export function EditableText({
             value={value}
             onChange={(e) => setValue(e.target.value)}
             dir="auto"
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           />
         ) : (
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             dir="auto"
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           />
         )}
         {error && <p className="mt-3 text-sm text-red-300">{error}</p>}

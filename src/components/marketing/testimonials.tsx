@@ -55,8 +55,8 @@ export async function Testimonials() {
                 <blockquote className="mt-5 flex-1 text-base leading-relaxed text-slate-200">
                   {item.quote}
                 </blockquote>
-                <figcaption className="mt-6 border-t border-white/5 pt-5">
-                  <div className="font-semibold text-white">{item.name}</div>
+                <figcaption className="mt-6 border-t border-fg/5 pt-5">
+                  <div className="font-semibold text-fg">{item.name}</div>
                   {item.role && (
                     <div className="text-xs text-brand-300">{item.role}</div>
                   )}

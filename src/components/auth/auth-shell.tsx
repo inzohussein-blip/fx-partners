@@ -25,7 +25,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
           <Link href="/">
             <Logo markClassName="h-9 w-9" />
           </Link>
-          <h2 className="mt-8 text-3xl font-extrabold leading-tight text-white">
+          <h2 className="mt-8 text-3xl font-extrabold leading-tight text-fg">
             انضم لأكبر شبكة شراكة تداول في الوطن العربي
           </h2>
           <ul className="mt-8 space-y-4">

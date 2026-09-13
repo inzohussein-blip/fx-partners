@@ -48,7 +48,7 @@ export function AgreementSigner({ defaultName }: { defaultName: string }) {
   return (
     <div className="space-y-6">
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">اتفاقية الشراكة</h2>
+        <h2 className="text-lg font-semibold text-fg">اتفاقية الشراكة</h2>
         <ul className="mt-4 space-y-2 text-sm leading-relaxed text-slate-300">
           {CLAUSES.map((c, i) => (
             <li key={i} className="flex gap-2">
@@ -73,7 +73,7 @@ export function AgreementSigner({ defaultName }: { defaultName: string }) {
             onChange={(e) => setName(e.target.value)}
             dir="ltr"
             placeholder="Full name"
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none sm:w-80"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none sm:w-80"
           />
         </label>
 
@@ -83,7 +83,7 @@ export function AgreementSigner({ defaultName }: { defaultName: string }) {
             <button
               type="button"
               onClick={() => padRef.current?.clear()}
-              className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-white"
+              className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-fg"
             >
               <Eraser className="h-3.5 w-3.5" />
               مسح

@@ -45,7 +45,7 @@ export default function ResetPasswordPage() {
 
   return (
     <AuthShell>
-      <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
+      <h1 className="text-2xl font-bold text-fg">{t("title")}</h1>
       <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
@@ -103,4 +103,4 @@ export default function ResetPasswordPage() {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none focus:ring-2 focus:ring-brand-500/20";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none focus:ring-2 focus:ring-brand-500/20";

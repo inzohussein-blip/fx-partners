@@ -85,7 +85,7 @@ export function Booking({ slots }: { slots: Slot[] }) {
   }
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
   if (done) {
     return (
@@ -95,7 +95,7 @@ export function Booking({ slots }: { slots: Slot[] }) {
             <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-500/15 text-brand-300">
               <Check className="h-7 w-7" />
             </div>
-            <h3 className="mt-4 text-2xl font-bold text-white">تم تأكيد موعدك!</h3>
+            <h3 className="mt-4 text-2xl font-bold text-fg">تم تأكيد موعدك!</h3>
             <p className="mt-3 text-slate-400">
               أرسلنا تفاصيل الاجتماع إلى بريدك الإلكتروني، وسيتواصل معك فريق
               الشراكات قبل الموعد. نتطلّع للحديث معك.
@@ -114,7 +114,7 @@ export function Booking({ slots }: { slots: Slot[] }) {
             <Video className="h-3.5 w-3.5" />
             اجتماع أونلاين
           </span>
-          <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
             احجز مكالمة شراكة B2B
           </h2>
           <p className="mt-4 text-slate-400">
@@ -126,13 +126,13 @@ export function Booking({ slots }: { slots: Slot[] }) {
         <div className="card-surface mt-10 grid gap-8 p-6 sm:p-8 lg:grid-cols-2">
           {/* Slot picker */}
           <div>
-            <h3 className="flex items-center gap-2 text-sm font-semibold text-white">
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-fg">
               <CalendarClock className="h-4 w-4 text-brand-300" />
               المواعيد المتاحة
             </h3>
 
             {grouped.length === 0 ? (
-              <p className="mt-6 rounded-xl border border-white/5 bg-ink-900/40 p-5 text-sm text-slate-400">
+              <p className="mt-6 rounded-xl border border-fg/5 bg-ink-900/40 p-5 text-sm text-slate-400">
                 لا توجد مواعيد متاحة حالياً. اترك بياناتك في نموذج{" "}
                 <span className="text-brand-300">تواصل معنا</span> وسنعاود
                 الاتصال بك لتحديد موعد.
@@ -153,7 +153,7 @@ export function Booking({ slots }: { slots: Slot[] }) {
                             "rounded-xl border px-2 py-2.5 text-sm font-semibold transition",
                             selected === s.id
                               ? "border-brand-400 bg-brand-500/20 text-brand-100"
-                              : "border-white/10 bg-white/5 text-slate-300 hover:border-brand-500/40 hover:text-white"
+                              : "border-fg/10 bg-fg/5 text-slate-300 hover:border-brand-500/40 hover:text-fg"
                           )}
                         >
                           {fmtTime(s.starts_at)}

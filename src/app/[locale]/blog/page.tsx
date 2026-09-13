@@ -71,7 +71,7 @@ export default async function BlogPage() {
             <Newspaper className="h-3.5 w-3.5" />
             المدونة
           </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
             <EditableText contentKey="page.blog" field="title" label="عنوان المدوّنة">
               {copy.title}
             </EditableText>
@@ -107,7 +107,7 @@ export default async function BlogPage() {
                       {fmtDate(featured.published_at)}
                     </time>
                   )}
-                  <h2 className="mt-4 text-2xl font-bold text-white group-hover:text-brand-100 sm:text-3xl">
+                  <h2 className="mt-4 text-2xl font-bold text-fg group-hover:text-brand-100 sm:text-3xl">
                     {featured.title}
                   </h2>
                   {featured.excerpt && (
@@ -134,7 +134,7 @@ export default async function BlogPage() {
                           {fmtDate(post.published_at)}
                         </time>
                       )}
-                      <h3 className="mt-2 text-lg font-semibold text-white group-hover:text-brand-200">
+                      <h3 className="mt-2 text-lg font-semibold text-fg group-hover:text-brand-200">
                         {post.title}
                       </h3>
                       {post.excerpt && (

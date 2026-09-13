@@ -24,7 +24,7 @@ export function PageHeader({
           </span>
         )}
         <div>
-          <h1 className="text-2xl font-bold text-white">{title}</h1>
+          <h1 className="text-2xl font-bold text-fg">{title}</h1>
           {subtitle && (
             <p className="mt-1 text-sm text-slate-400">{subtitle}</p>
           )}

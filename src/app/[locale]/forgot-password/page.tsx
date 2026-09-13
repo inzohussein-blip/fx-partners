@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthShell>
-      <h1 className="text-2xl font-bold text-white">{t("title")}</h1>
+      <h1 className="text-2xl font-bold text-fg">{t("title")}</h1>
       <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
 
       {sent ? (

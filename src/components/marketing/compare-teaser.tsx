@@ -47,7 +47,7 @@ export async function CompareTeaser() {
               <Scale className="h-3.5 w-3.5" />
               {t("badge")}
             </span>
-            <h2 className="mt-4 text-2xl font-bold text-white sm:text-3xl">{t("heading")}</h2>
+            <h2 className="mt-4 text-2xl font-bold text-fg sm:text-3xl">{t("heading")}</h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{t("subheading")}</p>
             <div className="mt-6">
               <ComparePicker options={options} />
@@ -65,7 +65,7 @@ export async function CompareTeaser() {
                   <f.icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-bold text-white">{f.t}</h3>
+                  <h3 className="text-sm font-bold text-fg">{f.t}</h3>
                   <p className="mt-1 text-xs leading-relaxed text-slate-400">{f.d}</p>
                 </div>
               </div>

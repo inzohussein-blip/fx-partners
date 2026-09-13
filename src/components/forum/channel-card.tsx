@@ -15,7 +15,7 @@ export function ChannelCard({ channel }: { channel: Channel }) {
         <Avatar name={channel.owner_name || channel.name} src={channel.cover_image} size={44} />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
-            <h3 className="truncate font-semibold text-white group-hover:text-brand-200">
+            <h3 className="truncate font-semibold text-fg group-hover:text-brand-200">
               {channel.name}
             </h3>
             {official ? (

@@ -29,7 +29,7 @@ export function ContactForm() {
   }
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none focus:ring-2 focus:ring-brand-500/20";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none focus:ring-2 focus:ring-brand-500/20";
 
   if (done) {
     return (
@@ -37,7 +37,7 @@ export function ContactForm() {
         <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/15 text-brand-300">
           <Check className="h-6 w-6" />
         </div>
-        <h3 className="mt-3 text-lg font-bold text-white">تم إرسال رسالتك!</h3>
+        <h3 className="mt-3 text-lg font-bold text-fg">تم إرسال رسالتك!</h3>
         <p className="mt-2 text-sm text-slate-400">
           شكراً لتواصلك، سيرد عليك فريقنا في أقرب وقت.
         </p>

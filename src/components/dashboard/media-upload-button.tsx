@@ -35,7 +35,7 @@ export function MediaUploadButton({
         type="button"
         onClick={() => ref.current?.click()}
         disabled={busy}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-white/5 hover:text-white disabled:opacity-60"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-fg/10 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-fg/5 hover:text-fg disabled:opacity-60"
       >
         {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
         {label}

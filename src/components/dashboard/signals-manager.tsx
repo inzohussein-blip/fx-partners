@@ -25,7 +25,7 @@ export type Hook = { id: string; label: string | null; url: string; is_active: b
 type BrokerOpt = { id: string; name: string };
 
 const input =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function SignalsManager({
   signals,
@@ -79,7 +79,7 @@ export function SignalsManager({
     <div className="space-y-8">
       {/* Compose */}
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <Send className="h-4 w-4 text-brand-300" /> توصية / تحليل جديد
         </h2>
         <div className="mt-4 space-y-3">
@@ -151,7 +151,7 @@ export function SignalsManager({
 
       {/* Webhook endpoints */}
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <Webhook className="h-4 w-4 text-brand-300" /> قنوات البثّ (Webhooks)
         </h2>
         <p className="mt-1 text-xs text-slate-500">
@@ -163,7 +163,7 @@ export function SignalsManager({
             {hooks.map((h) => (
               <li
                 key={h.id}
-                className="flex items-center justify-between gap-3 rounded-lg bg-white/5 px-3 py-2 text-xs"
+                className="flex items-center justify-between gap-3 rounded-lg bg-fg/5 px-3 py-2 text-xs"
               >
                 <span className="min-w-0 truncate text-slate-300" dir="ltr">
                   {h.label ? `${h.label} · ` : ""}
@@ -222,20 +222,20 @@ export function SignalsManager({
 
       {/* Published signals */}
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">التوصيات ({signals.length})</h2>
+        <h2 className="text-lg font-semibold text-fg">التوصيات ({signals.length})</h2>
         {signals.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد توصيات بعد.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {signals.map((s) => {
               const dir = directionMeta(s.direction);
               return (
                 <li key={s.id} className="flex items-start justify-between gap-3 py-4">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-medium text-white">{s.title}</span>
+                      <span className="font-medium text-fg">{s.title}</span>
                       {s.symbol && (
-                        <span className="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-slate-400" dir="ltr">
+                        <span className="rounded bg-fg/5 px-1.5 py-0.5 text-[10px] text-slate-400" dir="ltr">
                           {s.symbol}
                         </span>
                       )}

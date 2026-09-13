@@ -23,7 +23,7 @@ const KIND_LABELS: Record<string, string> = {
 };
 
 const input =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function ResourcesManager({
   resources,
@@ -111,13 +111,13 @@ export function ResourcesManager({
                 <Download className="h-4 w-4" />
               </span>
               <div className="min-w-0 flex-1">
-                <div className="truncate font-medium text-white">{r.title}</div>
+                <div className="truncate font-medium text-fg">{r.title}</div>
                 <div className="text-xs text-slate-500">
                   {KIND_LABELS[r.kind] ?? r.kind}
                   {r.broker_name ? ` · عبر ${r.broker_name}` : " · تحميل مباشر"} · {r.downloads} تحميل
                 </div>
               </div>
-              <button onClick={() => toggle(r.id, !r.is_active)} disabled={busy === r.id} className="p-2 text-slate-400 hover:text-white" aria-label={r.is_active ? "إخفاء" : "إظهار"}>
+              <button onClick={() => toggle(r.id, !r.is_active)} disabled={busy === r.id} className="p-2 text-slate-400 hover:text-fg" aria-label={r.is_active ? "إخفاء" : "إظهار"}>
                 {r.is_active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
               </button>
               <button onClick={() => remove(r.id)} disabled={busy === r.id} className="p-2 text-slate-400 hover:text-red-300" aria-label="حذف">

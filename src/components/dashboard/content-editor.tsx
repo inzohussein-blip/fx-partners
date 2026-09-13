@@ -46,12 +46,12 @@ export function ContentEditor({
     <form onSubmit={submit} className="card-surface p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <h2 className="text-lg font-semibold text-fg">{title}</h2>
           {description && (
             <p className="mt-1 text-xs text-slate-500">{description}</p>
           )}
         </div>
-        <code className="rounded bg-white/5 px-2 py-1 text-xs text-slate-500">
+        <code className="rounded bg-fg/5 px-2 py-1 text-xs text-slate-500">
           {blockKey}
         </code>
       </div>
@@ -70,7 +70,7 @@ export function ContentEditor({
                   setState((s) => ({ ...s, [f.name]: e.target.value }))
                 }
                 rows={3}
-                className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
               />
             ) : (
               <input
@@ -78,7 +78,7 @@ export function ContentEditor({
                 onChange={(e) =>
                   setState((s) => ({ ...s, [f.name]: e.target.value }))
                 }
-                className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+                className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
               />
             )}
           </label>

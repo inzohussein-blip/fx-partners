@@ -272,7 +272,7 @@ export default async function OverviewPage() {
 
       <section className="card-surface p-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-white">آخر الأرباح</h2>
+          <h2 className="text-lg font-semibold text-fg">آخر الأرباح</h2>
           <Link2 className="h-4 w-4 text-slate-500" />
         </div>
 
@@ -291,11 +291,11 @@ export default async function OverviewPage() {
             }
           />
         ) : (
-          <ul className="mt-4 divide-y divide-white/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {o.recent.map((e, i) => (
               <li key={i} className="flex items-center justify-between py-3">
                 <div>
-                  <p className="text-sm text-white">
+                  <p className="text-sm text-fg">
                     {e.description ?? "عمولة"}
                   </p>
                   <p className="text-xs text-slate-500">

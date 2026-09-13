@@ -56,7 +56,7 @@ function brokerHref(b: Broker): string {
 }
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg focus:border-brand-500/50 focus:outline-none";
 
 export function MarginCalculator() {
   const [brokers, setBrokers] = useState<Broker[]>(FALLBACK);
@@ -110,7 +110,7 @@ export function MarginCalculator() {
           <Gauge className="h-3.5 w-3.5" aria-hidden />
           المارجن والرافعة
         </span>
-        <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+        <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
           احسب الهامش المطلوب لكل شركة
         </h2>
         <p className="mt-4 text-slate-400">
@@ -192,13 +192,13 @@ export function MarginCalculator() {
             </div>
 
             <dl className="mt-6 space-y-3 text-sm">
-              <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="flex items-center justify-between border-b border-fg/5 pb-3">
                 <dt className="text-slate-400">الرافعة المستخدمة</dt>
-                <dd dir="ltr" className="font-semibold text-white">1:{leverage}</dd>
+                <dd dir="ltr" className="font-semibold text-fg">1:{leverage}</dd>
               </div>
-              <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="flex items-center justify-between border-b border-fg/5 pb-3">
                 <dt className="text-slate-400">القيمة الاسمية</dt>
-                <dd dir="ltr" className="font-semibold text-white">{usd(notional)}</dd>
+                <dd dir="ltr" className="font-semibold text-fg">{usd(notional)}</dd>
               </div>
             </dl>
 

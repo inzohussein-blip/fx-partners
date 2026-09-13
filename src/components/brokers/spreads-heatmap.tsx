@@ -76,7 +76,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
           <Gauge className="h-6 w-6" aria-hidden />
         </span>
-        <h3 className="mt-4 text-sm font-semibold text-white">لا توجد بيانات سبريد بعد</h3>
+        <h3 className="mt-4 text-sm font-semibold text-fg">لا توجد بيانات سبريد بعد</h3>
         <p className="mx-auto mt-1.5 max-w-sm text-sm text-slate-500">
           تُضاف من لوحة التحكم أو جدول <code className="text-brand-300">broker_spreads</code> في Supabase.
         </p>
@@ -95,7 +95,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
             className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
               c === activeCat
                 ? "border-brand-500 bg-brand-gradient text-white shadow-glow"
-                : "border-white/10 text-slate-400 hover:bg-white/5 hover:text-white"
+                : "border-fg/10 text-slate-400 hover:bg-fg/5 hover:text-fg"
             }`}
           >
             {CATEGORY_LABELS[c] || c}
@@ -110,7 +110,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
             <div className="text-xs text-slate-500">
               أفضل سبريد الآن — {CATEGORY_LABELS[activeCat] || activeCat}
             </div>
-            <div className="mt-0.5 text-lg font-bold text-white">
+            <div className="mt-0.5 text-lg font-bold text-fg">
               {best.brokerName} · {best.instrument}
             </div>
           </div>
@@ -127,18 +127,18 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
       </p>
 
       {/* Heatmap table */}
-      <div className="overflow-x-auto rounded-2xl border border-white/[0.06]">
+      <div className="overflow-x-auto rounded-2xl border border-fg/[0.06]">
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr>
-              <th className="sticky end-0 z-10 min-w-[160px] border-b border-s border-white/5 bg-ink-800 p-3 text-start text-slate-400">
+              <th className="sticky end-0 z-10 min-w-[160px] border-b border-s border-fg/5 bg-ink-800 p-3 text-start text-slate-400">
                 الشركة
               </th>
               {instruments.map((inst) => (
                 <th
                   key={inst}
                   dir="ltr"
-                  className="min-w-[100px] whitespace-nowrap border-b border-white/5 p-3 text-center font-bold text-slate-300"
+                  className="min-w-[100px] whitespace-nowrap border-b border-fg/5 p-3 text-center font-bold text-slate-300"
                 >
                   {inst}
                 </th>
@@ -147,11 +147,11 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
           </thead>
           <tbody>
             {brokers.map((b) => (
-              <tr key={b.id} className="transition-colors hover:bg-white/[0.02]">
-                <td className="sticky end-0 z-10 border-b border-s border-white/5 bg-ink-800 p-3">
+              <tr key={b.id} className="transition-colors hover:bg-fg/[0.02]">
+                <td className="sticky end-0 z-10 border-b border-s border-fg/5 bg-ink-800 p-3">
                   <Link
                     href={`/brokers/${b.slug || b.id}`}
-                    className="flex items-center gap-2 text-white hover:text-brand-300"
+                    className="flex items-center gap-2 text-fg hover:text-brand-300"
                   >
                     {b.logo ? (
                       // eslint-disable-next-line @next/next/no-img-element
@@ -160,10 +160,10 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
                         alt={b.name}
                         loading="lazy"
                         decoding="async"
-                        className="h-7 w-7 rounded-lg border border-white/10 bg-white object-contain p-0.5"
+                        className="h-7 w-7 rounded-lg border border-fg/10 bg-white object-contain p-0.5"
                       />
                     ) : (
-                      <span className="grid h-7 w-7 place-items-center rounded-lg bg-white/5 text-xs font-black text-brand-300">
+                      <span className="grid h-7 w-7 place-items-center rounded-lg bg-fg/5 text-xs font-black text-brand-300">
                         {b.name.charAt(0)}
                       </span>
                     )}
@@ -174,7 +174,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
                   const val = matrix.get(b.id)?.get(inst);
                   const bnd = bounds.get(inst);
                   return (
-                    <td key={inst} className="border-b border-white/5 p-0 text-center">
+                    <td key={inst} className="border-b border-fg/5 p-0 text-center">
                       {val != null && bnd ? (
                         <div dir="ltr" className={`m-1 rounded-lg py-2 font-bold ${cellClass(val, bnd.min, bnd.max)}`}>
                           {val}

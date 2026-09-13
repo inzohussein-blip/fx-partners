@@ -96,7 +96,7 @@ export async function Hero({ locale }: { locale: string }) {
 
             {/* Phones get tight leading and a smaller size — the desktop
                 4xl/1.5 turned this into three full screen-widths of text. */}
-            <h1 className="mt-4 text-balance text-[28px] font-extrabold leading-[1.3] tracking-tight text-white sm:mt-5 sm:text-4xl sm:leading-[1.5] lg:text-5xl">
+            <h1 className="mt-4 text-balance text-[28px] font-extrabold leading-[1.3] tracking-tight text-fg sm:mt-5 sm:text-4xl sm:leading-[1.5] lg:text-5xl">
               <EditableText contentKey="home.hero" field="titleTop" label="العنوان الرئيسي">
                 {hero.titleTop}
               </EditableText>
@@ -127,7 +127,7 @@ export async function Hero({ locale }: { locale: string }) {
               <div className="mt-2.5 grid grid-cols-2 gap-2.5 lg:mt-0 lg:flex lg:gap-2.5">
                 <Link
                   href="/affiliates"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3.5 text-[13px] font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5 lg:px-6 lg:text-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-fg/20 px-4 py-3.5 text-[13px] font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-fg/5 lg:px-6 lg:text-sm"
                 >
                   <Share2 className="h-4 w-4 shrink-0 text-brand-300" />
                   {t("Hero.ctaAgent")}
@@ -135,7 +135,7 @@ export async function Hero({ locale }: { locale: string }) {
 
                 <Link
                   href="/forum"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3.5 text-[13px] font-semibold text-slate-200 backdrop-blur-md transition hover:bg-white/[0.12] hover:text-white lg:px-5 lg:text-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-fg/10 bg-fg/[0.06] px-4 py-3.5 text-[13px] font-semibold text-slate-200 backdrop-blur-md transition hover:bg-fg/[0.12] hover:text-fg lg:px-5 lg:text-sm"
                 >
                   <MessagesSquare className="h-4 w-4 shrink-0" />
                   {t("Hero.enterForum")}
@@ -187,13 +187,13 @@ export async function Hero({ locale }: { locale: string }) {
             {features.map((f) => (
               <div
                 key={f.key}
-                className="flex items-center gap-2.5 rounded-xl border border-white/[0.07] bg-white/[0.03] p-2.5 text-start lg:border-0 lg:bg-transparent lg:p-0"
+                className="flex items-center gap-2.5 rounded-xl border border-fg/[0.07] bg-fg/[0.03] p-2.5 text-start lg:border-0 lg:bg-transparent lg:p-0"
               >
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-brand-500/20 bg-brand-500/10 text-brand-300 lg:h-10 lg:w-10 lg:rounded-xl">
                   <f.icon className="h-4 w-4 lg:h-[18px] lg:w-[18px]" />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[12px] font-bold leading-tight text-white lg:text-[13px]">
+                  <div className="text-[12px] font-bold leading-tight text-fg lg:text-[13px]">
                     {t(`Hero.features.${f.key}.title`)}
                   </div>
                   <div className="mt-0.5 text-[10px] leading-tight text-slate-400 lg:text-[11px]">

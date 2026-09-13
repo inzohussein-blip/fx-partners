@@ -16,6 +16,7 @@ import { LiveCampaignBanner } from "@/components/marketing/live-campaign-banner"
 import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
+import { ThemeProvider } from "@/components/theme-provider";
 import "../globals.css";
 
 // Cairo carries both Arabic (primary language) and Latin/numbers — a single,
@@ -27,8 +28,13 @@ const cairo = Cairo({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0A0F14",
-  colorScheme: "dark",
+  // One per scheme, so the browser chrome matches the theme the visitor is
+  // actually seeing instead of always painting the dark navy.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f9fc" },
+    { media: "(prefers-color-scheme: dark)", color: "#01070f" },
+  ],
+  colorScheme: "light dark",
 };
 
 export function generateStaticParams() {
@@ -91,6 +97,7 @@ export default async function LocaleLayout({
       lang={locale}
       dir={dir}
       className={`${cairo.variable}`}
+      suppressHydrationWarning
     >
       <head>
         {/* Warm up connections to external origins used at runtime */}
@@ -115,6 +122,7 @@ export default async function LocaleLayout({
             a crawler that enters on a broker page should learn who publishes
             it without having to reach "/" first. */}
         <OrganizationJsonLd locale={locale} />
+        <ThemeProvider>
         <NextIntlClientProvider messages={messages}>
           <ServiceWorkerRegister />
           <SkipLink />
@@ -138,6 +146,7 @@ export default async function LocaleLayout({
             }}
           />
         </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -47,8 +47,8 @@ export default async function AdminCampaignsPage() {
 
       <CampaignsManager campaigns={campaigns} brokers={brokers} />
 
-      <div className="border-t border-white/5 pt-8">
-        <h2 className="mb-4 text-lg font-bold text-white">الكوبونات</h2>
+      <div className="border-t border-fg/5 pt-8">
+        <h2 className="mb-4 text-lg font-bold text-fg">الكوبونات</h2>
         <CouponsManager coupons={coupons} brokers={brokers} />
       </div>
     </div>

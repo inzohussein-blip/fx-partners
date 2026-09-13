@@ -20,7 +20,7 @@ export function HeadToHeadPicker({
   const [b, setB] = useState(defaultB ?? options[1]?.slug ?? "");
 
   const select =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white focus:border-brand-500/50 focus:outline-none";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg focus:border-brand-500/50 focus:outline-none";
 
   const go = () => {
     if (a && b && a !== b) router.push(`/compare/vs?a=${a}&b=${b}`);
@@ -30,7 +30,7 @@ export function HeadToHeadPicker({
     <div className="card-surface p-5 sm:p-6">
       <div className="flex items-center gap-2">
         <Swords className="h-4 w-4 text-brand-300" />
-        <h3 className="text-sm font-semibold text-white">مقارنة مباشرة بين شركتين</h3>
+        <h3 className="text-sm font-semibold text-fg">مقارنة مباشرة بين شركتين</h3>
       </div>
       <div className="mt-4 grid items-end gap-3 sm:grid-cols-[1fr_auto_1fr_auto]">
         <label className="block">

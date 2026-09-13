@@ -54,13 +54,13 @@ export function ForumPostForm({
   return (
     <form onSubmit={submit} className="card-surface space-y-4 p-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-white">
+        <h3 className="font-semibold text-fg">
           {post ? "تعديل المنشور" : "منشور جديد"}
         </h3>
         <button
           type="button"
           onClick={onDone}
-          className="rounded-lg p-1.5 text-slate-400 hover:bg-white/5 hover:text-white"
+          className="rounded-lg p-1.5 text-slate-400 hover:bg-fg/5 hover:text-fg"
           aria-label="إغلاق"
         >
           <X className="h-4 w-4" />
@@ -73,7 +73,7 @@ export function ForumPostForm({
           value={form.title}
           onChange={(e) => set("title", e.target.value)}
           required
-          className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+          className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
         />
       </label>
 
@@ -82,7 +82,7 @@ export function ForumPostForm({
         <input
           value={form.excerpt ?? ""}
           onChange={(e) => set("excerpt", e.target.value)}
-          className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+          className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
         />
       </label>
 
@@ -93,7 +93,7 @@ export function ForumPostForm({
           {form.cover_image && (
             <div className="flex items-center gap-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={form.cover_image} alt="" className="h-10 w-16 rounded-lg border border-white/10 object-cover" />
+              <img src={form.cover_image} alt="" className="h-10 w-16 rounded-lg border border-fg/10 object-cover" />
               <button
                 type="button"
                 onClick={() => set("cover_image", "")}
@@ -117,7 +117,7 @@ export function ForumPostForm({
           <select
             value={form.status}
             onChange={(e) => set("status", e.target.value as ForumPostInput["status"])}
-            className="rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           >
             <option value="published">منشور</option>
             <option value="draft">مسودة</option>
@@ -128,7 +128,7 @@ export function ForumPostForm({
             type="checkbox"
             checked={form.is_pinned ?? false}
             onChange={(e) => set("is_pinned", e.target.checked)}
-            className="h-4 w-4 rounded border-white/20 bg-ink-900 text-brand-500 focus:ring-brand-500"
+            className="h-4 w-4 rounded border-fg/20 bg-ink-900 text-brand-500 focus:ring-brand-500"
           />
           <span className="text-sm text-slate-300">تثبيت أعلى القناة</span>
         </label>

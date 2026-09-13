@@ -81,7 +81,7 @@ export function MediaPicker({
       <button
         type="button"
         onClick={openDialog}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-fg/10 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:bg-fg/5 hover:text-fg"
       >
         <ImagePlus className="h-3.5 w-3.5" />
         {label}
@@ -117,7 +117,7 @@ export function MediaPicker({
                 key={m.name}
                 type="button"
                 onClick={() => pick(m.url)}
-                className="group overflow-hidden rounded-xl border border-white/10 transition hover:ring-2 hover:ring-brand-500/50"
+                className="group overflow-hidden rounded-xl border border-fg/10 transition hover:ring-2 hover:ring-brand-500/50"
                 title={m.name}
               >
                 <span className="block aspect-square bg-ink-900">

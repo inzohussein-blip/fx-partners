@@ -122,7 +122,7 @@ export default async function AboutPage() {
             <ShieldCheck className="h-3.5 w-3.5" aria-hidden />
             من نحن
           </span>
-          <h1 className="mt-5 text-3xl font-extrabold leading-snug text-white sm:text-4xl">
+          <h1 className="mt-5 text-3xl font-extrabold leading-snug text-fg sm:text-4xl">
             وسيط شراكة ووكيل ماستر — لا شركة تداول
           </h1>
           <p className="mt-5 text-base leading-relaxed text-slate-300">
@@ -136,7 +136,7 @@ export default async function AboutPage() {
           {/* ---- Are / are not ---- */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="card-surface p-6">
-              <h2 className="flex items-center gap-2 text-base font-bold text-white">
+              <h2 className="flex items-center gap-2 text-base font-bold text-fg">
                 <Check className="h-4 w-4 text-emerald-400" aria-hidden />
                 ما نحن
               </h2>
@@ -151,7 +151,7 @@ export default async function AboutPage() {
             </div>
 
             <div className="card-surface p-6">
-              <h2 className="flex items-center gap-2 text-base font-bold text-white">
+              <h2 className="flex items-center gap-2 text-base font-bold text-fg">
                 <X className="h-4 w-4 text-rose-400" aria-hidden />
                 ما لسنا
               </h2>
@@ -168,14 +168,14 @@ export default async function AboutPage() {
 
           {/* ---- How we get paid ---- */}
           <div className="card-surface mt-10 p-6">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-fg">
               <Coins className="h-5 w-5 text-brand-300" aria-hidden />
               كيف نكسب
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-slate-300">
               تدفع لنا شركات التداول عمولة عن نشاط العملاء الذين يفتحون حساباتهم
               عبرنا. هذه العمولة تأتي من فرق السعر أو العمولة التي تدفعها الشركة
-              أصلاً — <strong className="text-white">لا كرسم إضافي عليك</strong>، ولا
+              أصلاً — <strong className="text-fg">لا كرسم إضافي عليك</strong>، ولا
               ترفع تكلفة تداولك.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-slate-400">
@@ -188,7 +188,7 @@ export default async function AboutPage() {
 
           {/* ---- Editorial policy ---- */}
           <div className="mt-12">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-fg">
               <ScrollText className="h-5 w-5 text-brand-300" aria-hidden />
               كيف نقرّر ما يُعرض
             </h2>
@@ -198,7 +198,7 @@ export default async function AboutPage() {
             <div className="mt-6 space-y-4">
               {POLICY.map((p, i) => (
                 <div key={p.title} className="card-surface p-5">
-                  <h3 className="flex items-start gap-3 text-sm font-bold text-white">
+                  <h3 className="flex items-start gap-3 text-sm font-bold text-fg">
                     <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-brand-500/15 text-[11px] font-extrabold text-brand-300">
                       {i + 1}
                     </span>
@@ -215,7 +215,7 @@ export default async function AboutPage() {
           {/* ---- Company facts (only what the owner has filled in) ---- */}
           {facts.length > 0 && (
             <div className="card-surface mt-12 p-6">
-              <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+              <h2 className="flex items-center gap-2 text-lg font-bold text-fg">
                 <Building2 className="h-5 w-5 text-brand-300" aria-hidden />
                 بيانات الشركة
               </h2>
@@ -241,7 +241,7 @@ export default async function AboutPage() {
             </Link>
             <Link
               href="/compare"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/15 px-6 py-3.5 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-white/5"
+              className="inline-flex items-center gap-2 rounded-xl border border-fg/15 px-6 py-3.5 text-sm font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-fg/5"
             >
               دليل الشركات
               <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />

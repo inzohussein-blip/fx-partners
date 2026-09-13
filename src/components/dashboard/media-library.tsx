@@ -59,7 +59,7 @@ export function MediaLibrary({ items }: { items: MediaItem[] }) {
                 <div className="flex shrink-0 items-center gap-1">
                   <button
                     onClick={() => copy(m.url)}
-                    className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                    className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 transition hover:bg-fg/5 hover:text-fg"
                     aria-label="نسخ الرابط"
                   >
                     {copied === m.url ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
@@ -67,7 +67,7 @@ export function MediaLibrary({ items }: { items: MediaItem[] }) {
                   <button
                     onClick={() => remove(m.name)}
                     disabled={busy === m.name}
-                    className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-red-300"
+                    className="grid h-7 w-7 place-items-center rounded-lg text-slate-400 transition hover:bg-fg/5 hover:text-red-300"
                     aria-label="حذف"
                   >
                     {busy === m.name ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}

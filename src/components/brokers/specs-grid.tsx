@@ -23,7 +23,7 @@ function YesNo({ on }: { on: boolean }) {
       <Check className="h-3.5 w-3.5" aria-label="نعم" />
     </span>
   ) : (
-    <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-white/5 text-slate-600">
+    <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-fg/5 text-slate-600">
       <X className="h-3.5 w-3.5" aria-label="لا" />
     </span>
   );
@@ -35,17 +35,17 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
   const cols = brokers.slice(0, 6);
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-white/[0.06]">
+    <div className="overflow-x-auto rounded-2xl border border-fg/[0.06]">
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr>
-            <th className="sticky end-0 z-10 min-w-[150px] border-b border-s border-white/5 bg-ink-800 p-3 text-start text-slate-400">
+            <th className="sticky end-0 z-10 min-w-[150px] border-b border-s border-fg/5 bg-ink-800 p-3 text-start text-slate-400">
               الخاصية
             </th>
             {cols.map((b) => (
               <th
                 key={b.id}
-                className="min-w-[120px] border-b border-white/5 p-3 text-center"
+                className="min-w-[120px] border-b border-fg/5 p-3 text-center"
               >
                 <Link href={`/brokers/${b.slug}`} className="inline-flex flex-col items-center gap-1.5 hover:text-brand-300">
                   {b.logo_url ? (
@@ -55,14 +55,14 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
                       alt={b.name}
                       loading="lazy"
                       decoding="async"
-                      className="h-8 w-8 rounded-lg border border-white/10 bg-white object-contain p-0.5"
+                      className="h-8 w-8 rounded-lg border border-fg/10 bg-white object-contain p-0.5"
                     />
                   ) : (
-                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-xs font-black text-brand-300">
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-fg/5 text-xs font-black text-brand-300">
                       {b.name.charAt(0)}
                     </span>
                   )}
-                  <span className="text-xs font-semibold text-white">{b.name}</span>
+                  <span className="text-xs font-semibold text-fg">{b.name}</span>
                 </Link>
               </th>
             ))}
@@ -70,12 +70,12 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
         </thead>
         <tbody>
           {FEATURES.map((f) => (
-            <tr key={String(f.key)} className="transition-colors hover:bg-white/[0.02]">
-              <td className="sticky end-0 z-10 border-b border-s border-white/5 bg-ink-800 p-3 font-medium text-slate-300">
+            <tr key={String(f.key)} className="transition-colors hover:bg-fg/[0.02]">
+              <td className="sticky end-0 z-10 border-b border-s border-fg/5 bg-ink-800 p-3 font-medium text-slate-300">
                 {f.label}
               </td>
               {cols.map((b) => (
-                <td key={b.id} className="border-b border-white/5 p-3 text-center">
+                <td key={b.id} className="border-b border-fg/5 p-3 text-center">
                   <YesNo on={Boolean(b[f.key])} />
                 </td>
               ))}
@@ -83,24 +83,24 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
           ))}
 
           {/* Min deposit */}
-          <tr className="transition-colors hover:bg-white/[0.02]">
-            <td className="sticky end-0 z-10 border-b border-s border-white/5 bg-ink-800 p-3 font-medium text-slate-300">
+          <tr className="transition-colors hover:bg-fg/[0.02]">
+            <td className="sticky end-0 z-10 border-b border-s border-fg/5 bg-ink-800 p-3 font-medium text-slate-300">
               أقل إيداع
             </td>
             {cols.map((b) => (
-              <td key={b.id} dir="ltr" className="border-b border-white/5 p-3 text-center text-white">
+              <td key={b.id} dir="ltr" className="border-b border-fg/5 p-3 text-center text-fg">
                 {b.min_deposit != null ? `$${b.min_deposit}` : "—"}
               </td>
             ))}
           </tr>
 
           {/* Deposit methods */}
-          <tr className="transition-colors hover:bg-white/[0.02]">
-            <td className="sticky end-0 z-10 border-b border-s border-white/5 bg-ink-800 p-3 font-medium text-slate-300">
+          <tr className="transition-colors hover:bg-fg/[0.02]">
+            <td className="sticky end-0 z-10 border-b border-s border-fg/5 bg-ink-800 p-3 font-medium text-slate-300">
               طرق الإيداع
             </td>
             {cols.map((b) => (
-              <td key={b.id} className="border-b border-white/5 p-3 text-center">
+              <td key={b.id} className="border-b border-fg/5 p-3 text-center">
                 {b.deposit_methods && b.deposit_methods.length ? (
                   <div className="flex flex-wrap justify-center gap-1">
                     {b.deposit_methods.map((m) => (
@@ -118,7 +118,7 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
 
           {/* CTA row */}
           <tr>
-            <td className="sticky end-0 z-10 border-s border-white/5 bg-ink-800 p-3" />
+            <td className="sticky end-0 z-10 border-s border-fg/5 bg-ink-800 p-3" />
             {cols.map((b) => {
               const link = b.broker_links?.[0];
               return (

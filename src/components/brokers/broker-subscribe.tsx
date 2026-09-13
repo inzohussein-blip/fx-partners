@@ -35,7 +35,7 @@ export function BrokerSubscribe({
             <Bell className="h-5 w-5" />
           </span>
           <div>
-            <h3 className="font-bold text-white">تنبيهات عروض {brokerName}</h3>
+            <h3 className="font-bold text-fg">تنبيهات عروض {brokerName}</h3>
             <p className="text-xs text-slate-400">
               اشترك لتصلك التحديثات فور تغيّر البونص أو الشروط.
             </p>
@@ -54,7 +54,7 @@ export function BrokerSubscribe({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="بريدك الإلكتروني"
-              className="flex-1 rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+              className="flex-1 rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
             />
             <button
               type="submit"

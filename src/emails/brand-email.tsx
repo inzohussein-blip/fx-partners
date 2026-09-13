@@ -36,7 +36,7 @@ export function BrandEmail({
             style={{ backgroundColor: "#0a1728", border: "1px solid rgba(255,255,255,0.08)" }}
           >
             <Section className="text-center">
-              <Text className="m-0 text-[22px] font-bold text-white">
+              <Text className="m-0 text-[22px] font-bold text-fg">
                 <span style={{ color: "#22d3ee" }}>FX</span> Partners
               </Text>
             </Section>
@@ -44,7 +44,7 @@ export function BrandEmail({
             <Hr style={{ borderColor: "rgba(255,255,255,0.08)" }} className="my-6" />
 
             {heading ? (
-              <Heading className="mb-4 text-[20px] font-bold text-white">
+              <Heading className="mb-4 text-[20px] font-bold text-fg">
                 {heading}
               </Heading>
             ) : null}

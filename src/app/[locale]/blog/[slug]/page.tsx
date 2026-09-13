@@ -94,7 +94,7 @@ export default async function PostPage({
             ]}
           />
 
-          <h1 className="mt-6 text-3xl font-extrabold text-white sm:text-4xl">
+          <h1 className="mt-6 text-3xl font-extrabold text-fg sm:text-4xl">
             {post.title}
           </h1>
           {post.published_at && (
@@ -110,16 +110,16 @@ export default async function PostPage({
               they don't show raw markup. Writes are RLS-restricted to admins. */}
           {isHtml(post.body) ? (
             <div
-              className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white"
+              className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-fg prose-a:text-brand-300 prose-strong:text-fg"
               dangerouslySetInnerHTML={{ __html: post.body ?? "" }}
             />
           ) : (
-            <div className="prose prose-invert mt-8 max-w-none whitespace-pre-wrap text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white">
+            <div className="prose prose-invert mt-8 max-w-none whitespace-pre-wrap text-slate-300 prose-headings:text-fg prose-a:text-brand-300 prose-strong:text-fg">
               {post.body ?? ""}
             </div>
           )}
 
-          <div className="mt-12 border-t border-white/5 pt-6">
+          <div className="mt-12 border-t border-fg/5 pt-6">
             <Link
               href="/blog"
               className="inline-flex items-center gap-1 text-sm text-brand-300 hover:text-brand-200"

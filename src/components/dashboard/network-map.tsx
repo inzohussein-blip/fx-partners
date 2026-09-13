@@ -127,7 +127,7 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
   }
 
   return (
-    <div className="relative h-[70vh] overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40">
+    <div className="relative h-[70vh] overflow-hidden rounded-2xl border border-fg/[0.06] bg-ink-900/40">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -143,9 +143,9 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
 
       {/* Side panel */}
       {selected && (
-        <div className="absolute inset-y-0 end-0 z-10 w-full max-w-xs border-s border-white/10 bg-ink-800/95 p-5 backdrop-blur">
+        <div className="absolute inset-y-0 end-0 z-10 w-full max-w-xs border-s border-fg/10 bg-ink-800/95 p-5 backdrop-blur">
           <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-2 text-sm font-semibold text-white">
+            <div className="flex items-center gap-2 text-sm font-semibold text-fg">
               {selected.table === "brokers" ? (
                 <Building2 className="h-4 w-4 text-brand-300" />
               ) : selected.table === "broker_links" ? (
@@ -159,7 +159,7 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
                   ? "رابط إحالة"
                   : "كوبون"}
             </div>
-            <button onClick={() => setSelected(null)} className="text-slate-400 hover:text-white" aria-label="إغلاق">
+            <button onClick={() => setSelected(null)} className="text-slate-400 hover:text-fg" aria-label="إغلاق">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -173,7 +173,7 @@ export function NetworkMap({ brokers }: { brokers: NetworkBroker[] }) {
               value={value}
               onChange={(e) => setValue(e.target.value)}
               dir={selected.table === "broker_links" ? "ltr" : "auto"}
-              className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-sm text-white focus:border-brand-500/50 focus:outline-none"
+              className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-sm text-fg focus:border-brand-500/50 focus:outline-none"
             />
           </label>
           {selected.sub && (

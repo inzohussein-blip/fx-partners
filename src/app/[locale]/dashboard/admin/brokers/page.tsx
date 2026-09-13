@@ -82,7 +82,7 @@ export default async function AdminBrokersPage() {
 
       {brokers.length > 1 && (
         <details className="card-surface p-5">
-          <summary className="cursor-pointer text-sm font-semibold text-white">
+          <summary className="cursor-pointer text-sm font-semibold text-fg">
             ترتيب عرض الشركات (سحب وإفلات)
           </summary>
           <p className="mt-1 text-xs text-slate-500">

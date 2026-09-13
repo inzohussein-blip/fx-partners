@@ -60,7 +60,7 @@ function ChannelsTable({ channels }: { channels: Channel[] }) {
   return (
     <section className="card-surface p-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">القنوات</h2>
+        <h2 className="text-lg font-semibold text-fg">القنوات</h2>
         {pendingCount > 0 && (
           <span className="rounded-md bg-gold-500/10 px-2 py-1 text-xs text-gold-400">
             {pendingCount} بانتظار الاعتماد
@@ -74,7 +74,7 @@ function ChannelsTable({ channels }: { channels: Channel[] }) {
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[680px] text-right text-sm">
             <thead>
-              <tr className="border-b border-white/5 text-slate-400">
+              <tr className="border-b border-fg/5 text-slate-400">
                 <th className="pb-3 font-medium">القناة</th>
                 <th className="pb-3 font-medium">النوع</th>
                 <th className="pb-3 font-medium">المالك</th>
@@ -83,7 +83,7 @@ function ChannelsTable({ channels }: { channels: Channel[] }) {
                 <th className="pb-3 font-medium">إجراء</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-fg/5">
               {channels.map((c) => {
                 const b = badge[c.status] ?? badge.pending;
                 return (
@@ -91,7 +91,7 @@ function ChannelsTable({ channels }: { channels: Channel[] }) {
                     <td className="py-3">
                       <div className="flex items-center gap-2">
                         <Avatar name={c.owner_name || c.name} src={c.cover_image} size={30} />
-                        <span className="font-medium text-white">{c.name}</span>
+                        <span className="font-medium text-fg">{c.name}</span>
                       </div>
                     </td>
                     <td className="py-3">
@@ -138,7 +138,7 @@ function ChannelsTable({ channels }: { channels: Channel[] }) {
                           <Link
                             href={`/forum/${c.slug}`}
                             title="عرض"
-                            className="rounded-lg p-2 text-slate-400 hover:bg-white/5 hover:text-white"
+                            className="rounded-lg p-2 text-slate-400 hover:bg-fg/5 hover:text-fg"
                           >
                             <ExternalLink className="h-3.5 w-3.5" />
                           </Link>
@@ -181,7 +181,7 @@ function CommentsTable({ comments }: { comments: AdminComment[] }) {
 
   return (
     <section className="card-surface p-6">
-      <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+      <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
         <Clock className="h-4 w-4 text-slate-400" /> أحدث التعليقات
       </h2>
       {comments.length === 0 ? (
@@ -192,7 +192,7 @@ function CommentsTable({ comments }: { comments: AdminComment[] }) {
             <div
               key={c.id}
               className={`flex items-start justify-between gap-3 rounded-xl border px-4 py-3 ${
-                c.is_hidden ? "border-red-500/20 bg-red-500/5" : "border-white/5 bg-ink-900/40"
+                c.is_hidden ? "border-red-500/20 bg-red-500/5" : "border-fg/5 bg-ink-900/40"
               }`}
             >
               <div className="min-w-0">
@@ -220,7 +220,7 @@ function CommentsTable({ comments }: { comments: AdminComment[] }) {
                   onClick={() => act(() => hideComment(c.id, !c.is_hidden))}
                   disabled={pending}
                   title={c.is_hidden ? "إظهار" : "إخفاء"}
-                  className="rounded-lg p-2 text-slate-400 hover:bg-white/5 hover:text-white disabled:opacity-50"
+                  className="rounded-lg p-2 text-slate-400 hover:bg-fg/5 hover:text-fg disabled:opacity-50"
                 >
                   {c.is_hidden ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
                 </button>

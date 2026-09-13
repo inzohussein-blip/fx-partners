@@ -16,7 +16,7 @@ function SourceNode({
         <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0">
-        <div className="text-sm font-bold text-white">{title}</div>
+        <div className="text-sm font-bold text-fg">{title}</div>
         <div className="text-[11px] leading-tight text-slate-400">{subtitle}</div>
       </div>
     </div>
@@ -82,7 +82,7 @@ export function ConnectionDiagram({
         />
         <div className="glass-card mx-auto flex max-w-xs flex-col items-center px-6 py-5 ring-1 ring-brand-500/25">
           <LogoMark className="h-11 w-11" />
-          <div className="mt-2 text-base font-extrabold tracking-wide text-white">
+          <div className="mt-2 text-base font-extrabold tracking-wide text-fg">
             FX Partners
           </div>
           <div className="mt-1.5 rounded-full bg-brand-500/15 px-3 py-1 text-[11px] font-semibold text-brand-200">
@@ -108,7 +108,7 @@ export function ConnectionDiagram({
           {tiles.map((tile, i) => (
             <div
               key={`${tile.name}-${i}`}
-              className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1.5 backdrop-blur-md"
+              className="flex items-center gap-1.5 rounded-lg border border-fg/10 bg-fg/[0.04] px-2 py-1.5 backdrop-blur-md"
             >
               {tile.logo ? (
                 // eslint-disable-next-line @next/next/no-img-element

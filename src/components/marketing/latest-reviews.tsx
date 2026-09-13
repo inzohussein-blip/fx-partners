@@ -63,7 +63,7 @@ export async function LatestReviews() {
               <MessageSquareQuote className="h-3.5 w-3.5" />
               {t("badge")}
             </span>
-            <h2 className="mt-4 text-3xl font-bold text-white sm:text-4xl">{t("heading")}</h2>
+            <h2 className="mt-4 text-3xl font-bold text-fg sm:text-4xl">{t("heading")}</h2>
             <p className="mt-3 max-w-xl text-slate-400">{t("subheading")}</p>
           </div>
           <Link
@@ -85,7 +85,7 @@ export async function LatestReviews() {
                 <Avatar name={r.user_name} size={44} />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-sm font-bold text-white">
+                    <span className="truncate text-sm font-bold text-fg">
                       {r.user_name || "متداول"}
                     </span>
                     <Stars value={r.stars} size={14} />
@@ -93,7 +93,7 @@ export async function LatestReviews() {
                   <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-slate-500">
                     {r.broker?.logo_url ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={r.broker.logo_url} alt="" className="h-3.5 w-3.5 rounded bg-white/80 object-contain" />
+                      <img src={r.broker.logo_url} alt="" className="h-3.5 w-3.5 rounded bg-fg/80 object-contain" />
                     ) : (
                       <Building2 className="h-3.5 w-3.5" />
                     )}

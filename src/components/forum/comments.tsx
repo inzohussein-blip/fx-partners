@@ -40,7 +40,7 @@ export function Comments({
 
   return (
     <section className="mt-10" id="comments">
-      <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+      <h2 className="flex items-center gap-2 text-lg font-bold text-fg">
         <MessageCircle className="h-5 w-5 text-brand-300" />
         النقاش ({visible})
       </h2>
@@ -50,7 +50,7 @@ export function Comments({
           <CommentForm postId={postId} />
         </div>
       ) : (
-        <p className="mt-4 rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-sm text-slate-400">
+        <p className="mt-4 rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-sm text-slate-400">
           <Link href="/login?redirect=/forum" className="font-semibold text-brand-300 hover:text-brand-200">
             سجّل الدخول
           </Link>{" "}
@@ -114,7 +114,7 @@ function CommentNode({
   }
 
   return (
-    <div className={depth > 0 ? "border-r border-white/10 pr-4" : ""}>
+    <div className={depth > 0 ? "border-r border-fg/10 pr-4" : ""}>
       <div className="flex gap-3">
         <Avatar name={node.author_name} src={node.author_avatar} size={34} />
         <div className="min-w-0 flex-1">
@@ -234,7 +234,7 @@ function CommentForm({
         onChange={(e) => setBody(e.target.value)}
         rows={compact ? 2 : 3}
         placeholder={parentId ? "اكتب رداً…" : "شارك رأيك في النقاش…"}
-        className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+        className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-sm text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
       />
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={pending || !body.trim()}>
@@ -244,7 +244,7 @@ function CommentForm({
           <button
             type="button"
             onClick={onDone}
-            className="text-sm text-slate-400 hover:text-white"
+            className="text-sm text-slate-400 hover:text-fg"
           >
             إلغاء
           </button>

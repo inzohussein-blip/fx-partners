@@ -40,7 +40,7 @@ export async function BrokerNetwork() {
   const track: (Broker | null)[] = marquee ? [...brokers, ...brokers] : items;
 
   return (
-    <section className="border-y border-white/[0.06] bg-white/[0.015] py-10">
+    <section className="border-y border-fg/[0.06] bg-fg/[0.015] py-10">
       <Container>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-md">
@@ -48,7 +48,7 @@ export async function BrokerNetwork() {
               <ShieldCheck className="h-3.5 w-3.5" />
               شبكة مرخّصة
             </span>
-            <h2 className="mt-3 text-xl font-bold leading-snug text-white sm:text-2xl">
+            <h2 className="mt-3 text-xl font-bold leading-snug text-fg sm:text-2xl">
               {t("heading")}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{t("subheading")}</p>
@@ -98,7 +98,7 @@ function BrokerTile({
   duplicate?: boolean;
 }) {
   const inner = (
-    <div className="flex h-16 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 backdrop-blur-md transition hover:border-white/20 hover:bg-white/[0.06]">
+    <div className="flex h-16 items-center justify-center gap-2 rounded-xl border border-fg/10 bg-fg/[0.03] px-3 backdrop-blur-md transition hover:border-fg/20 hover:bg-fg/[0.06]">
       {broker?.logo_url ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -112,7 +112,7 @@ function BrokerTile({
       ) : (
         <span className="flex items-center gap-2 text-slate-600">
           <Building2 className="h-4 w-4" />
-          <span className="h-2 w-14 rounded-full bg-white/10" />
+          <span className="h-2 w-14 rounded-full bg-fg/10" />
         </span>
       )}
     </div>

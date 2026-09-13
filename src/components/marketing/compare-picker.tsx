@@ -24,7 +24,7 @@ export function ComparePicker({ options }: { options: Option[] }) {
   }
 
   const selectCls =
-    "w-full appearance-none rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-sm text-white transition focus:border-brand-500/50 focus:outline-none";
+    "w-full appearance-none rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-sm text-fg transition focus:border-brand-500/50 focus:outline-none";
 
   return (
     <div className="space-y-3">

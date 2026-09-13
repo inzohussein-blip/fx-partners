@@ -137,7 +137,7 @@ export function Carousel({
         <button
           onClick={() => scrollTo(active - 1)}
           aria-label="السابق"
-          className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-ink-800/60 text-slate-300 transition hover:bg-white/5 hover:text-white"
+          className="grid h-10 w-10 place-items-center rounded-full border border-fg/10 bg-ink-800/60 text-slate-300 transition hover:bg-fg/5 hover:text-fg"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -149,7 +149,7 @@ export function Carousel({
               onClick={() => scrollTo(i)}
               aria-label={`الشريحة ${i + 1}`}
               className={`h-1.5 rounded-full transition-all ${
-                i === active ? "w-6 bg-brand-400" : "w-1.5 bg-white/15 hover:bg-white/30"
+                i === active ? "w-6 bg-brand-400" : "w-1.5 bg-fg/15 hover:bg-fg/30"
               }`}
             />
           ))}
@@ -158,7 +158,7 @@ export function Carousel({
         <button
           onClick={() => scrollTo(active + 1)}
           aria-label="التالي"
-          className="grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-ink-800/60 text-slate-300 transition hover:bg-white/5 hover:text-white"
+          className="grid h-10 w-10 place-items-center rounded-full border border-fg/10 bg-ink-800/60 text-slate-300 transition hover:bg-fg/5 hover:text-fg"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>

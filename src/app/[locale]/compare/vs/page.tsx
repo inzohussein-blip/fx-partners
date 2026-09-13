@@ -89,7 +89,7 @@ function LicenseList({ licenses }: { licenses?: string[] }) {
 function Head({ b, win }: { b: Broker; win?: boolean }) {
   return (
     <div className="text-center">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-fg/5">
         {b.logo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img loading="lazy" decoding="async" src={b.logo_url} alt={b.name} className="h-full w-full rounded-2xl object-contain p-1.5" />
@@ -97,7 +97,7 @@ function Head({ b, win }: { b: Broker; win?: boolean }) {
           <Building2 className="h-7 w-7 text-brand-300" />
         )}
       </div>
-      <Link href={`/brokers/${b.slug}`} className="mt-3 block text-lg font-bold text-white hover:text-brand-200">
+      <Link href={`/brokers/${b.slug}`} className="mt-3 block text-lg font-bold text-fg hover:text-brand-200">
         {b.name}
       </Link>
       <div className="mt-1 flex items-center justify-center gap-1.5">
@@ -165,7 +165,7 @@ export default async function VsPage({
 
       <section className="hero-glow">
         <Container className="py-8 text-center sm:py-12">
-          <h1 className="text-3xl font-extrabold text-white sm:text-4xl">مقارنة مباشرة</h1>
+          <h1 className="text-3xl font-extrabold text-fg sm:text-4xl">مقارنة مباشرة</h1>
           <p className="mx-auto mt-3 max-w-xl text-slate-300">
             قارن شركتين جنباً إلى جنب واتخذ قرارك بثقة.
           </p>
@@ -270,7 +270,7 @@ export default async function VsPage({
                       <Link
                         key={brk.id}
                         href={`/brokers/${brk.slug}`}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:bg-white/5"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-fg/10 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:bg-fg/5"
                       >
                         تفاصيل {brk.name}
                         <ArrowRight className="h-4 w-4" />

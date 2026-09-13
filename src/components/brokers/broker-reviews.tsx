@@ -108,13 +108,13 @@ export function BrokerReviews({
   }
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
       {/* Reviews list */}
       <div>
-        <h2 className="text-xl font-bold text-white">
+        <h2 className="text-xl font-bold text-fg">
           مراجعات العملاء ({reviews.length})
         </h2>
         {reviews.length === 0 ? (
@@ -125,7 +125,7 @@ export function BrokerReviews({
             }
             className="mt-4 w-full rounded-2xl border border-dashed border-brand-500/30 bg-brand-500/[0.04] px-5 py-8 text-center transition hover:border-brand-400/50 hover:bg-brand-500/[0.08]"
           >
-            <span className="block text-sm font-bold text-white">
+            <span className="block text-sm font-bold text-fg">
               لا توجد مراجعات بعد — كن أول من يشارك تجربته
             </span>
             <span className="mt-1.5 block text-xs text-slate-400">
@@ -140,12 +140,12 @@ export function BrokerReviews({
                 className={`rounded-2xl border p-5 ${
                   r.is_admin_reply
                     ? "border-brand-500/30 bg-brand-500/[0.06]"
-                    : "border-white/5 bg-ink-900/40"
+                    : "border-fg/5 bg-ink-900/40"
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-white">
+                    <span className="font-semibold text-fg">
                       {r.user_name || "عميل"}
                     </span>
                     {r.is_admin_reply && (
@@ -178,7 +178,7 @@ export function BrokerReviews({
             <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/15 text-brand-300">
               <Check className="h-6 w-6" />
             </div>
-            <h3 className="mt-3 font-bold text-white">شكراً لمشاركتك!</h3>
+            <h3 className="mt-3 font-bold text-fg">شكراً لمشاركتك!</h3>
             <p className="mt-2 text-sm text-slate-400">
               تعليقك قيد المراجعة وسيظهر بعد اعتماده من الإدارة.
             </p>
@@ -191,7 +191,7 @@ export function BrokerReviews({
           </div>
         ) : (
           <form onSubmit={submit} className="space-y-4">
-            <h3 className="font-bold text-white">أضف مراجعتك</h3>
+            <h3 className="font-bold text-fg">أضف مراجعتك</h3>
             {invited && (
               <p className="rounded-lg bg-brand-500/10 px-3 py-2 text-xs leading-relaxed text-brand-100">
                 شاركنا تجربتك الحقيقية مع هذه الشركة — الإيداع والسحب والتنفيذ

@@ -20,7 +20,7 @@ export type AdminCampaign = {
 };
 
 const input =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 export function CampaignsManager({
   campaigns,
@@ -63,7 +63,7 @@ export function CampaignsManager({
   return (
     <div className="space-y-8">
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <Radio className="h-4 w-4 text-brand-300" /> إطلاق عرض فوري
         </h2>
         <p className="mt-1 text-xs text-slate-500">
@@ -117,21 +117,21 @@ export function CampaignsManager({
       </section>
 
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">العروض ({campaigns.length})</h2>
+        <h2 className="text-lg font-semibold text-fg">العروض ({campaigns.length})</h2>
         {campaigns.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد عروض بعد.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {campaigns.map((c) => (
               <li key={c.id} className="flex items-start justify-between gap-3 py-4">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium text-white">{c.title}</span>
+                    <span className="font-medium text-fg">{c.title}</span>
                     <span
                       className={`rounded-full px-2 py-0.5 text-[10px] ${
                         c.is_active
                           ? "bg-emerald-500/15 text-emerald-300"
-                          : "bg-white/5 text-slate-500"
+                          : "bg-fg/5 text-slate-500"
                       }`}
                     >
                       {c.is_active ? "نشط" : "متوقف"}
@@ -148,7 +148,7 @@ export function CampaignsManager({
                       router.refresh();
                     }}
                     disabled={busy === c.id}
-                    className="rounded-lg px-2.5 py-1.5 text-xs text-slate-400 transition hover:text-white"
+                    className="rounded-lg px-2.5 py-1.5 text-xs text-slate-400 transition hover:text-fg"
                   >
                     {c.is_active ? "إيقاف" : "تفعيل"}
                   </button>

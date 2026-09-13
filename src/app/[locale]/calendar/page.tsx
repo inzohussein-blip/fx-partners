@@ -97,13 +97,13 @@ export default async function CalendarPage() {
                                     {kind.emoji} {kind.label}
                                   </span>
                                   {e.brokerName && (
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-0.5 text-xs text-slate-300">
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-fg/5 px-2.5 py-0.5 text-xs text-slate-300">
                                       <Building2 className="h-3 w-3" />
                                       {e.brokerName}
                                     </span>
                                   )}
                                   {e.country && (
-                                    <span className="rounded-full bg-white/5 px-2 py-0.5 text-[11px] text-slate-400">
+                                    <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[11px] text-slate-400">
                                       {e.country}
                                     </span>
                                   )}
@@ -111,7 +111,7 @@ export default async function CalendarPage() {
                                     <span dir="ltr" className="text-xs text-slate-500">{e.event_time}</span>
                                   )}
                                 </div>
-                                <h3 className="mt-2 font-bold text-white">{e.title}</h3>
+                                <h3 className="mt-2 font-bold text-fg">{e.title}</h3>
                                 {e.description && (
                                   <p className="mt-1 text-sm leading-relaxed text-slate-400" dir="auto">
                                     {e.description}

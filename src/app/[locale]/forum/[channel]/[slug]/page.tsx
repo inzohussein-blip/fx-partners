@@ -162,7 +162,7 @@ export default async function ForumPostPage({
             </span>
           </div>
 
-          <h1 className="mt-4 text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+          <h1 className="mt-4 text-3xl font-extrabold leading-tight text-fg sm:text-4xl">
             {post.title}
           </h1>
 
@@ -171,13 +171,13 @@ export default async function ForumPostPage({
             <img
               src={post.cover_image}
               alt=""
-              className="mt-6 w-full rounded-2xl border border-white/10 object-cover"
+              className="mt-6 w-full rounded-2xl border border-fg/10 object-cover"
             />
           )}
 
           {isHtml(post.body) ? (
             <div
-              className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-white prose-a:text-brand-300 prose-strong:text-white"
+              className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-fg prose-a:text-brand-300 prose-strong:text-fg"
               dangerouslySetInnerHTML={{ __html: post.body ?? "" }}
             />
           ) : (
@@ -186,7 +186,7 @@ export default async function ForumPostPage({
             </div>
           )}
 
-          <div className="mt-8 flex items-center gap-3 border-y border-white/5 py-4">
+          <div className="mt-8 flex items-center gap-3 border-y border-fg/5 py-4">
             <LikeButton
               postId={post.id}
               initialLiked={reaction.liked}
@@ -195,7 +195,7 @@ export default async function ForumPostPage({
             />
             <Link
               href="#comments"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/5 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-full border border-fg/10 px-4 py-2 text-sm text-slate-300 hover:bg-fg/5 hover:text-fg"
             >
               {post.comment_count ?? comments.filter((c) => !c.is_hidden).length} تعليق
             </Link>
@@ -209,7 +209,7 @@ export default async function ForumPostPage({
             isAuthed={isAuthed}
           />
 
-          <div className="mt-12 border-t border-white/5 pt-6">
+          <div className="mt-12 border-t border-fg/5 pt-6">
             <Link
               href={`/forum/${params.channel}`}
               className="inline-flex items-center gap-1 text-sm text-brand-300 hover:text-brand-200"

@@ -12,7 +12,7 @@ export async function SiteFooter() {
 
   return (
     <>
-      <footer className="mt-24 border-t border-white/5 bg-ink-900">
+      <footer className="mt-24 border-t border-fg/5 bg-ink-900">
         <Container className="grid gap-8 py-12 md:grid-cols-5">
           <div className="md:col-span-2">
             <Logo />
@@ -29,30 +29,30 @@ export async function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-white">{t("tools")}</h4>
+            <h4 className="text-sm font-semibold text-fg">{t("tools")}</h4>
             <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>
-                <Link href="/compare" className="hover:text-white">
+                <Link href="/compare" className="hover:text-fg">
                   {t("compareBrokers")}
                 </Link>
               </li>
               <li>
-                <Link href="/spreads" className="hover:text-white">
+                <Link href="/spreads" className="hover:text-fg">
                   {t("spreads")}
                 </Link>
               </li>
               <li>
-                <Link href="/tools" className="hover:text-white">
+                <Link href="/tools" className="hover:text-fg">
                   {t("calculators")}
                 </Link>
               </li>
               <li>
-                <Link href="/calendar" className="hover:text-white">
+                <Link href="/calendar" className="hover:text-fg">
                   {t("calendar")}
                 </Link>
               </li>
               <li>
-                <Link href="/free-tools" className="hover:text-white">
+                <Link href="/free-tools" className="hover:text-fg">
                   {t("freeTools")}
                 </Link>
               </li>
@@ -60,32 +60,32 @@ export async function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-white">
+            <h4 className="text-sm font-semibold text-fg">
               {t("community")}
             </h4>
             <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>
-                <Link href="/affiliates" className="hover:text-white">
+                <Link href="/affiliates" className="hover:text-fg">
                   {t("affiliateProgram")}
                 </Link>
               </li>
               <li>
-                <Link href="/brokers" className="hover:text-white">
+                <Link href="/brokers" className="hover:text-fg">
                   {t("brokersDir")}
                 </Link>
               </li>
               <li>
-                <Link href="/forum" className="hover:text-white">
+                <Link href="/forum" className="hover:text-fg">
                   {t("forum")}
                 </Link>
               </li>
               <li>
-                <Link href="/offers" className="hover:text-white">
+                <Link href="/offers" className="hover:text-fg">
                   {t("liveOffers")}
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:text-white">
+                <Link href="/blog" className="hover:text-fg">
                   {t("blog")}
                 </Link>
               </li>
@@ -93,30 +93,30 @@ export async function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-white">{t("account")}</h4>
+            <h4 className="text-sm font-semibold text-fg">{t("account")}</h4>
             <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>
-                <Link href="/about" className="hover:text-white">
+                <Link href="/about" className="hover:text-fg">
                   {t("about")}
                 </Link>
               </li>
               <li>
-                <Link href="/login" className="hover:text-white">
+                <Link href="/login" className="hover:text-fg">
                   {t("login")}
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className="hover:text-white">
+                <Link href="/dashboard" className="hover:text-fg">
                   {t("dashboard")}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white">
+                <Link href="/contact" className="hover:text-fg">
                   {t("contactUs")}
                 </Link>
               </li>
               <li>
-                <Link href="/sitemap" className="hover:text-white">
+                <Link href="/sitemap" className="hover:text-fg">
                   {t("siteMap")}
                 </Link>
               </li>
@@ -124,16 +124,16 @@ export async function SiteFooter() {
           </div>
         </Container>
 
-        <div className="border-t border-white/5 py-6">
+        <div className="border-t border-fg/5 py-6">
           <Container className="flex flex-col items-center justify-between gap-3 text-xs text-slate-500 sm:flex-row">
             <p>
               © {new Date().getFullYear()} FX Partners. {t("rights")}
             </p>
             <div className="flex items-center gap-4">
-              <Link href="/terms" className="hover:text-white">
+              <Link href="/terms" className="hover:text-fg">
                 {t("terms")}
               </Link>
-              <Link href="/privacy" className="hover:text-white">
+              <Link href="/privacy" className="hover:text-fg">
                 {t("privacy")}
               </Link>
             </div>

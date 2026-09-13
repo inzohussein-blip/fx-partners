@@ -77,9 +77,9 @@ function CommandBar() {
   return (
     <KBarPortal>
       <KBarPositioner className="z-[100] bg-black/60 p-4 backdrop-blur-sm">
-        <KBarAnimator className="w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-ink-800 shadow-2xl">
+        <KBarAnimator className="w-full max-w-lg overflow-hidden rounded-2xl border border-fg/10 bg-ink-800 shadow-2xl">
           <KBarSearch
-            className="w-full border-b border-white/5 bg-transparent px-5 py-4 text-white placeholder:text-slate-500 focus:outline-none"
+            className="w-full border-b border-fg/5 bg-transparent px-5 py-4 text-fg placeholder:text-slate-500 focus:outline-none"
             defaultPlaceholder="ابحث أو انتقل… (⌘K)"
           />
           <Results />

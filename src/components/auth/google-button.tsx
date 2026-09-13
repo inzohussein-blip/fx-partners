@@ -64,7 +64,7 @@ export function GoogleButton({
       type="button"
       onClick={signIn}
       disabled={loading}
-      className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2.5 rounded-xl border border-fg/10 bg-fg/5 px-4 py-2.5 text-sm font-semibold text-fg transition hover:bg-fg/10 disabled:opacity-60"
     >
       <GoogleIcon />
       {loading ? "جارٍ التحويل…" : label}

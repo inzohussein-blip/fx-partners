@@ -56,7 +56,7 @@ export function LevelBadges({ referrals, totalEarned, withdrawals }: Stats) {
             </div>
             <div>
               <div className="text-xs text-slate-400">مستواك الحالي</div>
-              <div className="text-lg font-bold text-white">{current.label}</div>
+              <div className="text-lg font-bold text-fg">{current.label}</div>
             </div>
           </div>
 
@@ -73,7 +73,7 @@ export function LevelBadges({ referrals, totalEarned, withdrawals }: Stats) {
                 <span>{next.label}</span>
                 <span dir="ltr">{toNext} إحالة متبقية</span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-white/10">
+              <div className="h-2 overflow-hidden rounded-full bg-fg/10">
                 <div
                   className="h-full rounded-full bg-brand-gradient transition-all"
                   style={{ width: `${progress}%` }}
@@ -88,7 +88,7 @@ export function LevelBadges({ referrals, totalEarned, withdrawals }: Stats) {
 
       {/* Badges */}
       <div className="card-surface p-6 lg:col-span-2">
-        <h3 className="text-sm font-semibold text-white">الإنجازات</h3>
+        <h3 className="text-sm font-semibold text-fg">الإنجازات</h3>
         <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-6">
           {BADGES.map((b) => {
             const earned = b.test(stats);
@@ -99,7 +99,7 @@ export function LevelBadges({ referrals, totalEarned, withdrawals }: Stats) {
                 className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 text-center transition ${
                   earned
                     ? "border-brand-500/30 bg-brand-500/10 text-brand-200"
-                    : "border-white/5 bg-ink-900/40 text-slate-600"
+                    : "border-fg/5 bg-ink-900/40 text-slate-600"
                 }`}
                 title={b.label}
               >

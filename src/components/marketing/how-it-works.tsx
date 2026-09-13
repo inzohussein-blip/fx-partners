@@ -50,13 +50,13 @@ export async function HowItWorks() {
               key={s.key}
               className="card-surface group relative p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
             >
-              <span className="absolute end-5 top-5 text-4xl font-black leading-none text-white/[0.06]">
+              <span className="absolute end-5 top-5 text-4xl font-black leading-none text-fg/[0.06]">
                 {i + 1}
               </span>
               <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                 <s.icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-4 text-base font-bold text-white">{t(`${s.key}Title`)}</h3>
+              <h3 className="mt-4 text-base font-bold text-fg">{t(`${s.key}Title`)}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-400">{t(`${s.key}Desc`)}</p>
             </li>
           ))}
@@ -116,7 +116,7 @@ function RoleCard({
         <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0">
-        <h3 className="text-lg font-bold text-white">{title}</h3>
+        <h3 className="text-lg font-bold text-fg">{title}</h3>
         <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{desc}</p>
         <span
           className={`mt-3 inline-flex items-center gap-1 text-sm font-semibold transition group-hover:gap-2 ${

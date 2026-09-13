@@ -30,7 +30,7 @@ export const CATEGORY_META: Record<
   news: {
     label: "خبر",
     emoji: "📢",
-    className: "bg-white/10 text-slate-300",
+    className: "bg-fg/10 text-slate-300",
   },
 };
 

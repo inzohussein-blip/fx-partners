@@ -30,12 +30,12 @@ export default async function EditPostPage({
       <div>
         <Link
           href="/dashboard/admin/posts"
-          className="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-white"
+          className="inline-flex items-center gap-1 text-sm text-slate-400 hover:text-fg"
         >
           <ArrowRight className="h-4 w-4" />
           كل المنشورات
         </Link>
-        <h1 className="mt-3 text-2xl font-bold text-white">
+        <h1 className="mt-3 text-2xl font-bold text-fg">
           {isNew ? "منشور جديد" : "تحرير المنشور"}
         </h1>
       </div>

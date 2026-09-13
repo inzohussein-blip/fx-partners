@@ -96,7 +96,7 @@ export default async function WalletPage() {
       <WithdrawForm ibId={ibId} balance={balance} />
 
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">سجل السحوبات</h2>
+        <h2 className="text-lg font-semibold text-fg">سجل السحوبات</h2>
         {withdrawals.length === 0 ? (
           <EmptyState
             icon={ArrowDownToLine}
@@ -107,19 +107,19 @@ export default async function WalletPage() {
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-right text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-slate-400">
+                <tr className="border-b border-fg/5 text-slate-400">
                   <th className="pb-3 font-medium">المبلغ</th>
                   <th className="pb-3 font-medium">الطريقة</th>
                   <th className="pb-3 font-medium">الحالة</th>
                   <th className="pb-3 font-medium">التاريخ</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-fg/5">
                 {withdrawals.map((w) => {
                   const s = statusLabel[w.status] ?? statusLabel.pending;
                   return (
                     <tr key={w.id} className="text-slate-300">
-                      <td className="py-3 font-semibold text-white">
+                      <td className="py-3 font-semibold text-fg">
                         {formatCurrency(Number(w.amount))}
                       </td>
                       <td className="py-3">{w.method}</td>

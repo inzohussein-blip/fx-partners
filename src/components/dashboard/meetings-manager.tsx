@@ -100,7 +100,7 @@ export function MeetingsManager({
     <div className="space-y-8">
       {/* Add slot */}
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <Plus className="h-4 w-4 text-brand-300" />
           إضافة موعد متاح (UTC)
         </h2>
@@ -109,12 +109,12 @@ export function MeetingsManager({
             type="datetime-local"
             value={startsAt}
             onChange={(e) => setStartsAt(e.target.value)}
-            className="rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white focus:border-brand-500/50 focus:outline-none sm:col-span-2"
+            className="rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none sm:col-span-2"
           />
           <select
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value))}
-            className="rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+            className="rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
           >
             {[15, 30, 45, 60].map((m) => (
               <option key={m} value={m}>
@@ -136,25 +136,25 @@ export function MeetingsManager({
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="رابط Zoom / Google Meet (اختياري)"
-          className="mt-3 w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+          className="mt-3 w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
         />
         {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
       </section>
 
       {/* Slots list */}
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <CalendarClock className="h-4 w-4 text-brand-300" />
           المواعيد ({slots.length})
         </h2>
         {slots.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد مواعيد بعد.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {slots.map((s) => (
               <li key={s.id} className="flex items-center justify-between gap-3 py-3">
                 <div>
-                  <p className="text-sm text-white" dir="ltr">
+                  <p className="text-sm text-fg" dir="ltr">
                     {fmt(s.starts_at)}
                   </p>
                   <p className="text-xs text-slate-500">
@@ -189,7 +189,7 @@ export function MeetingsManager({
 
       {/* Bookings */}
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">
+        <h2 className="text-lg font-semibold text-fg">
           الحجوزات ({bookings.length})
         </h2>
         {bookings.length === 0 ? (
@@ -199,11 +199,11 @@ export function MeetingsManager({
             {bookings.map((b) => (
               <div
                 key={b.id}
-                className="rounded-xl border border-white/5 bg-ink-900/40 p-4"
+                className="rounded-xl border border-fg/5 bg-ink-900/40 p-4"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="font-semibold text-white">{b.company_name}</p>
+                    <p className="font-semibold text-fg">{b.company_name}</p>
                     <p className="text-xs text-slate-400">
                       {b.contact_name} ·{" "}
                       {b.meeting_type ? TYPE_LABEL[b.meeting_type] ?? b.meeting_type : "—"}
@@ -215,7 +215,7 @@ export function MeetingsManager({
                         ? "bg-brand-500/15 text-brand-200"
                         : b.status === "cancelled"
                         ? "bg-red-500/15 text-red-300"
-                        : "bg-white/5 text-slate-400"
+                        : "bg-fg/5 text-slate-400"
                     }`}
                   >
                     {b.status === "confirmed"
@@ -249,7 +249,7 @@ export function MeetingsManager({
                     <button
                       onClick={() => setBooking(b.id, "cancelled")}
                       disabled={busy === b.id}
-                      className="inline-flex items-center gap-1 rounded-lg bg-white/5 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-red-500/10 hover:text-red-300"
+                      className="inline-flex items-center gap-1 rounded-lg bg-fg/5 px-3 py-1.5 text-xs text-slate-300 transition hover:bg-red-500/10 hover:text-red-300"
                     >
                       <X className="h-3.5 w-3.5" /> إلغاء
                     </button>

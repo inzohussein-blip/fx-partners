@@ -16,7 +16,7 @@ export function Markets() {
             </span>
             {t("badge")}
           </span>
-          <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold text-fg sm:text-4xl">
             {t("heading")}
           </h2>
           <p className="mt-4 text-slate-400">{t("subheading")}</p>

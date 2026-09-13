@@ -11,7 +11,7 @@ import {
 import { FileText, Pencil, Search, Loader2, Check, Plus, Trash2 } from "lucide-react";
 
 const inputCls =
-  "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+  "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
 type ListItem = Record<string, string>;
 type DraftValue = string | ListItem[];
@@ -92,7 +92,7 @@ export function ContentStudio({
               key={g}
               onClick={() => setGroup(g)}
               className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
-                group === g ? "bg-brand-500/15 text-brand-200" : "bg-white/5 text-slate-400 hover:text-white"
+                group === g ? "bg-brand-500/15 text-brand-200" : "bg-fg/5 text-slate-400 hover:text-fg"
               }`}
             >
               {g === "all" ? "الكل" : g}
@@ -138,7 +138,7 @@ export function ContentStudio({
                   )}
                 </span>
               </div>
-              <h3 className="mt-3 font-bold text-white">{b.title}</h3>
+              <h3 className="mt-3 font-bold text-fg">{b.title}</h3>
               <p className="mt-1 text-xs text-slate-500">{b.group}</p>
               {preview && (
                 <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-slate-400" dir="auto">
@@ -164,7 +164,7 @@ export function ContentStudio({
           <>
             <button
               onClick={() => setEditing(null)}
-              className="rounded-xl border border-white/10 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/5"
+              className="rounded-xl border border-fg/10 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-fg/5"
             >
               إلغاء
             </button>
@@ -192,7 +192,7 @@ export function ContentStudio({
 
                   <div className="space-y-3">
                     {items.map((item, i) => (
-                      <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+                      <div key={i} className="rounded-xl border border-fg/10 bg-fg/[0.02] p-3">
                         <div className="mb-2 flex items-center justify-between">
                           <span className="text-xs font-semibold text-slate-400">#{i + 1}</span>
                           <button
@@ -251,7 +251,7 @@ export function ContentStudio({
                         Object.fromEntries((f.itemFields ?? []).map((sf) => [sf.name, ""])),
                       ])
                     }
-                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-dashed border-white/15 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-brand-400/50 hover:text-white"
+                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-dashed border-fg/15 px-4 py-2.5 text-sm font-medium text-slate-300 transition hover:border-brand-400/50 hover:text-fg"
                   >
                     <Plus className="h-4 w-4" />
                     إضافة عنصر

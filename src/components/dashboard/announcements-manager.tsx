@@ -38,7 +38,7 @@ export function AnnouncementsManager({
   const [error, setError] = useState<string | null>(null);
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none";
 
   async function publish() {
     setError(null);
@@ -81,7 +81,7 @@ export function AnnouncementsManager({
   return (
     <div className="space-y-8">
       <section className="card-surface p-6">
-        <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
           <Plus className="h-4 w-4 text-brand-300" />
           نشر تحديث جديد
         </h2>
@@ -124,11 +124,11 @@ export function AnnouncementsManager({
       </section>
 
       <section className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">التحديثات ({items.length})</h2>
+        <h2 className="text-lg font-semibold text-fg">التحديثات ({items.length})</h2>
         {items.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد تحديثات بعد.</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/5">
+          <ul className="mt-4 divide-y divide-fg/5">
             {items.map((a) => {
               const meta = categoryMeta(a.category);
               return (
@@ -142,12 +142,12 @@ export function AnnouncementsManager({
                         {timeAgo(a.published_at)}
                       </span>
                       {!a.is_published && (
-                        <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] text-slate-500">
+                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-[10px] text-slate-500">
                           مخفي
                         </span>
                       )}
                     </div>
-                    <p className="mt-1.5 font-medium text-white">{a.title}</p>
+                    <p className="mt-1.5 font-medium text-fg">{a.title}</p>
                     <p className="mt-0.5 line-clamp-2 text-xs text-slate-400">{a.body}</p>
                   </div>
                   <div className="flex shrink-0 gap-1">
@@ -155,7 +155,7 @@ export function AnnouncementsManager({
                       onClick={() => toggle(a)}
                       disabled={busy === a.id}
                       title={a.is_published ? "إخفاء" : "إظهار"}
-                      className="grid h-9 w-9 place-items-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-white"
+                      className="grid h-9 w-9 place-items-center rounded-lg text-slate-500 transition hover:bg-fg/5 hover:text-fg"
                     >
                       {busy === a.id ? (
                         <Loader2 className="h-4 w-4 animate-spin" />

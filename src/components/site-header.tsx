@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { MobileNav } from "@/components/mobile-nav";
 import { MoreMenu } from "@/components/more-menu";
 
@@ -34,7 +35,7 @@ export function SiteHeader() {
   const allNav = [...primary, ...more];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/5 bg-ink-900/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-fg/5 bg-ink-900/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
         <Link href="/">
           <Logo />
@@ -45,7 +46,7 @@ export function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white"
+              className="rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-fg/5 hover:text-fg"
             >
               {item.label}
             </Link>
@@ -54,6 +55,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1">
+          <ThemeSwitcher />
           <LanguageSwitcher />
           <Button href="/login" variant="ghost" className="hidden sm:inline-flex">
             {t("login")}

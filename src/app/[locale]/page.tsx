@@ -153,7 +153,7 @@ export default async function HomePage({
                   <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
                     <f.icon className="h-5 w-5" />
                   </div>
-                  <h3 className="mt-4 text-lg font-semibold text-white">
+                  <h3 className="mt-4 text-lg font-semibold text-fg">
                     {t(`Features.${f.key}.title`)}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-400">
@@ -205,7 +205,7 @@ export default async function HomePage({
               aria-hidden
             />
             <div className="relative">
-              <h2 className="text-3xl font-bold text-white sm:text-4xl">
+              <h2 className="text-3xl font-bold text-fg sm:text-4xl">
                 <EditableText contentKey="home.cta" field="heading" label="عنوان الدعوة">
                   {cta.heading}
                 </EditableText>

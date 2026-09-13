@@ -107,7 +107,7 @@ export default async function SiteMapPage() {
       <section className="py-14">
         <Container>
           <Breadcrumbs items={[{ label: "خريطة الموقع" }]} />
-          <h1 className="mt-6 text-3xl font-extrabold text-white sm:text-4xl">
+          <h1 className="mt-6 text-3xl font-extrabold text-fg sm:text-4xl">
             خريطة الموقع
           </h1>
           <p className="mt-3 text-slate-400">دليل كامل بكل صفحات وأقسام المنصّة.</p>
@@ -119,7 +119,7 @@ export default async function SiteMapPage() {
                 <ul className="mt-4 space-y-2 text-sm">
                   {s.links.map((l) => (
                     <li key={l.href}>
-                      <Link href={l.href} className="text-slate-300 hover:text-white">
+                      <Link href={l.href} className="text-slate-300 hover:text-fg">
                         {l.label}
                       </Link>
                     </li>
@@ -138,7 +138,7 @@ export default async function SiteMapPage() {
                     <li key={b.slug}>
                       <Link
                         href={`/brokers/${b.slug}`}
-                        className="text-slate-300 hover:text-white"
+                        className="text-slate-300 hover:text-fg"
                       >
                         {b.name}
                       </Link>
@@ -158,7 +158,7 @@ export default async function SiteMapPage() {
                     <li key={p.slug}>
                       <Link
                         href={`/blog/${p.slug}`}
-                        className="text-slate-300 hover:text-white"
+                        className="text-slate-300 hover:text-fg"
                       >
                         {p.title}
                       </Link>

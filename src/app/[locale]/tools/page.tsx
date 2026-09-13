@@ -39,7 +39,7 @@ export default async function ToolsPage() {
             <Wrench className="h-3.5 w-3.5" aria-hidden />
             أدوات المتداول
           </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-white sm:text-4xl sm:leading-tight lg:text-5xl">
+          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
             <EditableText contentKey="page.tools" field="title" label="عنوان صفحة الأدوات">
               {copy.title}
             </EditableText>

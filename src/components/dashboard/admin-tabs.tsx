@@ -73,7 +73,7 @@ export function AdminTabs() {
        admin content appears. Below `sm` it becomes one horizontal strip —
        the same pattern as the dashboard's own nav — and keeps the grouped
        layout from `sm` up, where there is room for it. */
-    <div className="no-scrollbar -mx-1 flex gap-x-3 gap-y-4 overflow-x-auto border-b border-white/5 px-1 pb-4 sm:mx-0 sm:flex-wrap sm:gap-x-6 sm:overflow-visible sm:px-0">
+    <div className="no-scrollbar -mx-1 flex gap-x-3 gap-y-4 overflow-x-auto border-b border-fg/5 px-1 pb-4 sm:mx-0 sm:flex-wrap sm:gap-x-6 sm:overflow-visible sm:px-0">
       {groups.map((group) => (
         <div key={group.label} className="flex shrink-0 flex-col gap-1.5">
           <span className="px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
@@ -92,7 +92,7 @@ export function AdminTabs() {
                     "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-2 text-[13px] font-medium transition sm:text-sm",
                     active
                       ? "bg-brand-500/15 text-brand-200 ring-1 ring-brand-500/30"
-                      : "text-slate-400 hover:bg-white/5 hover:text-white"
+                      : "text-slate-400 hover:bg-fg/5 hover:text-fg"
                   )}
                 >
                   <tab.icon className="h-4 w-4" />

@@ -82,7 +82,7 @@ export function ReferralGenerator({
   return (
     <div className="space-y-6">
       <form onSubmit={createLink} className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">توليد رابط إحالة جديد</h2>
+        <h2 className="text-lg font-semibold text-fg">توليد رابط إحالة جديد</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-sm text-slate-300">اسم الحملة</span>
@@ -90,7 +90,7 @@ export function ReferralGenerator({
               value={campaign}
               onChange={(e) => setCampaign(e.target.value)}
               placeholder="facebook-q1"
-              className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+              className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
             />
           </label>
           <label className="block">
@@ -100,7 +100,7 @@ export function ReferralGenerator({
             <select
               value={target}
               onChange={(e) => setTarget(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-2.5 text-white focus:border-brand-500/50 focus:outline-none"
+              className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none"
             >
               <option value="/">الرئيسية</option>
               <option value="/affiliates">صفحة الوكلاء</option>
@@ -124,7 +124,7 @@ export function ReferralGenerator({
       </form>
 
       <div className="card-surface p-6">
-        <h2 className="text-lg font-semibold text-white">روابطك</h2>
+        <h2 className="text-lg font-semibold text-fg">روابطك</h2>
         {links.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">لا توجد روابط بعد.</p>
         ) : (
@@ -132,7 +132,7 @@ export function ReferralGenerator({
             {links.map((link) => (
               <div
                 key={link.id}
-                className="flex flex-col gap-3 rounded-xl border border-white/5 bg-ink-900/40 p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-3 rounded-xl border border-fg/5 bg-ink-900/40 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">

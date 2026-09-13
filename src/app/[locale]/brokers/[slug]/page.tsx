@@ -232,21 +232,21 @@ export default async function BrokerDetailPage({
               <img loading="lazy" decoding="async"
                 src={broker.logo_url}
                 alt={broker.name}
-                className="h-20 w-20 rounded-2xl bg-white/5 object-contain p-2"
+                className="h-20 w-20 rounded-2xl bg-fg/5 object-contain p-2"
               />
             ) : (
-              <span className="grid h-20 w-20 place-items-center rounded-2xl bg-white/5 text-brand-300">
+              <span className="grid h-20 w-20 place-items-center rounded-2xl bg-fg/5 text-brand-300">
                 <Building2 className="h-9 w-9" />
               </span>
             )}
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-extrabold text-white">{broker.name}</h1>
+                <h1 className="text-3xl font-extrabold text-fg">{broker.name}</h1>
                 <span
                   className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
                     partnered
                       ? "bg-emerald-500/15 text-emerald-300"
-                      : "bg-white/5 text-slate-400"
+                      : "bg-fg/5 text-slate-400"
                   }`}
                 >
                   {partnered && <BadgeCheck className="h-3.5 w-3.5" />}
@@ -286,7 +286,7 @@ export default async function BrokerDetailPage({
                   </a>
                   <a
                     href="#reviews"
-                    className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-6 py-3 text-base font-medium text-slate-200 transition hover:bg-white/5"
+                    className="inline-flex items-center gap-2 rounded-xl border border-fg/10 px-6 py-3 text-base font-medium text-slate-200 transition hover:bg-fg/5"
                   >
                     آراء العملاء
                   </a>
@@ -312,7 +312,7 @@ export default async function BrokerDetailPage({
                   <div className="min-w-0">
                     <div className="text-[10px] text-slate-500 sm:text-xs">{h.label}</div>
                     <div
-                      className="truncate text-[13px] font-semibold text-white sm:text-base"
+                      className="truncate text-[13px] font-semibold text-fg sm:text-base"
                       dir="auto"
                     >
                       {h.value}
@@ -363,7 +363,7 @@ export default async function BrokerDetailPage({
         <section id="overview" className="scroll-mt-24 py-10">
           <Container>
             <div className="card-surface p-6 sm:p-8">
-              <h2 className="text-lg font-semibold text-white">عن الشركة</h2>
+              <h2 className="text-lg font-semibold text-fg">عن الشركة</h2>
               <p className="mt-3 whitespace-pre-line leading-relaxed text-slate-300" dir="auto">
                 {broker.description}
               </p>
@@ -375,7 +375,7 @@ export default async function BrokerDetailPage({
       {/* Rating breakdown */}
       <section id="ratings" className="scroll-mt-24 pb-10 pt-2">
         <Container>
-          <h2 className="mb-5 text-xl font-bold text-white">تقييم الشركة</h2>
+          <h2 className="mb-5 text-xl font-bold text-fg">تقييم الشركة</h2>
           <RatingBreakdown broker={broker} />
         </Container>
       </section>
@@ -384,12 +384,12 @@ export default async function BrokerDetailPage({
       {links.length > 0 && (
         <section id="accounts" className="scroll-mt-24 pb-10">
           <Container>
-            <h2 className="text-xl font-bold text-white">روابط الفتح والمميزات</h2>
+            <h2 className="text-xl font-bold text-fg">روابط الفتح والمميزات</h2>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               {links.map((l) => (
                 <div key={l.id} className="card-surface flex flex-col p-6">
                   {l.label && (
-                    <span className="text-sm font-semibold text-white">{l.label}</span>
+                    <span className="text-sm font-semibold text-fg">{l.label}</span>
                   )}
                   <div className="mt-3 space-y-2 text-sm">
                     {l.client_benefits && (

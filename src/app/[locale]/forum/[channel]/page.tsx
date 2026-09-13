@@ -53,7 +53,7 @@ export default async function ChannelPage({
             <Avatar name={channel.owner_name || channel.name} src={channel.cover_image} size={64} />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-extrabold text-white sm:text-3xl">
+                <h1 className="text-2xl font-extrabold text-fg sm:text-3xl">
                   {channel.name}
                 </h1>
                 {official ? (

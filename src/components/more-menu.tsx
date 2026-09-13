@@ -43,8 +43,8 @@ export function MoreMenu({ label, items }: { label: string; items: Item[] }) {
         aria-haspopup="menu"
         aria-expanded={open}
         className={cn(
-          "inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm transition hover:bg-white/5 hover:text-white",
-          activeInMenu ? "text-white" : "text-slate-300"
+          "inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm transition hover:bg-fg/5 hover:text-fg",
+          activeInMenu ? "text-fg" : "text-slate-300"
         )}
       >
         {label}
@@ -56,7 +56,7 @@ export function MoreMenu({ label, items }: { label: string; items: Item[] }) {
       {open && (
         <div
           role="menu"
-          className="absolute end-0 top-full z-[60] mt-2 w-56 overflow-hidden rounded-xl border border-white/10 bg-ink-900 p-1.5 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8)] ring-1 ring-black/40"
+          className="absolute end-0 top-full z-[60] mt-2 w-56 overflow-hidden rounded-xl border border-fg/10 bg-ink-900 p-1.5 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.8)] ring-1 ring-black/40"
         >
           {items.map((item) => {
             const active =
@@ -71,7 +71,7 @@ export function MoreMenu({ label, items }: { label: string; items: Item[] }) {
                   "block rounded-lg px-3 py-2 text-sm transition",
                   active
                     ? "bg-brand-500/15 text-brand-200"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                    : "text-slate-300 hover:bg-fg/5 hover:text-fg"
                 )}
               >
                 {item.label}

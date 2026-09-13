@@ -38,7 +38,7 @@ export default function MarketsNewsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Economic calendar */}
         <section className="card-surface p-4">
-          <h2 className="mb-3 text-lg font-semibold text-white">
+          <h2 className="mb-3 text-lg font-semibold text-fg">
             التقويم الاقتصادي
           </h2>
           <TradingViewWidget
@@ -58,7 +58,7 @@ export default function MarketsNewsPage() {
 
         {/* Market news */}
         <section className="card-surface p-4">
-          <h2 className="mb-3 text-lg font-semibold text-white">أخبار الأسواق</h2>
+          <h2 className="mb-3 text-lg font-semibold text-fg">أخبار الأسواق</h2>
           <TradingViewWidget
             scriptSrc={`${BASE}/embed-widget-timeline.js`}
             height={560}

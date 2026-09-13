@@ -78,7 +78,7 @@ export function AnnouncementsBell() {
         type="button"
         onClick={toggle}
         aria-label="الإشعارات"
-        className="relative grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-ink-900/40 text-slate-400 transition hover:text-white"
+        className="relative grid h-10 w-10 place-items-center rounded-xl border border-fg/10 bg-ink-900/40 text-slate-400 transition hover:text-fg"
       >
         <Bell className="h-4 w-4" />
         {unread > 0 && (
@@ -89,9 +89,9 @@ export function AnnouncementsBell() {
       </button>
 
       {open && (
-        <div className="absolute start-0 top-12 z-50 w-80 overflow-hidden rounded-2xl border border-white/10 bg-ink-800 shadow-2xl">
-          <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
-            <span className="text-sm font-semibold text-white">التحديثات</span>
+        <div className="absolute start-0 top-12 z-50 w-80 overflow-hidden rounded-2xl border border-fg/10 bg-ink-800 shadow-2xl">
+          <div className="flex items-center justify-between border-b border-fg/5 px-4 py-3">
+            <span className="text-sm font-semibold text-fg">التحديثات</span>
             <Link
               href="/dashboard/updates"
               onClick={() => setOpen(false)}
@@ -107,7 +107,7 @@ export function AnnouncementsBell() {
               لا توجد تحديثات بعد.
             </p>
           ) : (
-            <ul className="max-h-96 divide-y divide-white/5 overflow-y-auto">
+            <ul className="max-h-96 divide-y divide-fg/5 overflow-y-auto">
               {items.map((a) => {
                 const meta = categoryMeta(a.category);
                 return (
@@ -122,7 +122,7 @@ export function AnnouncementsBell() {
                         {timeAgo(a.published_at)}
                       </span>
                     </div>
-                    <p className="mt-1.5 text-sm font-medium text-white">{a.title}</p>
+                    <p className="mt-1.5 text-sm font-medium text-fg">{a.title}</p>
                     <p className="mt-0.5 line-clamp-2 text-xs text-slate-400">
                       {a.body}
                     </p>

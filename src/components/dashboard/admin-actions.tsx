@@ -11,7 +11,7 @@ type Btn = { status: string; label: string; tone: "approve" | "reject" | "neutra
 const toneClass: Record<Btn["tone"], string> = {
   approve: "bg-brand-500/15 text-brand-200 hover:bg-brand-500/25",
   reject: "bg-red-500/10 text-red-300 hover:bg-red-500/20",
-  neutral: "bg-white/5 text-slate-300 hover:bg-white/10",
+  neutral: "bg-fg/5 text-slate-300 hover:bg-fg/10",
 };
 
 function ActionRow({

@@ -253,7 +253,7 @@ export function MarketChart() {
               "rounded-lg px-3 py-1.5 text-xs font-semibold transition",
               i === symIdx
                 ? "bg-brand-500/15 text-brand-200"
-                : "bg-white/5 text-slate-400 hover:text-white"
+                : "bg-fg/5 text-slate-400 hover:text-fg"
             )}
           >
             {s.label}
@@ -272,7 +272,7 @@ export function MarketChart() {
                   "inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium uppercase",
                   source === "live"
                     ? "bg-emerald-500/10 text-emerald-400"
-                    : "bg-white/5 text-slate-500"
+                    : "bg-fg/5 text-slate-500"
                 )}
               >
                 <span
@@ -285,7 +285,7 @@ export function MarketChart() {
               </span>
             )}
           </div>
-          <div className="text-2xl font-bold text-white tabular-nums">
+          <div className="text-2xl font-bold text-fg tabular-nums">
             {price !== null ? price.toFixed(sym.digits) : "—"}
           </div>
         </div>

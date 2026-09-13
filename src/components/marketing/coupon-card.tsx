@@ -37,11 +37,11 @@ export function CouponCard({ coupon }: { coupon: Coupon }) {
             <Ticket className="h-4 w-4" />
           </span>
           {coupon.broker_name && (
-            <span className="text-sm font-semibold text-white">{coupon.broker_name}</span>
+            <span className="text-sm font-semibold text-fg">{coupon.broker_name}</span>
           )}
         </div>
 
-        <h3 className="mt-3 text-base font-bold text-white">{coupon.title}</h3>
+        <h3 className="mt-3 text-base font-bold text-fg">{coupon.title}</h3>
         {coupon.description && (
           <p className="mt-1.5 text-sm text-slate-400" dir="auto">
             {coupon.description}

@@ -116,7 +116,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="ابحث عن شركة…"
-            className="w-full rounded-xl border border-white/10 bg-ink-900/60 py-2.5 pe-4 ps-9 text-sm text-white placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 py-2.5 pe-4 ps-9 text-sm text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
           />
         </div>
 
@@ -145,7 +145,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                   "block w-full rounded-lg px-3 py-2 text-right text-sm transition",
                   filter === f.key
                     ? "bg-brand-500/15 text-brand-200"
-                    : "text-slate-400 hover:bg-white/5 hover:text-white"
+                    : "text-slate-400 hover:bg-fg/5 hover:text-fg"
                 )}
               >
                 {f.label}
@@ -153,7 +153,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             ))}
           </div>
 
-          <div className="mt-4 border-t border-white/5 pt-4">
+          <div className="mt-4 border-t border-fg/5 pt-4">
             <span className="text-xs font-semibold text-slate-400">فلترة دقيقة</span>
             <div className="mt-3 space-y-2">
               {TOGGLES.map((tg) => {
@@ -167,7 +167,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                       onClick={() => setToggles((s) => ({ ...s, [tg.key]: !s[tg.key] }))}
                       className={cn(
                         "grid h-4 w-4 place-items-center rounded border text-[10px] transition",
-                        on ? "border-brand-400 bg-brand-500 text-white" : "border-white/20"
+                        on ? "border-brand-400 bg-brand-500 text-white" : "border-fg/20"
                       )}
                     >
                       {on ? "✓" : ""}
@@ -179,12 +179,12 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             </div>
           </div>
 
-          <div className="mt-4 border-t border-white/5 pt-4">
+          <div className="mt-4 border-t border-fg/5 pt-4">
             <span className="text-xs font-semibold text-slate-400">الترتيب</span>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
-              className="mt-2 w-full rounded-xl border border-white/10 bg-ink-900/60 px-3 py-2 text-sm text-white focus:border-brand-500/50 focus:outline-none"
+              className="mt-2 w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2 text-sm text-fg focus:border-brand-500/50 focus:outline-none"
             >
               {SORTS.map((s) => (
                 <option key={s.key} value={s.key}>
@@ -208,7 +208,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
       <button
         type="button"
         onClick={() => setSheetOpen(true)}
-        className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 lg:hidden"
+        className="flex w-full items-center justify-between rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-fg/5 lg:hidden"
       >
         <span className="inline-flex items-center gap-2">
           <SlidersHorizontal className="h-4 w-4 text-brand-300" />
@@ -236,16 +236,16 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
               aria-modal="true"
               aria-label="الفلاتر"
               style={{ backgroundColor: "#0b1a1c" }}
-              className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-white/10 p-5 pb-8 shadow-2xl"
+              className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-fg/10 p-5 pb-8 shadow-2xl"
             >
-              <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-white/15" aria-hidden />
+              <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-fg/15" aria-hidden />
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-base font-bold text-white">الفلاتر والترتيب</h3>
+                <h3 className="text-base font-bold text-fg">الفلاتر والترتيب</h3>
                 <button
                   type="button"
                   onClick={() => setSheetOpen(false)}
                   aria-label="إغلاق"
-                  className="grid h-9 w-9 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                  className="grid h-9 w-9 place-items-center rounded-lg text-slate-400 transition hover:bg-fg/5 hover:text-fg"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -266,7 +266,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
       {/* Results */}
       <div className="min-w-0 space-y-6">
         <p className="text-sm text-slate-500">
-          <span className="font-semibold text-white">{rows.length}</span> شركة
+          <span className="font-semibold text-fg">{rows.length}</span> شركة
         </p>
 
       {/* Comparison table (desktop) */}
@@ -274,7 +274,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
         <div className="overflow-x-auto">
           <table className="w-full text-right text-sm">
             <thead>
-              <tr className="border-b border-white/5 text-xs text-slate-500">
+              <tr className="border-b border-fg/5 text-xs text-slate-500">
                 <th className="px-5 py-3 font-medium">الشركة</th>
                 <th className="px-5 py-3 font-medium">الحالة</th>
                 <th className="px-5 py-3 font-medium">التقييم</th>
@@ -289,13 +289,13 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
               {rows.map((b) => (
                 <tr
                   key={b.id}
-                  className="border-b border-white/5 transition last:border-0 hover:bg-white/[0.03]"
+                  className="border-b border-fg/5 transition last:border-0 hover:bg-fg/[0.03]"
                 >
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       <BrokerLogo broker={b} />
                       <div>
-                        <span className="font-semibold text-white">{b.name}</span>
+                        <span className="font-semibold text-fg">{b.name}</span>
                         {b.badges && b.badges.length > 0 && (
                           <div className="mt-1">
                             <BrokerBadges badges={b.badges} />
@@ -363,7 +363,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             <div className="flex items-center justify-between gap-2">
               <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
                 <BrokerLogo broker={b} />
-                <span className="truncate font-semibold text-white">{b.name}</span>
+                <span className="truncate font-semibold text-fg">{b.name}</span>
               </div>
               <StatusBadge status={b.status} />
             </div>
@@ -387,7 +387,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                 <span className="text-slate-500">لم تُقيَّم بعد</span>
               )}
               {b.spread_from != null && (
-                <span className="rounded-full bg-white/5 px-2 py-1 text-slate-300" dir="ltr">
+                <span className="rounded-full bg-fg/5 px-2 py-1 text-slate-300" dir="ltr">
                   سبريد {b.spread_from}
                 </span>
               )}
@@ -435,7 +435,7 @@ function BrokerLogo({ broker }: { broker: Broker }) {
     );
   }
   return (
-    <span className="grid h-9 w-9 place-items-center rounded-lg bg-white/5 text-brand-300">
+    <span className="grid h-9 w-9 place-items-center rounded-lg bg-fg/5 text-brand-300">
       <Building2 className="h-4 w-4" />
     </span>
   );
@@ -449,7 +449,7 @@ function StatusBadge({ status }: { status: Broker["status"] }) {
         "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium",
         partnered
           ? "bg-emerald-500/15 text-emerald-300"
-          : "bg-white/5 text-slate-400"
+          : "bg-fg/5 text-slate-400"
       )}
     >
       {partnered && <BadgeCheck className="h-3 w-3" />}

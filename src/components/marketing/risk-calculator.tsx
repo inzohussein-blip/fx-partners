@@ -48,13 +48,13 @@ export function RiskCalculator() {
   const pipValue = useMemo(() => lots * pipInst.pip, [lots, pipInst]);
 
   const inputCls =
-    "w-full rounded-xl border border-white/10 bg-ink-900/60 px-4 py-3 text-white focus:border-brand-500/50 focus:outline-none";
+    "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg focus:border-brand-500/50 focus:outline-none";
 
   return (
     <section id="risk" className="py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold text-fg sm:text-4xl">
             حاسبة المخاطرة وقيمة النقطة
           </h2>
           <p className="mt-4 text-slate-400">
@@ -63,12 +63,12 @@ export function RiskCalculator() {
         </div>
 
         {/* Mode switch */}
-        <div className="mx-auto mt-8 flex max-w-md justify-center gap-2 rounded-2xl border border-white/10 bg-ink-900/50 p-1.5">
+        <div className="mx-auto mt-8 flex max-w-md justify-center gap-2 rounded-2xl border border-fg/10 bg-ink-900/50 p-1.5">
           <button
             onClick={() => setMode("size")}
             className={cn(
               "inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-              mode === "size" ? "bg-brand-gradient text-white shadow-glow" : "text-slate-400 hover:text-white"
+              mode === "size" ? "bg-brand-gradient text-white shadow-glow" : "text-slate-400 hover:text-fg"
             )}
           >
             <Calculator className="h-4 w-4" /> حجم الصفقة
@@ -77,7 +77,7 @@ export function RiskCalculator() {
             onClick={() => setMode("pip")}
             className={cn(
               "inline-flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
-              mode === "pip" ? "bg-brand-gradient text-white shadow-glow" : "text-slate-400 hover:text-white"
+              mode === "pip" ? "bg-brand-gradient text-white shadow-glow" : "text-slate-400 hover:text-fg"
             )}
           >
             <Coins className="h-4 w-4" /> قيمة النقطة
@@ -135,7 +135,7 @@ export function RiskCalculator() {
           </div>
 
           {/* Result */}
-          <div className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-white/5 p-8">
+          <div className="relative flex flex-col justify-center overflow-hidden rounded-2xl border border-fg/5 p-8">
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative text-center">
               {mode === "size" ? (
@@ -144,9 +144,9 @@ export function RiskCalculator() {
                   <div dir="ltr" className="mt-2 text-4xl font-extrabold text-gradient sm:text-5xl">
                     {(isFinite(size.lots) ? size.lots : 0).toFixed(2)} <span className="text-2xl">لوت</span>
                   </div>
-                  <div className="mt-5 border-t border-white/5 pt-5 text-sm text-slate-400">
+                  <div className="mt-5 border-t border-fg/5 pt-5 text-sm text-slate-400">
                     مبلغ المخاطرة
-                    <div dir="ltr" className="mt-1 text-2xl font-bold text-white">
+                    <div dir="ltr" className="mt-1 text-2xl font-bold text-fg">
                       {usd(size.riskAmount)}
                     </div>
                   </div>

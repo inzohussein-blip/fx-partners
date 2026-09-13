@@ -155,14 +155,14 @@ export function OnboardingTour({ onlyOn }: { onlyOn?: string }) {
 
       {/* Tooltip */}
       <div
-        className="absolute w-[320px] rounded-2xl border border-white/10 bg-ink-800 p-5 shadow-2xl"
+        className="absolute w-[320px] rounded-2xl border border-fg/10 bg-ink-800 p-5 shadow-2xl"
         style={{ top: tipTop, left: tipLeft }}
         dir="rtl"
       >
         <button
           onClick={finish}
           aria-label="إغلاق"
-          className="absolute left-3 top-3 grid h-7 w-7 place-items-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-white"
+          className="absolute left-3 top-3 grid h-7 w-7 place-items-center rounded-lg text-slate-500 transition hover:bg-fg/5 hover:text-fg"
         >
           <X className="h-4 w-4" />
         </button>
@@ -171,7 +171,7 @@ export function OnboardingTour({ onlyOn }: { onlyOn?: string }) {
           <Sparkles className="h-4 w-4" />
           <span className="text-xs font-semibold">جولة سريعة</span>
         </div>
-        <h3 className="mt-2 text-base font-bold text-white">{s.title}</h3>
+        <h3 className="mt-2 text-base font-bold text-fg">{s.title}</h3>
         <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{s.text}</p>
 
         <div className="mt-4 flex items-center justify-between">
@@ -180,7 +180,7 @@ export function OnboardingTour({ onlyOn }: { onlyOn?: string }) {
               <span
                 key={i}
                 className={`h-1.5 rounded-full transition-all ${
-                  i === step ? "w-5 bg-brand-400" : "w-1.5 bg-white/15"
+                  i === step ? "w-5 bg-brand-400" : "w-1.5 bg-fg/15"
                 }`}
               />
             ))}
@@ -189,7 +189,7 @@ export function OnboardingTour({ onlyOn }: { onlyOn?: string }) {
           <div className="flex items-center gap-2">
             <button
               onClick={finish}
-              className="rounded-lg px-2.5 py-1.5 text-xs text-slate-500 transition hover:text-white"
+              className="rounded-lg px-2.5 py-1.5 text-xs text-slate-500 transition hover:text-fg"
             >
               تخطّي
             </button>

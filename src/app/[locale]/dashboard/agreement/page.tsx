@@ -49,7 +49,7 @@ export default async function AgreementPage() {
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-500/10 text-brand-300">
             <CheckCircle2 className="h-7 w-7" />
           </div>
-          <h2 className="mt-4 text-lg font-semibold text-white">
+          <h2 className="mt-4 text-lg font-semibold text-fg">
             الاتفاقية موقّعة ✅
           </h2>
           <p className="mt-2 text-sm text-slate-400">

@@ -53,7 +53,7 @@ export function MobileNav({
         type="button"
         onClick={() => setOpen(true)}
         aria-label="القائمة"
-        className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 text-slate-300 transition hover:text-white"
+        className="grid h-10 w-10 place-items-center rounded-xl border border-fg/10 text-slate-300 transition hover:text-fg"
       >
         <Menu className="h-5 w-5" />
       </button>
@@ -74,14 +74,14 @@ export function MobileNav({
             aria-modal="true"
             aria-label="القائمة"
             style={{ backgroundColor: "#0b1118" }}
-            className="absolute inset-y-0 start-0 flex w-72 max-w-[85%] flex-col overflow-y-auto border-e border-white/10 p-5 shadow-2xl"
+            className="absolute inset-y-0 start-0 flex w-72 max-w-[85%] flex-col overflow-y-auto border-e border-fg/10 p-5 shadow-2xl"
           >
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-white">القائمة</span>
+              <span className="text-sm font-semibold text-fg">القائمة</span>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="إغلاق"
-                className="grid h-9 w-9 place-items-center rounded-lg text-slate-400 transition hover:bg-white/5 hover:text-white"
+                className="grid h-9 w-9 place-items-center rounded-lg text-slate-400 transition hover:bg-fg/5 hover:text-fg"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -100,7 +100,7 @@ export function MobileNav({
                       "rounded-xl px-4 py-3 text-sm font-medium transition",
                       active
                         ? "bg-brand-500/15 text-brand-200"
-                        : "text-slate-300 hover:bg-white/5 hover:text-white"
+                        : "text-slate-300 hover:bg-fg/5 hover:text-fg"
                     )}
                   >
                     {item.label}
@@ -109,10 +109,10 @@ export function MobileNav({
               })}
             </nav>
 
-            <div className="mt-auto space-y-2 border-t border-white/5 pt-4">
+            <div className="mt-auto space-y-2 border-t border-fg/5 pt-4">
               <Link
                 href="/login"
-                className="block rounded-xl border border-white/10 px-4 py-3 text-center text-sm font-medium text-slate-200 transition hover:bg-white/5"
+                className="block rounded-xl border border-fg/10 px-4 py-3 text-center text-sm font-medium text-slate-200 transition hover:bg-fg/5"
               >
                 {loginLabel}
               </Link>

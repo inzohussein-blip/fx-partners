@@ -57,7 +57,7 @@ export default async function AdminClicksPage() {
             <Users className="h-4 w-4" />
           </span>
           <div>
-            <h2 className="text-sm font-bold text-white sm:text-base">
+            <h2 className="text-sm font-bold text-fg sm:text-base">
               أي وكيل يقود إلى حسابات الشركات
             </h2>
             <p className="mt-0.5 text-[11px] text-slate-500 sm:text-xs">
@@ -67,7 +67,7 @@ export default async function AdminClicksPage() {
         </div>
 
         {byAgent.length === 0 ? (
-          <p className="mt-6 rounded-xl border border-dashed border-white/10 px-4 py-8 text-center text-sm text-slate-500">
+          <p className="mt-6 rounded-xl border border-dashed border-fg/10 px-4 py-8 text-center text-sm text-slate-500">
             لا توجد نقرات منسوبة بعد.
           </p>
         ) : (
@@ -75,14 +75,14 @@ export default async function AdminClicksPage() {
             {byAgent.slice(0, 20).map((a) => (
               <li key={a.ib_id} className="flex items-center gap-3">
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-medium text-white">
+                  <span className="block truncate text-sm font-medium text-fg">
                     {a.display_name || a.ib_code}
                   </span>
                   <span className="block text-[11px] text-slate-500" dir="ltr">
                     {a.ib_code}
                   </span>
                 </span>
-                <span className="hidden h-1.5 w-40 overflow-hidden rounded-full bg-white/5 sm:block">
+                <span className="hidden h-1.5 w-40 overflow-hidden rounded-full bg-fg/5 sm:block">
                   <span
                     className="block h-full rounded-full bg-brand-gradient"
                     style={{ width: `${(a.clicks / maxAgent) * 100}%` }}
@@ -104,7 +104,7 @@ export default async function AdminClicksPage() {
             search never passed an agent link. Saying so is more useful than
             quietly folding those clicks into a total. */}
         {brokerClicks.total > 0 && (
-          <p className="mt-5 flex items-start gap-2 border-t border-white/5 pt-4 text-[11px] leading-relaxed text-slate-500">
+          <p className="mt-5 flex items-start gap-2 border-t border-fg/5 pt-4 text-[11px] leading-relaxed text-slate-500">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <span>
               {unattributed.toLocaleString("en-US")} من أصل{" "}

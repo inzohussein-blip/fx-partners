@@ -50,7 +50,7 @@ export function Instruments() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="text-base font-bold text-white">
+                      <h3 className="text-base font-bold text-fg">
                         {t(`${c.key}.name`)}
                       </h3>
                       <span
@@ -77,7 +77,7 @@ export function Instruments() {
         <div className="mt-10 flex justify-center">
           <Link
             href="/brokers"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/5 hover:text-white"
+            className="inline-flex items-center gap-2 rounded-xl border border-fg/10 px-5 py-3 text-sm font-semibold text-slate-200 transition hover:bg-fg/5 hover:text-fg"
           >
             {t("cta")}
             <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
