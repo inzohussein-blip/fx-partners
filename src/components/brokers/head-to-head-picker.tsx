@@ -23,7 +23,9 @@ export function HeadToHeadPicker({
     "w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-3 text-fg focus:border-brand-500/50 focus:outline-none";
 
   const go = () => {
-    if (a && b && a !== b) router.push(`/compare/vs?a=${a}&b=${b}`);
+    // Straight to the pair's own page — the query-param form only redirects
+    // here anyway, and going through it would cost a round trip.
+    if (a && b && a !== b) router.push(`/compare/vs/${[a, b].sort().join("-vs-")}`);
   };
 
   return (

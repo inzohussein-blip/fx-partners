@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import { EN_TRANSLATED } from "@/lib/seo";
+import { getAllPairs } from "@/lib/broker-pairs";
 
 export const dynamic = "force-dynamic";
 
@@ -88,6 +89,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           "weekly",
           0.7
         );
+      }
+
+      // One entry per head-to-head pair. These are the highest-intent pages on
+      // the site — "X vs Y" is what someone searches in the last minute before
+      // choosing — so they rank just under the broker pages themselves.
+      for (const pair of await getAllPairs()) {
+        push(`/compare/vs/${pair.slug}`, now, "weekly", 0.65);
       }
 
       for (const p of (posts as { slug: string; published_at: string | null }[]) ?? []) {

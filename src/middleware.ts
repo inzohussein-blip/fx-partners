@@ -3,7 +3,18 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { routing } from "@/i18n/routing";
 
-const handleI18n = createIntlMiddleware(routing);
+/**
+ * next-intl adds `Link: rel="alternate" hreflang=…` response headers of its
+ * own, listing every configured locale. Google reads hreflang from headers as
+ * well as from the HTML, so those headers were advertising /en as the English
+ * alternate while the page itself says noindex and offers no en alternate —
+ * two contradictory signals for the same URL.
+ *
+ * Alternates are emitted from pageMeta() instead, where the EN_TRANSLATED flag
+ * governs them, so the header version is turned off rather than left to argue
+ * with it.
+ */
+const handleI18n = createIntlMiddleware({ ...routing, alternateLinks: false });
 
 export async function middleware(request: NextRequest) {
   // 1) Locale routing (adds/strips the /en prefix, sets the locale cookie).

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { pairSlug } from "@/lib/broker-pairs";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -153,9 +155,15 @@ export default async function VsPage({
 }: {
   searchParams: { a?: string; b?: string };
 }) {
+  // Every pair now has its own page. Anything still arriving on the old
+  // query-param form — an old link, a bookmark, an indexed URL — is sent to
+  // the canonical one instead of quietly serving a second copy of it.
+  const { a: qa, b: qb } = searchParams;
+  if (qa && qb && qa !== qb) redirect(`/compare/vs/${pairSlug(qa, qb)}`);
+
   const [a, b, options] = await Promise.all([
-    getBroker(searchParams.a ?? ""),
-    getBroker(searchParams.b ?? ""),
+    getBroker(qa ?? ""),
+    getBroker(qb ?? ""),
     getOptions(),
   ]);
 
@@ -176,8 +184,8 @@ export default async function VsPage({
         <Container>
           <HeadToHeadPicker
             options={options}
-            defaultA={a?.slug ?? searchParams.a}
-            defaultB={b?.slug ?? searchParams.b}
+            defaultA={a?.slug ?? qa}
+            defaultB={b?.slug ?? qb}
           />
 
           {!a || !b ? (
