@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Link } from "@/i18n/navigation";
-import { getContent } from "@/lib/content";
+import { getOperator, missingFields } from "@/lib/operator";
 import { getSiteUrl } from "@/lib/utils";
 import {
   Check,
@@ -68,22 +68,19 @@ export default async function AboutPage({
   const t = await getTranslations({ locale, namespace: "About" });
   const lang = locale === "en" ? "en" : "ar";
 
-  // Company facts are owner-supplied. Empty by default: a placeholder legal
-  // name or address on an "about" page is worse than no section at all.
-  const company = await getContent("page.about.company", {
-    legal_name: "",
-    founded: "",
-    location: "",
-    registration: "",
-    email: "",
-  });
+  // Who operates the site. Owner-supplied and empty by default: a placeholder
+  // legal name is worse than a blank one, because a blank is obviously missing
+  // and a placeholder looks like an answer.
+  const company = await getOperator();
+  const missing = missingFields(company);
 
   const facts = [
     { label: t("legalName"), value: company.legal_name },
     { label: t("founded"), value: company.founded },
     { label: t("location"), value: company.location },
     { label: t("registration"), value: company.registration },
-  ].filter((f) => f.value.trim().length > 0);
+    { label: t("email"), value: company.email },
+  ].filter((f) => f.value.length > 0);
 
   const base = getSiteUrl();
   const jsonLd = {
@@ -191,13 +188,21 @@ export default async function AboutPage({
             </div>
           </div>
 
-          {/* ---- Company facts (only what the owner has filled in) ---- */}
-          {facts.length > 0 && (
-            <div className="card-surface mt-12 p-6">
-              <h2 className="flex items-center gap-2 text-lg font-bold text-fg">
-                <Building2 className="h-5 w-5 text-brand-300" aria-hidden />
-                {t("companyTitle")}
-              </h2>
+          {/* ---- Who operates this site ----
+              Always rendered, never hidden when empty. The privacy policy and
+              the terms both say the controller and the governing law are "the
+              entity named on the About page"; if this section disappears when
+              unfilled, those clauses point at nothing and the reader has no
+              way to tell that something is missing rather than absent by
+              design. So the heading stands either way, and says which it is. */}
+          <div className="card-surface mt-12 p-6">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-fg">
+              <Building2 className="h-5 w-5 text-brand-300" aria-hidden />
+              {t("companyTitle")}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-slate-400">{t("companyIntro")}</p>
+
+            {facts.length > 0 && (
               <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                 {facts.map((f) => (
                   <div key={f.label}>
@@ -206,8 +211,19 @@ export default async function AboutPage({
                   </div>
                 ))}
               </dl>
-            </div>
-          )}
+            )}
+
+            {missing.length > 0 && (
+              <div className="mt-4 rounded-xl border border-amber-400/25 bg-amber-500/[0.07] p-4">
+                <p className="text-sm font-semibold text-amber-200">
+                  {t("companyPendingTitle")}
+                </p>
+                <p className="mt-1.5 text-sm leading-relaxed text-slate-300">
+                  {t("companyPendingBody")}
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* ---- Contact ---- */}
           <div className="mt-12 flex flex-wrap items-center gap-3">

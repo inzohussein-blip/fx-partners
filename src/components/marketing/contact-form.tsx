@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
+import { FormConsent } from "@/components/form-consent";
 import { sendContactMessage } from "@/lib/actions/contact";
 import { Loader2, Check, Send } from "lucide-react";
 
@@ -137,6 +138,9 @@ export function ContactForm() {
       </div>
 
       {error && <p className="text-sm text-red-400">{error}</p>}
+
+      <FormConsent variant="contact" />
+
 
       <button
         type="submit"

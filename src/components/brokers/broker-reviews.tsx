@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { submitBrokerReview } from "@/lib/actions/brokers";
+import { FormConsent } from "@/components/form-consent";
 import { Stars, StarInput } from "@/components/brokers/stars";
 import type { BrokerReview } from "@/lib/brokers";
 import { ShieldCheck, Loader2, Check } from "lucide-react";
@@ -211,6 +212,7 @@ export function BrokerReviews({
                 "إرسال المراجعة"
               )}
             </button>
+            <FormConsent variant="public" />
             <p className="text-xs text-slate-600">
               تخضع كل المراجعات لمراجعة الإدارة قبل النشر.
             </p>

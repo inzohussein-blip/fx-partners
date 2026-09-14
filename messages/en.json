@@ -170,14 +170,19 @@
     "policy4Body": "We do not publish made-up client opinions, and we do not name brokers we have no contract with as partners. A section with no real content does not appear at all.",
     "policy5Title": "Contracted brokers are labelled plainly",
     "policy5Body": "Brokers we hold an agreement with carry a “verified partner” label. We also list brokers we have no agreement with, and they appear without one — so that a comparison is a comparison, not a client list.",
-    "companyTitle": "Company details",
+    "companyTitle": "Who operates this site",
     "legalName": "Legal name",
     "founded": "Founded",
     "location": "Head office",
     "registration": "Registration number",
     "ctaContact": "Contact us",
     "ctaDirectory": "Broker directory",
-    "risk": "Risk warning: leveraged trading carries a risk of losing your capital. The content on this site is for information only and is not investment advice."
+    "risk": "Risk warning: leveraged trading carries a risk of losing your capital. The content on this site is for information only and is not investment advice.",
+    "companyIntro": "This is the entity responsible for this site and for the data described in the privacy policy, and whose country's law governs the terms and conditions.",
+    "email": "Email",
+    "companyPendingTitle": "Registration details not yet published",
+    "companyPendingBody": "The operating entity's full registration details are not yet published on this page. Until they are, the Contact page is the way to reach us.",
+    "companyAdminTodo": "Administrator notice: these fields are legally required and are not filled in — {fields}. Set them from the content editor."
   },
   "Contact": {
     "badge": "Contact us",
@@ -751,5 +756,13 @@
     "s6p1": "If you disagree with a calculated amount, write to us through the Contact page within 60 days of it appearing in your wallet, quoting the client reference or the period in dispute. We will review the statement with the broker and come back to you with the outcome and the document we relied on.",
     "s7Title": "7) Tax",
     "s7p1": "Commission is your income, and you are responsible for declaring it and paying any tax due on it where you live. We do not withhold tax on your behalf and we do not give tax advice."
+  },
+  "FormConsent": {
+    "contact": "By sending this form you agree that we may use your name and email to reply to you. A copy of your message goes to our team's Telegram chat, which is our alerting channel. Details in the <p>privacy policy</p>.",
+    "booking": "By sending this request you agree that we may use your details to arrange the meeting and reply to you. A copy goes to our team's Telegram chat. Details in the <p>privacy policy</p>.",
+    "public": "What you write here is published publicly under the name you choose — do not put personal details in it that you would not want read. You can ask us to remove it at any time. Details in the <p>privacy policy</p>.",
+    "subscribeCheckbox": "I agree to receive email alerts about this broker's offers and terms, and I understand I can unsubscribe at any time.",
+    "subscribeRequired": "Please confirm your agreement before subscribing.",
+    "privacyLink": "Privacy policy"
   }
 }

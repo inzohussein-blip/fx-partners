@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FormConsent } from "@/components/form-consent";
 import {
   createBoardPost,
   deleteBoardPost,
@@ -493,6 +494,9 @@ function NewPostForm({
         placeholder={placeholder}
       />
       {error && <p className="text-sm text-red-400">{error}</p>}
+      {/* Only on the full form. The inline reply box repeats under every post,
+          and a notice repeated twenty times down a page stops being read. */}
+      {!compact && <FormConsent variant="public" />}
       <button
         type="submit"
         disabled={busy}

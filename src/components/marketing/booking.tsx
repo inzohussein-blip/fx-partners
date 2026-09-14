@@ -6,6 +6,7 @@ import { bookMeeting } from "@/lib/actions/booking";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
 import { CalendarClock, Check, Loader2, Video } from "lucide-react";
+import { FormConsent } from "@/components/form-consent";
 
 export type Slot = {
   id: string;
@@ -249,6 +250,9 @@ export function Booking({ slots }: { slots: Slot[] }) {
                 {serverError}
               </p>
             )}
+
+            <FormConsent variant="booking" />
+
 
             <button
               type="submit"
