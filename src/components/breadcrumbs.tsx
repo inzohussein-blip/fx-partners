@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getSiteUrl } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
@@ -6,10 +7,11 @@ export type Crumb = { label: string; href?: string };
 
 /**
  * Visible breadcrumb trail + BreadcrumbList JSON-LD for search engines.
- * A leading "الرئيسية" (home) crumb is added automatically.
+ * A leading home crumb is added automatically, in the reader's language.
  */
 export function Breadcrumbs({ items }: { items: Crumb[] }) {
-  const all: Crumb[] = [{ label: "الرئيسية", href: "/" }, ...items];
+  const t = useTranslations("Chrome");
+  const all: Crumb[] = [{ label: t("home"), href: "/" }, ...items];
   const base = getSiteUrl();
 
   const jsonLd = {
@@ -24,7 +26,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
   };
 
   return (
-    <nav aria-label="مسار التنقّل" className="flex flex-wrap items-center gap-1 text-xs text-slate-500">
+    <nav aria-label={t("breadcrumbLabel")} className="flex flex-wrap items-center gap-1 text-xs text-slate-500">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

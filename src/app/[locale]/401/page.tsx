@@ -1,19 +1,29 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ErrorState } from "@/components/error-state";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "غير مصرّح" };
+export async function generateMetadata() {
+  const t = await getTranslations("Chrome");
+  return { title: t("unauthorizedTitle") };
+}
 
-export default function Unauthorized() {
+export default async function Unauthorized({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
+  const t = await getTranslations("Chrome");
   return (
     <ErrorState
       code="401"
-      title="غير مصرّح"
-      message="تحتاج إلى تسجيل الدخول للوصول إلى هذه الصفحة."
+      title={t("unauthorizedTitle")}
+      message={t("unauthorizedMessage")}
       action={
         <>
-          <Button href="/login">تسجيل الدخول</Button>
+          <Button href="/login">{t("signIn")}</Button>
           <Button href="/" variant="secondary">
-            العودة للرئيسية
+            {t("backHome")}
           </Button>
         </>
       }

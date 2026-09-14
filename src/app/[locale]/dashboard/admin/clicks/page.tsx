@@ -6,6 +6,7 @@ import {
   getBrokerClicksByAgent,
 } from "@/lib/clicks";
 import { MousePointerClick, Users, Info } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,12 @@ export const dynamic = "force-dynamic";
  * agent when an admin calls them, so there is no second "admin version" of the
  * query to keep in sync.
  */
-export default async function AdminClicksPage() {
+export default async function AdminClicksPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const [refClicks, brokerClicks, byAgent] = await Promise.all([
     getReferralClicks(30),
     getBrokerClicks(30),

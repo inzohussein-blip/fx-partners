@@ -2,10 +2,16 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Users } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ClientsTable, type ClientRow } from "@/components/dashboard/clients-table";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function ClientsPage() {
+export default async function ClientsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let rows: ClientRow[] = [];
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/utils";
@@ -35,11 +36,11 @@ const MarginCalculator = dynamic(
 );
 
 const TABS = [
-  { key: "calc", label: "حاسبة الأرباح", icon: Calculator },
-  { key: "risk", label: "المخاطرة والنقطة", icon: ShieldAlert },
-  { key: "margin", label: "المارجن والرافعة", icon: Gauge },
-  { key: "compare", label: "قارن عمولتك", icon: Scale },
-  { key: "backtest", label: "محاكي الأداء", icon: LineChart },
+  { key: "calc", label: "tabCalc", icon: Calculator },
+  { key: "risk", label: "tabRisk", icon: ShieldAlert },
+  { key: "margin", label: "tabMargin", icon: Gauge },
+  { key: "compare", label: "tabCompare", icon: Scale },
+  { key: "backtest", label: "tabBacktest", icon: LineChart },
 ] as const;
 
 /**
@@ -48,6 +49,7 @@ const TABS = [
  * as a bug on a laptop and fill the whole screen on a phone.
  */
 export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
+  const t = useTranslations("ToolsTabs");
   const [tab, setTab] = useState<(typeof TABS)[number]["key"]>("calc");
 
   return (
@@ -60,13 +62,13 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
           <>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
               <Scale className="h-3.5 w-3.5" />
-              أدوات محايدة
+              {t("eyebrow")}
             </span>
             <h2 className="mt-5 text-[26px] font-bold leading-[1.3] text-fg sm:text-3xl sm:leading-tight lg:text-4xl">
-              لسنا طرفاً — نقارن بين شركائنا بحياد
+              {t("title")}
             </h2>
             <p className="mx-auto mt-3.5 max-w-xl text-[15px] text-slate-400 sm:mt-4 sm:text-base">
-              حاسبات ومقارنات تفاعلية تساعدك على اختيار الأنسب لك بين شركات التداول الشريكة — بشفافية كاملة ودون انحياز.
+              {t("subtitle")}
             </p>
           </>
         )}
@@ -87,7 +89,7 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
                 )}
               >
                 <tb.icon className="h-4 w-4" />
-                {tb.label}
+                {t(tb.label)}
               </button>
             );
           })}

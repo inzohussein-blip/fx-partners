@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { categoryMeta, timeAgo, type Announcement } from "@/lib/announcements";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,12 @@ async function getAnnouncements(): Promise<Announcement[]> {
   }
 }
 
-export default async function UpdatesPage() {
+export default async function UpdatesPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const items = await getAnnouncements();
 
   return (

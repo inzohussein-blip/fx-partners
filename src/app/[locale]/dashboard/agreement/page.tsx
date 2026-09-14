@@ -3,10 +3,16 @@ import { createClient } from "@/lib/supabase/server";
 import { AgreementSigner } from "@/components/dashboard/agreement-signer";
 import { AgreementDownload } from "@/components/dashboard/agreement-download";
 import { CheckCircle2, FileSignature } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AgreementPage() {
+export default async function AgreementPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let signedAt: string | null = null;
   let defaultName = "";
 

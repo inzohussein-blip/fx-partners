@@ -4,10 +4,16 @@ import { ForumManager } from "@/components/dashboard/forum-manager";
 import { createClient } from "@/lib/supabase/server";
 import { getMyChannels, getPostsForChannels } from "@/lib/forum";
 import { MessagesSquare } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardForumPage() {
+export default async function DashboardForumPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) redirect("/dashboard");
   const supabase = createClient();
   const {

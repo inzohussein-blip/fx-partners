@@ -2,10 +2,16 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Share2 } from "lucide-react";
 import { NetworkMap } from "@/components/dashboard/network-map";
 import { getNetwork } from "@/lib/network";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminNetworkPage() {
+export default async function AdminNetworkPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const brokers = await getNetwork();
 
   return (

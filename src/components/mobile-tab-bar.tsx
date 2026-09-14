@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { Home, Scale, Gift, MessagesSquare, UserRound } from "lucide-react";
@@ -21,22 +22,24 @@ import { Home, Scale, Gift, MessagesSquare, UserRound } from "lucide-react";
  */
 type Tab = {
   href: string;
-  label: string;
+  /** Key in the `Chrome` message namespace. */
+  key: string;
   icon: typeof Home;
   /** Home matches only itself; every other tab also owns its sub-routes. */
   exact?: boolean;
 };
 
 const TABS: Tab[] = [
-  { href: "/", label: "الرئيسية", icon: Home, exact: true },
-  { href: "/compare", label: "قارن", icon: Scale },
-  { href: "/offers", label: "العروض", icon: Gift },
-  { href: "/forum", label: "المنتدى", icon: MessagesSquare },
-  { href: "/dashboard", label: "حسابي", icon: UserRound },
+  { href: "/", key: "home", icon: Home, exact: true },
+  { href: "/compare", key: "tabCompare", icon: Scale },
+  { href: "/offers", key: "tabOffers", icon: Gift },
+  { href: "/forum", key: "tabForum", icon: MessagesSquare },
+  { href: "/dashboard", key: "tabAccount", icon: UserRound },
 ];
 
 export function MobileTabBar() {
   const pathname = usePathname();
+  const t = useTranslations("Chrome");
 
   // next-intl keeps the locale in the path (/en/compare); strip it so the
   // active state matches on both locales.
@@ -49,7 +52,7 @@ export function MobileTabBar() {
       <div className="h-[calc(4rem+env(safe-area-inset-bottom))] md:hidden" aria-hidden />
 
       <nav
-        aria-label="التنقّل السريع"
+        aria-label={t("quickNav")}
         className={cn(
           "fixed inset-x-0 bottom-0 z-50 md:hidden",
           "border-t border-fg/10 bg-ink-900/95 backdrop-blur-xl",
@@ -85,7 +88,7 @@ export function MobileTabBar() {
                       />
                     )}
                   </span>
-                  {tab.label}
+                  {t(tab.key)}
                 </Link>
               </li>
             );

@@ -2,10 +2,16 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Images } from "lucide-react";
 import { MediaLibrary } from "@/components/dashboard/media-library";
 import { listMedia } from "@/lib/media";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminMediaPage() {
+export default async function AdminMediaPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const items = await listMedia();
 
   return (

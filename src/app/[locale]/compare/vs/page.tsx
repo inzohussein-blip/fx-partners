@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { pairSlug } from "@/lib/broker-pairs";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
@@ -151,10 +152,13 @@ function Row({
 }
 
 export default async function VsPage({
+  params: { locale },
   searchParams,
 }: {
+  params: { locale: string };
   searchParams: { a?: string; b?: string };
 }) {
+  setRequestLocale(locale);
   // Every pair now has its own page. Anything still arriving on the old
   // query-param form — an old link, a bookmark, an indexed URL — is sent to
   // the canonical one instead of quietly serving a second copy of it.

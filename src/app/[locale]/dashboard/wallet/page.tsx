@@ -5,6 +5,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { WithdrawForm } from "@/components/dashboard/withdraw-form";
 import { formatCurrency } from "@/lib/utils";
 import { Wallet, Clock, ArrowDownToLine } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -72,7 +73,12 @@ async function getData() {
   }
 }
 
-export default async function WalletPage() {
+export default async function WalletPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const { ibId, balance, pending, withdrawn, withdrawals } = await getData();
 
   return (

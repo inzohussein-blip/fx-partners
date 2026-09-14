@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 import { sendContactMessage } from "@/lib/actions/contact";
 import { Loader2, Check, Send } from "lucide-react";
 
@@ -15,6 +16,7 @@ type Values = {
 };
 
 export function ContactForm() {
+  const t = useTranslations("ContactForm");
   const {
     register,
     handleSubmit,
@@ -37,7 +39,7 @@ export function ContactForm() {
       setDone(true);
       reset();
     } else {
-      setError(res.error ?? "تعذّر الإرسال.");
+      setError(res.error ?? t("failed"));
     }
   }
 
@@ -50,15 +52,15 @@ export function ContactForm() {
         <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-brand-500/15 text-brand-300">
           <Check className="h-6 w-6" />
         </div>
-        <h3 className="mt-3 text-lg font-bold text-fg">تم إرسال رسالتك!</h3>
+        <h3 className="mt-3 text-lg font-bold text-fg">{t("sentTitle")}</h3>
         <p className="mt-2 text-sm text-slate-400">
-          شكراً لتواصلك، سيرد عليك فريقنا في أقرب وقت.
+          {t("sentBody")}
         </p>
         <button
           onClick={() => setDone(false)}
           className="mt-4 text-sm text-brand-300 hover:text-brand-200"
         >
-          إرسال رسالة أخرى
+          {t("sendAnother")}
         </button>
       </div>
     );
@@ -82,19 +84,19 @@ export function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="c-name" className="mb-1.5 block text-sm text-slate-300">
-            الاسم
+            {t("name")}
           </label>
           <input
             id="c-name"
             className={inputCls}
             aria-invalid={!!errors.name}
-            {...register("name", { required: "الاسم مطلوب" })}
+            {...register("name", { required: t("nameRequired") })}
           />
           {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name.message}</p>}
         </div>
         <div>
           <label htmlFor="c-email" className="mb-1.5 block text-sm text-slate-300">
-            البريد الإلكتروني
+            {t("email")}
           </label>
           <input
             id="c-email"
@@ -103,8 +105,8 @@ export function ContactForm() {
             className={inputCls}
             aria-invalid={!!errors.email}
             {...register("email", {
-              required: "البريد مطلوب",
-              pattern: { value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: "بريد غير صالح" },
+              required: t("emailRequired"),
+              pattern: { value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: t("emailInvalid") },
             })}
           />
           {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>}
@@ -113,21 +115,21 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="c-subject" className="mb-1.5 block text-sm text-slate-300">
-          الموضوع <span className="text-slate-600">(اختياري)</span>
+          {t("subject")} <span className="text-slate-600">{t("optional")}</span>
         </label>
         <input id="c-subject" className={inputCls} {...register("subject")} />
       </div>
 
       <div>
         <label htmlFor="c-message" className="mb-1.5 block text-sm text-slate-300">
-          الرسالة
+          {t("message")}
         </label>
         <textarea
           id="c-message"
           rows={5}
           className={inputCls}
           aria-invalid={!!errors.message}
-          {...register("message", { required: "الرسالة مطلوبة" })}
+          {...register("message", { required: t("messageRequired") })}
         />
         {errors.message && (
           <p className="mt-1 text-xs text-red-400">{errors.message.message}</p>
@@ -143,11 +145,11 @@ export function ContactForm() {
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" /> جارٍ الإرسال…
+            <Loader2 className="h-4 w-4 animate-spin" /> {t("sending")}
           </>
         ) : (
           <>
-            <Send className="h-4 w-4" /> إرسال الرسالة
+            <Send className="h-4 w-4" /> {t("send")}
           </>
         )}
       </button>

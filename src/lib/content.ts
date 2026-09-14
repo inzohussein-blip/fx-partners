@@ -22,3 +22,16 @@ export async function getContent<T extends Record<string, unknown>>(
     return fallback;
   }
 }
+
+/**
+ * The `site_content` key that holds a block's copy for a given locale.
+ *
+ * Each locale gets its own row rather than one shared row, because a single
+ * stored value would mean an admin editing the Arabic headline silently
+ * replaces the English one with Arabic text. An English page with no English
+ * override falls through to the message catalogue, which is a real
+ * translation — not to whatever the Arabic row happens to say.
+ */
+export function contentKeyFor(key: string, locale: string): string {
+  return locale === "en" ? `${key}.en` : key;
+}

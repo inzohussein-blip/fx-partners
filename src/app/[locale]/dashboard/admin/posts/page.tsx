@@ -3,10 +3,16 @@ import { Button } from "@/components/ui/button";
 import { PostsTable, type PostRow } from "@/components/dashboard/posts-table";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Plus, FileText } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPostsPage() {
+export default async function AdminPostsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let posts: PostRow[] = [];
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();

@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Radio } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -9,7 +10,12 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminSignalsPage() {
+export default async function AdminSignalsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let signals: AdminSignal[] = [];
   let hooks: Hook[] = [];
   let brokers: { id: string; name: string }[] = [];

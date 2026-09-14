@@ -3,10 +3,16 @@ import { Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SettingsForm } from "@/components/dashboard/settings-form";
 import { TelegramConnect } from "@/components/dashboard/telegram-connect";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function SettingsPage() {
+export default async function SettingsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let profile = {
     full_name: "",
     company_name: "",

@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Booking, type Slot } from "@/components/marketing/booking";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -90,7 +90,12 @@ async function getSlots(): Promise<Slot[]> {
   }
 }
 
-export default async function BrokersPage() {
+export default async function BrokersPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const [partners, slots, t] = await Promise.all([
     getPartners(),
     getSlots(),

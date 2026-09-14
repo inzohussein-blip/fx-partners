@@ -1,10 +1,16 @@
 import { PageHeader } from "@/components/dashboard/page-header";
 import { CandlestickChart } from "lucide-react";
 import { TradingViewWidget } from "@/components/tradingview-widget";
+import { setRequestLocale } from "next-intl/server";
 
 const BASE = "https://s3.tradingview.com/external-embedding";
 
-export default function MarketsNewsPage() {
+export default function MarketsNewsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   return (
     <div className="space-y-6">
       <PageHeader

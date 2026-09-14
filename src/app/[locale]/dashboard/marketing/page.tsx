@@ -6,6 +6,7 @@ import { ReviewRequest } from "@/components/dashboard/review-request";
 import { getSiteUrl } from "@/lib/utils";
 import { getReferralClicks, getBrokerClicks } from "@/lib/clicks";
 import { ClickAnalytics } from "@/components/dashboard/click-analytics";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +63,12 @@ const BANNERS = [
   { size: "skyscraper", label: "160×600" },
 ];
 
-export default async function MarketingPage() {
+export default async function MarketingPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const { ibId, ibCode, links, brokers, siteUrl } = await getData();
 
   // RLS scopes both to this agent: their own referral clicks, and the broker

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getContent } from "@/lib/content";
+import { getContent, contentKeyFor } from "@/lib/content";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -18,10 +19,10 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "OffersPage" });
   return pageMeta({
-    title: "عروض وبونصات شركات التداول",
-    description:
-      "أحدث عروض وبونصات شركات التداول المتاحة عبر FX Partners — بونص الإيداع، البونص الترحيبي، والعروض بدون إيداع، مع شروط كل عرض ومدّته.",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
     path: "/offers",
     keywords: KEYWORDS.offers,
     locale,
@@ -69,10 +70,17 @@ async function getCoupons(): Promise<Coupon[]> {
   }
 }
 
-export default async function OffersPage() {
-  const copy = await getContent("page.offers", {
-    title: "عروض حصرية.. اقتنصها قبل انتهائها",
-    subtitle: "أحدث بونصات وعروض شركات التداول، محدّثة لحظياً من فريق FX Partners.",
+export default async function OffersPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "OffersPage" });
+  const key = contentKeyFor("page.offers", locale);
+  const copy = await getContent(key, {
+    title: t("title"),
+    subtitle: t("subtitle"),
   });
 
   const [campaigns, coupons] = await Promise.all([getCampaigns(), getCoupons()]);
@@ -85,15 +93,15 @@ export default async function OffersPage() {
         <Container className="py-9 text-center sm:py-16">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <Crosshair className="h-3.5 w-3.5" />
-            القنّاص المالي
+            {t("eyebrow")}
           </span>
           <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
-            <EditableText contentKey="page.offers" field="title" label="عنوان صفحة العروض">
+            <EditableText contentKey={key} field="title" label={t("editTitle")}>
               {copy.title}
             </EditableText>
           </h1>
           <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
-            <EditableText contentKey="page.offers" field="subtitle" label="وصف صفحة العروض" multiline>
+            <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
               {copy.subtitle}
             </EditableText>
           </p>
@@ -103,16 +111,16 @@ export default async function OffersPage() {
       <section className="py-16">
         <Container>
           <SectionHeading
-            eyebrow="العروض النشطة"
+            eyebrow={t("activeEyebrow")}
             icon={Flame}
-            title="بونصات وعروض محدّثة لحظياً"
-            subtitle="اختر العرض الأنسب لك وافتح حسابك عبر رابطنا الحصري."
+            title={t("activeTitle")}
+            subtitle={t("activeSubtitle")}
             align="start"
           />
           <div className="mt-10" />
           {campaigns.length === 0 ? (
             <div className="card-surface p-12 text-center text-sm text-slate-500">
-              لا توجد عروض نشطة حالياً. تابعنا — الفرص تُطلق في أي لحظة.
+              {t("empty")}
             </div>
           ) : (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +129,7 @@ export default async function OffersPage() {
                   <div className="hero-glow absolute inset-0 opacity-50" />
                   <div className="relative">
                     <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/15 px-2.5 py-0.5 text-xs sm:text-[11px] text-orange-300">
-                      <Flame className="h-3 w-3" /> عرض نشط
+                      <Flame className="h-3 w-3" /> {t("activeBadge")}
                     </span>
                     <h3 className="mt-3 text-lg font-bold text-fg">{c.title}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-300" dir="auto">
@@ -132,7 +140,7 @@ export default async function OffersPage() {
                         href={`/brokers/${c.broker_slug}`}
                         className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
                       >
-                        {c.cta_label || "سجّل الآن"}
+                        {c.cta_label || t("defaultCta")}
                         <ArrowLeft className="h-4 w-4" />
                       </Link>
                     )}
@@ -149,10 +157,10 @@ export default async function OffersPage() {
         <section className="pb-24">
           <Container>
             <SectionHeading
-              eyebrow="كوبونات"
+              eyebrow={t("couponsEyebrow")}
               icon={Ticket}
-              title="أكواد وكوبونات حصرية"
-              subtitle="انسخ الكود وافتح حسابك عبر رابطنا الحصري للحصول على العرض."
+              title={t("couponsTitle")}
+              subtitle={t("couponsSubtitle")}
               align="start"
             />
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

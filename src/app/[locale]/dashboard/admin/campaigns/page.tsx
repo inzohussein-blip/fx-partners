@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Ticket } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -12,7 +13,12 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminCampaignsPage() {
+export default async function AdminCampaignsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let campaigns: AdminCampaign[] = [];
   let coupons: AdminCoupon[] = [];
   let brokers: { id: string; name: string }[] = [];

@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { createClient } from "@/lib/supabase/server";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -98,7 +99,12 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
   },
 ];
 
-export default async function SiteMapPage() {
+export default async function SiteMapPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const { brokers, posts } = await getLists();
 
   return (

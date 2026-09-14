@@ -5,6 +5,7 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { IbActions, WithdrawalActions } from "@/components/dashboard/admin-actions";
 import { formatCurrency } from "@/lib/utils";
 import { UserCheck, Clock, BadgeDollarSign, ShieldCheck } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -77,7 +78,12 @@ async function loadAdminData() {
   };
 }
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const { ibs, withdrawals } = await loadAdminData();
 
   const pendingIbs = ibs.filter((i) => i.status === "pending");

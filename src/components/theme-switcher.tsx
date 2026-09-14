@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Sun, Moon, Laptop, Check } from "lucide-react";
 
 const OPTIONS = [
-  { value: "light", label: "فاتح", icon: Sun },
-  { value: "dark", label: "داكن", icon: Moon },
-  { value: "system", label: "حسب الجهاز", icon: Laptop },
+  { value: "light", key: "themeLight", icon: Sun },
+  { value: "dark", key: "themeDark", icon: Moon },
+  { value: "system", key: "themeSystem", icon: Laptop },
 ] as const;
 
 /**
@@ -25,6 +26,7 @@ const OPTIONS = [
  * once mounted — no icon flip, no layout shift.
  */
 export function ThemeSwitcher({ className }: { className?: string }) {
+  const t = useTranslations("Chrome");
   const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -53,7 +55,7 @@ export function ThemeSwitcher({ className }: { className?: string }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="تغيير مظهر الموقع"
+        aria-label={t("themeLabel")}
         aria-haspopup="menu"
         aria-expanded={open}
         className="grid h-12 w-12 place-items-center rounded-xl text-slate-400 transition hover:bg-fg/5 hover:text-fg sm:h-10 sm:w-10"
@@ -90,7 +92,7 @@ export function ThemeSwitcher({ className }: { className?: string }) {
                 )}
               >
                 <o.icon className="h-4 w-4 shrink-0" />
-                <span className="flex-1 text-start">{o.label}</span>
+                <span className="flex-1 text-start">{t(o.key)}</span>
                 {active && <Check className="h-3.5 w-3.5 shrink-0" />}
               </button>
             );

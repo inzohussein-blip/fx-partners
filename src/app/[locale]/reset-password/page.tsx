@@ -10,7 +10,11 @@ import { Button } from "@/components/ui/button";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { resetPasswordSchema, type ResetPasswordValues } from "@/lib/validators";
 
-export default function ResetPasswordPage() {
+export default function ResetPasswordPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   const t = useTranslations("Reset");
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);

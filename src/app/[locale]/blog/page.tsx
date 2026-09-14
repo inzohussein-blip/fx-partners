@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/container";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft, Newspaper } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({
   params: { locale },
@@ -53,7 +54,12 @@ function fmtDate(iso: string | null) {
   return new Intl.DateTimeFormat("ar", { dateStyle: "long" }).format(new Date(iso));
 }
 
-export default async function BlogPage() {
+export default async function BlogPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const copy = await getContent("page.blog", {
     title: "رؤى وأخبار التداول",
     subtitle: "مقالات وتحليلات حول التداول وبرامج الشراكة المالية.",

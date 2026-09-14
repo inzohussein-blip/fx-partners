@@ -1,19 +1,29 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ErrorState } from "@/components/error-state";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "ممنوع الوصول" };
+export async function generateMetadata() {
+  const t = await getTranslations("Chrome");
+  return { title: t("forbiddenTitle") };
+}
 
-export default function Forbidden() {
+export default async function Forbidden({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
+  const t = await getTranslations("Chrome");
   return (
     <ErrorState
       code="403"
-      title="ممنوع الوصول"
-      message="ليست لديك الصلاحية للوصول إلى هذه الصفحة."
+      title={t("forbiddenTitle")}
+      message={t("forbiddenMessage")}
       action={
         <>
-          <Button href="/dashboard">لوحة التحكم</Button>
+          <Button href="/dashboard">{t("dashboard")}</Button>
           <Button href="/" variant="secondary">
-            العودة للرئيسية
+            {t("backHome")}
           </Button>
         </>
       }

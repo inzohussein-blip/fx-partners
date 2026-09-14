@@ -3,10 +3,16 @@ import { Type } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { ContentStudio } from "@/components/dashboard/content-studio";
 import { CONTENT_REGISTRY } from "@/lib/content-registry";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminContentPage() {
+export default async function AdminContentPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   // Values can be strings or arrays (list blocks), so they stay `unknown`
   // here and are narrowed per field by the editor.
   const values: Record<string, Record<string, unknown>> = {};

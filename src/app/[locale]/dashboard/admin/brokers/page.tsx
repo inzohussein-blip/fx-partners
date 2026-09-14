@@ -8,10 +8,16 @@ import {
   type CountryStat,
 } from "@/components/dashboard/brokers-manager";
 import { ReorderPanel } from "@/components/dashboard/reorder-panel";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminBrokersPage() {
+export default async function AdminBrokersPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let brokers: AdminBroker[] = [];
   let pending: PendingReview[] = [];
   let countries: Record<string, CountryStat[]> = {};

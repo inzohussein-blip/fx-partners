@@ -11,7 +11,11 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { Field } from "@/components/auth/field";
 import { GoogleButton } from "@/components/auth/google-button";
 
-export default function LoginPage() {
+export default function LoginPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   return (
     <Suspense>
       <LoginForm />

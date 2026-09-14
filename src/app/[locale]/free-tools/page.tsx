@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -17,17 +18,23 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "FreeTools" });
   return pageMeta({
-    title: "أدوات ومؤشرات MetaTrader مجانية",
-    description:
-      "حمّل مؤشرات MetaTrader وقوالب التحليل والكتب التعليمية مجاناً — أدوات مختارة من FX Partners لمساعدتك على التداول باحتراف.",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
     path: "/free-tools",
     keywords: KEYWORDS.tools,
     locale,
   });
 }
 
-export default async function ResourcesPage() {
+export default async function ResourcesPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "FreeTools" });
   const resources = await getResources();
 
   return (
@@ -35,14 +42,14 @@ export default async function ResourcesPage() {
       <SiteHeader />
       <section className="py-14">
         <Container>
-          <Breadcrumbs items={[{ label: "الأدوات المجانية" }]} />
+          <Breadcrumbs items={[{ label: t("crumb") }]} />
           <div className="mt-6">
             <SectionHeading
               as="h1"
-              eyebrow="مكتبة الأدوات"
+              eyebrow={t("eyebrow")}
               icon={Download}
-              title="أدوات ومؤشرات تداول مجانية"
-              subtitle="مؤشرات MetaTrader، قوالب تحليل، وكتب تعليمية — فعّلها مجاناً بفتح حساب عبر روابطنا."
+              title={t("title")}
+              subtitle={t("subtitle")}
               align="start"
             />
           </div>
@@ -52,8 +59,8 @@ export default async function ResourcesPage() {
               <div className="card-surface">
                 <EmptyState
                   icon={Download}
-                  title="لا توجد أدوات بعد"
-                  description="تُضاف المؤشرات والقوالب والكتب من لوحة التحكم."
+                  title={t("emptyTitle")}
+                  description={t("emptyDescription")}
                 />
               </div>
             ) : (

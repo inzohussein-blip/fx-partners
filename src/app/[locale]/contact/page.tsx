@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -6,33 +7,41 @@ import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ContactForm } from "@/components/marketing/contact-form";
 import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
-import { getContent } from "@/lib/content";
+import { getContent, contentKeyFor } from "@/lib/content";
 
 export async function generateMetadata({
   params: { locale },
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "ContactPage" });
   return pageMeta({
-    title: "اتصل بنا",
-    description:
-      "تواصل مع فريق FX Partners — الدعم، طلبات الشراكة مع الشركات، واستفسارات الوكلاء.",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
     path: "/contact",
     locale,
   });
 }
 
-export default async function ContactPage() {
-  const info = await getContent("site.contact", {
+export default async function ContactPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "ContactPage" });
+  // The address and number are the same in both locales; only the opening
+  // hours are prose, so that is the one field the locale key exists for.
+  const info = await getContent(contentKeyFor("site.contact", locale), {
     email: "partners@fxpartners.com",
     phone: "+971 4 000 0000",
-    hours: "24/7 دعم متواصل",
+    hours: t("defaultHours"),
   });
 
   const channels = [
-    { icon: Mail, label: "البريد الإلكتروني", value: info.email, href: `mailto:${info.email}` },
-    { icon: Phone, label: "الهاتف", value: info.phone, href: `tel:${info.phone.replace(/\s/g, "")}` },
-    { icon: Clock, label: "ساعات العمل", value: info.hours },
+    { icon: Mail, label: t("email"), value: info.email, href: `mailto:${info.email}` },
+    { icon: Phone, label: t("phone"), value: info.phone, href: `tel:${info.phone.replace(/\s/g, "")}` },
+    { icon: Clock, label: t("hours"), value: info.hours },
   ];
 
   return (
@@ -41,18 +50,17 @@ export default async function ContactPage() {
 
       <section className="hero-glow">
         <Container className="py-14">
-          <Breadcrumbs items={[{ label: "اتصل بنا" }]} />
+          <Breadcrumbs items={[{ label: t("crumb") }]} />
           <div className="mt-6 max-w-2xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
               <MessageCircle className="h-3.5 w-3.5" aria-hidden />
-              تواصل معنا
+              {t("eyebrow")}
             </span>
             <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
-              لديك سؤال أو عرض شراكة؟
+              {t("title")}
             </h1>
             <p className="mt-4 text-lg text-slate-300">
-              فريقنا جاهز لمساعدتك على مدار الساعة. أرسل رسالتك أو تواصل مباشرة عبر
-              القنوات التالية.
+              {t("subtitle")}
             </p>
           </div>
         </Container>

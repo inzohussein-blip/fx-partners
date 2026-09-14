@@ -11,6 +11,7 @@ import { parsePair, pairSlug, getPairBrokers, getAllPairs } from "@/lib/broker-p
 import { isRated } from "@/lib/brokers";
 import { getSiteUrl } from "@/lib/utils";
 import { Scale } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -65,6 +66,7 @@ export default async function PairPage({
 }: {
   params: { pair: string; locale: string };
 }) {
+  setRequestLocale(params.locale);
   const parsed = parsePair(params.pair);
   if (!parsed) notFound();
 

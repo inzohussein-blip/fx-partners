@@ -4,6 +4,7 @@ import { TIERS } from "@/lib/levels";
 import { formatCurrency } from "@/lib/utils";
 import { Trophy, Medal, Crown, Star, Rocket } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -70,7 +71,12 @@ function rankBadge(rank: number) {
   return { color: "text-slate-500", ring: "ring-fg/10", Icon: Medal };
 }
 
-export default async function LeaderboardPage() {
+export default async function LeaderboardPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const { rows, live } = await getRows();
 
   return (

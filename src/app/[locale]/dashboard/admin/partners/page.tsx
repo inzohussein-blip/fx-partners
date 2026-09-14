@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Handshake } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PartnersManager } from "@/components/dashboard/partners-manager";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,12 @@ type Partner = {
   is_active: boolean;
 };
 
-export default async function AdminPartnersPage() {
+export default async function AdminPartnersPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let partners: Partner[] = [];
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();

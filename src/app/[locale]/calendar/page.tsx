@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { getUpcomingEvents, EVENT_KINDS, type BrokerEvent } from "@/lib/calendar";
 import { CalendarDays, Building2 } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 300;
 
@@ -37,7 +38,12 @@ function fmtDate(iso: string): { day: string; rest: string } {
   return { day, rest };
 }
 
-export default async function CalendarPage() {
+export default async function CalendarPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const events = await getUpcomingEvents();
 
   // Group by date for an agenda view.

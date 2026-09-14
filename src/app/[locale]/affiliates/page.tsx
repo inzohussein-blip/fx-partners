@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -32,21 +33,39 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: "Affiliates" });
   return pageMeta({
-    title: "برنامج وكلاء IB — العمولات ونظام Sub-IB",
-    description:
-      "كن وكيلاً (IB) مع FX Partners: Revenue Share و CPA ونظام Sub-IB متعدّد المستويات، شروط تفاوضنا عليها نيابةً عنك مع الشركات، ولوحة متابعة لعملائك وأرباحك.",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
     path: "/affiliates",
     keywords: KEYWORDS.affiliates,
     locale,
   });
 }
 
-export default async function AffiliatesPage() {
+/** The brand word inside the model heading, picked out in the gradient. */
+function Gradient(chunks: React.ReactNode) {
+  return <span className="text-gradient">{chunks}</span>;
+}
+/** "FX Partners" inside the model paragraph. */
+function Strong(chunks: React.ReactNode) {
+  return <span className="font-semibold text-fg">{chunks}</span>;
+}
+
+export default async function AffiliatesPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "Affiliates" });
+
+  // Owner-editable, with the shipped defaults coming from the catalogue so an
+  // untouched site reads in the visitor's language rather than in Arabic.
   const rates = await getContent("affiliates.rates", {
-    revenue_share: "حتى 60%",
-    cpa: "حتى $1,200",
-    sub_ib: "نظام متعدد المستويات",
+    revenue_share: t("defaultRevenueShare"),
+    cpa: t("defaultCpa"),
+    sub_ib: t("defaultSubIb"),
   });
 
   const tiers = [
@@ -54,31 +73,21 @@ export default async function AffiliatesPage() {
       name: "Standard",
       share: "40%",
       cpa: "$400",
-      features: ["روابط إحالة غير محدودة", "لوحة إحصائيات حيّة", "دعم عبر البريد"],
+      features: ["tierStandard1", "tierStandard2", "tierStandard3"],
       highlight: false,
     },
     {
       name: "Gold",
       share: "55%",
       cpa: "$800",
-      features: [
-        "كل مزايا Standard",
-        "بانرات تسويقية جاهزة",
-        "مدير حساب مخصّص",
-        "سحوبات أسرع",
-      ],
+      features: ["tierGold1", "tierGold2", "tierGold3", "tierGold4"],
       highlight: true,
     },
     {
       name: "VIP",
       share: "60%",
       cpa: "$1,200",
-      features: [
-        "كل مزايا Gold",
-        "نظام Sub-IB متعدد المستويات",
-        "شروط تفاوضية خاصة",
-        "أولوية في الدعم",
-      ],
+      features: ["tierVip1", "tierVip2", "tierVip3", "tierVip4"],
       highlight: false,
     },
   ];
@@ -91,15 +100,13 @@ export default async function AffiliatesPage() {
         <Container className="py-10 text-center sm:py-20">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
             <Handshake className="h-3.5 w-3.5" aria-hidden />
-            برنامج الشراكة
+            {t("eyebrow")}
           </span>
           <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
-            برنامج الوكلاء (IB / Affiliate)
+            {t("h1")}
           </h1>
           <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
-            انضمّ كوكيل فرعي (Sub-IB) تحت حسابات FX Partners الماستر لدى شبكة من
-            الشركات المرخّصة — واربح من كل عميل تحيله، أياً كانت الشركة التي
-            يختارها، عبر نسبة من الأرباح (Revenue Share) أو مبلغ ثابت (CPA).
+            {t("lead")}
           </p>
 
           <div className="mx-auto mt-8 grid max-w-3xl gap-2.5 sm:mt-10 sm:grid-cols-3 sm:gap-4">
@@ -133,41 +140,36 @@ export default async function AffiliatesPage() {
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-3 py-1 text-xs font-medium text-brand-200">
                   <Network className="h-3.5 w-3.5" aria-hidden />
-                  نموذج الوكيل الماستر
+                  {t("modelEyebrow")}
                 </span>
                 <h2 className="mt-4 text-2xl font-bold text-fg sm:text-3xl">
-                  تنضمّ عبرنا كـ <span className="text-gradient">Sub-IB</span> — لا كوكيل
-                  لبروكر واحد
+                  {t.rich("modelTitle", { g: Gradient })}
                 </h2>
                 <p className="mt-4 leading-relaxed text-slate-300">
-                  نحن لسنا شركة تداول. <span className="font-semibold text-fg">FX Partners</span>{" "}
-                  وكيل ماستر (Master IB) يملك حسابات شراكة لدى شبكة من الشركات
-                  المرخّصة. حين تنضمّ إلينا تصبح وكيلاً فرعياً (Sub-IB) تحت هذه
-                  الحسابات — فتربح عمولات من الشبكة كلها عبر جهة واحدة، بدل التفاوض
-                  مع كل شركة على حدة.
+                  {t.rich("modelBody", { b: Strong })}
                 </p>
               </div>
               <ul className="space-y-3">
                 {[
                   {
                     icon: Building2,
-                    title: "شبكة كاملة، جهة واحدة",
-                    desc: "عمولات من عدّة شركات مرخّصة عبر حساب ماستر واحد.",
+                    title: t("model1Title"),
+                    desc: t("model1Desc"),
                   },
                   {
                     icon: Scale,
-                    title: "شروط أقوى",
-                    desc: "بحكم حجمنا كوكيل ماستر نحصل على نسب أفضل نمرّرها إليك.",
+                    title: t("model2Title"),
+                    desc: t("model2Desc"),
                   },
                   {
                     icon: Users,
-                    title: "حرية العميل",
-                    desc: "عميلك يختار الشركة الأنسب له من الشبكة — وأنت تربح في كل الأحوال.",
+                    title: t("model3Title"),
+                    desc: t("model3Desc"),
                   },
                   {
                     icon: ShieldCheck,
-                    title: "لا تعارض",
-                    desc: "لسنا بروكر ولا ننافسك على عملائك — دورنا ربطك بالشركات فقط.",
+                    title: t("model4Title"),
+                    desc: t("model4Desc"),
                   },
                 ].map((f) => (
                   <li
@@ -193,17 +195,17 @@ export default async function AffiliatesPage() {
       <section className="py-16">
         <Container>
           <SectionHeading
-            eyebrow="كيف تبدأ"
+            eyebrow={t("stepsEyebrow")}
             icon={Rocket}
-            title="ثلاث خطوات تفصلك عن أول عمولة"
-            subtitle="من التسجيل إلى استلام أرباحك — رحلة بسيطة وسريعة."
+            title={t("stepsTitle")}
+            subtitle={t("stepsSubtitle")}
           />
 
           <div className="relative mt-12 grid gap-6 md:grid-cols-3">
             {[
-              { icon: UserPlus, title: "سجّل مجاناً", desc: "أنشئ حساب شريك في دقيقة واحصل على اعتماد سريع." },
-              { icon: Link2, title: "انسخ رابطك", desc: "شارك روابط الإحالة والبانرات الجاهزة مع جمهورك." },
-              { icon: Wallet, title: "استلم أرباحك", desc: "تابع أرباحك حيّاً واسحبها بأكثر من طريقة دفع." },
+              { icon: UserPlus, title: t("step1Title"), desc: t("step1Desc") },
+              { icon: Link2, title: t("step2Title"), desc: t("step2Desc") },
+              { icon: Wallet, title: t("step3Title"), desc: t("step3Desc") },
             ].map((s, i) => (
               <div key={s.title} className="card-surface relative p-6 text-center">
                 <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
@@ -225,36 +227,38 @@ export default async function AffiliatesPage() {
       <section className="py-16">
         <Container>
           <SectionHeading
-            eyebrow="الباقات"
+            eyebrow={t("tiersEyebrow")}
             icon={Award}
-            title="مستويات الشراكة"
-            subtitle="اختر المستوى الذي يناسب حجم شبكتك وطموحك."
+            title={t("tiersTitle")}
+            subtitle={t("tiersSubtitle")}
           />
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {tiers.map((t) => (
+            {tiers.map((tier) => (
               <div
-                key={t.name}
+                key={tier.name}
                 className={`card-surface relative p-8 ${
-                  t.highlight ? "border-brand-500/40 shadow-glow" : ""
+                  tier.highlight ? "border-brand-500/40 shadow-glow" : ""
                 }`}
               >
-                {t.highlight && (
+                {tier.highlight && (
                   <span className="absolute -top-3 right-6 rounded-full bg-brand-500 px-3 py-1 text-xs font-semibold text-white">
-                    الأكثر شيوعاً
+                    {t("mostPopular")}
                   </span>
                 )}
-                <h3 className="text-xl font-bold text-fg">{t.name}</h3>
+                <h3 className="text-xl font-bold text-fg">{tier.name}</h3>
                 <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-4xl font-extrabold text-fg">{t.share}</span>
+                  <span className="text-4xl font-extrabold text-fg">{tier.share}</span>
                   <span className="text-sm text-slate-400">Revenue Share</span>
                 </div>
-                <div className="mt-1 text-sm text-slate-400">أو CPA حتى {t.cpa}</div>
+                <div className="mt-1 text-sm text-slate-400">
+                  {t("orCpaUpTo", { amount: tier.cpa })}
+                </div>
 
                 <ul className="mt-6 space-y-3">
-                  {t.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-slate-300">
+                  {tier.features.map((key) => (
+                    <li key={key} className="flex items-start gap-2 text-sm text-slate-300">
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" />
-                      {f}
+                      {t(key)}
                     </li>
                   ))}
                 </ul>
@@ -262,10 +266,10 @@ export default async function AffiliatesPage() {
                 <div className="mt-8">
                   <Button
                     href="/login"
-                    variant={t.highlight ? "primary" : "secondary"}
+                    variant={tier.highlight ? "primary" : "secondary"}
                     className="w-full"
                   >
-                    ابدأ الآن
+                    {t("startNow")}
                   </Button>
                 </div>
               </div>
@@ -278,17 +282,17 @@ export default async function AffiliatesPage() {
       <section className="py-16">
         <Container>
           <SectionHeading
-            eyebrow="مزايانا"
+            eyebrow={t("benefitsEyebrow")}
             icon={Sparkles}
-            title="لماذا يختارنا الوكلاء؟"
-            subtitle="كل ما تحتاجه لتنمية دخلك من الإحالات في مكان واحد."
+            title={t("benefitsTitle")}
+            subtitle={t("benefitsSubtitle")}
           />
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: TrendingUp, title: "نسب أعلى", desc: "حتى 60% من الأرباح وترقية تلقائية للمستوى." },
-              { icon: Zap, title: "سحوبات سريعة", desc: "صرف خلال 24 ساعة بأكثر من وسيلة دفع." },
-              { icon: Layers, title: "نظام Sub-IB", desc: "اربح من شبكتك عبر نظام متعدد المستويات." },
-              { icon: Headphones, title: "دعم عربي", desc: "فريق دعم ومدير حساب يتحدثون لغتك." },
+              { icon: TrendingUp, title: t("benefit1Title"), desc: t("benefit1Desc") },
+              { icon: Zap, title: t("benefit2Title"), desc: t("benefit2Desc") },
+              { icon: Layers, title: t("benefit3Title"), desc: t("benefit3Desc") },
+              { icon: Headphones, title: t("benefit4Title"), desc: t("benefit4Desc") },
             ].map((b) => (
               <div key={b.title} className="card-surface p-6">
                 <div className="grid h-11 w-11 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
@@ -309,14 +313,14 @@ export default async function AffiliatesPage() {
             <div className="hero-glow absolute inset-0 opacity-70" />
             <div className="relative">
               <h2 className="text-3xl font-bold text-fg sm:text-4xl">
-                ابدأ رحلتك كشريك اليوم
+                {t("ctaTitle")}
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-slate-300">
-                انضم لآلاف الوكلاء واحصل على أدوات تسويق احترافية وأرباح شفّافة.
+                {t("ctaBody")}
               </p>
               <div className="mt-8 flex justify-center">
                 <Button href="/login" className="text-base">
-                  إنشاء حساب شريك
+                  {t("ctaButton")}
                   <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
                 </Button>
               </div>

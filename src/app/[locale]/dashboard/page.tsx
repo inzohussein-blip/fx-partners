@@ -15,6 +15,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { formatCurrency, formatCompact } from "@/lib/utils";
 import { Wallet, TrendingUp, Users, Link2, LayoutDashboard, Sparkles } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -220,7 +221,12 @@ async function getOnboardingSteps(): Promise<OnboardingStep[] | null> {
   }
 }
 
-export default async function OverviewPage() {
+export default async function OverviewPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const [o, steps] = await Promise.all([getOverview(), getOnboardingSteps()]);
   const showOnboarding = steps && steps.some((s) => !s.completed);
 

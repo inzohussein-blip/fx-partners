@@ -4,10 +4,16 @@ import { ForumModeration } from "@/components/dashboard/forum-moderation";
 import { createClient } from "@/lib/supabase/server";
 import { getAllChannels, getRecentComments } from "@/lib/forum";
 import { MessagesSquare } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminForumPage() {
+export default async function AdminForumPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) redirect("/dashboard");
   const supabase = createClient();
   const {

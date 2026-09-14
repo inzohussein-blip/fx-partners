@@ -3,6 +3,7 @@ import { Radio } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { SignalsFeed } from "@/components/dashboard/signals-feed";
 import type { Signal } from "@/lib/signals";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,12 @@ async function getSignals(): Promise<Signal[]> {
   }
 }
 
-export default async function SignalsPage() {
+export default async function SignalsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   const signals = await getSignals();
 
   return (

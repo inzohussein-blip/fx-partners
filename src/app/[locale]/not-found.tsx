@@ -1,17 +1,19 @@
+import { getTranslations } from "next-intl/server";
 import { ErrorState } from "@/components/error-state";
 import { Home, Scale, Wrench, MessageCircle } from "lucide-react";
 
-export default function NotFound() {
+export default async function NotFound() {
+  const t = await getTranslations("Chrome");
   return (
     <ErrorState
       code="404"
-      title="الصفحة غير موجودة"
-      message="عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+      title={t("notFoundTitle")}
+      message={t("notFoundMessage")}
       links={[
-        { href: "/", label: "الرئيسية", icon: Home },
-        { href: "/compare", label: "قارن الشركات", icon: Scale },
-        { href: "/tools", label: "الأدوات", icon: Wrench },
-        { href: "/contact", label: "اتصل بنا", icon: MessageCircle },
+        { href: "/", label: t("home"), icon: Home },
+        { href: "/compare", label: t("compareBrokers"), icon: Scale },
+        { href: "/tools", label: t("tools"), icon: Wrench },
+        { href: "/contact", label: t("contact"), icon: MessageCircle },
       ]}
     />
   );

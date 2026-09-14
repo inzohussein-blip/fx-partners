@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { Megaphone } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -8,7 +9,12 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminAnnouncementsPage() {
+export default async function AdminAnnouncementsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let items: AdminAnnouncement[] = [];
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();

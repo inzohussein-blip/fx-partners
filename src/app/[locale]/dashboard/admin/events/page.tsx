@@ -2,10 +2,16 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { CalendarDays } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { EventsManager, type AdminEvent } from "@/components/dashboard/events-manager";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminEventsPage() {
+export default async function AdminEventsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let events: AdminEvent[] = [];
   let brokers: { id: string; name: string }[] = [];
 

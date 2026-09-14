@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Logo, LogoMark } from "@/components/logo";
 import { Container } from "@/components/ui/container";
@@ -19,6 +20,7 @@ export function ErrorState({
   /** Optional quick links rendered as cards below the message. */
   links?: { href: string; label: string; icon: LucideIcon }[];
 }) {
+  const t = useTranslations("Chrome");
   return (
     <div className="hero-glow relative flex min-h-screen items-center justify-center overflow-hidden py-16">
       {/* Decorative faint emblem */}
@@ -37,12 +39,12 @@ export function ErrorState({
         <p className="mt-3 text-slate-400">{message}</p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          {action ?? <Button href="/">العودة للرئيسية</Button>}
+          {action ?? <Button href="/">{t("backHome")}</Button>}
         </div>
 
         {links && links.length > 0 && (
           <div className="mt-10">
-            <p className="text-xs text-slate-500">أو انتقل مباشرة إلى:</p>
+            <p className="text-xs text-slate-500">{t("orGoTo")}</p>
             <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {links.map((l) => (
                 <Link

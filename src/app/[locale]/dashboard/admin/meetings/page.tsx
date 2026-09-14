@@ -1,3 +1,4 @@
+import { setRequestLocale } from "next-intl/server";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { CalendarClock } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -9,7 +10,12 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminMeetingsPage() {
+export default async function AdminMeetingsPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let slots: AdminSlot[] = [];
   let bookings: AdminBooking[] = [];
 

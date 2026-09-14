@@ -6,10 +6,16 @@ import {
   type AdminResource,
 } from "@/components/dashboard/resources-manager";
 import { ReorderPanel } from "@/components/dashboard/reorder-panel";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminResourcesPage() {
+export default async function AdminResourcesPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
+  setRequestLocale(locale);
   let resources: AdminResource[] = [];
   let brokers: { id: string; name: string }[] = [];
 
