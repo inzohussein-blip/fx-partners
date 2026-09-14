@@ -33,7 +33,7 @@ export function FormConsent({
         p: (chunks) => (
           <Link
             href="/privacy"
-            className="text-brand-300 underline underline-offset-2 hover:text-brand-200"
+            className="inline-block min-h-6 text-brand-300 underline underline-offset-2 hover:text-brand-200"
           >
             {chunks}
           </Link>

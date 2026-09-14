@@ -54,7 +54,7 @@ export async function BrokerNetwork() {
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{t("subheading")}</p>
             <Link
               href="/brokers"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-300 transition hover:gap-2.5 hover:text-brand-200"
+              className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300 transition hover:gap-2.5 hover:text-brand-200"
             >
               {t("cta")}
               <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />

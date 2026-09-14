@@ -37,7 +37,10 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
           <span key={i} className="flex items-center gap-1">
             {i > 0 && <ChevronLeft className="h-3.5 w-3.5 text-slate-600" />}
             {c.href && !last ? (
-              <Link href={c.href} className="transition hover:text-brand-300">
+              <Link
+                href={c.href}
+                className="inline-flex min-h-6 items-center transition hover:text-brand-300"
+              >
                 {c.label}
               </Link>
             ) : (

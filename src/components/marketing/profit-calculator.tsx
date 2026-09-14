@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useId } from "react";
 import { useTranslations } from "next-intl";
 import * as Slider from "@radix-ui/react-slider";
 import { animate, useMotionValue } from "framer-motion";
@@ -70,6 +70,9 @@ function AnimatedNumber({
 export function ProfitCalculator() {
   const t = useTranslations("Calculator");
   const allowExternal = useAllowed("external");
+  // A <label> that only sits above a control is styling, not a label: a screen
+  // reader announces the select as unnamed. These tie the two together.
+  const currencyId = useId();
   const [lots, setLots] = useState(150);
   const [tierIdx, setTierIdx] = useState(1);
   const [instIdx, setInstIdx] = useState(0);
@@ -258,10 +261,11 @@ export function ProfitCalculator() {
 
             {/* Currency */}
             <div>
-              <label className="mb-2 block text-sm text-slate-300">
+              <label htmlFor={currencyId} className="mb-2 block text-sm text-slate-300">
                 {t("currencyLabel")}
               </label>
               <select
+                id={currencyId}
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
                 className="w-full rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-fg focus:border-brand-500/50 focus:outline-none sm:w-48"

@@ -29,7 +29,7 @@ export async function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-fg">{t("tools")}</h4>
+            <h2 className="text-sm font-semibold text-fg">{t("tools")}</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>
                 <Link href="/compare" className="hover:text-fg">
@@ -60,9 +60,9 @@ export async function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-fg">
+            <h2 className="text-sm font-semibold text-fg">
               {t("community")}
-            </h4>
+            </h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>
                 <Link href="/affiliates" className="hover:text-fg">
@@ -93,7 +93,7 @@ export async function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-fg">{t("account")}</h4>
+            <h2 className="text-sm font-semibold text-fg">{t("account")}</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-400">
               <li>
                 <Link href="/about" className="hover:text-fg">
@@ -129,19 +129,23 @@ export async function SiteFooter() {
             <p>
               © {new Date().getFullYear()} FX Partners. {t("rights")}
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-              <Link href="/terms" className="hover:text-fg">
+            {/* A standalone row of links, not prose, so WCAG 2.5.8's
+                inline-link exemption does not apply: each needs to be at
+                least 24px high. `py-1.5` gets a 16px line to 28px without
+                changing how the row looks. */}
+            <div className="flex flex-wrap items-center justify-center gap-x-4">
+              <Link href="/terms" className="py-1.5 hover:text-fg">
                 {t("terms")}
               </Link>
-              <Link href="/privacy" className="hover:text-fg">
+              <Link href="/privacy" className="py-1.5 hover:text-fg">
                 {t("privacy")}
               </Link>
               {/* Reachable from every page, which is what makes withdrawing
                   consent as easy as giving it. */}
-              <Link href="/cookies" className="hover:text-fg">
+              <Link href="/cookies" className="py-1.5 hover:text-fg">
                 {t("cookies")}
               </Link>
-              <Link href="/payouts" className="hover:text-fg">
+              <Link href="/payouts" className="py-1.5 hover:text-fg">
                 {t("payouts")}
               </Link>
             </div>

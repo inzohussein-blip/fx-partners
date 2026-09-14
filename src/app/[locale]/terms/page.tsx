@@ -27,7 +27,7 @@ export default function TermsPage({ params: { locale } }: { params: { locale: st
     <LegalPage
       locale={locale}
       namespace="Terms"
-      shape={[1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2]}
+      shape={[1, 2, 2, 2, 1, 3, 1, 1, 1, 2, 2, 2, 2, 2]}
       updated={LAST_UPDATED}
     />
   );

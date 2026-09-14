@@ -79,9 +79,18 @@ export function ConsentBanner() {
   const btn =
     "inline-flex min-h-11 items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition";
   const primary = `${btn} bg-brand-gradient text-white shadow-glow hover:opacity-90`;
-  // Deliberately the same size and weight as accept. Making refusal quieter
-  // than acceptance is the specific dark pattern the rule forbids.
-  const secondary = `${btn} border border-fg/20 text-slate-100 hover:border-brand-400/50 hover:bg-fg/5`;
+  /**
+   * Reject is a filled button too, not an outline.
+   *
+   * Equal size is not on its own equal prominence: a solid accept next to a
+   * hollow reject still steers the choice, and steering the choice is the
+   * deceptive-design pattern the guidance names specifically. So refusal gets
+   * the same shape, the same height and the same font weight, and differs only
+   * in hue. Only "Customise" — which is not a decision, just a way to make one
+   * — is quieter than the two real answers.
+   */
+  const reject = `${btn} bg-fg/10 text-fg ring-1 ring-inset ring-fg/15 hover:bg-fg/15`;
+  const tertiary = `${btn} border border-fg/15 text-slate-300 hover:border-brand-400/40 hover:bg-fg/5`;
 
   return (
     <>
@@ -101,7 +110,7 @@ export function ConsentBanner() {
                 <p className="mt-1.5 text-sm leading-relaxed text-slate-300">{t("body")}</p>
                 <Link
                   href="/cookies"
-                  className="mt-1.5 inline-block text-sm text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                  className="mt-1.5 inline-flex min-h-6 items-center text-sm text-brand-300 underline underline-offset-2 hover:text-brand-200"
                 >
                   {t("policyLink")}
                 </Link>
@@ -111,10 +120,10 @@ export function ConsentBanner() {
               <button className={primary} onClick={() => save(ALLOW_ALL)}>
                 {t("acceptAll")}
               </button>
-              <button className={secondary} onClick={() => save(DENY_ALL)}>
+              <button className={reject} onClick={() => save(DENY_ALL)}>
                 {t("rejectAll")}
               </button>
-              <button className={secondary} onClick={reopen}>
+              <button className={tertiary} onClick={reopen}>
                 {t("manage")}
               </button>
             </div>
@@ -186,10 +195,10 @@ export function ConsentBanner() {
               <button className={primary} onClick={() => save(draft)}>
                 {t("save")}
               </button>
-              <button className={secondary} onClick={() => save(DENY_ALL)}>
+              <button className={reject} onClick={() => save(DENY_ALL)}>
                 {t("rejectAll")}
               </button>
-              <button className={secondary} onClick={() => save(ALLOW_ALL)}>
+              <button className={reject} onClick={() => save(ALLOW_ALL)}>
                 {t("acceptAll")}
               </button>
             </div>

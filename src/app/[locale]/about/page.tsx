@@ -215,7 +215,7 @@ export default async function AboutPage({
 
             {missing.length > 0 && (
               <div className="mt-4 rounded-xl border border-amber-400/25 bg-amber-500/[0.07] p-4">
-                <p className="text-sm font-semibold text-amber-200">
+                <p className="text-sm font-semibold text-amber-300">
                   {t("companyPendingTitle")}
                 </p>
                 <p className="mt-1.5 text-sm leading-relaxed text-slate-300">

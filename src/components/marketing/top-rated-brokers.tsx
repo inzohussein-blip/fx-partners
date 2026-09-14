@@ -64,7 +64,7 @@ export async function TopRatedBrokers() {
           </div>
           <Link
             href="/compare"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-300 transition hover:gap-2.5 hover:text-brand-200"
+            className="inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300 transition hover:gap-2.5 hover:text-brand-200"
           >
             {t("viewAll")}
             <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />

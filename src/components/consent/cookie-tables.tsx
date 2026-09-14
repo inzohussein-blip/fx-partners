@@ -160,7 +160,7 @@ export function CookieTables() {
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                className="inline-flex min-h-6 items-center text-brand-300 underline underline-offset-2 hover:text-brand-200"
               >
                 {p.name}
               </a>

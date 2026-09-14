@@ -171,9 +171,10 @@ export function Booking({ slots }: { slots: Slot[] }) {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-sm text-slate-300">اسم الشركة</label>
+                <label htmlFor="b-company" className="mb-1.5 block text-sm text-slate-300">اسم الشركة</label>
                 <input
                   className={inputCls}
+                  id="b-company"
                   {...register("companyName", { required: "اسم الشركة مطلوب" })}
                 />
                 {errors.companyName && (
@@ -181,9 +182,10 @@ export function Booking({ slots }: { slots: Slot[] }) {
                 )}
               </div>
               <div>
-                <label className="mb-1.5 block text-sm text-slate-300">اسم المسؤول</label>
+                <label htmlFor="b-contact" className="mb-1.5 block text-sm text-slate-300">اسم المسؤول</label>
                 <input
                   className={inputCls}
+                  id="b-contact"
                   {...register("contactName", { required: "اسم المسؤول مطلوب" })}
                 />
                 {errors.contactName && (
@@ -194,13 +196,14 @@ export function Booking({ slots }: { slots: Slot[] }) {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-sm text-slate-300">
+                <label htmlFor="b-email" className="mb-1.5 block text-sm text-slate-300">
                   البريد الإلكتروني
                 </label>
                 <input
                   type="email"
                   dir="ltr"
                   className={inputCls}
+                  id="b-email"
                   {...register("email", {
                     required: "البريد مطلوب",
                     pattern: { value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: "بريد غير صالح" },
@@ -211,18 +214,19 @@ export function Booking({ slots }: { slots: Slot[] }) {
                 )}
               </div>
               <div>
-                <label className="mb-1.5 block text-sm text-slate-300">
+                <label htmlFor="b-phone" className="mb-1.5 block text-sm text-slate-300">
                   الهاتف <span className="text-slate-600">(اختياري)</span>
                 </label>
-                <input dir="ltr" className={inputCls} {...register("phone")} />
+                <input id="b-phone" dir="ltr" className={inputCls} {...register("phone")} />
               </div>
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm text-slate-300">نوع التعاون</label>
+              <label htmlFor="b-type" className="mb-1.5 block text-sm text-slate-300">نوع التعاون</label>
               <select
                 className={inputCls}
                 defaultValue="broker"
+                id="b-type"
                 {...register("meetingType")}
               >
                 {TYPES.map((t) => (
@@ -234,13 +238,14 @@ export function Booking({ slots }: { slots: Slot[] }) {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm text-slate-300">
+              <label htmlFor="b-message" className="mb-1.5 block text-sm text-slate-300">
                 رسالة <span className="text-slate-600">(اختياري)</span>
               </label>
               <textarea
                 rows={3}
                 className={inputCls}
                 placeholder="أخبرنا باختصار عن شركتك وحجم أعمالك."
+                id="b-message"
                 {...register("message")}
               />
             </div>
