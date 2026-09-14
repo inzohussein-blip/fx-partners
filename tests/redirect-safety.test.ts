@@ -17,9 +17,17 @@ vi.mock("@/lib/supabase/server", () => ({
   createClient: () => ({ rpc: async () => ({ data: rpcResult }) }),
 }));
 
-async function callR(slug = "ib-abc12") {
+/**
+ * `consent` is the raw value of the fxp_consent cookie the visitor arrives
+ * with — "analytics-marketing-external", each 0 or 1. Omitted means they have
+ * not answered the banner, which is the same as having refused.
+ */
+async function callR(slug = "ib-abc12", consent?: string) {
   const { GET } = await import("@/app/r/[slug]/route");
-  return GET(new Request(`https://fxpartners.com/r/${slug}`), { params: { slug } });
+  const headers: HeadersInit = consent ? { cookie: `fxp_consent=${consent}` } : {};
+  return GET(new Request(`https://fxpartners.com/r/${slug}`, { headers }), {
+    params: { slug },
+  });
 }
 
 beforeEach(() => {
@@ -56,10 +64,52 @@ describe("/r/<slug> redirect safety", () => {
 
   it("still sets the attribution cookie on a refused target", async () => {
     // The agent's link is still their link; a bad target must not cost them
-    // the referral.
+    // the referral — provided the visitor allowed attribution at all.
     rpcResult = "https://evil.example";
-    const res = await callR("ib-xyz99");
+    const res = await callR("ib-xyz99", "0-1-0");
     expect(res.headers.get("set-cookie")).toContain("fxp_ref=ib-xyz99");
+  });
+});
+
+/**
+ * The attribution cookie is a 30-day identifier written for a marketing
+ * purpose, so it needs consent before it is set — and silence is not consent.
+ * The redirect itself must keep working either way: refusing to be tracked is
+ * not a reason to break the link someone clicked.
+ */
+describe("/r/<slug> attribution consent", () => {
+  it("sets no cookie when the visitor has not answered the banner", async () => {
+    rpcResult = "/affiliates";
+    const res = await callR("ib-xyz99");
+    expect(res.headers.get("set-cookie")).toBeNull();
+    expect(res.headers.get("location")).toBe("https://fxpartners.com/affiliates");
+  });
+
+  it("sets no cookie when the visitor refused everything", async () => {
+    rpcResult = "/affiliates";
+    const res = await callR("ib-xyz99", "0-0-0");
+    expect(res.headers.get("set-cookie")).toBeNull();
+  });
+
+  it("sets no cookie when other categories are allowed but marketing is not", async () => {
+    rpcResult = "/affiliates";
+    const res = await callR("ib-xyz99", "1-0-1");
+    expect(res.headers.get("set-cookie")).toBeNull();
+  });
+
+  it("sets the cookie once marketing is allowed", async () => {
+    rpcResult = "/affiliates";
+    const res = await callR("ib-xyz99", "1-1-1");
+    expect(res.headers.get("set-cookie")).toContain("fxp_ref=ib-xyz99");
+  });
+
+  it("treats a malformed consent cookie as no consent", async () => {
+    // A truncated or tampered value must fail closed, not open.
+    rpcResult = "/affiliates";
+    for (const bad of ["1-1", "yes", "1-1-1-1", "2-1-0", ""]) {
+      const res = await callR("ib-xyz99", bad);
+      expect(res.headers.get("set-cookie")).toBeNull();
+    }
   });
 });
 
