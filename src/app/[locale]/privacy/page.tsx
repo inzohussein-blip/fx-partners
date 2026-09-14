@@ -4,7 +4,7 @@ import { pageMeta } from "@/lib/seo";
 import { LegalPage } from "@/components/legal-page";
 
 /** Bump this only when the wording below actually changes. */
-const LAST_UPDATED = "2026-09-13";
+const LAST_UPDATED = "2026-09-14";
 
 export async function generateMetadata({
   params: { locale },
@@ -27,7 +27,7 @@ export default function PrivacyPage({ params: { locale } }: { params: { locale: 
     <LegalPage
       locale={locale}
       namespace="Privacy"
-      shape={[3, 2, 1, 2, 1, 1, 1, 1]}
+      shape={[2, 6, 5, 7, 1, 4, 1, 3, 1, 1, 1, 1]}
       updated={LAST_UPDATED}
     />
   );
