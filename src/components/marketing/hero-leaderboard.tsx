@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { isRated } from "@/lib/brokers";
@@ -14,8 +15,13 @@ export type LeaderRow = {
 
 /** Compact star strip sized for the dense hero table. */
 function MiniStars({ value }: { value: number }) {
+  const t = useTranslations("HeroBoard");
   return (
-    <span className="mt-0.5 flex gap-px text-brand-300" dir="ltr" aria-label={`${value} من 5`}>
+    <span
+      className="mt-0.5 flex gap-px text-brand-300"
+      dir="ltr"
+      aria-label={t("starsLabel", { value })}
+    >
       {[0, 1, 2, 3, 4].map((i) => (
         <Star
           key={i}
@@ -34,6 +40,7 @@ function MiniStars({ value }: { value: number }) {
  * ratings) and doubles as the entry point into the full comparison.
  */
 export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
+  const t = useTranslations("HeroBoard");
   const rows = brokers.slice(0, 4);
   const isEmpty = rows.length === 0;
 
@@ -56,16 +63,16 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
           <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--c-window-dot)]" />
         </div>
         <span className="text-xs sm:text-[11px] font-semibold text-slate-400">
-          مقارنة شركات التداول — FX Partners
+          {t("windowTitle")}
         </span>
       </div>
 
       {/* Table header */}
       <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-fg/[0.05] px-4 py-2.5 text-xs sm:text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
         <span>#</span>
-        <span>الشركة</span>
-        <span className="text-end">التقييم</span>
-        <span className="hidden text-end sm:block">مراجعات</span>
+        <span>{t("colBroker")}</span>
+        <span className="text-end">{t("colRating")}</span>
+        <span className="hidden text-end sm:block">{t("colReviews")}</span>
       </div>
 
       {/* Rows — real brokers, or honest placeholders so the composition holds */}
@@ -135,7 +142,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
                   <MiniStars value={b.rating} />
                 ) : (
                   <span className="mt-0.5 block text-xs sm:text-[10px] text-slate-500">
-                    لم تُقيَّم بعد
+                    {t("unrated")}
                   </span>
                 )}
               </div>
@@ -156,7 +163,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
         href="/compare"
         className="flex items-center justify-center gap-2 bg-brand-500/[0.07] px-5 py-3.5 text-[13px] font-bold text-brand-100 transition hover:bg-brand-500/[0.14] hover:text-white"
       >
-        قارن كل الشركات
+        {t("compareAll")}
         <ArrowLeft className="h-4 w-4" />
       </Link>
     </div>

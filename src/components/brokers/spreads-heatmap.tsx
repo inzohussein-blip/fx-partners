@@ -1,15 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Gauge } from "lucide-react";
 import type { SpreadRow } from "@/lib/spreads";
 
-const CATEGORY_LABELS: Record<string, string> = {
-  metals: "المعادن",
-  forex: "الفوركس",
-  indices: "المؤشرات",
-  crypto: "العملات الرقمية",
+/** Category slug → key in the `Spreads` message namespace. */
+const CATEGORY_KEYS: Record<string, string> = {
+  metals: "catMetals",
+  forex: "catForex",
+  indices: "catIndices",
+  crypto: "catCrypto",
 };
 
 // Relative colour per instrument: green = cheapest, amber = mid, red = worst.
@@ -23,6 +25,11 @@ function cellClass(spread: number, min: number, max: number): string {
 }
 
 export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
+  const t = useTranslations("Spreads");
+  // Falls back to the raw slug for a category the catalogue does not name,
+  // rather than showing a missing-key error on a public page.
+  const categoryLabel = (slug: string) =>
+    CATEGORY_KEYS[slug] ? t(CATEGORY_KEYS[slug]) : slug;
   const categories = useMemo(
     () => Array.from(new Set(rows.map((r) => r.category))).filter(Boolean),
     [rows]
@@ -76,9 +83,11 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
         <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">
           <Gauge className="h-6 w-6" aria-hidden />
         </span>
-        <h3 className="mt-4 text-sm font-semibold text-fg">لا توجد بيانات سبريد بعد</h3>
+        <h3 className="mt-4 text-sm font-semibold text-fg">{t("emptyTitle")}</h3>
         <p className="mx-auto mt-1.5 max-w-sm text-sm text-slate-500">
-          تُضاف من لوحة التحكم أو جدول <code className="text-brand-300">broker_spreads</code> في Supabase.
+          {t.rich("emptyBody", {
+            c: (chunks) => <code className="text-brand-300">{chunks}</code>,
+          })}
         </p>
       </div>
     );
@@ -98,7 +107,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
                 : "border-fg/10 text-slate-400 hover:bg-fg/5 hover:text-fg"
             }`}
           >
-            {CATEGORY_LABELS[c] || c}
+            {categoryLabel(c)}
           </button>
         ))}
       </div>
@@ -108,7 +117,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
         <div className="card-surface flex flex-wrap items-center justify-between gap-3 border-emerald-500/25 p-4">
           <div>
             <div className="text-xs text-slate-500">
-              أفضل سبريد الآن — {CATEGORY_LABELS[activeCat] || activeCat}
+              {t("bestNow", { category: categoryLabel(activeCat) })}
             </div>
             <div className="mt-0.5 text-lg font-bold text-fg">
               {best.brokerName} · {best.instrument}
@@ -119,11 +128,12 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
       )}
 
       {/* Legend */}
-      <p className="text-xs text-slate-500">
-        الألوان مقارنة نسبية لكل أداة على حدة: الأقل{" "}
-        <span className="font-bold text-emerald-300">أخضر</span>، الأوسط{" "}
-        <span className="font-bold text-amber-300">أصفر</span>، الأعلى{" "}
-        <span className="font-bold text-rose-300">أحمر</span>. اسحب الجدول أفقياً لبقية الأدوات.
+      <p className="text-xs leading-relaxed text-slate-500">
+        {t.rich("legend", {
+          g: (c) => <span className="font-bold text-emerald-300">{c}</span>,
+          y: (c) => <span className="font-bold text-amber-300">{c}</span>,
+          r: (c) => <span className="font-bold text-rose-300">{c}</span>,
+        })}
       </p>
 
       {/* Heatmap table */}
@@ -132,7 +142,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
           <thead>
             <tr>
               <th className="sticky end-0 z-10 min-w-[160px] border-b border-s border-fg/5 bg-ink-800 p-3 text-start text-slate-400">
-                الشركة
+                {t("colBroker")}
               </th>
               {instruments.map((inst) => (
                 <th

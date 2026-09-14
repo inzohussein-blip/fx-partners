@@ -1,52 +1,58 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { ArrowLeft } from "lucide-react";
 
 type Market = {
   symbol: string;
+  /** Key in the `Ticker` message namespace. */
   name: string;
-  price: string;
-  change: string;
   /** Tailwind classes for the instrument medallion. */
   tone: string;
   glyph: string;
   spark: number[];
 };
 
-// Representative quotes for the hero ticker (illustrative, not live).
+/**
+ * The instruments the network's brokers cover.
+ *
+ * This strip used to carry a price and a percentage for each — "1.0823
+ * +0.36%", "2,643.52 +0.82%" — with a comment calling them illustrative. A
+ * comment in the source is not a disclosure: on the page they were
+ * indistinguishable from live quotes, on a site about brokers, every one of
+ * them invented and every one of them green.
+ *
+ * Wiring the strip to real prices would mean a third-party call on the
+ * highest-traffic page, behind an API key, for decoration. So the numbers are
+ * gone instead and what remains is what is true: these are the instruments you
+ * can trade through the network. The sparkline stays as ornament — it carries
+ * no axis, no scale and no claim.
+ */
 const MARKETS: Market[] = [
   {
     symbol: "EURUSD",
-    name: "يورو / دولار",
-    price: "1.0823",
-    change: "+0.36%",
+    name: "eurusd",
     tone: "bg-blue-500/15 text-blue-300 ring-blue-400/25",
     glyph: "€",
     spark: [6, 5, 6, 7, 6, 8, 7, 9, 8, 10],
   },
   {
     symbol: "XAUUSD",
-    name: "الذهب / دولار",
-    price: "2,643.52",
-    change: "+0.82%",
+    name: "xauusd",
     tone: "bg-amber-500/15 text-amber-300 ring-amber-400/25",
     glyph: "Au",
     spark: [4, 6, 5, 7, 8, 7, 9, 10, 9, 12],
   },
   {
     symbol: "USOIL",
-    name: "نفط خام WTI",
-    price: "76.31",
-    change: "+0.58%",
+    name: "wti",
     tone: "bg-slate-400/15 text-slate-200 ring-slate-300/25",
     glyph: "◍",
     spark: [7, 6, 7, 6, 8, 7, 8, 7, 9, 9],
   },
   {
     symbol: "BTCUSD",
-    name: "بيتكوين / دولار",
-    price: "67,432.10",
-    change: "+1.24%",
+    name: "btcusd",
     tone: "bg-orange-500/15 text-orange-300 ring-orange-400/25",
     glyph: "₿",
     spark: [5, 7, 6, 8, 7, 9, 8, 10, 11, 13],
@@ -95,6 +101,7 @@ function Spark({ values, id }: { values: number[]; id: string }) {
  * plus a "view all markets" action.
  */
 export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
+  const t = useTranslations("Ticker");
   return (
     <div className="relative border-t border-fg/[0.06] bg-fg/[0.02] backdrop-blur-sm">
       <Container className="py-5">
@@ -117,15 +124,10 @@ export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
                     {m.symbol}
                   </div>
                   <div className="truncate text-xs sm:text-[11px] leading-tight text-slate-400">
-                    {m.name}
+                    {t(m.name)}
                   </div>
-                  <div className="mt-1 flex flex-nowrap items-baseline gap-1.5" dir="ltr">
-                    <span className="whitespace-nowrap text-sm font-semibold tabular-nums text-fg">
-                      {m.price}
-                    </span>
-                    <span className="whitespace-nowrap text-xs font-semibold text-emerald-400">
-                      ▲ {m.change}
-                    </span>
+                  <div className="mt-1 truncate text-xs sm:text-[11px] leading-tight text-slate-500">
+                    {t("tradedVia")}
                   </div>
                 </div>
 

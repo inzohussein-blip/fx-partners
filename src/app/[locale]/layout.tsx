@@ -117,9 +117,10 @@ export default async function LocaleLayout({
   if (!routing.locales.includes(locale as Locale)) notFound();
   setRequestLocale(locale);
 
-  const [messages, campaign] = await Promise.all([
+  const [messages, campaign, t] = await Promise.all([
     getMessages(),
     getActiveCampaign(),
+    getTranslations({ locale, namespace: "Metadata" }),
   ]);
   const dir = locale === "ar" ? "rtl" : "ltr";
 
@@ -149,7 +150,7 @@ export default async function LocaleLayout({
           rel="alternate"
           type="application/json"
           href="/api/public/brokers"
-          title="بيانات الشركات"
+          title={t("brokerFeedTitle")}
         />
       </head>
       <body>

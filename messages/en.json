@@ -294,7 +294,8 @@
   },
   "Metadata": {
     "title": "FX Partners — Global Financial Partnership",
-    "description": "FX Partners — the partnership platform for IB agents, marketers, and global brokers. Top commission rates, full transparency, and on-time payouts."
+    "description": "FX Partners — the partnership platform for IB agents, marketers, and global brokers. Top commission rates, full transparency, and on-time payouts.",
+    "brokerFeedTitle": "Broker data"
   },
   "Steps": {
     "badge": "How it works",
@@ -334,7 +335,8 @@
   "BrokerNetwork": {
     "heading": "We connect you to a network of licensed brokers",
     "subheading": "On terms we negotiate on your behalf — the choice stays yours.",
-    "cta": "Browse all brokers"
+    "cta": "Browse all brokers",
+    "badge": "Licensed network"
   },
   "TopBrokers": {
     "badge": "Top rated",
@@ -766,5 +768,32 @@
     "subscribeCheckbox": "I agree to receive email alerts about this broker's offers and terms, and I understand I can unsubscribe at any time.",
     "subscribeRequired": "Please confirm your agreement before subscribing.",
     "privacyLink": "Privacy policy"
+  },
+  "HeroBoard": {
+    "windowTitle": "Broker comparison — FX Partners",
+    "colBroker": "Broker",
+    "colRating": "Rating",
+    "colReviews": "Reviews",
+    "unrated": "Not yet rated",
+    "compareAll": "Compare every broker",
+    "starsLabel": "{value} out of 5"
+  },
+  "Ticker": {
+    "eurusd": "EUR / USD",
+    "xauusd": "Gold / USD",
+    "wti": "WTI crude oil",
+    "btcusd": "Bitcoin / USD",
+    "tradedVia": "Available through network brokers"
+  },
+  "Spreads": {
+    "catMetals": "Metals",
+    "catForex": "Forex",
+    "catIndices": "Indices",
+    "catCrypto": "Crypto",
+    "emptyTitle": "No spread data yet",
+    "emptyBody": "Added from the dashboard, or to the <c>broker_spreads</c> table in Supabase.",
+    "bestNow": "Best spread right now — {category}",
+    "legend": "Colours compare each instrument against itself: cheapest <g>green</g>, middle <y>amber</y>, dearest <r>red</r>. Scroll the table sideways for the rest.",
+    "colBroker": "Broker"
   }
 }

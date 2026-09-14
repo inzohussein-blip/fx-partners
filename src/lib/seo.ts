@@ -134,18 +134,32 @@ export type KeywordSet = keyof typeof KEYWORDS;
 /**
  * Is the English locale a real translation yet?
  *
- * It is not. Every page's copy is written in Arabic with no locale branch, so
- * /en/compare serves the Arabic page under `lang="en"`. Declaring that as the
- * English version does active harm rather than nothing: the hreflang cluster
- * promises English and delivers Arabic, which makes Google distrust the whole
- * cluster including the Arabic side, and every page ships as a near-exact
- * duplicate on a second URL.
+ * It is now. It was not for most of this site's life: every page's copy was
+ * written in Arabic with no locale branch, so /en/compare served the Arabic
+ * page under `lang="en"`. Declaring that as the English version would have
+ * done active harm rather than nothing — an hreflang cluster that promises
+ * English and delivers Arabic makes Google distrust the whole cluster,
+ * including the Arabic side, and ships every page as a near-exact duplicate
+ * on a second URL. So /en stayed crawlable but unindexed, out of the hreflang
+ * cluster and out of the sitemap.
  *
- * So until the copy is actually translated, /en stays crawlable but
- * unindexed, is not offered as an hreflang alternate, and is left out of the
- * sitemap. Flip this to true once translations land and all three follow.
+ * The public surface is translated: the shared chrome, every marketing and
+ * legal page, the forms, the calculators and the hero. Measured before
+ * flipping this, /en pages carry no Arabic beyond the language switcher's own
+ * "ع" label and bilingual currency codes like "AED د.إ" — both correct.
+ *
+ * What is still Arabic on /en is content from the database: broker
+ * descriptions, forum posts, blog articles. That is a real limit, and the
+ * honest reason it does not block this flag is that those pages are a
+ * minority of the surface and their chrome, headings and metadata are
+ * English — a translated page quoting Arabic source material, rather than an
+ * Arabic page wearing an English tag. If the broker copy is ever given an
+ * English column, those pages improve; nothing here has to change.
+ *
+ * The dashboard stays Arabic-only. It is behind authentication and noindex,
+ * so it is not part of this promise.
  */
-export const EN_TRANSLATED = false;
+export const EN_TRANSLATED = true;
 
 /** Canonical URL for a path in a given locale (Arabic is unprefixed). */
 export function canonicalUrl(path: string, locale: string = "ar"): string {

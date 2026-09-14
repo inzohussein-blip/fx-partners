@@ -46,7 +46,7 @@ export async function BrokerNetwork() {
           <div className="max-w-md">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/25 bg-brand-500/10 px-3 py-1 text-xs font-semibold text-brand-200">
               <ShieldCheck className="h-3.5 w-3.5" />
-              شبكة مرخّصة
+              {t("badge")}
             </span>
             <h2 className="mt-3 text-xl font-bold leading-snug text-fg sm:text-2xl">
               {t("heading")}

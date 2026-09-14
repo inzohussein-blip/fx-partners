@@ -63,20 +63,45 @@ describe("pageMeta", () => {
   });
 });
 
-describe("untranslated English locale", () => {
-  // These describe the deliberate state while EN_TRANSLATED is false: /en is
-  // the Arabic page on a second URL, so it must not be offered as an English
-  // alternate nor indexed. Flipping the flag flips all of it together.
-  it("does not advertise an English alternate", () => {
+describe("translated English locale", () => {
+  /**
+   * These three move together, and that is the point of the flag.
+   *
+   * While /en was the Arabic page on a second URL it had to be kept out of
+   * the hreflang cluster and out of the index, because an alternate that
+   * promises English and delivers Arabic makes a search engine distrust the
+   * whole cluster — the Arabic side included. Now that the copy is translated
+   * the same flag opens all three at once: the alternate is advertised, /en is
+   * indexable, and the sitemap carries it.
+   *
+   * The tests are written against the flag rather than against a hard-coded
+   * expectation, so whichever way it is set, the three stay consistent with
+   * each other and a half-flipped state fails.
+   */
+  it("advertises an English alternate once translated", () => {
     const langs = pageMeta({ title: "t", description: "d", path: "/compare" })
       .alternates?.languages as Record<string, string>;
-    expect(EN_TRANSLATED).toBe(false);
-    expect(langs.en).toBeUndefined();
+    if (EN_TRANSLATED) {
+      expect(langs.en).toBe("https://fxpartners.com/en/compare");
+    } else {
+      expect(langs.en).toBeUndefined();
+    }
   });
 
-  it("marks English pages noindex but still followable", () => {
+  it("indexes English pages only when they are a real translation", () => {
     const m = pageMeta({ title: "t", description: "d", path: "/compare", locale: "en" });
-    expect(m.robots).toMatchObject({ index: false, follow: true });
+    if (EN_TRANSLATED) {
+      expect(m.robots).toBeUndefined();
+    } else {
+      expect(m.robots).toMatchObject({ index: false, follow: true });
+    }
+  });
+
+  it("always names x-default as the Arabic URL", () => {
+    // Arabic is the primary language whichever way the flag is set.
+    const langs = pageMeta({ title: "t", description: "d", path: "/compare" })
+      .alternates?.languages as Record<string, string>;
+    expect(langs["x-default"]).toBe("https://fxpartners.com/compare");
   });
 
   it("leaves Arabic pages indexable", () => {
