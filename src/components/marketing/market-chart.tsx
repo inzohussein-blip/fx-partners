@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useAllowed } from "@/components/consent/provider";
 import type { UTCTimestamp } from "lightweight-charts";
 import { cn } from "@/lib/utils";
 import { ArrowUp, ArrowDown } from "lucide-react";
@@ -36,10 +37,21 @@ function seed(sym: Symbol): Point[] {
   return pts;
 }
 
-async function loadSeries(sym: Symbol): Promise<{ points: Point[]; real: boolean }> {
+/**
+ * `allowExternal` decides whether the browser may talk to Binance directly.
+ *
+ * Without it the chart is not blanked: it falls through to /api/markets, where
+ * our own server makes the request and the visitor's address never reaches a
+ * third party, and then to the bundled demo seed. The visitor loses live
+ * crypto ticks, not the chart.
+ */
+async function loadSeries(
+  sym: Symbol,
+  allowExternal: boolean
+): Promise<{ points: Point[]; real: boolean }> {
   // Crypto: seed from Binance klines (free, no key) so history matches the
   // live WebSocket feed below.
-  if (sym.binance) {
+  if (sym.binance && allowExternal) {
     try {
       const r = await fetch(
         `https://api.binance.com/api/v3/klines?symbol=${sym.binance.toUpperCase()}&interval=1m&limit=120`,
@@ -104,6 +116,7 @@ export function MarketChart() {
   const [price, setPrice] = useState<number | null>(null);
   const [change, setChange] = useState(0);
   const [source, setSource] = useState<"live" | "demo" | null>(null);
+  const allowExternal = useAllowed("external");
 
   useEffect(() => {
     const container = containerRef.current;
@@ -154,7 +167,7 @@ export function MarketChart() {
         },
       });
 
-      const { points, real } = await loadSeries(current);
+      const { points, real } = await loadSeries(current, allowExternal);
       if (disposed) {
         chart.remove();
         return;
@@ -190,7 +203,7 @@ export function MarketChart() {
       let iv: ReturnType<typeof setInterval> | null = null;
       let ws: WebSocket | null = null;
 
-      if (current.binance) {
+      if (current.binance && allowExternal) {
         // Real-time crypto pulse via Binance's free public WebSocket.
         try {
           ws = new WebSocket(
@@ -237,7 +250,7 @@ export function MarketChart() {
       disposed = true;
       cleanup();
     };
-  }, [symIdx]);
+  }, [symIdx, allowExternal]);
 
   const up = change >= 0;
 

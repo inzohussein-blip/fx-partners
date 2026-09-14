@@ -21,8 +21,9 @@ import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ConsentProvider } from "@/components/consent/provider";
+import { ConsentBanner } from "@/components/consent/banner";
+import { GatedAnalytics } from "@/components/consent/gated-analytics";
 import "../globals.css";
 
 // Cairo carries both Arabic (primary language) and Latin/numbers — a single,
@@ -158,6 +159,9 @@ export default async function LocaleLayout({
         <OrganizationJsonLd locale={locale} />
         <ThemeProvider>
         <NextIntlClientProvider messages={messages}>
+          {/* Consent wraps everything below it, because everything below it
+              that touches a third party has to ask first. */}
+          <ConsentProvider>
           <ServiceWorkerRegister />
           <SkipLink />
           <div id="content">
@@ -166,6 +170,8 @@ export default async function LocaleLayout({
             </AdminEditProvider>
           </div>
           <LiveCampaignBanner initial={campaign} />
+          <ConsentBanner />
+          <GatedAnalytics />
           <Toaster
             theme="dark"
             position="top-center"
@@ -179,15 +185,9 @@ export default async function LocaleLayout({
               },
             }}
           />
+          </ConsentProvider>
         </NextIntlClientProvider>
         </ThemeProvider>
-        {/* Traffic and real-user Core Web Vitals. The site had no measurement
-            of any kind: no idea how many visitors arrive, from where, which
-            page converts, or what the vitals look like on the phones this is
-            actually built for — only lab numbers from a local machine. Both
-            scripts are deferred and load from the same origin. */}
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

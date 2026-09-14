@@ -7,6 +7,7 @@ import { animate, useMotionValue } from "framer-motion";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAllowed } from "@/components/consent/provider";
 
 // USD-based fallback rates (used until the live feed loads / if it fails).
 const FALLBACK: Record<string, number> = {
@@ -68,6 +69,7 @@ function AnimatedNumber({
 
 export function ProfitCalculator() {
   const t = useTranslations("Calculator");
+  const allowExternal = useAllowed("external");
   const [lots, setLots] = useState(150);
   const [tierIdx, setTierIdx] = useState(1);
   const [instIdx, setInstIdx] = useState(0);
@@ -93,6 +95,10 @@ export function ProfitCalculator() {
    */
   useEffect(() => {
     if (currency === "usd" || ratesLoaded) return;
+    // Both rate sources are third parties that would see the visitor's IP.
+    // The bundled FALLBACK table already answers, so declining costs a little
+    // freshness in the conversion rate and nothing else.
+    if (!allowExternal) return;
     let active = true;
     const urls = [
       "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
@@ -117,7 +123,7 @@ export function ProfitCalculator() {
     return () => {
       active = false;
     };
-  }, [currency, ratesLoaded]);
+  }, [currency, ratesLoaded, allowExternal]);
 
   const perLot = TIERS[tierIdx].perLot;
   const inst = INSTRUMENTS[instIdx];

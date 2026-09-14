@@ -1,13 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useAllowed } from "@/components/consent/provider";
 
 /**
  * Generic embedder for TradingView's free external widgets (economic
  * calendar, news timeline, ticker tape, …).
  *
- * The embed is a blocking third-party script that pulls its own JS, fonts and
- * iframe, so it is DEFERRED twice over:
+ * It is CONSENT-GATED first of all: the script, its fonts and its iframe all
+ * come from tradingview.com, which learns the visitor's IP address the moment
+ * any of them is requested. Nothing is injected until external content has
+ * been allowed, and the effects below bail out before observing anything.
+ *
+ * Beyond that the embed is a blocking third-party script that pulls its own
+ * JS, fonts and iframe, so it is DEFERRED twice over:
  *   1. it is only armed once the container scrolls into view, and
  *   2. once armed it waits for browser idle (or the visitor's first
  *      interaction), so it never competes with the hero for LCP.
@@ -25,10 +31,12 @@ export function TradingViewWidget({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [armed, setArmed] = useState(false);
+  const allowed = useAllowed("external");
 
   // 1) Arm only when the widget is near the viewport, then wait for idle or
   //    the first real interaction — whichever comes first.
   useEffect(() => {
+    if (!allowed) return;
     const el = ref.current;
     if (!el) return;
 
@@ -72,11 +80,11 @@ export function TradingViewWidget({
       io.disconnect();
       cleanupWaiters();
     };
-  }, []);
+  }, [allowed]);
 
   // 2) Inject the embed once armed.
   useEffect(() => {
-    if (!armed) return;
+    if (!armed || !allowed) return;
     const container = ref.current;
     if (!container) return;
     container.innerHTML = "";
@@ -104,7 +112,7 @@ export function TradingViewWidget({
       container.innerHTML = "";
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [armed, scriptSrc, height, JSON.stringify(config)]);
+  }, [armed, allowed, scriptSrc, height, JSON.stringify(config)]);
 
   return (
     <div

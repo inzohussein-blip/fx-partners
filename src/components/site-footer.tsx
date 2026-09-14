@@ -129,17 +129,25 @@ export async function SiteFooter() {
             <p>
               © {new Date().getFullYear()} FX Partners. {t("rights")}
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
               <Link href="/terms" className="hover:text-fg">
                 {t("terms")}
               </Link>
               <Link href="/privacy" className="hover:text-fg">
                 {t("privacy")}
               </Link>
+              {/* Reachable from every page, which is what makes withdrawing
+                  consent as easy as giving it. */}
+              <Link href="/cookies" className="hover:text-fg">
+                {t("cookies")}
+              </Link>
+              <Link href="/payouts" className="hover:text-fg">
+                {t("payouts")}
+              </Link>
             </div>
           </Container>
           <Container className="mt-3">
-            <p className="text-center text-xs text-slate-600">{t("risk")}</p>
+            <p className="text-center text-xs leading-relaxed text-slate-500">{t("risk")}</p>
           </Container>
         </div>
       </footer>
