@@ -31,7 +31,7 @@
   "Hero": {
     "badge": "Partnership broker · Master IB",
     "titleTop": "We're not a broker.",
-    "titleAccent": "We're your route to the best ones.",
+    "titleAccent": "We're your route to them.",
     "subtitle": "We link traders and IB agents to a network of licensed brokers, on terms we negotiate on your behalf and commission rates you can't reach alone.",
     "enterForum": "Enter the forum",
     "browseRates": "Browse exclusive rates",
@@ -50,7 +50,7 @@
       },
       "terms": {
         "title": "Negotiated terms",
-        "desc": "Better than signing up direct"
+        "desc": "Terms negotiated as a group"
       },
       "support": {
         "title": "Arabic support",
@@ -59,17 +59,8 @@
     }
   },
   "Stats": {
-    "partners": "2,400+",
-    "partnersLabel": "Active partners",
-    "volume": "$18B+",
-    "volumeLabel": "Trading volume",
-    "countries": "60+",
     "countriesLabel": "Countries",
-    "payout": "$4.6M+",
-    "payoutLabel": "Commissions paid to agents",
-    "brokersCount": "40+",
     "brokersLabel": "Partner brokers",
-    "agents": "2,400+",
     "agentsLabel": "Active agents in the network"
   },
   "Features": {
@@ -78,7 +69,7 @@
     "subheading": "Professional tools built for agents, marketers, and brokers.",
     "revenueShare": {
       "title": "Competitive commissions",
-      "desc": "Revenue Share up to 60% or a fixed CPA per qualified client — you choose what fits."
+      "desc": "Revenue share of up to 60%, or a fixed CPA per qualified client, according to your tier in the partner agreement."
     },
     "links": {
       "title": "Dynamic referral links",
@@ -188,19 +179,6 @@
     "ctaDirectory": "Broker directory",
     "risk": "Risk warning: leveraged trading carries a risk of losing your capital. The content on this site is for information only and is not investment advice."
   },
-  "Team": {
-    "badge": "Our team",
-    "heading": "A team behind your success",
-    "subheading": "Experts in trading, technology, and support, dedicated to our partners' growth.",
-    "m1Name": "Khalid Al-Rashed",
-    "m1Role": "Chief Executive Officer",
-    "m2Name": "Mona Al-Otaibi",
-    "m2Role": "Head of Partnerships",
-    "m3Name": "Yousef Haddad",
-    "m3Role": "Chief Technology Officer",
-    "m4Name": "Layla Murad",
-    "m4Role": "Partner Support"
-  },
   "Contact": {
     "badge": "Contact us",
     "heading": "Have a question or a partnership offer?",
@@ -208,7 +186,7 @@
     "emailLabel": "Email",
     "phoneLabel": "Phone",
     "hoursLabel": "Working hours",
-    "hoursValue": "24/7 support",
+    "hoursValue": "Usually within one business day",
     "cta": "Email us now"
   },
   "Testimonials": {
@@ -223,7 +201,7 @@
     "q1": "How do I start as an IB or marketing partner?",
     "a1": "Create a free account in minutes. Once approved, you get an agent code and referral links you can share right away.",
     "q2": "What commission models are available?",
-    "a2": "We offer Revenue Share up to 60%, a fixed amount per qualified client (CPA), plus a multi-tier Sub-IB system.",
+    "a2": "We offer a revenue share of up to 60%, or a fixed amount per qualified client (CPA), plus a multi-tier Sub-IB system. The rate that applies to you is set out in your partner agreement.",
     "q3": "When and how do I receive my earnings?",
     "a3": "Your earnings accrue automatically in your wallet, and you can request withdrawals via bank transfer, crypto, or e-wallets — processed quickly and transparently.",
     "q4": "How do I track my referral performance?",
@@ -237,7 +215,7 @@
     "button": "Create a partner account"
   },
   "Footer": {
-    "tagline": "The financial partnership platform connecting agents and marketers with the world's best brokers — top commission rates and full earnings transparency.",
+    "tagline": "A financial partnership platform connecting agents and marketers with a network of licensed brokers — clear commissions and transparent reporting.",
     "partnership": "Partnership",
     "affiliateProgram": "Affiliate program",
     "companyCollab": "Enterprise collaboration",
@@ -311,42 +289,6 @@
     "title": "FX Partners — Global Financial Partnership",
     "description": "FX Partners — the partnership platform for IB agents, marketers, and global brokers. Top commission rates, full transparency, and on-time payouts."
   },
-  "Instruments": {
-    "badge": "Markets",
-    "heading": "Markets that cover everything your clients want",
-    "subheading": "Our partners offer thousands of instruments across every asset class — tight pricing, fast execution.",
-    "cta": "Explore brokers & markets",
-    "forex": {
-      "name": "Forex",
-      "desc": "60+ major and minor currency pairs",
-      "change": "0.42%"
-    },
-    "metals": {
-      "name": "Metals",
-      "desc": "Gold, Silver, Platinum",
-      "change": "1.18%"
-    },
-    "indices": {
-      "name": "Indices",
-      "desc": "US30, NAS100, GER40",
-      "change": "0.31%"
-    },
-    "crypto": {
-      "name": "Crypto",
-      "desc": "BTC, ETH and 50+ coins",
-      "change": "2.65%"
-    },
-    "stocks": {
-      "name": "Stocks",
-      "desc": "Apple, Tesla, Amazon and blue chips",
-      "change": "0.87%"
-    },
-    "energy": {
-      "name": "Energy",
-      "desc": "Crude oil, Natural gas",
-      "change": "0.54%"
-    }
-  },
   "Steps": {
     "badge": "How it works",
     "heading": "Start your partnership in 3 steps",
@@ -384,7 +326,7 @@
   },
   "BrokerNetwork": {
     "heading": "We connect you to a network of licensed brokers",
-    "subheading": "On terms we negotiate on your behalf — you choose, we guarantee the best.",
+    "subheading": "On terms we negotiate on your behalf — the choice stays yours.",
     "cta": "Browse all brokers"
   },
   "TopBrokers": {
@@ -493,7 +435,7 @@
     "tierGold1": "Everything in Standard",
     "tierGold2": "Ready-made marketing banners",
     "tierGold3": "A dedicated account manager",
-    "tierGold4": "Faster withdrawals",
+    "tierGold4": "Priority withdrawal processing",
     "tierVip1": "Everything in Gold",
     "tierVip2": "Multi-level Sub-IB system",
     "tierVip3": "Individually negotiated terms",
@@ -503,15 +445,16 @@
     "benefitsSubtitle": "Everything you need to grow referral income, in one place.",
     "benefit1Title": "Higher rates",
     "benefit1Desc": "Up to 60% of revenue, with automatic tier upgrades.",
-    "benefit2Title": "Fast withdrawals",
-    "benefit2Desc": "Paid within 24 hours across several payment methods.",
+    "benefit2Title": "Flexible withdrawals",
+    "benefit2Desc": "Withdraw across several payment methods, on the schedule set out in the commission policy.",
     "benefit3Title": "Sub-IB system",
     "benefit3Desc": "Earn from your own network through multiple levels.",
     "benefit4Title": "Support in your language",
     "benefit4Desc": "A support team and account manager who speak Arabic and English.",
     "ctaTitle": "Start as a partner today",
-    "ctaBody": "Join thousands of agents and get professional marketing tools and transparent earnings.",
-    "ctaButton": "Create a partner account"
+    "ctaBody": "Join the network and get ready-made marketing tools and transparent earnings reporting.",
+    "ctaButton": "Create a partner account",
+    "tiersNote": "The rates and amounts above are indicative. They are governed by your signed partner agreement and by each broker's own terms; what you actually earn depends on qualified client activity."
   },
   "Terms": {
     "metaTitle": "Terms and conditions",
@@ -633,7 +576,7 @@
     "eyebrow": "Get in touch",
     "title": "A question, or a partnership to propose?",
     "subtitle": "Our team is here around the clock. Send us a message, or reach us directly on the channels below.",
-    "defaultHours": "24/7 support",
+    "defaultHours": "Usually within one business day",
     "email": "Email",
     "phone": "Phone",
     "hours": "Opening hours"

@@ -9,6 +9,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { Booking, type Slot } from "@/components/marketing/booking";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { getSiteStats, worthShowing } from "@/lib/site-stats";
 import {
   Building2,
   Cpu,
@@ -96,18 +97,27 @@ export default async function BrokersPage({
   params: { locale: string };
 }) {
   setRequestLocale(locale);
-  const [partners, slots, t] = await Promise.all([
+  const [partners, slots, t, stats] = await Promise.all([
     getPartners(),
     getSlots(),
     getTranslations(),
+    getSiteStats(),
   ]);
 
-  // Reach figures come from the site's editable Stats copy, not invented here.
+  /**
+   * Reach figures.
+   *
+   * These were three strings in the message catalogue — "2,400+", "40+",
+   * "60+" — presented to prospective broker partners as this platform's
+   * audience. Nothing produced them. They are now the real counts, and any
+   * count too small to support the claim is dropped from the row rather than
+   * padded; if none survive, the row does not render.
+   */
   const reach = [
-    { value: t("Stats.agents"), label: t("Stats.agentsLabel"), icon: Users },
-    { value: t("Stats.brokersCount"), label: t("Stats.brokersLabel"), icon: Building2 },
-    { value: t("Stats.countries"), label: t("Stats.countriesLabel"), icon: Network },
-  ];
+    { value: stats.agents, label: t("Stats.agentsLabel"), icon: Users },
+    { value: stats.brokers, label: t("Stats.brokersLabel"), icon: Building2 },
+    { value: stats.countries, label: t("Stats.countriesLabel"), icon: Network },
+  ].filter((r) => worthShowing(r.value));
 
   const why = [
     {
@@ -197,9 +207,13 @@ export default async function BrokersPage({
           </div>
 
           {/* Reach */}
-          {/* Three numbers. Stacked one-per-row with desktop padding they cost
-              a phone ~900px of scrolling; side by side they are one glance. */}
-          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-2.5 sm:mt-14 sm:gap-4">
+          {/* Stacked one-per-row with desktop padding these cost a phone
+              ~900px of scrolling; side by side they are one glance. */}
+          {reach.length > 0 && (
+          <div
+            className="mx-auto mt-10 grid max-w-3xl gap-2.5 sm:mt-14 sm:gap-4"
+            style={{ gridTemplateColumns: `repeat(${reach.length}, minmax(0, 1fr))` }}
+          >
             {reach.map((r) => (
               <div key={r.label} className="card-surface p-3 text-center sm:p-6">
                 <span className="mx-auto grid h-8 w-8 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 sm:h-11 sm:w-11">
@@ -217,6 +231,7 @@ export default async function BrokersPage({
               </div>
             ))}
           </div>
+          )}
         </Container>
       </section>
 

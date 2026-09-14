@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { getContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
+import { getSiteStats, worthShowing } from "@/lib/site-stats";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { HeroTicker } from "@/components/marketing/hero-ticker";
 import { HeroGlobe } from "@/components/marketing/hero-globe";
@@ -56,7 +57,7 @@ export async function Hero({ locale }: { locale: string }) {
   const hero =
     locale === "ar" ? await getContent("home.hero", fallback) : fallback;
 
-  const brokers = await getPartnerBrokers();
+  const [brokers, stats] = await Promise.all([getPartnerBrokers(), getSiteStats()]);
 
   const features = [
     { icon: ShieldCheck, key: "regulated" },
@@ -160,24 +161,32 @@ export async function Hero({ locale }: { locale: string }) {
               <HeroLeaderboard brokers={brokers} />
             </div>
 
-            {/* Floating stat chips — values come from the editable Stats copy */}
-            <div className="absolute start-0 top-1 z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
-              <div className="text-lg font-extrabold text-gradient" dir="ltr">
-                {t("Stats.brokersCount")}
+            {/* Floating stat chips.
+                These carried hand-written figures — "40+" brokers, "2,400+"
+                agents — that nothing in the system produced. They now show the
+                real counts, and a count too small to mean anything is not
+                shown at all rather than rounded up into one that is. */}
+            {worthShowing(stats.brokers) && (
+              <div className="absolute start-0 top-1 z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
+                <div className="text-lg font-extrabold text-gradient" dir="ltr">
+                  {stats.brokers}
+                </div>
+                <div className="mt-0.5 text-xs sm:text-[11px] text-slate-400">
+                  {t("Stats.brokersLabel")}
+                </div>
               </div>
-              <div className="mt-0.5 text-xs sm:text-[11px] text-slate-400">
-                {t("Stats.brokersLabel")}
-              </div>
-            </div>
+            )}
 
-            <div className="absolute end-0 top-[44%] z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
-              <div className="text-lg font-extrabold text-gradient" dir="ltr">
-                {t("Stats.agents")}
+            {worthShowing(stats.agents) && (
+              <div className="absolute end-0 top-[44%] z-20 hidden rounded-2xl border border-brand-500/25 bg-ink-800/95 px-4 py-3 shadow-[0_24px_56px_-24px_rgba(0,0,0,1)] sm:block">
+                <div className="text-lg font-extrabold text-gradient" dir="ltr">
+                  {stats.agents}
+                </div>
+                <div className="mt-0.5 text-xs sm:text-[11px] text-slate-400">
+                  {t("Stats.agentsLabel")}
+                </div>
               </div>
-              <div className="mt-0.5 text-xs sm:text-[11px] text-slate-400">
-                {t("Stats.agentsLabel")}
-              </div>
-            </div>
+            )}
           </div>
 
           {/* ---------- C · Proof points ---------- */}

@@ -275,6 +275,13 @@ export default async function AffiliatesPage({
               </div>
             ))}
           </div>
+
+          {/* The tier table is a commercial offer, so it says what governs it.
+              Without this the percentages read as a promise rather than as
+              what they are: indicative rates settled by a signed agreement. */}
+          <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-slate-500">
+            {t("tiersNote")}
+          </p>
         </Container>
       </section>
 
