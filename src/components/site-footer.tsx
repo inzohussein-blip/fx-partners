@@ -37,6 +37,16 @@ export async function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link href="/best" className="hover:text-fg">
+                  {t("bestFor")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/methodology" className="hover:text-fg">
+                  {t("methodology")}
+                </Link>
+              </li>
+              <li>
                 <Link href="/spreads" className="hover:text-fg">
                   {t("spreads")}
                 </Link>

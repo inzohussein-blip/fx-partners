@@ -3,6 +3,8 @@ import { getSiteUrl } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/server";
 import { EN_TRANSLATED } from "@/lib/seo";
 import { getAllPairs } from "@/lib/broker-pairs";
+import { populatedCategories } from "@/lib/best-for";
+import { getPublishedBrokers } from "@/lib/published-brokers";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +23,7 @@ const STATIC_PATHS = [
   "/forum",
   "/blog",
   "/about",
+  "/best",
   // Trust pages. They rank for nothing, and on a site about money they are
   // exactly what a reader (and a quality rater) checks before believing the
   // rest — so they belong in the index rather than being reachable only from
@@ -28,10 +31,23 @@ const STATIC_PATHS = [
   "/contact",
   "/terms",
   "/privacy",
+  "/cookies",
+  "/payouts",
+  // How the rankings are decided. It ranks for little on its own, but a
+  // "best broker for X" page is a claim, and this is the page that page
+  // points at — so a crawler should be able to reach it directly.
+  "/methodology",
 ];
 
 /** Pages whose value is trust rather than traffic — indexed, ranked lower. */
-const LOW_PRIORITY = new Set(["/contact", "/terms", "/privacy", "/sitemap"]);
+const LOW_PRIORITY = new Set([
+  "/contact",
+  "/terms",
+  "/privacy",
+  "/cookies",
+  "/payouts",
+  "/sitemap",
+]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
@@ -96,6 +112,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // choosing — so they rank just under the broker pages themselves.
       for (const pair of await getAllPairs()) {
         push(`/compare/vs/${pair.slug}`, now, "weekly", 0.65);
+      }
+
+      // "Best for X" lists. Only the ones that actually have a qualifying
+      // broker are submitted: the page itself 404s when empty, so listing an
+      // unpopulated category would be submitting a URL we know is a 404.
+      for (const { category } of populatedCategories(await getPublishedBrokers())) {
+        push(`/best/${category.slug}`, now, "weekly", 0.7);
       }
 
       for (const p of (posts as { slug: string; published_at: string | null }[]) ?? []) {

@@ -15,6 +15,7 @@ import { CompareTeaser } from "@/components/marketing/compare-teaser";
 import { LatestReviews } from "@/components/marketing/latest-reviews";
 import { HowItWorks } from "@/components/marketing/how-it-works";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
+import { BestForStrip } from "@/components/marketing/best-for-strip";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
 import { EditableText } from "@/components/admin-edit/editable-text";
@@ -111,6 +112,8 @@ export default async function HomePage({
       </Reveal>
 
       {/* 4 — The primary action: compare two brokers */}
+      <BestForStrip locale={locale} />
+
       <Reveal>
         <CompareTeaser />
       </Reveal>

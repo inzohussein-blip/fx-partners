@@ -3,14 +3,15 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { EditableText } from "@/components/admin-edit/editable-text";
-import { createClient } from "@/lib/supabase/server";
 import { getContent, contentKeyFor } from "@/lib/content";
+import { getPublishedBrokers } from "@/lib/published-brokers";
+import { BestForStrip } from "@/components/marketing/best-for-strip";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import { SpecsGrid } from "@/components/brokers/specs-grid";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Scale, ListChecks } from "lucide-react";
-import { isRated, type Broker } from "@/lib/brokers";
+import { isRated } from "@/lib/brokers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/utils";
@@ -32,23 +33,6 @@ export async function generateMetadata({
   });
 }
 
-async function getBrokers(): Promise<Broker[]> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
-  try {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("brokers")
-      .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,supports_ea,allows_hedging,swap_free,allows_scalping,min_deposit,deposit_methods,broker_links(id,label,referral_url,agent_commission,client_benefits)"
-      )
-      .eq("is_published", true)
-      .order("sort_order")
-      .order("rating", { ascending: false });
-    return (data as unknown as Broker[]) ?? [];
-  } catch {
-    return [];
-  }
-}
 
 export default async function ComparePage({
   params: { locale },
@@ -58,7 +42,7 @@ export default async function ComparePage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "ComparePage" });
   const key = contentKeyFor("page.compare", locale);
-  const brokers = await getBrokers();
+  const brokers = await getPublishedBrokers();
   const copy = await getContent(key, {
     title: t("title"),
     subtitle: t("subtitle"),
@@ -155,6 +139,8 @@ export default async function ComparePage({
           )}
         </Container>
       </section>
+
+      <BestForStrip locale={locale} />
 
       {/* Quick operational-specs comparison grid */}
       {brokers.length > 0 && (
