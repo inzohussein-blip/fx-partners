@@ -13,6 +13,7 @@ import { getPost, getComments, getReactionState } from "@/lib/forum";
 import { createClient } from "@/lib/supabase/server";
 import { pageMeta } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/utils";
+import { sanitizeRichHtml } from "@/lib/sanitize";
 import { BadgeCheck, Eye, ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -178,7 +179,7 @@ export default async function ForumPostPage({
           {isHtml(post.body) ? (
             <div
               className="prose prose-invert mt-8 max-w-none text-slate-300 prose-headings:text-fg prose-a:text-brand-300 prose-strong:text-fg"
-              dangerouslySetInnerHTML={{ __html: post.body ?? "" }}
+              dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(post.body) }}
             />
           ) : (
             <div className="prose prose-invert mt-8 max-w-none whitespace-pre-wrap text-slate-300">
