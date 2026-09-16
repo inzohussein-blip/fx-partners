@@ -81,10 +81,17 @@ values
    array[]::text[], 6, false)
 
 on conflict (slug) do update set
-  name        = excluded.name,
-  description = excluded.description,
-  licenses    = excluded.licenses,
-  sort_order  = excluded.sort_order;
+  name         = excluded.name,
+  description  = excluded.description,
+  licenses     = excluded.licenses,
+  sort_order   = excluded.sort_order,
+  -- Also reassert status and publication. Without these two, a broker that
+  -- already existed as a draft (is_published = false) stayed hidden after a
+  -- re-run — the rows were present but the site, which reads only published
+  -- brokers, showed nothing. Re-running now restores the intended state:
+  -- the documented five go live and Altima stays a draft until verified.
+  status       = excluded.status,
+  is_published = excluded.is_published;
 
 commit;
 
