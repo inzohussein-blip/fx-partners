@@ -11,9 +11,44 @@ import { Link } from "@/i18n/navigation";
 import { BestForList } from "@/components/brokers/best-for-list";
 import { getPublishedBrokers } from "@/lib/published-brokers";
 import { CATEGORIES, categoryBySlug, populatedCategories, selectFor } from "@/lib/best-for";
-import { Trophy, Info, ScrollText } from "lucide-react";
+import { Trophy, Info, ScrollText, BookOpen } from "lucide-react";
 
 export const revalidate = 600;
+
+/**
+ * Blog guides relevant to each category, for internal linking between the
+ * two SEO surfaces. Arabic-only content, so the block renders on ar pages
+ * only. Slugs match supabase/seed_blog.sql and seed_blog_reviews.sql.
+ */
+const RELATED_ARTICLES: Record<string, { slug: string; title: string }[]> = {
+  islamic: [
+    { slug: "alhisab-alislami-swap-free", title: "الحساب الإسلامي (Swap-Free): كيف تتأكّد أنه بلا فوائد" },
+    { slug: "kayf-takhtar-sharikat-tadawul-forex", title: "كيف تختار شركة تداول موثوقة" },
+  ],
+  beginners: [
+    { slug: "kayf-takhtar-sharikat-tadawul-forex", title: "كيف تختار شركة تداول موثوقة" },
+    { slug: "alrafiaa-almaliya-fi-alforex", title: "الرافعة المالية ومخاطرها" },
+  ],
+  "low-spread": [
+    { slug: "alspread-am-alaumola", title: "السبريد أم العمولة: أيّهما أوفر؟" },
+  ],
+  scalping: [
+    { slug: "alspread-am-alaumola", title: "السبريد أم العمولة: أيّهما أوفر؟" },
+  ],
+  automated: [
+    { slug: "kayf-takhtar-sharikat-tadawul-forex", title: "كيف تختار شركة تداول موثوقة" },
+  ],
+  hedging: [
+    { slug: "kayf-takhtar-sharikat-tadawul-forex", title: "كيف تختار شركة تداول موثوقة" },
+  ],
+  gold: [
+    { slug: "kayf-takhtar-sharikat-tadawul-forex", title: "كيف تختار شركة تداول موثوقة" },
+  ],
+  regulated: [
+    { slug: "tanzim-sharikat-alforex-altarakhis", title: "تنظيم شركات الفوركس والتحقّق من الترخيص" },
+    { slug: "kayf-takhtar-sharikat-tadawul-forex", title: "كيف تختار شركة تداول موثوقة" },
+  ],
+};
 
 /**
  * Pre-render every category. A slug outside the taxonomy 404s rather than
@@ -82,6 +117,10 @@ export default async function BestForPage({
   // sideways rather than back out to the index.
   const others = populatedCategories(all).filter((x) => x.category.slug !== slug);
 
+  // Arabic guides for this category. The articles are Arabic-only, so the
+  // block is not offered on the English pages.
+  const relatedArticles = locale !== "en" ? RELATED_ARTICLES[slug] ?? [] : [];
+
   return (
     <>
       <SiteHeader />
@@ -136,6 +175,24 @@ export default async function BestForPage({
               {t("methodologyLink")}
             </Link>
           </div>
+
+          {relatedArticles.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-lg font-bold text-fg">قراءات ذات صلة</h2>
+              <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+                {relatedArticles.map((art) => (
+                  <Link
+                    key={art.slug}
+                    href={`/blog/${art.slug}`}
+                    className="card-surface flex items-center gap-3 p-4 transition hover:border-brand-400/40"
+                  >
+                    <BookOpen className="h-4 w-4 shrink-0 text-brand-300" aria-hidden />
+                    <span className="text-sm font-medium text-fg">{art.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {others.length > 0 && (
             <div className="mt-12">

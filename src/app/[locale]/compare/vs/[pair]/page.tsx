@@ -10,10 +10,19 @@ import { HeadToHeadTable } from "@/components/brokers/head-to-head-table";
 import { parsePair, pairSlug, getPairBrokers, getAllPairs } from "@/lib/broker-pairs";
 import { isRated } from "@/lib/brokers";
 import { getSiteUrl } from "@/lib/utils";
-import { Scale } from "lucide-react";
+import { Scale, BookOpen } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
+
+/**
+ * In-depth comparison article per canonical (alphabetically sorted) pair slug,
+ * when one exists. Slugs match supabase/seed_blog_reviews.sql.
+ */
+const PAIR_ARTICLE: Record<string, string> = {
+  "vantage-vs-xm": "xm-vs-vantage",
+  "oneroyal-vs-vantage": "vantage-vs-oneroyal",
+};
 
 /**
  * One page per broker pair: /compare/vs/vantage-vs-xm.
@@ -74,6 +83,7 @@ export default async function PairPage({
   // rather than serving the same comparison from a second address.
   const canonical = pairSlug(parsed[0], parsed[1]);
   if (canonical !== params.pair) redirect(`/compare/vs/${canonical}`);
+  const articleSlug = PAIR_ARTICLE[canonical];
 
   const [[a, b], pairs] = await Promise.all([
     getPairBrokers(parsed[0], parsed[1]),
@@ -152,6 +162,19 @@ export default async function PairPage({
       <section className="pb-16">
         <Container>
           <HeadToHeadTable a={a} b={b} />
+
+          {articleSlug && (
+            <div className="card-surface mt-8 p-5">
+              <Link
+                href={`/blog/${articleSlug}`}
+                className="inline-flex items-center gap-2 text-sm font-semibold text-brand-300 hover:underline"
+              >
+                <BookOpen className="h-4 w-4 shrink-0" aria-hidden />
+                اقرأ تحليلنا المفصّل: {a.name} مقابل {b.name}
+                <span aria-hidden>←</span>
+              </Link>
+            </div>
+          )}
 
           {related.length > 0 && (
             <div className="mt-10">
