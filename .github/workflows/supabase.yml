@@ -105,6 +105,7 @@ jobs:
         if: inputs.run_seeds
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
         run: |
           set -euo pipefail
           # psql treats its first argument as a *database name* — and connects
@@ -127,22 +128,57 @@ jobs:
               echo "::error::SUPABASE_DB_URL is not a connection URI — it must start with postgresql://. Copy the URI tab of Supabase → Project Settings → Database → Connection string. (yours begins: '$(printf '%.13s' "$url")')"
               exit 1 ;;
           esac
-          case "$url" in
-            *'[YOUR-PASSWORD]'*|*'[your-password]'*|*'%5BYOUR-PASSWORD%5D'*)
-              echo "::error::SUPABASE_DB_URL still contains the literal [YOUR-PASSWORD] placeholder — replace it with the real database password."
+
+          # Do NOT feed the whole URI to psql. A database password routinely
+          # contains characters that are special inside a URI (@ : / ? # [ ])
+          # and, left un-encoded, make libpq misread the host and fall back to a
+          # local socket — the "connection to server on socket …" failure seen
+          # on runs 10–14, where a '@' in the password split the authority in
+          # the wrong place. So parse the URI by structure and take the password
+          # from its own secret, passed literally through PGPASSWORD and never
+          # parsed. SUPABASE_DB_PASSWORD is the same secret the migration step
+          # already authenticated with, so it is guaranteed consistent.
+          rest="${url#*://}"              # user:pass@host:port/db?params
+          hostportdb="${rest##*@}"        # host:port/db?params (last @ = real delimiter)
+          userinfo="${rest%@*}"           # user:pass (everything before the last @)
+          user="${userinfo%%:*}"          # user
+          hostport="${hostportdb%%/*}"    # host:port
+          dbpart="${hostportdb#*/}"       # db?params (or host:port when no slash)
+          [ "$dbpart" = "$hostportdb" ] && dbpart="postgres"
+          db="${dbpart%%\?*}"; db="${db:-postgres}"
+          host="${hostport%%:*}"
+          port="${hostport#*:}"; { [ "$port" = "$hostport" ] || [ -z "$port" ]; } && port=5432
+
+          # Prefer the dedicated password secret; fall back to whatever the URI
+          # carried only if that secret is unset.
+          pass="${SUPABASE_DB_PASSWORD:-}"
+          [ -n "$pass" ] || pass="${userinfo#*:}"
+          if [ -z "$pass" ] || [ "$pass" = "$userinfo" ]; then
+            echo "::error::no database password available — set the SUPABASE_DB_PASSWORD secret (Supabase → Project Settings → Database → Database password)."
+            exit 1
+          fi
+          case "$pass" in
+            '[YOUR-PASSWORD]'|'[your-password]'|'%5BYOUR-PASSWORD%5D')
+              echo "::error::the database password is still the literal [YOUR-PASSWORD] placeholder — set the real password in the SUPABASE_DB_PASSWORD secret."
               exit 1 ;;
           esac
-          # Use the transaction pooler on IPv4 runners; the port belongs to the
-          # copied URI, this only reports which one is in play.
-          echo "→ connecting via ${url##*@}"
 
+          # GitHub's hosted runners are IPv4-only; Supabase's *direct* endpoint
+          # (db.<ref>.supabase.co) is IPv6-only, so it cannot be reached from
+          # here even with correct credentials. The pooler host is IPv4-capable.
+          case "$host" in
+            db.*.supabase.co)
+              echo "::warning::$host is the direct (IPv6-only) endpoint, which GitHub's IPv4 runners cannot reach. If this step fails to connect, copy the *Session pooler* connection string instead (host aws-0-<region>.pooler.supabase.com, user postgres.<ref>) into the SUPABASE_DB_URL secret." ;;
+          esac
+
+          echo "→ connecting to $host:$port/$db as $user"
           command -v psql >/dev/null || {
             sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
           }
           for f in supabase/seed.sql supabase/seed_forum.sql; do
             [ -f "$f" ] || continue
             echo "→ $f"
-            psql "$url" -v ON_ERROR_STOP=1 -f "$f"
+            PGPASSWORD="$pass" psql -h "$host" -p "$port" -U "$user" -d "$db" -v ON_ERROR_STOP=1 -f "$f"
           done
 
       - name: Deploy edge functions
