@@ -932,5 +932,18 @@
     "country_LB": "Lebanon",
     "country_SY": "Syria",
     "country_PS": "Palestine"
+  },
+  "Ranking": {
+    "badge": "Top rated",
+    "title": "Top brokers",
+    "subtitle": "Ranked by trader ratings",
+    "verified": "Verified",
+    "openAccount": "Open account",
+    "fullReview": "Full review",
+    "viewAll": "Browse every broker",
+    "unrated": "Not yet rated",
+    "note": "A broker with no reviews shows as “not yet rated”, never zero.",
+    "outOf": "out of 5",
+    "toggle": "Show or hide the broker ranking"
   }
 }

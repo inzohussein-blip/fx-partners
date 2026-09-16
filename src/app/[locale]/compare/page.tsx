@@ -7,6 +7,7 @@ import { getContent, contentKeyFor } from "@/lib/content";
 import { getPublishedBrokers } from "@/lib/published-brokers";
 import { BestForStrip } from "@/components/marketing/best-for-strip";
 import { BrokerFinder } from "@/components/brokers/broker-finder";
+import { BrokerRanking, shouldShowRanking } from "@/components/brokers/broker-ranking";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import { SpecsGrid } from "@/components/brokers/specs-grid";
@@ -44,6 +45,7 @@ export default async function ComparePage({
   const t = await getTranslations({ locale, namespace: "ComparePage" });
   const key = contentKeyFor("page.compare", locale);
   const brokers = await getPublishedBrokers();
+  const showRanking = shouldShowRanking(brokers);
   const copy = await getContent(key, {
     title: t("title"),
     subtitle: t("subtitle"),
@@ -131,22 +133,32 @@ export default async function ComparePage({
               <span className="text-brand-300">{t("emptyLink")}</span>.
             </div>
           ) : (
-            /* On a phone the head-to-head picker filled the entire second
-               screen before a single broker appeared. Someone who opens the
-               directory wants the directory; picking two names to compare is
-               the follow-up, so it moves below the list on small screens and
-               keeps its place above on desktop, where both fit at once. */
-            <div className="flex flex-col gap-6">
-              {brokers.length >= 2 && (
-                <div className="order-2 lg:order-1">
-                  <HeadToHeadPicker
-                    options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
-                  />
+            /* Two tracks on desktop: the directory on the reading side, the
+               ranked "top brokers" sidebar sticky beside it. On a phone there
+               is one track — the ranking folds up above the directory, and the
+               head-to-head picker drops below the list, because someone who
+               opens the directory wants the directory first. */
+            <div
+              className={
+                showRanking
+                  ? "grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start"
+                  : "flex flex-col gap-6"
+              }
+            >
+              <div className="flex min-w-0 flex-col gap-6">
+                {brokers.length >= 2 && (
+                  <div className="order-2 lg:order-1">
+                    <HeadToHeadPicker
+                      options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
+                    />
+                  </div>
+                )}
+                <div className="order-1 lg:order-2">
+                  <BrokerDirectory brokers={brokers} />
                 </div>
-              )}
-              <div className="order-1 lg:order-2">
-                <BrokerDirectory brokers={brokers} />
               </div>
+
+              {showRanking && <BrokerRanking brokers={brokers} locale={locale} />}
             </div>
           )}
         </Container>

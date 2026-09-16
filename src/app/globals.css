@@ -480,3 +480,46 @@ summary:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .flow-line, .flow-line-y, .hub-pulse { animation: none; }
 }
+
+/* ---------------------------------------------------------------------------
+   Broker ranking sidebar.
+   A native <details> disclosure: collapsible on a phone (where it sits above
+   the directory), always open on desktop (where it is a sticky sidebar). No
+   JavaScript — the collapse is the element's own behaviour, and the desktop
+   rules below force it open and drop the toggle affordance.
+--------------------------------------------------------------------------- */
+.ranking-panel > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.ranking-panel > summary::-webkit-details-marker {
+  display: none;
+}
+.ranking-chevron {
+  transition: transform 0.2s ease;
+}
+.ranking-panel[open] > summary .ranking-chevron {
+  transform: rotate(180deg);
+}
+@media (min-width: 1024px) {
+  /* Not collapsible on desktop: the header is a header, not a button, and
+     every section stays visible whatever the open state a resize left behind. */
+  .ranking-panel > summary {
+    cursor: default;
+  }
+  .ranking-panel .ranking-chevron {
+    display: none;
+  }
+  /* Precise, not `revert` — the body must come back as flex, not block. */
+  .ranking-panel:not([open]) > .ranking-body {
+    display: flex !important;
+  }
+  .ranking-panel:not([open]) > .ranking-foot {
+    display: block !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ranking-chevron {
+    transition: none;
+  }
+}
