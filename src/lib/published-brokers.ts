@@ -6,6 +6,7 @@ const COLUMNS =
   "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count," +
   "badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses," +
   "supports_ea,allows_hedging,swap_free,allows_scalping,min_deposit,deposit_methods," +
+  "platforms,accepted_countries," +
   "broker_links(id,label,referral_url,agent_commission,client_benefits)";
 
 /**

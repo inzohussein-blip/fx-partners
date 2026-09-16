@@ -39,6 +39,13 @@ export type Broker = {
   allows_scalping?: boolean;
   min_deposit?: number | null;
   deposit_methods?: string[];
+  /** Platforms offered: mt4, mt5, ctrader, tradingview, proprietary. */
+  platforms?: string[];
+  /**
+   * ISO 3166-1 alpha-2 codes we have verified the broker onboards.
+   * Empty means unverified, never "accepts everyone".
+   */
+  accepted_countries?: string[];
   broker_links?: BrokerLink[];
 };
 

@@ -6,6 +6,7 @@ import { EditableText } from "@/components/admin-edit/editable-text";
 import { getContent, contentKeyFor } from "@/lib/content";
 import { getPublishedBrokers } from "@/lib/published-brokers";
 import { BestForStrip } from "@/components/marketing/best-for-strip";
+import { BrokerFinder } from "@/components/brokers/broker-finder";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import { SpecsGrid } from "@/components/brokers/specs-grid";
@@ -110,6 +111,17 @@ export default async function ComparePage({
           </p>
         </Container>
       </section>
+
+      {/* The guided finder sits above the directory, not inside it: someone who
+          has never chosen a broker wants a few questions, and someone who has
+          wants the full list. Both are on the page, in that order. */}
+      {brokers.length > 0 && (
+        <section className="pb-6">
+          <Container>
+            <BrokerFinder brokers={brokers} />
+          </Container>
+        </section>
+      )}
 
       <section className="pb-24">
         <Container>
