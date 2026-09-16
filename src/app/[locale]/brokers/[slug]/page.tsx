@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
+import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -94,6 +95,78 @@ async function getIsAdmin(): Promise<boolean> {
   }
 }
 
+/**
+ * Blog review article per broker, when one exists — for cross-linking the
+ * profile to its long-form review. Slugs match supabase/seed_blog_reviews.sql.
+ */
+const REVIEW_ARTICLE: Record<string, string> = {
+  oneroyal: "murajaat-one-royal",
+  vantage: "murajaat-vantage-markets",
+  xm: "murajaat-xm",
+  inzo: "murajaat-inzo",
+  tnfx: "murajaat-tnfx",
+};
+
+/** Arabic country label per regulator, for FAQ prose. */
+const REG_COUNTRY: Record<string, string> = {
+  fca: "بريطانيا",
+  cysec: "قبرص",
+  asic: "أستراليا",
+  fsca: "جنوب أفريقيا",
+  dfsa: "دبي",
+  fsa: "سيشل (ترخيص خارجي)",
+  fscm: "موريشيوس",
+  cbcs: "كوراساو",
+};
+
+/**
+ * FAQ built only from data we actually hold: the regulators are always
+ * present, and each commercial fact appears only once an admin has filled it —
+ * so nothing is asserted that isn't in the row. Feeds both the visible section
+ * and the FAQPage structured data.
+ */
+function buildFaq(broker: Broker): { q: string; a: string }[] {
+  const faq: { q: string; a: string }[] = [];
+  const regs = (broker.licenses ?? [])
+    .map((k) => {
+      const m = regulatorMeta(k);
+      if (!m) return null;
+      const c = REG_COUNTRY[k];
+      return c ? `${m.label} (${c})` : m.label;
+    })
+    .filter(Boolean) as string[];
+
+  if (regs.length > 0) {
+    faq.push({
+      q: `هل ${broker.name} مرخّصة؟ وما الجهات الرقابية؟`,
+      a: `تعمل ${broker.name} عبر كيانات مرخّصة من: ${regs.join("، ")}. والأهمّ: الترخيص الذي يحميك هو ترخيص الكيان الذي يُفتح حسابك لديه تحديدًا — تحقّق من اسم كيانك ورقم ترخيصه على سجلّ الجهة الرقابية قبل الإيداع.`,
+    });
+  }
+  if (broker.spread_from != null) {
+    faq.push({
+      q: `كم يبدأ السبريد في ${broker.name}؟`,
+      a: `السبريد المعلن يبدأ من ${broker.spread_from} نقطة، ويختلف بحسب الحساب والأداة وظروف السوق. تحقّق من القيمة المحدّثة على الموقع الرسمي.`,
+    });
+  }
+  if (broker.leverage_max) {
+    faq.push({
+      q: `ما أقصى رافعة مالية في ${broker.name}؟`,
+      a: `أقصى رافعة معلنة هي ${broker.leverage_max}، وتختلف بحسب الكيان التنظيمي والأداة. تذكّر أنّ الرافعة العالية تضخّم الخسارة كما تضخّم الربح.`,
+    });
+  }
+  if (broker.deposit_bonus || broker.welcome_bonus) {
+    faq.push({
+      q: `هل يقدّم ${broker.name} بونص؟`,
+      a: `العرض المعلن حاليًا: ${broker.deposit_bonus || broker.welcome_bonus}. تخضع البونصات لشروط وقد تتغيّر أو تتوقّف — اقرأ شروطها الكاملة على الموقع الرسمي قبل الاعتماد عليها.`,
+    });
+  }
+  faq.push({
+    q: `كيف أفتح حساباً لدى ${broker.name}؟`,
+    a: `عبر رابط الفتح في هذه الصفحة أو من الموقع الرسمي للشركة، بعد التحقّق من الكيان الذي سيخدمك وشروط الحساب وطرق السحب ومدّته.`,
+  });
+  return faq;
+}
+
 export async function generateMetadata({
   params: { slug, locale },
 }: {
@@ -146,6 +219,8 @@ export default async function BrokerDetailPage({
   const links = broker.broker_links ?? [];
   const partnered = broker.status === "partnered";
   const primaryHref = links[0] ? linkHref(links[0]) : null;
+  const faq = buildFaq(broker);
+  const reviewSlug = REVIEW_ARTICLE[broker.slug];
 
   const highlights = [
     broker.spread_from != null && {
@@ -207,12 +282,54 @@ export default async function BrokerDetailPage({
     }));
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "قارن الشركات",
+        item: `${getSiteUrl()}/compare`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: broker.name,
+        item: `${getSiteUrl()}/brokers/${broker.slug}`,
+      },
+    ],
+  };
+
+  const faqJsonLd =
+    faq.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faq.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }
+      : null;
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <SiteHeader />
 
       {/* Header */}
@@ -352,6 +469,7 @@ export default async function BrokerDetailPage({
           { id: "overview", label: "نظرة عامة" },
           { id: "ratings", label: "التقييم" },
           { id: "accounts", label: "روابط الحسابات" },
+          ...(faq.length > 0 ? [{ id: "faq", label: "أسئلة شائعة" }] : []),
           { id: "reviews", label: "آراء العملاء" },
           { id: "community", label: "النقاش" },
         ]}
@@ -367,6 +485,17 @@ export default async function BrokerDetailPage({
               <p className="mt-3 whitespace-pre-line leading-relaxed text-slate-300" dir="auto">
                 {broker.description}
               </p>
+              {reviewSlug && (
+                <div className="mt-4 border-t border-fg/10 pt-4">
+                  <Link
+                    href={`/blog/${reviewSlug}`}
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-300 hover:underline"
+                  >
+                    اقرأ مراجعتنا الكاملة لـ {broker.name}
+                    <span aria-hidden>←</span>
+                  </Link>
+                </div>
+              )}
             </div>
           </Container>
         </section>
@@ -429,6 +558,39 @@ export default async function BrokerDetailPage({
           <BrokerSubscribe brokerId={broker.id} brokerName={broker.name} />
         </Container>
       </section>
+
+      {/* FAQ */}
+      {faq.length > 0 && (
+        <section id="faq" className="scroll-mt-24 pb-4 pt-10">
+          <Container>
+            <h2 className="mb-5 text-xl font-bold text-fg">
+              أسئلة شائعة عن {broker.name}
+            </h2>
+            <div className="space-y-3">
+              {faq.map((f, i) => (
+                <details
+                  key={i}
+                  className="card-surface group p-5"
+                  {...(i === 0 ? { open: true } : {})}
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-semibold text-fg">
+                    <span dir="auto">{f.q}</span>
+                    <span
+                      aria-hidden
+                      className="shrink-0 text-slate-500 transition group-open:rotate-180"
+                    >
+                      ▾
+                    </span>
+                  </summary>
+                  <p className="mt-3 leading-relaxed text-slate-300" dir="auto">
+                    {f.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Reviews */}
       <section id="reviews" className="scroll-mt-24 pt-6">
