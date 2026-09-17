@@ -23,7 +23,8 @@ import {
   type Broker,
   type BrokerReview,
 } from "@/lib/brokers";
-import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity } from "lucide-react";
+import { getAllPairs } from "@/lib/broker-pairs";
+import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity, Scale } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -211,11 +212,20 @@ export default async function BrokerDetailPage({
   const broker = await getBroker(slug);
   if (!broker) notFound();
 
-  const [reviews, boardPosts, isAdmin] = await Promise.all([
+  const [reviews, boardPosts, isAdmin, allPairs] = await Promise.all([
     getReviews(broker.id),
     getBoardPosts(broker.id),
     getIsAdmin(),
+    getAllPairs(),
   ]);
+  // Head-to-head pages this broker appears in — the highest-intent surface on
+  // the site, otherwise only reachable from the comparison pages themselves.
+  const comparisons = allPairs
+    .filter((p) => p.a === broker.slug || p.b === broker.slug)
+    .map((p) => ({
+      slug: p.slug,
+      otherName: p.a === broker.slug ? p.bName : p.aName,
+    }));
   const links = broker.broker_links ?? [];
   const partnered = broker.status === "partnered";
   const primaryHref = links[0] ? linkHref(links[0]) : null;
@@ -558,6 +568,29 @@ export default async function BrokerDetailPage({
           <BrokerSubscribe brokerId={broker.id} brokerName={broker.name} />
         </Container>
       </section>
+
+      {/* Head-to-head comparisons */}
+      {comparisons.length > 0 && (
+        <section id="compare" className="scroll-mt-24 pb-4 pt-10">
+          <Container>
+            <h2 className="mb-4 flex items-center gap-2 text-xl font-bold text-fg">
+              <Scale className="h-5 w-5 text-brand-300" aria-hidden />
+              قارن {broker.name} مع وسطاء آخرين
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {comparisons.map((c) => (
+                <Link
+                  key={c.slug}
+                  href={`/compare/vs/${c.slug}`}
+                  className="rounded-xl border border-fg/10 px-3.5 py-2 text-sm text-slate-300 transition hover:border-brand-400/50 hover:text-fg"
+                >
+                  {broker.name} مقابل {c.otherName}
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* FAQ */}
       {faq.length > 0 && (
