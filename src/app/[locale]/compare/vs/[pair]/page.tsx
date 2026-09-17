@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { notFound, redirect } from "next/navigation";
 import { pageMeta } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
@@ -8,6 +9,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import { HeadToHeadTable } from "@/components/brokers/head-to-head-table";
 import { parsePair, pairSlug, getPairBrokers, getAllPairs } from "@/lib/broker-pairs";
+import { getPublishedPostSlugs } from "@/lib/posts";
 import { isRated } from "@/lib/brokers";
 import { getSiteUrl } from "@/lib/utils";
 import { Scale, BookOpen } from "lucide-react";
@@ -83,13 +85,18 @@ export default async function PairPage({
   // rather than serving the same comparison from a second address.
   const canonical = pairSlug(parsed[0], parsed[1]);
   if (canonical !== params.pair) redirect(`/compare/vs/${canonical}`);
-  const articleSlug = PAIR_ARTICLE[canonical];
 
-  const [[a, b], pairs] = await Promise.all([
+  const [[a, b], pairs, publishedPosts] = await Promise.all([
     getPairBrokers(parsed[0], parsed[1]),
     getAllPairs(),
+    getPublishedPostSlugs(),
   ]);
   if (!a || !b) notFound();
+
+  // Only link to the in-depth article when its post is actually published.
+  const articleCandidate = PAIR_ARTICLE[canonical];
+  const articleSlug =
+    articleCandidate && publishedPosts.has(articleCandidate) ? articleCandidate : undefined;
 
   const base = getSiteUrl();
   // An ItemList of the two products being compared is what lets this surface
@@ -134,7 +141,7 @@ export default async function PairPage({
       <SiteHeader />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
 
       <section className="hero-glow">

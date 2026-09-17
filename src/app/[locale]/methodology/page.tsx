@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, SITE } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/utils";
@@ -66,7 +67,7 @@ export default async function MethodologyPage({
       <SiteHeader />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
 
       <section className="py-14">

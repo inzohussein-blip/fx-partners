@@ -34,13 +34,17 @@ export async function loadArabicFont(
           "User-Agent":
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.30 (KHTML, like Gecko) Version/5.0 Safari/534.30",
         },
+        // Never let a slow Google Fonts hang the OG render — degrade instead.
+        signal: AbortSignal.timeout(2500),
       })
     ).text();
     const match = css.match(
       /src:\s*url\((https:[^)]+)\)\s*format\('(?:truetype|woff|opentype)'\)/
     );
     if (!match) return [];
-    const data = await (await fetch(match[1])).arrayBuffer();
+    const data = await (
+      await fetch(match[1], { signal: AbortSignal.timeout(2500) })
+    ).arrayBuffer();
     return [{ name: family, data, weight, style: "normal" }];
   } catch {
     return [];

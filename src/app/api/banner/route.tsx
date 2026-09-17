@@ -22,9 +22,9 @@ export async function GET(req: Request) {
   const horizontal = h < 160;
   const unit = Math.min(w, h);
 
-  // Only the optional partner name can be Arabic; load the font for it so it
-  // does not render as boxes. Latin text is fine without it.
-  const fonts = name ? await loadArabicFont(name, 700) : [];
+  // Only the optional partner name can be Arabic, and it is painted only on the
+  // vertical layouts — so skip the font fetch entirely otherwise.
+  const fonts = name && !horizontal ? await loadArabicFont(name, 700) : [];
 
   return new ImageResponse(
     (

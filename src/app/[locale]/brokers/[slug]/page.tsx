@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -24,6 +25,7 @@ import {
   type BrokerReview,
 } from "@/lib/brokers";
 import { getAllPairs } from "@/lib/broker-pairs";
+import { getPublishedPostSlugs } from "@/lib/posts";
 import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity, Scale } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -212,11 +214,12 @@ export default async function BrokerDetailPage({
   const broker = await getBroker(slug);
   if (!broker) notFound();
 
-  const [reviews, boardPosts, isAdmin, allPairs] = await Promise.all([
+  const [reviews, boardPosts, isAdmin, allPairs, publishedPosts] = await Promise.all([
     getReviews(broker.id),
     getBoardPosts(broker.id),
     getIsAdmin(),
     getAllPairs(),
+    getPublishedPostSlugs(),
   ]);
   // Head-to-head pages this broker appears in — the highest-intent surface on
   // the site, otherwise only reachable from the comparison pages themselves.
@@ -230,7 +233,9 @@ export default async function BrokerDetailPage({
   const partnered = broker.status === "partnered";
   const primaryHref = links[0] ? linkHref(links[0]) : null;
   const faq = buildFaq(broker);
-  const reviewSlug = REVIEW_ARTICLE[broker.slug];
+  const reviewCandidate = REVIEW_ARTICLE[broker.slug];
+  // Only link to the review once its post is actually published, or the link 404s.
+  const reviewSlug = reviewCandidate && publishedPosts.has(reviewCandidate) ? reviewCandidate : undefined;
 
   const highlights = [
     broker.spread_from != null && {
@@ -328,16 +333,16 @@ export default async function BrokerDetailPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
       />
       {faqJsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
         />
       )}
       <SiteHeader />

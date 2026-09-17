@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { SiteHeader } from "@/components/site-header";
@@ -86,7 +87,7 @@ export default async function PostPage({
         <Container className="max-w-3xl">
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
           />
 
           <Breadcrumbs

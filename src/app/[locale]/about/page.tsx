@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, SITE } from "@/lib/seo";
 import { SiteHeader } from "@/components/site-header";
@@ -98,7 +99,7 @@ export default async function AboutPage({
       <SiteHeader />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
 
       <section className="hero-glow">

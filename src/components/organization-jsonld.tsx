@@ -1,4 +1,5 @@
 import { getSiteUrl } from "@/lib/utils";
+import { jsonLdScript } from "@/lib/jsonld";
 import { SITE, sameAs } from "@/lib/seo";
 
 /**
@@ -74,7 +75,7 @@ export function OrganizationJsonLd({ locale = "ar" }: { locale?: string }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: jsonLdScript(data) }}
     />
   );
 }

@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { jsonLdScript } from "@/lib/jsonld";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getContent } from "@/lib/content";
@@ -29,7 +30,7 @@ export async function Faq() {
     <section className="py-16 sm:py-20">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
       />
       <Container className="max-w-3xl">
         <SectionHeading

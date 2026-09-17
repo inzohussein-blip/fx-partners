@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { jsonLdScript } from "@/lib/jsonld";
 import { Link } from "@/i18n/navigation";
 import { getSiteUrl } from "@/lib/utils";
 import { ChevronLeft } from "lucide-react";
@@ -29,7 +30,7 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
     <nav aria-label={t("breadcrumbLabel")} className="flex flex-wrap items-center gap-1 text-xs text-slate-500">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       {all.map((c, i) => {
         const last = i === all.length - 1;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { SiteHeader } from "@/components/site-header";
@@ -129,7 +130,7 @@ export default async function ForumPostPage({
       <SiteHeader />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(discussionJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(discussionJsonLd) }}
       />
       <ViewPing postId={post.id} />
       <article className="pb-24">

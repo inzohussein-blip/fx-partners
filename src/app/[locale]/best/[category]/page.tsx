@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta } from "@/lib/seo";
@@ -10,6 +11,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import { BestForList } from "@/components/brokers/best-for-list";
 import { getPublishedBrokers } from "@/lib/published-brokers";
+import { getPublishedPostSlugs } from "@/lib/posts";
 import { CATEGORIES, categoryBySlug, populatedCategories, selectFor } from "@/lib/best-for";
 import { Trophy, Info, ScrollText, BookOpen } from "lucide-react";
 
@@ -118,15 +120,20 @@ export default async function BestForPage({
   const others = populatedCategories(all).filter((x) => x.category.slug !== slug);
 
   // Arabic guides for this category. The articles are Arabic-only, so the
-  // block is not offered on the English pages.
-  const relatedArticles = locale !== "en" ? RELATED_ARTICLES[slug] ?? [] : [];
+  // block is not offered on the English pages, and each link is shown only
+  // once its post is actually published so it never 404s.
+  const publishedPosts = locale !== "en" ? await getPublishedPostSlugs() : new Set<string>();
+  const relatedArticles =
+    locale !== "en"
+      ? (RELATED_ARTICLES[slug] ?? []).filter((a) => publishedPosts.has(a.slug))
+      : [];
 
   return (
     <>
       <SiteHeader />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
 
       <section className="hero-glow">

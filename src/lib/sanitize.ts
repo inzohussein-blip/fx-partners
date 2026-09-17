@@ -27,6 +27,12 @@ const OPTIONS: sanitizeHtml.IOptions = {
   allowedAttributes: {
     a: ["href", "target", "rel"],
     img: ["src", "alt", "title"],
+    // Table structure and code-block language, so merged cells and syntax
+    // highlighting survive. class is allow-listed only on code/pre.
+    td: ["colspan", "rowspan"],
+    th: ["colspan", "rowspan"],
+    code: ["class"],
+    pre: ["class"],
   },
   // Only safe URL schemes; blocks javascript:, vbscript:, and bare data: on links.
   allowedSchemes: ["http", "https", "mailto"],
