@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { EN_TRANSLATED } from "@/lib/seo";
 import { getAllPairs } from "@/lib/broker-pairs";
 import { populatedCategories } from "@/lib/best-for";
 import { getPublishedBrokers } from "@/lib/published-brokers";
 
-export const dynamic = "force-dynamic";
+// Public data only, so it need not be rebuilt on every crawl. Regenerated at
+// most hourly; a newly published broker or post appears within that window.
+export const revalidate = 3600;
 
 // Public marketing routes (Arabic has no prefix; English is under /en).
 const STATIC_PATHS = [
@@ -85,7 +87,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic content: broker landing pages + blog posts.
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      const supabase = createClient();
+      const supabase = createPublicClient();
       const [{ data: brokers }, { data: posts }, { data: channels }, { data: forumPosts }] =
         await Promise.all([
           supabase.from("brokers").select("slug,updated_at").eq("is_published", true),
@@ -110,14 +112,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // One entry per head-to-head pair. These are the highest-intent pages on
       // the site — "X vs Y" is what someone searches in the last minute before
       // choosing — so they rank just under the broker pages themselves.
-      for (const pair of await getAllPairs()) {
+      for (const pair of await getAllPairs(supabase)) {
         push(`/compare/vs/${pair.slug}`, now, "weekly", 0.65);
       }
 
       // "Best for X" lists. Only the ones that actually have a qualifying
       // broker are submitted: the page itself 404s when empty, so listing an
       // unpopulated category would be submitting a URL we know is a 404.
-      for (const { category } of populatedCategories(await getPublishedBrokers())) {
+      for (const { category } of populatedCategories(await getPublishedBrokers(supabase))) {
         push(`/best/${category.slug}`, now, "weekly", 0.7);
       }
 

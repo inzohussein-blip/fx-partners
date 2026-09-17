@@ -51,12 +51,12 @@ export async function getPairBrokers(
 }
 
 /** Every pair of published brokers, for the sitemap and the internal links. */
-export async function getAllPairs(): Promise<
-  { slug: string; a: string; b: string; aName: string; bName: string }[]
-> {
+export async function getAllPairs(
+  client?: ReturnType<typeof createClient>
+): Promise<{ slug: string; a: string; b: string; aName: string; bName: string }[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = client ?? createClient();
     const { data } = await supabase
       .from("brokers")
       .select("slug,name")

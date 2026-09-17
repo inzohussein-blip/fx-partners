@@ -1,6 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Broker } from "@/lib/brokers";
 
+/** Any Supabase server client (cookie-bound or the public, cookie-free one). */
+type ServerClient = ReturnType<typeof createClient>;
+
 /** Every column the comparison and category pages read. */
 const COLUMNS =
   "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count," +
@@ -18,10 +21,10 @@ const COLUMNS =
  * category that filters on `swap_free` would then quietly return nothing
  * rather than fail — an empty page with no error to explain it.
  */
-export async function getPublishedBrokers(): Promise<Broker[]> {
+export async function getPublishedBrokers(client?: ServerClient): Promise<Broker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = client ?? createClient();
     const { data } = await supabase
       .from("brokers")
       .select(COLUMNS)
