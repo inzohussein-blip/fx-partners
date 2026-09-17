@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { loadArabicFont } from "@/lib/og-font";
 
 export const runtime = "edge";
 
@@ -15,6 +16,11 @@ export async function GET(req: Request) {
   // nothing.
   const title = rawTitle.length > 120 ? `${rawTitle.slice(0, 117)}…` : rawTitle;
 
+  const fonts = await loadArabicFont(
+    `${title} FX Partners مدوّنة دليل التداول · مقارنة الوسطاء`,
+    700
+  );
+
   return new ImageResponse(
     (
       <div
@@ -29,7 +35,7 @@ export async function GET(req: Request) {
           backgroundImage:
             "radial-gradient(120% 120% at 100% 0%, rgba(37,99,235,0.40), rgba(6,15,30,0) 60%), radial-gradient(120% 120% at 0% 100%, rgba(34,211,238,0.28), rgba(6,15,30,0) 60%)",
           color: "#ffffff",
-          fontFamily: "sans-serif",
+          fontFamily: "Cairo, sans-serif",
         }}
       >
         {/* Brand row */}
@@ -70,6 +76,6 @@ export async function GET(req: Request) {
         </div>
       </div>
     ),
-    { width: 1200, height: 630 }
+    { width: 1200, height: 630, fonts }
   );
 }
