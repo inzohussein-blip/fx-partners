@@ -4,7 +4,7 @@ import { isRated, externalStars, type Broker } from "@/lib/brokers";
 /**
  * The rating shown on a broker, in priority order:
  *  1. our own review-based rating (real reviews),
- *  2. otherwise a third-party score (e.g. WikiFX), rendered as stars but
+ *  2. otherwise a third-party directory score, rendered as stars but
  *     clearly attributed to its source and shown on a /10 scale — never
  *     presented as our own rating,
  *  3. otherwise "not rated yet".
@@ -31,9 +31,9 @@ export function BrokerRating({ broker, size = 16 }: { broker: Broker; size?: num
         </span>
         <span
           className="rounded bg-fg/5 px-1.5 py-0.5 text-[10px] text-slate-400 ring-1 ring-fg/10"
-          title="تقييم من مصدر خارجي (WikiFX) لم تتحقّق منه المنصّة"
+          title="تقييم مبدئي من مصدر خارجي لم تتحقّق منه المنصّة بعد — يُستبدَل بتقييم العملاء عند وصول المراجعات"
         >
-          WikiFX
+          مبدئي
         </span>
       </span>
     );

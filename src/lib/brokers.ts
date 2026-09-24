@@ -48,13 +48,23 @@ export type Broker = {
   accepted_countries?: string[];
   broker_links?: BrokerLink[];
   /**
-   * Third-party directory data (e.g. WikiFX). Kept separate from our verified
-   * fields and always shown attributed to its source — never treated as our
-   * own rating or a verified licence.
+   * Third-party directory data. Kept separate from our verified fields and
+   * always shown as external and unverified — never treated as our own
+   * rating, a verified licence, or a verified spec.
    */
   external_score?: number | null;
   external_source?: string | null;
-  external_wikifx?: { regulated_country?: string | null; business_model?: string | null; years?: string | null; profile_url?: string | null } | null;
+  external_data?: ExternalData | null;
+};
+
+export type ExternalData = {
+  regulation?: string | null;
+  regulation_details?: string | null;
+  leverage?: string | null;
+  min_deposit?: string | null;
+  founded_year?: string | null;
+  headquarters?: string | null;
+  website_url?: string | null;
 };
 
 /** The external 0–10 score mapped onto our 0–5 star scale, when present. */
@@ -62,9 +72,26 @@ export function externalStars(b: Broker): number | null {
   return b.external_score != null ? Math.round((b.external_score / 2) * 10) / 10 : null;
 }
 
-/** The regulator country the external source reports (a guess, shown attributed). */
-export function externalCountry(b: Broker): string | null {
-  return b.external_wikifx?.regulated_country ?? null;
+/**
+ * The external facts worth showing on a profile, as label/value pairs, in a
+ * fixed order. Only filled fields are returned. Shown under an explicit
+ * "external, unverified" heading — never merged into our verified specs.
+ */
+export function externalFacts(b: Broker): { label: string; value: string }[] {
+  const d = b.external_data;
+  if (!d) return [];
+  const facts: { label: string; value: string }[] = [];
+  const add = (label: string, v?: string | null) => {
+    const s = v?.trim();
+    if (s) facts.push({ label, value: s });
+  };
+  add("الجهات الرقابية", d.regulation);
+  add("تفاصيل التراخيص", d.regulation_details);
+  add("الرافعة المالية", d.leverage);
+  add("الحد الأدنى للإيداع", d.min_deposit);
+  add("سنة التأسيس", d.founded_year);
+  add("المقرّ", d.headquarters);
+  return facts;
 }
 
 /**

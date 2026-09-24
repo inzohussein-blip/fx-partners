@@ -175,7 +175,7 @@ jobs:
           command -v psql >/dev/null || {
             sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
           }
-          for f in supabase/seed.sql supabase/seed_wikifx.sql supabase/seed_blog.sql supabase/seed_blog_reviews.sql supabase/seed_forum.sql; do
+          for f in supabase/seed.sql supabase/seed_external_brokers.sql supabase/seed_blog.sql supabase/seed_blog_reviews.sql supabase/seed_forum.sql; do
             [ -f "$f" ] || continue
             echo "→ $f"
             PGPASSWORD="$pass" psql -h "$host" -p "$port" -U "$user" -d "$db" -v ON_ERROR_STOP=1 -f "$f"

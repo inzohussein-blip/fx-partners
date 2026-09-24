@@ -21,7 +21,7 @@ import {
   linkHref,
   regulatorMeta,
   isRated,
-  externalCountry,
+  externalFacts,
   type Broker,
   type BrokerReview,
 } from "@/lib/brokers";
@@ -38,7 +38,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,external_score,external_source,external_wikifx,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,external_score,external_source,external_data,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -398,10 +398,7 @@ export default async function BrokerDetailPage({
               </div>
               {broker.external_source && (
                 <p className="mt-2 text-xs leading-relaxed text-slate-500">
-                  {externalCountry(broker) && (
-                    <>التنظيم بحسب WikiFX: {externalCountry(broker)} · </>
-                  )}
-                  بيانات من مصدر خارجي (WikiFX) لم تتحقّق منها المنصّة — تحقّق من ترخيص الكيان قبل الإيداع.
+                  بيانات هذه الشركة من مصدر خارجي ولم تتحقّق منها المنصّة بعد — تحقّق من ترخيص الكيان قبل الإيداع.
                 </p>
               )}
               {broker.badges && broker.badges.length > 0 && (
@@ -515,6 +512,42 @@ export default async function BrokerDetailPage({
                     <span aria-hidden>←</span>
                   </Link>
                 </div>
+              )}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* External directory data — shown attributed and apart from our
+          verified specs, so it is never mistaken for a checked fact. */}
+      {externalFacts(broker).length > 0 && (
+        <section className="pb-10">
+          <Container>
+            <div className="card-surface p-6 sm:p-8">
+              <h2 className="text-lg font-semibold text-fg">معلومات من مصدر خارجي</h2>
+              <p className="mt-1 text-xs text-slate-500">
+                لم تتحقّق منها المنصّة بعد. راجع الموقع الرسمي وسجلّ الجهة الرقابية قبل الاعتماد عليها.
+              </p>
+              <dl className="mt-5 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+                {externalFacts(broker).map((f) => (
+                  <div key={f.label}>
+                    <dt className="text-xs text-slate-500">{f.label}</dt>
+                    <dd className="mt-1 text-sm leading-relaxed text-slate-200" dir="auto">
+                      {f.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {broker.external_data?.website_url && (
+                <a
+                  href={broker.external_data.website_url}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm text-brand-300 hover:underline"
+                >
+                  الموقع الرسمي
+                  <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+                </a>
               )}
             </div>
           </Container>
