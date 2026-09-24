@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useQueryState } from "nuqs";
 import { Link } from "@/i18n/navigation";
-import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
-import { statusLabel, regulatorMeta, isRated, type Broker } from "@/lib/brokers";
+import { BrokerRating } from "@/components/brokers/broker-rating";
+import { statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Gift, Search, ArrowLeft, Building2, SlidersHorizontal, X } from "lucide-react";
 
@@ -313,16 +313,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                     <StatusBadge status={b.status} />
                   </td>
                   <td className="px-5 py-4">
-                    {isRated(b) ? (
-                      <div className="flex items-center gap-2">
-                        <Stars value={b.rating} />
-                        <span className="text-xs text-slate-500" dir="ltr">
-                          {b.rating.toFixed(1)} ({b.reviews_count})
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-slate-500">لم تُقيَّم بعد</span>
-                    )}
+                    <BrokerRating broker={b} />
                   </td>
                   <td className="px-5 py-4 text-slate-300" dir="ltr">
                     {b.spread_from != null ? `${b.spread_from} نقطة` : "—"}
@@ -376,16 +367,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                 rows each card ran past 300px on a phone and only two fit on a
                 screen — in a list whose whole job is scanning several. */}
             <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
-              {isRated(b) ? (
-                <span className="inline-flex items-center gap-1.5">
-                  <Stars value={b.rating} />
-                  <span className="text-slate-500" dir="ltr">
-                    {b.rating.toFixed(1)} ({b.reviews_count})
-                  </span>
-                </span>
-              ) : (
-                <span className="text-slate-500">لم تُقيَّم بعد</span>
-              )}
+              <BrokerRating broker={b} />
               {b.spread_from != null && (
                 <span className="rounded-full bg-fg/5 px-2 py-1 text-slate-300" dir="ltr">
                   سبريد {b.spread_from}

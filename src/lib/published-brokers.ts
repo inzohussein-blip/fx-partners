@@ -10,6 +10,7 @@ const COLUMNS =
   "badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses," +
   "supports_ea,allows_hedging,swap_free,allows_scalping,min_deposit,deposit_methods," +
   "platforms,accepted_countries," +
+  "external_score,external_source,external_wikifx," +
   "broker_links(id,label,referral_url,agent_commission,client_benefits)";
 
 /**

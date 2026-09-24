@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { pageMeta } from "@/lib/seo";
-import { Stars } from "@/components/brokers/stars";
+import { BrokerRating } from "@/components/brokers/broker-rating";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerSubscribe } from "@/components/brokers/broker-subscribe";
 import { BrokerReviews } from "@/components/brokers/broker-reviews";
@@ -21,6 +21,7 @@ import {
   linkHref,
   regulatorMeta,
   isRated,
+  externalCountry,
   type Broker,
   type BrokerReview,
 } from "@/lib/brokers";
@@ -37,7 +38,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,external_score,external_source,external_wikifx,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -225,6 +226,7 @@ export default async function BrokerDetailPage({
   // the site, otherwise only reachable from the comparison pages themselves.
   const comparisons = allPairs
     .filter((p) => p.a === broker.slug || p.b === broker.slug)
+    .slice(0, 12)
     .map((p) => ({
       slug: p.slug,
       otherName: p.a === broker.slug ? p.bName : p.aName,
@@ -386,19 +388,22 @@ export default async function BrokerDetailPage({
                 </span>
               </div>
               <div className="mt-2 flex items-center gap-2">
-                {isRated(broker) ? (
-                  <>
-                    <Stars value={broker.rating} size={18} />
-                    <span className="text-sm text-slate-400" dir="ltr">
-                      {broker.rating.toFixed(1)} · {broker.reviews_count} مراجعة
-                    </span>
-                  </>
+                {isRated(broker) || broker.external_score != null ? (
+                  <BrokerRating broker={broker} size={18} />
                 ) : (
                   <span className="text-sm text-slate-400">
                     لا توجد مراجعات بعد — كن أول من يقيّم هذه الشركة
                   </span>
                 )}
               </div>
+              {broker.external_source && (
+                <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                  {externalCountry(broker) && (
+                    <>التنظيم بحسب WikiFX: {externalCountry(broker)} · </>
+                  )}
+                  بيانات من مصدر خارجي (WikiFX) لم تتحقّق منها المنصّة — تحقّق من ترخيص الكيان قبل الإيداع.
+                </p>
+              )}
               {broker.badges && broker.badges.length > 0 && (
                 <div className="mt-3">
                   <BrokerBadges badges={broker.badges} size="md" />
