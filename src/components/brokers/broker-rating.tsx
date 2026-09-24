@@ -31,9 +31,9 @@ export function BrokerRating({ broker, size = 16 }: { broker: Broker; size?: num
         </span>
         <span
           className="rounded bg-fg/5 px-1.5 py-0.5 text-[10px] text-slate-400 ring-1 ring-fg/10"
-          title="تقييم مبدئي من مصدر خارجي لم تتحقّق منه المنصّة بعد — يُستبدَل بتقييم العملاء عند وصول المراجعات"
+          title="تقييم من مصدر خارجي غير موثّق — لم تتحقّق منه المنصّة بعد، ويُستبدَل بتقييم العملاء عند وصول المراجعات"
         >
-          مبدئي
+          غير موثّق
         </span>
       </span>
     );

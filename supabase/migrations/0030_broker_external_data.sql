@@ -1,14 +1,14 @@
 -- ===========================================================================
--- 0030 — external dataset fields on brokers (e.g. WikiFX)
+-- 0030 — external dataset fields on brokers
 -- ===========================================================================
--- A place to carry third-party data (a WikiFX-style directory) WITHOUT it ever
+-- A place to carry third-party data (an external broker directory) WITHOUT it ever
 -- being mistaken for our own verified facts. Kept in dedicated columns so the
 -- UI can label it as external and our review-based `rating` / verified
 -- `licenses` stay untouched:
 --
 --   external_score   the third party's own 0–10 score (never our star rating)
---   external_source  where it came from, e.g. 'wikifx'
---   external_wikifx  the full snapshot (country, model, platforms, tags, url)
+--   external_source  where it came from, e.g. 'directory'
+--   external_wikifx  the full snapshot (renamed external_data in 0031) (country, model, platforms, tags, url)
 --
 -- Nothing here is treated as truth automatically; it is shown attributed to
 -- its source. Deliberately NOT added: any mapping of a guessed regulator into

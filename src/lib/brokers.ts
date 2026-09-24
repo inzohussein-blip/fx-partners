@@ -65,6 +65,11 @@ export type ExternalData = {
   founded_year?: string | null;
   headquarters?: string | null;
   website_url?: string | null;
+  regulation_country?: string | null;
+  business_model?: string | null;
+  years?: string | null;
+  account_type?: string | null;
+  platforms?: string | null;
 };
 
 /** The external 0–10 score mapped onto our 0–5 star scale, when present. */
@@ -91,6 +96,11 @@ export function externalFacts(b: Broker): { label: string; value: string }[] {
   add("الحد الأدنى للإيداع", d.min_deposit);
   add("سنة التأسيس", d.founded_year);
   add("المقرّ", d.headquarters);
+  add("بلد التنظيم", d.regulation_country);
+  add("سنوات العمل", d.years);
+  add("نموذج التنفيذ", d.business_model);
+  add("نوع الحساب", d.account_type);
+  add("المنصّات", d.platforms);
   return facts;
 }
 
