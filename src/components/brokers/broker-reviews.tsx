@@ -28,7 +28,9 @@ export function BrokerReviews({
 }) {
   const reviews = initial;
   const [name, setName] = useState("");
-  const [stars, setStars] = useState(5);
+  // No preselected score: five stars already lit is an answer the reviewer
+  // did not give, and it pulls every rating upward. They pick one.
+  const [stars, setStars] = useState(0);
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
@@ -65,6 +67,10 @@ export function BrokerReviews({
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    if (stars < 1) {
+      setError("اختر تقييمك بالنجوم أولاً.");
+      return;
+    }
     setSubmitting(true);
     const res = await submitBrokerReview({
       brokerId,
@@ -78,7 +84,7 @@ export function BrokerReviews({
       setDone(true);
       setName("");
       setComment("");
-      setStars(5);
+      setStars(0);
     } else {
       setError(res.error ?? "تعذّر إرسال التعليق.");
     }

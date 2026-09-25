@@ -146,6 +146,28 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     [brokers]
   );
 
+  // Offer only the filters and sorts that can match something. With no
+  // partners, no bonuses and no recorded specs yet, every option except "all"
+  // returned an empty list — a dead end presented as a feature.
+  const available = useMemo(() => {
+    const partnered = brokers.some((b) => b.status === "partnered");
+    return {
+      filters: FILTERS.filter(
+        (f) =>
+          f.key === "all" ||
+          (f.key === "partnered" && partnered) ||
+          (f.key === "not_partnered" && partnered) ||
+          (f.key === "bonus" && brokers.some((b) => b.deposit_bonus || b.welcome_bonus))
+      ),
+      toggles: TOGGLES.filter((tg) => brokers.some((b) => Boolean(b[tg.key]))),
+      sorts: SORTS.filter(
+        (so) =>
+          (so.key !== "spread" || brokers.some((b) => b.spread_from != null)) &&
+          (so.key !== "reviews" || brokers.some((b) => b.reviews_count > 0))
+      ),
+    };
+  }, [brokers]);
+
   const activeCount =
     (filter !== "all" ? 1 : 0) +
     Object.values(toggles).filter(Boolean).length +
@@ -169,6 +191,8 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
         {withSearch && searchBox}
 
         <div className="card-surface p-4">
+          {available.filters.length > 1 && (
+          <>
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-400">الحالة</span>
             {activeCount > 0 && (
@@ -185,7 +209,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             )}
           </div>
           <div className="mt-3 space-y-1">
-            {FILTERS.map((f) => (
+            {available.filters.map((f) => (
               <button
                 key={f.key}
                 onClick={() => setFilter(f.key)}
@@ -201,10 +225,14 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             ))}
           </div>
 
-          <div className="mt-4 border-t border-fg/5 pt-4">
+          </>
+          )}
+
+          {available.toggles.length > 0 && (
+          <div className="mt-4 border-t border-fg/5 pt-4 first:mt-0 first:border-0 first:pt-0">
             <span className="text-xs font-semibold text-slate-400">فلترة دقيقة</span>
             <div className="mt-3 space-y-2">
-              {TOGGLES.map((tg) => {
+              {available.toggles.map((tg) => {
                 const on = !!toggles[tg.key];
                 return (
                   <label
@@ -227,14 +255,16 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             </div>
           </div>
 
-          <div className="mt-4 border-t border-fg/5 pt-4">
+          )}
+
+          <div className="mt-4 border-t border-fg/5 pt-4 first:mt-0 first:border-0 first:pt-0">
             <span className="text-xs font-semibold text-slate-400">الترتيب</span>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
               className="mt-2 w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2 text-sm text-fg focus:border-brand-500/50 focus:outline-none"
             >
-              {SORTS.map((s) => (
+              {available.sorts.map((s) => (
                 <option key={s.key} value={s.key}>
                   {s.label}
                 </option>

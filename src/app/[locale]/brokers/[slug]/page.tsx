@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cn } from "@/lib/utils";
 import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
@@ -27,7 +28,7 @@ import {
 } from "@/lib/brokers";
 import { getAllPairs } from "@/lib/broker-pairs";
 import { getPublishedPostSlugs } from "@/lib/posts";
-import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity, Scale } from "lucide-react";
+import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity, Scale, ArrowLeft } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -250,11 +251,6 @@ export default async function BrokerDetailPage({
       label: "الرافعة القصوى",
       value: broker.leverage_max,
     },
-    (broker.licenses?.length ?? 0) > 0 && {
-      icon: BadgeCheck,
-      label: "التراخيص",
-      value: `${broker.licenses!.length} جهة رقابية`,
-    },
     broker.deposit_bonus && {
       icon: Gift,
       label: "بونص الإيداع",
@@ -360,6 +356,12 @@ export default async function BrokerDetailPage({
               ]}
             />
           </div>
+          {/* Two tracks on desktop: identity and highlights, and a side card
+              with the verified facts and the next step. On its own the
+              identity block filled half the width, and a broker without a
+              referral link — every broker today — offered no action at all. */}
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+          <div className="min-w-0">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             {broker.logo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -376,16 +378,12 @@ export default async function BrokerDetailPage({
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3">
                 <h1 className="text-3xl font-extrabold text-fg">{broker.name}</h1>
-                <span
-                  className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium ${
-                    partnered
-                      ? "bg-emerald-500/15 text-emerald-300"
-                      : "bg-fg/5 text-slate-400"
-                  }`}
-                >
-                  {partnered && <BadgeCheck className="h-3.5 w-3.5" />}
-                  {statusLabel(broker.status)}
-                </span>
+                {partnered && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-300">
+                    <BadgeCheck className="h-3.5 w-3.5" />
+                    {statusLabel(broker.status)}
+                  </span>
+                )}
               </div>
               <div className="mt-2 flex items-center gap-2">
                 {isRated(broker) || broker.external_score != null ? (
@@ -457,12 +455,13 @@ export default async function BrokerDetailPage({
             </div>
           )}
 
-          {/* Regulatory licenses */}
-          {broker.licenses && broker.licenses.length > 0 && (
-            <div className="mt-4">
-              <div className="mb-1.5 text-xs text-slate-500">التراخيص والرقابة المالية</div>
-              <div className="flex flex-wrap gap-2">
-                {broker.licenses.map((k) => {
+          </div>
+
+          <aside className="card-surface p-5 sm:p-6">
+            <h2 className="text-sm font-semibold text-fg">التراخيص الموثّقة</h2>
+            {(broker.licenses ?? []).some((k) => regulatorMeta(k)) ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {(broker.licenses ?? []).map((k) => {
                   const r = regulatorMeta(k);
                   if (!r) return null;
                   return (
@@ -475,8 +474,44 @@ export default async function BrokerDetailPage({
                   );
                 })}
               </div>
+            ) : (
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                لم نتحقّق بعد من تراخيص هذه الشركة في سجلات الجهات الرقابية.
+              </p>
+            )}
+            <p className="mt-3 text-xs leading-relaxed text-slate-500">
+              الترخيص الذي يحميك هو ترخيص الكيان الذي يُفتح حسابك لديه — تحقّق منه قبل الإيداع.
+            </p>
+
+            {broker.external_data?.website_url && (
+              <a
+                href={broker.external_data.website_url}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm text-brand-300 hover:underline"
+              >
+                الموقع الرسمي
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+              </a>
+            )}
+
+            <div className="mt-5 grid gap-2.5 border-t border-fg/[0.06] pt-5">
+              <a
+                href="#reviews"
+                className="inline-flex min-h-11 items-center justify-center rounded-xl bg-fg/[0.06] px-4 text-sm font-semibold text-fg ring-1 ring-fg/10 transition hover:bg-fg/10"
+              >
+                أضف مراجعتك
+              </a>
+              <Link
+                href="/compare"
+                className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-fg/10 px-4 text-sm font-medium text-slate-200 transition hover:bg-fg/5"
+              >
+                قارن مع شركة أخرى
+                <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />
+              </Link>
             </div>
-          )}
+          </aside>
+          </div>
         </Container>
       </section>
 
@@ -485,7 +520,9 @@ export default async function BrokerDetailPage({
         tabs={[
           { id: "overview", label: "نظرة عامة" },
           { id: "ratings", label: "التقييم" },
-          { id: "accounts", label: "روابط الحسابات" },
+          // The section only renders when the broker has links; a tab to a
+          // missing anchor did nothing when tapped.
+          ...(links.length > 0 ? [{ id: "accounts", label: "روابط الحسابات" }] : []),
           ...(faq.length > 0 ? [{ id: "faq", label: "أسئلة شائعة" }] : []),
           { id: "reviews", label: "آراء العملاء" },
           { id: "community", label: "النقاش" },
@@ -528,12 +565,22 @@ export default async function BrokerDetailPage({
               <p className="mt-1 text-xs text-slate-500">
                 لم تتحقّق منها المنصّة بعد. راجع الموقع الرسمي وسجلّ الجهة الرقابية قبل الاعتماد عليها.
               </p>
-              <dl className="mt-5 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+              {/* Tiles, with long values (licence details, HQ) across the
+                  row. The value is a <bdi>, not dir="auto" on the <dd>: that
+                  flipped the whole cell LTR, so a Latin value like "5$" or
+                  "ECN" sat at the far side, away from its own label. */}
+              <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {externalFacts(broker).map((f) => (
-                  <div key={f.label}>
+                  <div
+                    key={f.label}
+                    className={cn(
+                      "rounded-xl bg-fg/[0.03] p-3.5 ring-1 ring-fg/[0.06]",
+                      f.value.length > 60 && "sm:col-span-2 lg:col-span-3"
+                    )}
+                  >
                     <dt className="text-xs text-slate-500">{f.label}</dt>
-                    <dd className="mt-1 text-sm leading-relaxed text-slate-200" dir="auto">
-                      {f.value}
+                    <dd className="mt-1 text-sm leading-relaxed text-slate-200">
+                      <bdi>{f.value}</bdi>
                     </dd>
                   </div>
                 ))}

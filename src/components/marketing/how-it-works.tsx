@@ -44,20 +44,29 @@ export async function HowItWorks() {
         />
 
         {/* The four things a master IB does */}
-        <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* On a phone each step is a row — icon beside the text — rather
+            than a stacked card: stacked, the four ran ~270px each for two
+            lines of copy. The step number is a visible badge; as a 6%-opacity
+            watermark nobody could read it. */}
+        <ol className="mt-10 grid gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
           {steps.map((s, i) => (
             <li
               key={s.key}
-              className="card-surface group relative p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
+              className="card-surface group relative flex items-start gap-4 p-4 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30 sm:block sm:p-6"
             >
-              <span className="absolute end-5 top-5 text-4xl font-black leading-none text-fg/[0.06]">
-                {i + 1}
-              </span>
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
+              <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20 sm:h-12 sm:w-12">
                 <s.icon className="h-5 w-5" />
+                <span
+                  className="absolute -end-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brand-gradient text-[11px] font-bold text-white"
+                  aria-hidden
+                >
+                  {i + 1}
+                </span>
               </span>
-              <h3 className="mt-4 text-base font-bold text-fg">{t(`${s.key}Title`)}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-400">{t(`${s.key}Desc`)}</p>
+              <div className="min-w-0">
+                <h3 className="text-base font-bold text-fg sm:mt-4">{t(`${s.key}Title`)}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-slate-400 sm:mt-2">{t(`${s.key}Desc`)}</p>
+              </div>
             </li>
           ))}
         </ol>
