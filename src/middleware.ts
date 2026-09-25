@@ -67,6 +67,13 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Run on everything except API/route-handler utilities, Next internals,
-  // and files with an extension. `auth`, `r` and `go` are un-localized handlers.
-  matcher: ["/((?!api|auth|r|go|_next|_vercel|.*\\..*).*)"],
+  // the generated icons, and files with an extension. `auth`, `r` and `go`
+  // are un-localized handlers.
+  //
+  // Each excluded segment is anchored to a slash or the end of the path. A
+  // bare `r` excluded every path *starting* with r, so /reset-password never
+  // reached the locale rewrite and 404'd — breaking password recovery — and
+  // /icon and /apple-icon (no extension) were routed as pages and 404'd too,
+  // leaving the site with no favicon.
+  matcher: ["/((?!(?:api|auth|r|go|_next|_vercel|icon|apple-icon)(?:/|$)|.*\\..*).*)"],
 };
