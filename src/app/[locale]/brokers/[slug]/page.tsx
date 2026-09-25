@@ -39,7 +39,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
     const { data } = await supabase
       .from("brokers")
       .select(
-        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,external_score,external_source,external_data,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
+        "id,slug,name,logo_url,status,deposit_bonus,welcome_bonus,description,rating,reviews_count,badges,spread_from,leverage_max,bonus_no_deposit,bonus_withdrawable,supports_gold,licenses,external_score,external_source,external_data,legal_entity,licence_numbers,verification_url,official_website,verification_status,verified_at,broker_links(id,label,referral_url,agent_commission,client_benefits,code)"
       )
       .eq("slug", slug)
       .eq("is_published", true)
@@ -170,6 +170,11 @@ function buildFaq(broker: Broker): { q: string; a: string }[] {
     a: `عبر رابط الفتح في هذه الصفحة أو من الموقع الرسمي للشركة، بعد التحقّق من الكيان الذي سيخدمك وشروط الحساب وطرق السحب ومدّته.`,
   });
   return faq;
+}
+
+/** "A؛ B; C" -> ["A", "B", "C"] — for the multi-entity verification fields. */
+function splitList(v: string): string[] {
+  return v.split(/\s*[؛;]\s*/).map((x) => x.trim()).filter(Boolean);
 }
 
 export async function generateMetadata({
@@ -394,7 +399,7 @@ export default async function BrokerDetailPage({
                   </span>
                 )}
               </div>
-              {broker.external_source && (
+              {broker.external_source && broker.verification_status !== "verified" && (
                 <p className="mt-2 text-xs leading-relaxed text-slate-500">
                   بيانات هذه الشركة من مصدر خارجي ولم تتحقّق منها المنصّة بعد — تحقّق من ترخيص الكيان قبل الإيداع.
                 </p>
@@ -479,13 +484,60 @@ export default async function BrokerDetailPage({
                 لم نتحقّق بعد من تراخيص هذه الشركة في سجلات الجهات الرقابية.
               </p>
             )}
+            {/* Filled from the manual verification sheet (migration 0033). */}
+            {(broker.legal_entity || broker.licence_numbers) && (
+              <dl className="mt-4 space-y-3 text-sm">
+                {broker.legal_entity && (
+                  <div>
+                    <dt className="text-xs text-slate-500">الكيان القانوني</dt>
+                    {/* One entity per line: joined by «؛» inside Latin text
+                        the separator read as a colon. */}
+                    {splitList(broker.legal_entity).map((part) => (
+                      <dd key={part} className="mt-0.5 leading-relaxed text-slate-200">
+                        <bdi>{part}</bdi>
+                      </dd>
+                    ))}
+                  </div>
+                )}
+                {broker.licence_numbers && (
+                  <div>
+                    <dt className="text-xs text-slate-500">أرقام التراخيص</dt>
+                    {/* One entity per line: joined by «؛» inside Latin text
+                        the separator read as a colon. */}
+                    {splitList(broker.licence_numbers).map((part) => (
+                      <dd key={part} className="mt-0.5 leading-relaxed text-slate-200">
+                        <bdi>{part}</bdi>
+                      </dd>
+                    ))}
+                  </div>
+                )}
+              </dl>
+            )}
+            {broker.verification_status === "verified" && (
+              <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-300 ring-1 ring-emerald-500/20">
+                <BadgeCheck className="h-3.5 w-3.5" aria-hidden />
+                تحقّقنا من الكيان والترخيص
+                {broker.verified_at && <span dir="ltr">{broker.verified_at}</span>}
+              </p>
+            )}
+            {broker.verification_url && (
+              <a
+                href={broker.verification_url}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="mt-3 flex min-h-6 items-center gap-1.5 text-sm text-brand-300 hover:underline"
+              >
+                السجل لدى الجهة الرقابية
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+              </a>
+            )}
             <p className="mt-3 text-xs leading-relaxed text-slate-500">
               الترخيص الذي يحميك هو ترخيص الكيان الذي يُفتح حسابك لديه — تحقّق منه قبل الإيداع.
             </p>
 
-            {broker.external_data?.website_url && (
+            {(broker.official_website || broker.external_data?.website_url) && (
               <a
-                href={broker.external_data.website_url}
+                href={(broker.official_website || broker.external_data?.website_url)!}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
                 className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm text-brand-300 hover:underline"

@@ -54,9 +54,11 @@ export type AdminBroker = {
   badges: string[] | null;
   spread_from: number | null;
   leverage_max: string | null;
-  bonus_no_deposit: boolean;
-  bonus_withdrawable: boolean;
-  supports_gold: boolean;
+  // Tri-state in the database (null = not checked); the form's checkboxes
+  // only ever say yes or not-ticked.
+  bonus_no_deposit: boolean | null;
+  bonus_withdrawable: boolean | null;
+  supports_gold: boolean | null;
   licenses: string[] | null;
   is_published: boolean;
   sort_order: number;
@@ -141,9 +143,9 @@ export function BrokersManager({
       badges: b.badges ?? [],
       spread_from: b.spread_from != null ? String(b.spread_from) : "",
       leverage_max: b.leverage_max ?? "",
-      bonus_no_deposit: b.bonus_no_deposit,
-      bonus_withdrawable: b.bonus_withdrawable,
-      supports_gold: b.supports_gold,
+      bonus_no_deposit: b.bonus_no_deposit === true,
+      bonus_withdrawable: b.bonus_withdrawable === true,
+      supports_gold: b.supports_gold === true,
       licenses: b.licenses ?? [],
     });
     window.scrollTo({ top: 0, behavior: "smooth" });

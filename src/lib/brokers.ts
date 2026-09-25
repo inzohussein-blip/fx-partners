@@ -28,15 +28,19 @@ export type Broker = {
   badges?: string[];
   spread_from?: number | null;
   leverage_max?: string | null;
-  bonus_no_deposit?: boolean;
-  bonus_withdrawable?: boolean;
-  supports_gold?: boolean;
+  /**
+   * Feature flags are tri-state: true = offered, false = checked and not
+   * offered, null = nobody has checked. Never render null as "no".
+   */
+  bonus_no_deposit?: boolean | null;
+  bonus_withdrawable?: boolean | null;
+  supports_gold?: boolean | null;
   licenses?: string[];
   // Operational specs (quick comparison grid)
-  supports_ea?: boolean;
-  allows_hedging?: boolean;
-  swap_free?: boolean;
-  allows_scalping?: boolean;
+  supports_ea?: boolean | null;
+  allows_hedging?: boolean | null;
+  swap_free?: boolean | null;
+  allows_scalping?: boolean | null;
   min_deposit?: number | null;
   deposit_methods?: string[];
   /** Platforms offered: mt4, mt5, ctrader, tradingview, proprietary. */
@@ -55,6 +59,23 @@ export type Broker = {
   external_score?: number | null;
   external_source?: string | null;
   external_data?: ExternalData | null;
+  /** From the manual verification sheet (migration 0033). */
+  legal_entity?: string | null;
+  licence_numbers?: string | null;
+  verification_url?: string | null;
+  official_website?: string | null;
+  verification_status?: VerificationStatus | null;
+  verified_at?: string | null;
+};
+
+export type VerificationStatus = "verified" | "partial" | "unverified" | "in_review" | "rejected";
+
+export const VERIFICATION_LABELS: Record<VerificationStatus, string> = {
+  verified: "موثّقة",
+  partial: "موثّقة جزئياً",
+  unverified: "غير موثّقة",
+  in_review: "قيد التحقّق",
+  rejected: "مرفوضة",
 };
 
 export type ExternalData = {

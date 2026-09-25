@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { linkHref, type Broker } from "@/lib/brokers";
-import { Check, ArrowLeft } from "lucide-react";
+import { Check, X, ArrowLeft } from "lucide-react";
 
 type Feature = {
   key: keyof Broker;
@@ -18,19 +18,29 @@ const FEATURES: Feature[] = [
 ];
 
 /**
- * ✓ when the feature is recorded as offered, a dash otherwise.
+ * ✓ offered, ✗ checked and not offered, — not checked.
  *
- * The columns default to false, and a false here has always meant "nobody has
- * entered this yet" rather than "the broker does not offer it". Drawing it as
- * ✗ told visitors that XM, say, has no Islamic account — a claim about a real
- * company the site had never made. So only a recorded yes is drawn as a fact.
+ * The flags are tri-state (migration 0033). Before that a false was only ever
+ * a default, and drawing it as ✗ told visitors that XM, say, has no Islamic
+ * account — a claim about a real company nobody had checked. Only a recorded
+ * false is drawn as a no.
  */
-function YesNo({ on }: { on: boolean }) {
-  return on ? (
-    <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-emerald-500/15 text-emerald-300">
-      <Check className="h-3.5 w-3.5" aria-label="نعم" />
-    </span>
-  ) : (
+function YesNo({ on }: { on: boolean | null | undefined }) {
+  if (on === true) {
+    return (
+      <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-emerald-500/15 text-emerald-300">
+        <Check className="h-3.5 w-3.5" aria-label="نعم" />
+      </span>
+    );
+  }
+  if (on === false) {
+    return (
+      <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-fg/5 text-slate-500">
+        <X className="h-3.5 w-3.5" aria-label="لا" />
+      </span>
+    );
+  }
+  return (
     <span className="text-slate-600" title="لم يُتحقَّق بعد" aria-label="لم يُتحقَّق بعد">
       —
     </span>
@@ -40,7 +50,7 @@ function YesNo({ on }: { on: boolean }) {
 /** Whether a broker has anything this grid would show beyond dashes. */
 function hasSpecs(b: Broker): boolean {
   return (
-    FEATURES.some((f) => Boolean(b[f.key])) ||
+    FEATURES.some((f) => b[f.key] === true || b[f.key] === false) ||
     b.min_deposit != null ||
     (b.deposit_methods?.length ?? 0) > 0
   );
@@ -99,7 +109,7 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
               </td>
               {cols.map((b) => (
                 <td key={b.id} className="border-b border-fg/5 p-3 text-center">
-                  <YesNo on={Boolean(b[f.key])} />
+                  <YesNo on={b[f.key] as boolean | null | undefined} />
                 </td>
               ))}
             </tr>

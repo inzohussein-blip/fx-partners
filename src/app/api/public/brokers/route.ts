@@ -69,14 +69,9 @@ export async function GET() {
         rating: rated ? b.rating : null,
         reviews_count: b.reviews_count ?? 0,
         is_partner: b.status === "partnered",
-        // The feature columns default to false, so false means "not entered",
-        // not "not offered". Report it as unknown (null) so an agent does not
-        // tell a user a broker lacks something nobody has checked.
-        supports_gold: b.supports_gold || null,
-        supports_ea: b.supports_ea || null,
-        allows_hedging: b.allows_hedging || null,
-        allows_scalping: b.allows_scalping || null,
-        swap_free: b.swap_free || null,
+        // Feature flags pass through as stored: true / false / null, where
+        // null means nobody has checked (migration 0033) — an agent must not
+        // read it as "not offered".
       };
     });
   } catch {

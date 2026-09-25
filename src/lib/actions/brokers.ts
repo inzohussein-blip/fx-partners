@@ -53,9 +53,9 @@ export type BrokerInput = {
   badges?: string[];
   spread_from?: number | string | null;
   leverage_max?: string;
-  bonus_no_deposit?: boolean;
-  bonus_withdrawable?: boolean;
-  supports_gold?: boolean;
+  bonus_no_deposit?: boolean | null;
+  bonus_withdrawable?: boolean | null;
+  supports_gold?: boolean | null;
   licenses?: string[];
 };
 
@@ -88,9 +88,12 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
     sort_order: Number(input.sort_order ?? 0),
     spread_from: spread != null && isFinite(spread) ? spread : null,
     leverage_max: input.leverage_max?.trim() || null,
-    bonus_no_deposit: input.bonus_no_deposit ?? false,
-    bonus_withdrawable: input.bonus_withdrawable ?? false,
-    supports_gold: input.supports_gold ?? false,
+    // A checkbox can only say "yes" or "not ticked". Unticked is stored as
+    // unknown (null), not "no" — an explicit "no" comes from the verification
+    // sheet, where someone actually checked (see migration 0033).
+    bonus_no_deposit: input.bonus_no_deposit ? true : null,
+    bonus_withdrawable: input.bonus_withdrawable ? true : null,
+    supports_gold: input.supports_gold ? true : null,
     ...(badges ? { badges } : {}),
     ...(licenses ? { licenses } : {}),
   };
