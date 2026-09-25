@@ -38,15 +38,15 @@
     "viewAllMarkets": "View All Markets",
     "ctaTrader": "I'm a trader — compare brokers",
     "ctaAgent": "I'm an IB — master partnership",
-    "trustLine": "Real Reviews · Real Data · Real Traders",
+    "trustLine": "Licences from regulator registers · No rating without real reviews",
     "features": {
       "regulated": {
         "title": "Licensed network",
         "desc": "FCA · ASIC · CySEC"
       },
       "verified": {
-        "title": "Verified reviews",
-        "desc": "From real traders"
+        "title": "Honest ratings",
+        "desc": "From real reviews only"
       },
       "terms": {
         "title": "Negotiated terms",
@@ -54,7 +54,7 @@
       },
       "support": {
         "title": "Arabic support",
-        "desc": "Dedicated account manager"
+        "desc": "A team that speaks your language"
       }
     }
   },
@@ -187,7 +187,7 @@
   "Contact": {
     "badge": "Contact us",
     "heading": "Have a question or a partnership offer?",
-    "subheading": "Our team is ready to help around the clock. Reach us through the channels below.",
+    "subheading": "We reply to messages as soon as we can. Reach us through the channels below.",
     "emailLabel": "Email",
     "phoneLabel": "Phone",
     "hoursLabel": "Working hours",
@@ -328,7 +328,7 @@
     "s3Title": "We split commissions transparently",
     "s3Desc": "Every agent's earnings post automatically to their wallet, with live tracking of each click, referral and trade.",
     "s4Title": "We support you in Arabic",
-    "s4Desc": "An Arabic-speaking team walks the trader and the agent from sign-up to withdrawal, around the clock.",
+    "s4Desc": "An Arabic-speaking team walks the trader and the agent from sign-up to withdrawal.",
     "roleClientTitle": "Are you a trader?",
     "roleClientDesc": "We connect you to the right licensed broker on terms we negotiated for you — at no extra cost.",
     "roleAgentTitle": "Are you an IB?",
@@ -343,7 +343,7 @@
   "TopBrokers": {
     "badge": "Top rated",
     "heading": "Top Rated Brokers",
-    "subheading": "Ranked on real user reviews, trading conditions and expert analysis.",
+    "subheading": "Ranked on user reviews only — a broker with no reviews shows as not rated yet.",
     "viewAll": "View all brokers",
     "readReview": "Read review",
     "reviews": "reviews",
@@ -586,7 +586,7 @@
     "metaDescription": "Compare forex brokers in one place: the regulator and licence number for each legal entity, spreads, minimum deposits, swap-free Islamic accounts and current offers — from sources you can verify.",
     "eyebrow": "Broker directory",
     "title": "Compare brokers and pick the right one",
-    "subtitle": "Real ratings, current bonuses and transparent agent commissions — everything you need to choose a broker, in one place.",
+    "subtitle": "Compare licences, terms and ratings side by side — with the source of every fact, and what we have not verified yet.",
     "editTitle": "Compare page heading",
     "editSubtitle": "Compare page description",
     "listName": "The FX Partners broker directory",
@@ -600,12 +600,12 @@
     "metaTitle": "Broker offers and bonuses",
     "metaDescription": "The latest broker offers and bonuses available through FX Partners — deposit bonuses, welcome bonuses and no-deposit offers, with the conditions and expiry of each.",
     "eyebrow": "Deal hunter",
-    "title": "Exclusive offers — claim them before they expire",
-    "subtitle": "The latest broker bonuses and offers, kept current by the FX Partners team.",
+    "title": "Offers and bonuses",
+    "subtitle": "Broker offers we have checked, with their full terms before you decide.",
     "editTitle": "Offers page heading",
     "editSubtitle": "Offers page description",
     "activeEyebrow": "Live offers",
-    "activeTitle": "Bonuses and offers, updated as they change",
+    "activeTitle": "Active offers",
     "activeSubtitle": "Pick the offer that suits you and open your account through our link.",
     "empty": "No live offers right now. Stay with us — new ones launch at any time.",
     "activeBadge": "Live offer",
@@ -628,7 +628,7 @@
     "crumb": "Contact us",
     "eyebrow": "Get in touch",
     "title": "A question, or a partnership to propose?",
-    "subtitle": "Our team is here around the clock. Send us a message, or reach us directly on the channels below.",
+    "subtitle": "We reply to messages as soon as we can. Send us a message, or reach us directly on the channels below.",
     "defaultHours": "Usually within one business day",
     "email": "Email",
     "phone": "Phone",
@@ -684,6 +684,7 @@
   "Consent": {
     "title": "Your privacy",
     "body": "We use a few files that are needed to run the site. Only with your permission do we also use performance measurement, referral attribution for agents, and external content (such as TradingView charts and Binance prices) that receives your IP address when it loads.",
+    "bodyShort": "We use essential cookies only; with your consent we add analytics, referral attribution and external content.",
     "acceptAll": "Accept all",
     "rejectAll": "Reject all",
     "manage": "Customise",
@@ -778,14 +779,19 @@
     "colReviews": "Reviews",
     "unrated": "Not yet rated",
     "compareAll": "Compare every broker",
-    "starsLabel": "{value} out of 5"
+    "starsLabel": "{value} out of 5",
+    "colLicences": "Licences"
   },
   "Ticker": {
     "eurusd": "EUR / USD",
     "xauusd": "Gold / USD",
     "wti": "WTI crude oil",
     "btcusd": "Bitcoin / USD",
-    "tradedVia": "Available through network brokers"
+    "tradedVia": "Available through network brokers",
+    "kindForex": "Forex",
+    "kindMetals": "Metals",
+    "kindEnergy": "Energy",
+    "kindCrypto": "Crypto"
   },
   "Spreads": {
     "catMetals": "Metals",
@@ -846,7 +852,10 @@
     "regulatedTitle": "The most regulated brokers",
     "regulatedDescription": "Brokers ordered by the number of regulators we have verified.",
     "regulatedRule": "most verified regulators first",
-    "regulatedIntro": "Holding several licences does not mean the strongest one protects you. What protects you is the licence held by the specific entity your account is opened with — check the entity named in your account agreement, not the row of logos."
+    "regulatedIntro": "Holding several licences does not mean the strongest one protects you. What protects you is the licence held by the specific entity your account is opened with — check the entity named in your account agreement, not the row of logos.",
+    "upcoming": "Coming soon",
+    "upcomingNote": "This list appears once enough verified data exists to build it — we do not fill it with guesses.",
+    "upcomingHeading": "Lists in preparation"
   },
   "Methodology": {
     "metaTitle": "Rating and ranking methodology",

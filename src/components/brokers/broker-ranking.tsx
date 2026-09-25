@@ -7,11 +7,16 @@ import { Building2, Trophy, BadgeCheck, ExternalLink, ArrowLeft, ChevronDown } f
 /** How many brokers the sidebar shows: the featured one plus six rows. */
 const SHOWN = 7;
 
-/** Below this the sidebar adds nothing next to the directory, so it is hidden. */
+/**
+ * Below this many *rated* brokers the sidebar is hidden. It is headed "ranked
+ * by trader ratings", so counting all brokers let it render a podium of
+ * unrated ones — every row "not rated yet" — while squeezing the directory
+ * beside it into a narrow column on desktop.
+ */
 const MIN_TO_SHOW = 3;
 
 export function shouldShowRanking(brokers: Broker[]): boolean {
-  return brokers.length >= MIN_TO_SHOW;
+  return brokers.filter(isRated).length >= MIN_TO_SHOW;
 }
 
 /**

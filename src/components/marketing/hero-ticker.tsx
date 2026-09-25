@@ -10,7 +10,8 @@ type Market = {
   /** Tailwind classes for the instrument medallion. */
   tone: string;
   glyph: string;
-  spark: number[];
+  /** Key in the `Ticker` namespace for the asset class. */
+  kind: string;
 };
 
 /**
@@ -25,8 +26,11 @@ type Market = {
  * Wiring the strip to real prices would mean a third-party call on the
  * highest-traffic page, behind an API key, for decoration. So the numbers are
  * gone instead and what remains is what is true: these are the instruments you
- * can trade through the network. The sparkline stays as ornament — it carries
- * no axis, no scale and no claim.
+ * can trade through the network.
+ *
+ * The sparklines went the same way. Four green, rising lines beside four
+ * instrument names read as a chart of recent prices whatever a comment says,
+ * so each card now carries its asset class instead.
  */
 const MARKETS: Market[] = [
   {
@@ -34,70 +38,33 @@ const MARKETS: Market[] = [
     name: "eurusd",
     tone: "bg-blue-500/15 text-blue-300 ring-blue-400/25",
     glyph: "€",
-    spark: [6, 5, 6, 7, 6, 8, 7, 9, 8, 10],
+    kind: "kindForex",
   },
   {
     symbol: "XAUUSD",
     name: "xauusd",
     tone: "bg-amber-500/15 text-amber-300 ring-amber-400/25",
     glyph: "Au",
-    spark: [4, 6, 5, 7, 8, 7, 9, 10, 9, 12],
+    kind: "kindMetals",
   },
   {
     symbol: "USOIL",
     name: "wti",
     tone: "bg-slate-400/15 text-slate-200 ring-slate-300/25",
     glyph: "◍",
-    spark: [7, 6, 7, 6, 8, 7, 8, 7, 9, 9],
+    kind: "kindEnergy",
   },
   {
     symbol: "BTCUSD",
     name: "btcusd",
     tone: "bg-orange-500/15 text-orange-300 ring-orange-400/25",
     glyph: "₿",
-    spark: [5, 7, 6, 8, 7, 9, 8, 10, 11, 13],
+    kind: "kindCrypto",
   },
 ];
 
-/** Rising mini chart with a soft gradient fill under the line. */
-function Spark({ values, id }: { values: number[]; id: string }) {
-  const w = 56;
-  const h = 32;
-  const max = Math.max(...values);
-  const min = Math.min(...values);
-  const span = max - min || 1;
-  const pt = (v: number, i: number) => {
-    const x = (i / (values.length - 1)) * w;
-    const y = h - ((v - min) / span) * (h - 6) - 3;
-    return [x, y] as const;
-  };
-  const line = values.map((v, i) => pt(v, i).map((n) => n.toFixed(1)).join(",")).join(" ");
-  const area = `0,${h} ${line} ${w},${h}`;
-
-  return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="h-7 w-14 shrink-0" preserveAspectRatio="none" aria-hidden>
-      <defs>
-        <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#34d399" stopOpacity="0.35" />
-          <stop offset="100%" stopColor="#34d399" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <polygon points={area} fill={`url(#${id})`} />
-      <polyline
-        points={line}
-        fill="none"
-        stroke="#34d399"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
-      />
-    </svg>
-  );
-}
-
 /**
- * Live-price bar pinned under the hero: four glassmorphism instrument cards
+ * Instrument bar pinned under the hero: four glassmorphism instrument cards
  * plus a "view all markets" action.
  */
 export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
@@ -131,7 +98,9 @@ export function HeroTicker({ viewAllLabel }: { viewAllLabel: string }) {
                   </div>
                 </div>
 
-                <Spark values={m.spark} id={`spark-${m.symbol}`} />
+                <span className="shrink-0 rounded-full bg-fg/[0.06] px-2.5 py-1 text-xs sm:text-[11px] font-medium text-slate-300 ring-1 ring-fg/10">
+                  {t(m.kind)}
+                </span>
               </li>
             ))}
           </ul>

@@ -7,7 +7,8 @@ import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import { getPublishedBrokers } from "@/lib/published-brokers";
-import { populatedCategories } from "@/lib/best-for";
+import { CATEGORIES, populatedCategories } from "@/lib/best-for";
+import { UpcomingListCard } from "@/components/brokers/upcoming-list-card";
 import { Trophy, ArrowLeft } from "lucide-react";
 
 export const revalidate = 600;
@@ -34,6 +35,8 @@ export default async function BestIndexPage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "BestFor" });
   const lists = populatedCategories(await getPublishedBrokers());
+  const live = new Set(lists.map((l) => l.category.slug));
+  const upcoming = CATEGORIES.filter((c) => !live.has(c.slug));
 
   return (
     <>
@@ -80,6 +83,22 @@ export default async function BestIndexPage({
                   </span>
                 </Link>
               ))}
+            </div>
+          )}
+
+          {lists.length > 0 && upcoming.length > 0 && (
+            <div className="mt-10">
+              <h2 className="text-sm font-semibold text-slate-400">{t("upcomingHeading")}</h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                {upcoming.map((c) => (
+                  <UpcomingListCard
+                    key={c.slug}
+                    title={t(`${c.slug}Title`)}
+                    label={t("upcoming")}
+                    note={t("upcomingNote")}
+                  />
+                ))}
+              </div>
             </div>
           )}
 

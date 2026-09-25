@@ -3,7 +3,8 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getPublishedBrokers } from "@/lib/published-brokers";
-import { populatedCategories } from "@/lib/best-for";
+import { CATEGORIES, populatedCategories } from "@/lib/best-for";
+import { UpcomingListCard } from "@/components/brokers/upcoming-list-card";
 import { Trophy, ArrowLeft } from "lucide-react";
 
 /**
@@ -22,6 +23,10 @@ export async function BestForStrip({ locale, limit = 4 }: { locale: string; limi
   const t = await getTranslations({ locale, namespace: "BestFor" });
   const lists = populatedCategories(await getPublishedBrokers()).slice(0, limit);
   if (lists.length === 0) return null;
+  // Fill the row with the lists still waiting for data, so one live list does
+  // not sit alone at the edge of a four-column grid.
+  const live = new Set(lists.map((l) => l.category.slug));
+  const upcoming = CATEGORIES.filter((c) => !live.has(c.slug)).slice(0, Math.max(0, limit - lists.length));
 
   return (
     <section className="py-14 sm:py-16">
@@ -53,6 +58,17 @@ export async function BestForStrip({ locale, limit = 4 }: { locale: string; limi
                 <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />
               </span>
             </Link>
+          ))}
+          {upcoming.map((c) => (
+            <UpcomingListCard
+              key={c.slug}
+              title={t(`${c.slug}Title`)}
+              label={t("upcoming")}
+              note={t("upcomingNote")}
+              // On a phone the grid is one column, so filler cards would only
+              // lengthen an already long page.
+              className="hidden sm:flex"
+            />
           ))}
         </div>
 

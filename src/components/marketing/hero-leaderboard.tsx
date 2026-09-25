@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { isRated } from "@/lib/brokers";
+import { isRated, regulatorMeta } from "@/lib/brokers";
 import { ArrowLeft, BadgeCheck, Building2, Star } from "lucide-react";
 
 export type LeaderRow = {
@@ -11,7 +11,25 @@ export type LeaderRow = {
   rating: number;
   reviews_count: number;
   status?: string | null;
+  licenses?: string[] | null;
 };
+
+const licenceCount = (b: LeaderRow) => (b.licenses ?? []).filter((k) => regulatorMeta(k)).length;
+
+/**
+ * The four rows the hero shows. Rated brokers lead, by rating. Until reviews
+ * exist, the table ranks by verified regulators instead — the one fact we hold
+ * for every documented broker — rather than printing four rows of "not rated
+ * yet" and a dash, which made the first thing on the site look empty.
+ */
+export function pickLeaders(all: LeaderRow[]): LeaderRow[] {
+  const rated = all.filter(isRated).sort((a, b) => b.rating - a.rating);
+  if (rated.length > 0) return rated.slice(0, 4);
+  return all
+    .filter((b) => licenceCount(b) > 0)
+    .sort((a, b) => licenceCount(b) - licenceCount(a))
+    .slice(0, 4);
+}
 
 /** Compact star strip sized for the dense hero table. */
 function MiniStars({ value }: { value: number }) {
@@ -43,6 +61,9 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
   const t = useTranslations("HeroBoard");
   const rows = brokers.slice(0, 4);
   const isEmpty = rows.length === 0;
+  // "licences" mode when nobody is rated yet: the right-hand column becomes
+  // the regulator count and each row lists its regulators.
+  const byLicences = !isEmpty && !rows.some(isRated);
 
   return (
     <div
@@ -71,8 +92,8 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
       <div className="grid grid-cols-[22px_1fr_52px] gap-2 border-b border-fg/[0.05] px-4 py-2.5 text-xs sm:text-[11px] text-slate-500 sm:grid-cols-[22px_1fr_52px_54px]">
         <span>#</span>
         <span>{t("colBroker")}</span>
-        <span className="text-end">{t("colRating")}</span>
-        <span className="hidden text-end sm:block">{t("colReviews")}</span>
+        <span className="text-end">{byLicences ? t("colLicences") : t("colRating")}</span>
+        <span className="hidden text-end sm:block">{byLicences ? "" : t("colReviews")}</span>
       </div>
 
       {/* Rows — real brokers, or honest placeholders so the composition holds */}
@@ -140,6 +161,13 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
                 </div>
                 {isRated(b) ? (
                   <MiniStars value={b.rating} />
+                ) : byLicences ? (
+                  <span className="mt-0.5 block truncate text-xs sm:text-[10px] text-emerald-300/90" dir="ltr">
+                    {(b.licenses ?? [])
+                      .map((k) => regulatorMeta(k)?.label)
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
                 ) : (
                   <span className="mt-0.5 block text-xs sm:text-[10px] text-slate-500">
                     {t("unrated")}
@@ -149,10 +177,10 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
             </div>
 
             <div className="text-end text-base font-extrabold text-brand-300" dir="ltr">
-              {isRated(b) ? b.rating.toFixed(1) : "—"}
+              {isRated(b) ? b.rating.toFixed(1) : byLicences ? licenceCount(b) : "—"}
             </div>
-            <div className="hidden text-end text-xs sm:text-[10px] text-slate-500 sm:block" dir="ltr">
-              {isRated(b) ? `${b.reviews_count}+` : "—"}
+            <div className="hidden text-end text-xs sm:text-[10px] text-slate-500 sm:block">
+              {isRated(b) ? <span dir="ltr">{b.reviews_count}+</span> : byLicences ? null : "—"}
             </div>
           </li>
         ))}

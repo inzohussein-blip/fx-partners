@@ -1,106 +1,64 @@
-import { ShieldCheck, TrendingUp, Gift, Users } from "lucide-react";
-import type { Broker } from "@/lib/brokers";
-
-type Dimension = { icon: typeof ShieldCheck; label: string; score: number };
-
-/** Parse the leading number out of a spread like "0.2" or "من 0.0". */
-function spreadScore(spread?: number | null): number | null {
-  if (spread == null || Number.isNaN(spread)) return null;
-  if (spread <= 0.1) return 4.9;
-  if (spread <= 0.3) return 4.6;
-  if (spread <= 0.7) return 4.2;
-  if (spread <= 1.2) return 3.8;
-  return 3.3;
-}
-
-function regulationScore(licenses?: string[]): number | null {
-  const n = licenses?.filter(Boolean).length ?? 0;
-  if (n === 0) return null; // don't fabricate — omit when unknown
-  if (n >= 3) return 4.9;
-  if (n === 2) return 4.4;
-  return 3.8;
-}
-
-function bonusScore(b: Broker): number | null {
-  let s = 0;
-  if (b.deposit_bonus) s += 1.5;
-  if (b.welcome_bonus) s += 1.5;
-  if (b.bonus_no_deposit) s += 1;
-  if (b.bonus_withdrawable) s += 1;
-  if (s === 0) return null;
-  return Math.min(5, 3 + s);
-}
+import { Link } from "@/i18n/navigation";
+import { MessageSquarePlus, Users } from "lucide-react";
+import { Stars } from "@/components/brokers/stars";
+import { isRated, type Broker } from "@/lib/brokers";
 
 /**
- * Rating breakdown derived ONLY from real broker attributes — community rating
- * from actual reviews, regulation from the number of licenses, trading
- * conditions from the spread, bonuses from the bonus flags. Dimensions with no
- * data are omitted rather than invented.
+ * The broker's rating section — our rating comes from approved reviews and
+ * nothing else (see /methodology, section 2).
+ *
+ * It used to average in scores derived from the licence count, the spread and
+ * the bonus flags whenever there were no reviews, and print the result as a
+ * large "4.9 / 5" under a note saying it was built on real user reviews. With
+ * zero reviews that was a number the site had in effect written by hand — and
+ * it sat directly under the header's external score, so a visitor saw two
+ * different ratings for the same broker. Unrated brokers now say so, and point
+ * at the review form.
  */
 export function RatingBreakdown({ broker }: { broker: Broker }) {
-  const dims: Dimension[] = [];
-  if (broker.reviews_count > 0 && broker.rating > 0) {
-    dims.push({ icon: Users, label: "تقييم المجتمع", score: broker.rating });
+  if (!isRated(broker)) {
+    return (
+      <div className="card-surface flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center sm:p-8">
+        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-400/20">
+          <MessageSquarePlus className="h-6 w-6" />
+        </span>
+        <div className="flex-1">
+          <p className="font-semibold text-fg">لم تُقيَّم بعد</p>
+          <p className="mt-1 text-sm leading-relaxed text-slate-400">
+            تقييمنا يُحسب من مراجعات العملاء المعتمدة فقط، ولا نضع رقماً قبل وصولها.
+            {broker.external_score != null &&
+              " التقييم الظاهر أعلى الصفحة من مصدر خارجي غير موثّق."}
+          </p>
+        </div>
+        <a
+          href="#reviews"
+          className="inline-flex min-h-11 items-center rounded-xl bg-fg/[0.06] px-4 text-sm font-medium text-fg ring-1 ring-fg/10 transition hover:bg-fg/10"
+        >
+          كن أول من يقيّم
+        </a>
+      </div>
+    );
   }
-  const reg = regulationScore(broker.licenses);
-  if (reg != null) dims.push({ icon: ShieldCheck, label: "التنظيم والتراخيص", score: reg });
-  const cond = spreadScore(broker.spread_from);
-  if (cond != null) dims.push({ icon: TrendingUp, label: "ظروف التداول", score: cond });
-  const bonus = bonusScore(broker);
-  if (bonus != null) dims.push({ icon: Gift, label: "المكافآت والعروض", score: bonus });
-
-  if (dims.length === 0) return null;
-
-  const overall =
-    broker.rating > 0
-      ? broker.rating
-      : dims.reduce((s, d) => s + d.score, 0) / dims.length;
 
   return (
     <div className="card-surface p-6 sm:p-8">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-        {/* Overall score dial */}
-        <div className="flex shrink-0 items-center gap-4 sm:flex-col sm:text-center">
-          <div className="text-5xl font-extrabold leading-none text-gradient" dir="ltr">
-            {overall.toFixed(1)}
-          </div>
-          <div>
-            <div className="text-xs text-slate-500">من 5</div>
-            {broker.reviews_count > 0 && (
-              <div className="mt-1 text-xs text-slate-400">
-                {broker.reviews_count.toLocaleString("en-US")} تقييم
-              </div>
-            )}
-          </div>
+      <div className="flex flex-wrap items-center gap-5">
+        <div className="text-5xl font-extrabold leading-none text-gradient" dir="ltr">
+          {broker.rating.toFixed(1)}
         </div>
-
-        <div className="hidden w-px self-stretch bg-fg/10 sm:block" />
-
-        {/* Dimension bars */}
-        <div className="flex-1 space-y-4">
-          {dims.map((d) => (
-            <div key={d.label}>
-              <div className="mb-1.5 flex items-center justify-between text-sm">
-                <span className="inline-flex items-center gap-2 text-slate-300">
-                  <d.icon className="h-4 w-4 text-brand-300" />
-                  {d.label}
-                </span>
-                <span className="font-semibold text-fg" dir="ltr">
-                  {d.score.toFixed(1)}
-                </span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-fg/[0.06]">
-                <div
-                  className="h-full rounded-full bg-brand-gradient"
-                  style={{ width: `${(d.score / 5) * 100}%` }}
-                />
-              </div>
-            </div>
-          ))}
+        <div className="space-y-1.5">
+          <Stars value={broker.rating} size={18} />
+          <div className="inline-flex items-center gap-1.5 text-sm text-slate-400">
+            <Users className="h-4 w-4 text-brand-300" />
+            من 5 · {broker.reviews_count.toLocaleString("en-US")} مراجعة معتمدة
+          </div>
         </div>
       </div>
-      <p className="mt-5 text-xs sm:text-[11px] leading-relaxed text-slate-500">
-        تقييم استرشادي مبنيّ على تقييمات المستخدمين الحقيقية وبيانات الشركة المتاحة (التراخيص، السبريد، العروض).
+      <p className="mt-5 text-xs leading-relaxed text-slate-500">
+        محسوب من مراجعات العملاء المعتمدة فقط.{" "}
+        <Link href="/methodology" className="text-brand-300 underline-offset-4 hover:underline">
+          كيف نقيّم؟
+        </Link>
       </p>
     </div>
   );

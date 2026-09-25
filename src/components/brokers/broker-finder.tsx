@@ -54,12 +54,9 @@ export function BrokerFinder({ brokers }: { brokers: Broker[] }) {
 
   // Nothing to filter, so nothing to show. The compare page below it still
   // renders the directory, so the visitor is not left with an empty screen.
-  if (brokers.length === 0) return null;
-  if (questions.length === 0) {
-    return (
-      <div className="card-surface p-8 text-center text-sm text-slate-400">{t("noData")}</div>
-    );
-  }
+  // No question has data to filter on yet. Say nothing rather than open the
+  // page with a box announcing that the tool does not work.
+  if (brokers.length === 0 || questions.length === 0) return null;
 
   const selectCls =
     "w-full min-h-11 rounded-xl border border-fg/10 bg-ink-900/60 px-4 py-2.5 text-sm text-fg " +

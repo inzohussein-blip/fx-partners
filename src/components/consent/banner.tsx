@@ -76,9 +76,15 @@ export function ConsentBanner() {
   if (!ready) return null;
   if (answered && !chooserOpen) return null;
 
-  const btn =
-    "inline-flex min-h-11 items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition";
-  const primary = `${btn} bg-brand-gradient text-white shadow-glow hover:opacity-90`;
+  const base =
+    "inline-flex min-h-11 items-center justify-center rounded-xl py-2.5 text-sm font-semibold transition";
+  // Padding is chosen per use: the phone banner lays its three answers out in
+  // equal columns and needs the narrower one. (Two px-* classes in one string
+  // do not override each other by order, so the base carries neither.)
+  const shape = (pad: string) => `${base} ${pad}`;
+  const btn = shape("px-5");
+  const primaryLook = "bg-brand-gradient text-white shadow-glow hover:opacity-90";
+  const primary = `${btn} ${primaryLook}`;
   /**
    * Reject is a filled button too, not an outline.
    *
@@ -89,41 +95,56 @@ export function ConsentBanner() {
    * in hue. Only "Customise" — which is not a decision, just a way to make one
    * — is quieter than the two real answers.
    */
-  const reject = `${btn} bg-fg/10 text-fg ring-1 ring-inset ring-fg/15 hover:bg-fg/15`;
-  const tertiary = `${btn} border border-fg/15 text-slate-300 hover:border-brand-400/40 hover:bg-fg/5`;
+  const rejectLook = "bg-fg/10 text-fg ring-1 ring-inset ring-fg/15 hover:bg-fg/15";
+  const reject = `${btn} ${rejectLook}`;
+  const tertiaryLook = "border border-fg/15 text-slate-300 hover:border-brand-400/40 hover:bg-fg/5";
+  const compact = shape("px-2 sm:px-5");
 
   return (
     <>
       {!answered && !chooserOpen && (
         <div
-          className="fixed inset-x-0 bottom-0 z-[95] px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:pb-4"
+          className="fixed inset-x-0 bottom-0 z-[95] px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:px-4 md:pb-4"
           role="region"
           aria-label={t("title")}
         >
-          <div className="mx-auto max-w-3xl rounded-2xl border border-fg/15 bg-ink-800/98 p-5 shadow-2xl backdrop-blur">
+          {/* Compact on phones: the full-width version covered ~40% of the
+              first screen, on top of the hero. The long explanation is one
+              tap away (Customise, or the policy link) and shows in full from
+              sm up; the three answers stay equal in size and weight. */}
+          <div className="mx-auto max-w-3xl rounded-2xl border border-fg/15 bg-ink-800/98 p-4 shadow-2xl backdrop-blur sm:p-5">
             <div className="flex items-start gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-500/15 text-brand-300">
+              <span className="hidden h-10 w-10 shrink-0 place-items-center rounded-full bg-brand-500/15 text-brand-300 sm:grid">
                 <Cookie className="h-5 w-5" aria-hidden />
               </span>
               <div className="min-w-0">
-                <h2 className="font-bold text-fg">{t("title")}</h2>
-                <p className="mt-1.5 text-sm leading-relaxed text-slate-300">{t("body")}</p>
+                <h2 className="text-sm font-bold text-fg sm:text-base">{t("title")}</h2>
+                <p className="mt-1 text-[13px] leading-relaxed text-slate-300 sm:hidden">
+                  {t("bodyShort")}{" "}
+                  <Link
+                    href="/cookies"
+                    className="text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                  >
+                    {t("policyLink")}
+                  </Link>
+                </p>
+                <p className="mt-1.5 hidden text-sm leading-relaxed text-slate-300 sm:block">{t("body")}</p>
                 <Link
                   href="/cookies"
-                  className="mt-1.5 inline-flex min-h-6 items-center text-sm text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                  className="mt-1.5 hidden min-h-6 items-center text-sm text-brand-300 underline underline-offset-2 hover:text-brand-200 sm:inline-flex"
                 >
                   {t("policyLink")}
                 </Link>
               </div>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2.5">
-              <button className={primary} onClick={() => save(ALLOW_ALL)}>
+            <div className="mt-3 grid grid-cols-3 gap-2 sm:mt-4 sm:flex sm:flex-wrap sm:gap-2.5">
+              <button className={`${compact} ${primaryLook}`} onClick={() => save(ALLOW_ALL)}>
                 {t("acceptAll")}
               </button>
-              <button className={reject} onClick={() => save(DENY_ALL)}>
+              <button className={`${compact} ${rejectLook}`} onClick={() => save(DENY_ALL)}>
                 {t("rejectAll")}
               </button>
-              <button className={tertiary} onClick={reopen}>
+              <button className={`${compact} ${tertiaryLook}`} onClick={reopen}>
                 {t("manage")}
               </button>
             </div>

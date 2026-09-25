@@ -7,7 +7,7 @@ import { getSiteStats, worthShowing } from "@/lib/site-stats";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { HeroTicker } from "@/components/marketing/hero-ticker";
 import { HeroGlobe } from "@/components/marketing/hero-globe";
-import { HeroLeaderboard, type LeaderRow } from "@/components/marketing/hero-leaderboard";
+import { HeroLeaderboard, pickLeaders, type LeaderRow } from "@/components/marketing/hero-leaderboard";
 import {
   MessagesSquare,
   Users,
@@ -34,11 +34,12 @@ async function getPartnerBrokers(): Promise<LeaderRow[]> {
     const supabase = createClient();
     const { data } = await supabase
       .from("brokers")
-      .select("name,slug,logo_url,rating,reviews_count,status")
+      .select("name,slug,logo_url,rating,reviews_count,status,licenses")
       .eq("is_published", true)
       .order("rating", { ascending: false })
-      .limit(5);
-    return (data as LeaderRow[] | null) ?? [];
+      .order("sort_order")
+      .limit(12);
+    return pickLeaders((data as LeaderRow[] | null) ?? []);
   } catch {
     return [];
   }
