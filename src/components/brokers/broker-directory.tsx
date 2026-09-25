@@ -6,12 +6,12 @@ import { useQueryState } from "nuqs";
 import { Link } from "@/i18n/navigation";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { BrokerRating } from "@/components/brokers/broker-rating";
-import { statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
+import { isRated, statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Gift, Search, ArrowLeft, Building2, SlidersHorizontal, X } from "lucide-react";
 
 type Filter = "all" | "partnered" | "not_partnered" | "bonus";
-type Sort = "rating" | "reviews" | "name" | "spread";
+type Sort = "recommended" | "rating" | "reviews" | "name" | "spread";
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: "all", label: "الكل" },
@@ -21,6 +21,7 @@ const FILTERS: { key: Filter; label: string }[] = [
 ];
 
 const SORTS: { key: Sort; label: string }[] = [
+  { key: "recommended", label: "المقترح" },
   { key: "rating", label: "الأعلى تقييماً" },
   { key: "spread", label: "أقل سبريد" },
   { key: "reviews", label: "الأكثر مراجعات" },
@@ -33,6 +34,26 @@ const TOGGLES: { key: "bonus_no_deposit" | "bonus_withdrawable" | "supports_gold
   { key: "bonus_withdrawable", label: "بونص قابل للسحب" },
   { key: "supports_gold", label: "يدعم تداول الذهب" },
 ];
+
+/** Rows shown before "show more", and how many each press adds. */
+const PAGE = 20;
+
+const licenceCount = (b: Broker) => (b.licenses ?? []).filter((k) => regulatorMeta(k)).length;
+
+/**
+ * The default order. Sorting by our rating alone was a no-op while no broker
+ * has reviews, so the list fell back to import order. This puts what we know
+ * first: brokers with real reviews, then verified regulators, then the
+ * external score (shown as unverified) — and import order only as a tiebreak.
+ */
+function recommendedOrder(a: Broker, b: Broker): number {
+  const ar = isRated(a), br = isRated(b);
+  if (ar !== br) return ar ? -1 : 1;
+  if (ar && b.rating !== a.rating) return b.rating - a.rating;
+  const lc = licenceCount(b) - licenceCount(a);
+  if (lc !== 0) return lc;
+  return (b.external_score ?? -1) - (a.external_score ?? -1);
+}
 
 function bestCommission(b: Broker): string | null {
   const links = b.broker_links ?? [];
@@ -59,7 +80,8 @@ function LicenseBadges({ licenses }: { licenses?: string[] }) {
 
 export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
   const [filter, setFilter] = useState<Filter>("all");
-  const [sort, setSort] = useState<Sort>("rating");
+  const [sort, setSort] = useState<Sort>("recommended");
+  const [shown, setShown] = useState(PAGE);
   // The search term lives in the URL, not component state: it makes a filtered
   // view shareable, lets the site declare a real SearchAction to Google, and
   // gives an assistant a URL it can hand a user ("/compare?q=xm").
@@ -90,8 +112,10 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     const query = q.trim().toLowerCase();
     if (query) list = list.filter((b) => b.name.toLowerCase().includes(query));
 
+    // Array.prototype.sort is stable, so equal keys keep the import order.
     list.sort((a, b) => {
-      if (sort === "rating") return b.rating - a.rating;
+      if (sort === "recommended") return recommendedOrder(a, b);
+      if (sort === "rating") return b.rating - a.rating || (b.external_score ?? -1) - (a.external_score ?? -1);
       if (sort === "reviews") return b.reviews_count - a.reviews_count;
       if (sort === "spread") {
         const sa = a.spread_from ?? Infinity;
@@ -103,22 +127,46 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     return list;
   }, [brokers, filter, sort, q, toggles]);
 
+  // A new filter, search or sort starts again from the first page.
+  useEffect(() => setShown(PAGE), [filter, sort, q, toggles]);
+  const visible = rows.slice(0, shown);
+  const remaining = rows.length - visible.length;
+
+  // Desktop columns are shown only when at least one broker has the value.
+  // Every broker had "—" in spread, both bonuses and agent commission, so the
+  // table was four columns of dashes squeezing the names onto two lines.
+  const cols = useMemo(
+    () => ({
+      status: brokers.some((b) => b.status === "partnered"),
+      spread: brokers.some((b) => b.spread_from != null),
+      depositBonus: brokers.some((b) => b.deposit_bonus),
+      welcomeBonus: brokers.some((b) => b.welcome_bonus),
+      commission: brokers.some((b) => bestCommission(b)),
+    }),
+    [brokers]
+  );
+
   const activeCount =
     (filter !== "all" ? 1 : 0) +
     Object.values(toggles).filter(Boolean).length +
     (q.trim() ? 1 : 0);
 
-  const renderFilters = () => (
-    <>
+  const searchBox = (
         <div className="relative">
           <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="ابحث عن شركة…"
-            className="w-full rounded-xl border border-fg/10 bg-ink-900/60 py-2.5 pe-4 ps-9 text-sm text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
+            aria-label="ابحث عن شركة"
+            className="min-h-11 w-full rounded-xl border border-fg/10 bg-ink-900/60 py-2.5 pe-4 ps-9 text-sm text-fg placeholder:text-slate-600 focus:border-brand-500/50 focus:outline-none"
           />
         </div>
+  );
+
+  const renderFilters = (withSearch: boolean) => (
+    <>
+        {withSearch && searchBox}
 
         <div className="card-surface p-4">
           <div className="flex items-center justify-between">
@@ -201,8 +249,11 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
       {/* Filters — sidebar on desktop, bottom-sheet on mobile */}
       <aside className="hidden lg:block lg:sticky lg:top-20 lg:self-start">
-        <div className="space-y-5">{renderFilters()}</div>
+        <div className="space-y-5">{renderFilters(true)}</div>
       </aside>
+
+      {/* Mobile: search stays on the page — hidden in the sheet, nobody found it */}
+      <div className="lg:hidden">{searchBox}</div>
 
       {/* Mobile: filter trigger */}
       <button
@@ -250,7 +301,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              <div className="space-y-5">{renderFilters()}</div>
+              <div className="space-y-5">{renderFilters(false)}</div>
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
@@ -276,61 +327,72 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
             <thead>
               <tr className="border-b border-fg/5 text-xs text-slate-500">
                 <th className="px-5 py-3 font-medium">الشركة</th>
-                <th className="px-5 py-3 font-medium">الحالة</th>
+                <th className="px-5 py-3 font-medium">التراخيص الموثّقة</th>
                 <th className="px-5 py-3 font-medium">التقييم</th>
-                <th className="px-5 py-3 font-medium">السبريد من</th>
-                <th className="px-5 py-3 font-medium">بونص الإيداع</th>
-                <th className="px-5 py-3 font-medium">بونص ترحيبي</th>
-                <th className="px-5 py-3 font-medium">عمولة الوكيل</th>
-                <th className="px-5 py-3 font-medium" />
+                {cols.status && <th className="px-5 py-3 font-medium">الحالة</th>}
+                {cols.spread && <th className="px-5 py-3 font-medium">السبريد من</th>}
+                {cols.depositBonus && <th className="px-5 py-3 font-medium">بونص الإيداع</th>}
+                {cols.welcomeBonus && <th className="px-5 py-3 font-medium">بونص ترحيبي</th>}
+                {cols.commission && <th className="px-5 py-3 font-medium">عمولة الوكيل</th>}
+                <th className="px-5 py-3 font-medium">
+                  <span className="sr-only">التفاصيل</span>
+                </th>
               </tr>
             </thead>
             <tbody>
-              {rows.map((b) => (
+              {visible.map((b) => (
                 <tr
                   key={b.id}
                   className="border-b border-fg/5 transition last:border-0 hover:bg-fg/[0.03]"
                 >
-                  <td className="px-5 py-4">
+                  <td className="px-5 py-3.5">
                     <div className="flex items-center gap-3">
                       <BrokerLogo broker={b} />
-                      <div>
-                        <span className="font-semibold text-fg">{b.name}</span>
+                      <div className="min-w-0">
+                        <span className="whitespace-nowrap font-semibold text-fg">{b.name}</span>
                         {b.badges && b.badges.length > 0 && (
                           <div className="mt-1">
                             <BrokerBadges badges={b.badges} />
                           </div>
                         )}
-                        {b.licenses && b.licenses.length > 0 && (
-                          <div className="mt-1">
-                            <LicenseBadges licenses={b.licenses} />
-                          </div>
-                        )}
                       </div>
                     </div>
                   </td>
-                  <td className="px-5 py-4">
-                    <StatusBadge status={b.status} />
+                  <td className="px-5 py-3.5">
+                    {licenceCount(b) > 0 ? (
+                      <LicenseBadges licenses={b.licenses} />
+                    ) : (
+                      <span className="text-xs text-slate-600">لم يُتحقَّق بعد</span>
+                    )}
                   </td>
-                  <td className="px-5 py-4">
+                  <td className="px-5 py-3.5">
                     <BrokerRating broker={b} />
                   </td>
-                  <td className="px-5 py-4 text-slate-300" dir="ltr">
-                    {b.spread_from != null ? `${b.spread_from} نقطة` : "—"}
-                  </td>
-                  <td className="px-5 py-4 text-slate-300">
-                    {b.deposit_bonus || "—"}
-                  </td>
-                  <td className="px-5 py-4 text-slate-300">
-                    {b.welcome_bonus || "—"}
-                  </td>
-                  <td className="px-5 py-4 font-semibold text-brand-300">
-                    {bestCommission(b) || "—"}
-                  </td>
-                  <td className="px-5 py-4">
+                  {cols.status && (
+                    <td className="px-5 py-3.5">
+                      <StatusBadge status={b.status} />
+                    </td>
+                  )}
+                  {cols.spread && (
+                    <td className="px-5 py-3.5 text-slate-300" dir="ltr">
+                      {b.spread_from != null ? `${b.spread_from} نقطة` : "—"}
+                    </td>
+                  )}
+                  {cols.depositBonus && (
+                    <td className="px-5 py-3.5 text-slate-300">{b.deposit_bonus || "—"}</td>
+                  )}
+                  {cols.welcomeBonus && (
+                    <td className="px-5 py-3.5 text-slate-300">{b.welcome_bonus || "—"}</td>
+                  )}
+                  {cols.commission && (
+                    <td className="px-5 py-3.5 font-semibold text-brand-300">
+                      {bestCommission(b) || "—"}
+                    </td>
+                  )}
+                  <td className="px-5 py-3.5 text-left">
                     <Link
                       href={`/brokers/${b.slug}`}
-                      className="inline-flex items-center gap-1 rounded-lg bg-brand-500/15 px-3 py-1.5 text-xs font-semibold text-brand-200 transition hover:bg-brand-500/25"
+                      className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg bg-brand-500/15 px-3 py-1.5 text-xs font-semibold text-brand-200 transition hover:bg-brand-500/25"
                     >
                       التفاصيل
                       <ArrowLeft className="h-3 w-3" />
@@ -343,55 +405,62 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
         </div>
       </div>
 
-      {/* Cards (mobile) */}
-      <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-4 lg:hidden">
-        {rows.map((b) => (
-          <Link
-            key={b.id}
-            href={`/brokers/${b.slug}`}
-            className="card-surface block p-4 transition hover:ring-1 hover:ring-brand-500/30 sm:p-5"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+      {/* Compact rows (phone / tablet). One card holding a divided list: the
+          separate card per broker ran to ~130px each, so 217 of them made a
+          page 35 screens long. */}
+      {visible.length > 0 && (
+        <ul className="card-surface divide-y divide-fg/[0.06] overflow-hidden lg:hidden">
+          {visible.map((b) => (
+            <li key={b.id}>
+              <Link
+                href={`/brokers/${b.slug}`}
+                className="flex min-h-[64px] items-center gap-3 px-4 py-3 transition hover:bg-fg/[0.03]"
+              >
                 <BrokerLogo broker={b} />
-                <span className="truncate font-semibold text-fg">{b.name}</span>
-              </div>
-              <StatusBadge status={b.status} />
-            </div>
-            {b.badges && b.badges.length > 0 && (
-              <div className="mt-2.5">
-                <BrokerBadges badges={b.badges} />
-              </div>
-            )}
-            {/* Rating and the headline numbers share one line. As separate
-                rows each card ran past 300px on a phone and only two fit on a
-                screen — in a list whose whole job is scanning several. */}
-            <div className="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
-              <BrokerRating broker={b} />
-              {b.spread_from != null && (
-                <span className="rounded-full bg-fg/5 px-2 py-1 text-slate-300" dir="ltr">
-                  سبريد {b.spread_from}
-                </span>
-              )}
-              {b.deposit_bonus && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-1 text-amber-300">
-                  <Gift className="h-3 w-3" /> إيداع {b.deposit_bonus}
-                </span>
-              )}
-              {bestCommission(b) && (
-                <span className="rounded-full bg-brand-500/10 px-2 py-1 text-brand-200">
-                  وكيل: {bestCommission(b)}
-                </span>
-              )}
-            </div>
-            {b.licenses && b.licenses.length > 0 && (
-              <div className="mt-2">
-                <LicenseBadges licenses={b.licenses} />
-              </div>
-            )}
-          </Link>
-        ))}
-      </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="truncate font-semibold text-fg">{b.name}</span>
+                    {b.status === "partnered" && (
+                      <BadgeCheck className="h-4 w-4 shrink-0 text-emerald-300" aria-label={statusLabel(b.status)} />
+                    )}
+                  </div>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                    <BrokerRating broker={b} size={13} />
+                    {licenceCount(b) > 0 && <LicenseBadges licenses={b.licenses} />}
+                    {b.spread_from != null && (
+                      <span className="rounded-full bg-fg/5 px-2 py-0.5 text-slate-300" dir="ltr">
+                        سبريد {b.spread_from}
+                      </span>
+                    )}
+                    {b.deposit_bonus && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-amber-300">
+                        <Gift className="h-3 w-3" /> إيداع {b.deposit_bonus}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <ArrowLeft className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {remaining > 0 && (
+        <div className="flex flex-col items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShown((n) => n + PAGE)}
+            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-fg/15 bg-fg/[0.04] px-6 text-sm font-semibold text-fg transition hover:border-brand-400/40 hover:bg-fg/[0.08]"
+          >
+            عرض المزيد
+            <span className="text-slate-400">({remaining} متبقية)</span>
+          </button>
+          <span className="text-xs text-slate-500">
+            تعرض {visible.length} من {rows.length}
+          </span>
+        </div>
+      )}
 
       {rows.length === 0 && (
         <div className="card-surface p-10 text-center text-sm text-slate-500">

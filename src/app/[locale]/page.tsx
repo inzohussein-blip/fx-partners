@@ -7,7 +7,6 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { getContent } from "@/lib/content";
 import { Reveal } from "@/components/reveal";
-import { SectionHeading } from "@/components/ui/section-heading";
 import { Hero } from "@/components/marketing/hero";
 import { BrokerNetwork } from "@/components/marketing/broker-network";
 import { TopRatedBrokers } from "@/components/marketing/top-rated-brokers";
@@ -19,16 +18,7 @@ import { BestForStrip } from "@/components/marketing/best-for-strip";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
 import { EditableText } from "@/components/admin-edit/editable-text";
-import {
-  ArrowLeft,
-  ShieldCheck,
-  TrendingUp,
-  Wallet,
-  Link2,
-  Users,
-  BarChart3,
-  Trophy,
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 /**
  * Homepage — one deliberate narrative, not a pile of sections:
@@ -78,24 +68,6 @@ export default async function HomePage({
   const cta =
     locale === "ar" ? await getContent("home.cta", ctaFallback) : ctaFallback;
 
-  const featuresFallback = {
-    title: t("Features.heading"),
-    subtitle: t("Features.subheading"),
-  };
-  const featuresCopy =
-    locale === "ar"
-      ? await getContent("home.features", featuresFallback)
-      : featuresFallback;
-
-  const features = [
-    { icon: TrendingUp, key: "revenueShare" },
-    { icon: Link2, key: "links" },
-    { icon: BarChart3, key: "dashboard" },
-    { icon: Wallet, key: "withdrawals" },
-    { icon: ShieldCheck, key: "security" },
-    { icon: Users, key: "multiTier" },
-  ] as const;
-
   return (
     <>
       <SiteHeader />
@@ -128,46 +100,9 @@ export default async function HomePage({
         <HowItWorks />
       </Reveal>
 
-      {/* 7 — Why choose us */}
-      <Reveal>
-        <section className="ambient-section py-16 sm:py-24">
-          <span
-            className="ambient -start-24 top-1/4 h-80 w-80"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(0,144,252,0.22) 0%, transparent 70%)",
-            }}
-            aria-hidden
-          />
-          <Container>
-            <SectionHeading
-              eyebrow={t("Features.badge")}
-              icon={Trophy}
-              title={featuresCopy.title}
-              subtitle={featuresCopy.subtitle}
-            />
-
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((f) => (
-                <div
-                  key={f.key}
-                  className="card-surface group p-6 transition hover:-translate-y-0.5 hover:ring-1 hover:ring-brand-500/30"
-                >
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20">
-                    <f.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold text-fg">
-                    {t(`Features.${f.key}.title`)}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                    {t(`Features.${f.key}.desc`)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Container>
-        </section>
-      </Reveal>
+      {/* The six agent-programme features that stood here now live only on
+          /affiliates: the homepage speaks to the trader first, and the
+          how-it-works section above already carries the one agent card. */}
 
       {/* 8 — Interactive tools */}
       <ToolsTabs />
@@ -179,7 +114,7 @@ export default async function HomePage({
 
       {/* 10 — Objection handling */}
       <Reveal>
-        <Faq />
+        <Faq namespace="FaqHome" />
       </Reveal>
 
       {/* 11 — Act */}
@@ -223,10 +158,13 @@ export default async function HomePage({
                   {cta.subheading}
                 </EditableText>
               </p>
-              <div className="mt-8 flex justify-center">
-                <Button href="/login" className="text-base">
-                  {cta.button}
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <Button href="/compare" className="text-base">
+                  {t("Cta.buttonTrader")}
                   <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />
+                </Button>
+                <Button href="/affiliates" variant="secondary" className="text-base">
+                  {cta.button}
                 </Button>
               </div>
             </div>

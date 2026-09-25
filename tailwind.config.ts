@@ -106,8 +106,10 @@ const config: Config = {
           300: "rgb(var(--c-blue-300) / <alpha-value>)",
         },
         // Premium metallic typography / logo
+        // Theme-aware: the dark theme's #C0CACC on the light theme's
+        // near-white page left "PARTNERS" in the logo barely legible.
         silver: {
-          DEFAULT: "#C0CACC",
+          DEFAULT: "rgb(var(--c-silver) / <alpha-value>)",
           light: "#F5F7FA",
         },
         gold: {

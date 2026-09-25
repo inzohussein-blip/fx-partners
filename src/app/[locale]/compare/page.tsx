@@ -11,7 +11,7 @@ import { BrokerFinder } from "@/components/brokers/broker-finder";
 import { BrokerRanking, shouldShowRanking } from "@/components/brokers/broker-ranking";
 import { BrokerDirectory } from "@/components/brokers/broker-directory";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
-import { SpecsGrid } from "@/components/brokers/specs-grid";
+import { SpecsGrid, anySpecs } from "@/components/brokers/specs-grid";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Scale, ListChecks } from "lucide-react";
 import { isRated } from "@/lib/brokers";
@@ -167,8 +167,9 @@ export default async function ComparePage({
 
       <BestForStrip locale={locale} />
 
-      {/* Quick operational-specs comparison grid */}
-      {brokers.length > 0 && (
+      {/* Quick operational-specs comparison grid — only once some broker has
+          recorded specs; before that it was a table of dashes. */}
+      {anySpecs(brokers) && (
         <section className="pb-24">
           <Container>
             <SectionHeading

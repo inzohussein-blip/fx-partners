@@ -121,7 +121,8 @@
     "marginLabel": "Required margin",
     "lot": "lots",
     "cta": "Start partnering now",
-    "note": "An estimate based on trading volume and commission rate; actual values may vary. Exchange rates come from a free source and may be delayed."
+    "note": "A rough estimate from your clients' trading volume and the commission in your agreement; actual earnings vary and can be zero. Exchange rates come from a free source and may lag.",
+    "exampleTag": "Illustrative example — not an income promise"
   },
   "Backtest": {
     "badge": "Historical simulator",
@@ -214,10 +215,26 @@
     "q5": "Is my financial data secure?",
     "a5": "Yes. We enforce strict row-level security (RLS) in the database, so your data is isolated and only you can access it."
   },
+  "FaqHome": {
+    "badge": "Before you start",
+    "heading": "Frequently asked questions",
+    "subheading": "Before you choose a broker — or join us as an agent.",
+    "q1": "Is FX Partners a broker?",
+    "a1": "No. We are a partnership intermediary (master IB): we do not open trading accounts, take deposits or hold anyone's money. Your account is opened directly with the broker.",
+    "q2": "How do you make money, and do I pay more if I sign up through you?",
+    "a2": "Brokers pay us a commission out of the spread or fee they already charge on the activity of clients who sign up through us. We add no charge and do not raise your trading costs.",
+    "q3": "Where do the ratings come from?",
+    "a3": "Star ratings are calculated from approved client reviews only; a broker with no reviews shows as not rated yet. Any data from an external source is labelled unverified.",
+    "q4": "How do I check a broker's licence before depositing?",
+    "a4": "Find the legal entity your account will be opened with in the account agreement, then look it up on the regulator's own register (such as the FCA, ASIC or CySEC). A licence follows the entity, not the brand.",
+    "q5": "I am an IB — how do I join the network?",
+    "a5": "Create a partner account from the agent programme page; once approved you get an agent code and referral links. Commission models and rates are set out in the partnership agreement."
+  },
   "Cta": {
     "heading": "Ready to get started?",
-    "subheading": "Create a free partner account in minutes and start generating referral links.",
-    "button": "Create a partner account"
+    "subheading": "Compare licensed brokers and pick the one that fits you — or join the agent network and start sharing referral links.",
+    "button": "Join as an agent",
+    "buttonTrader": "Compare brokers"
   },
   "Footer": {
     "tagline": "A financial partnership platform connecting agents and marketers with a network of licensed brokers — clear commissions and transparent reporting.",

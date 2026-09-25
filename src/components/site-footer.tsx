@@ -5,15 +5,51 @@ import { Container } from "@/components/ui/container";
 import { Logo } from "@/components/logo";
 import { getContent } from "@/lib/content";
 import { EditableText } from "@/components/admin-edit/editable-text";
+import { ChevronDown } from "lucide-react";
 
 export async function SiteFooter() {
   const t = await getTranslations("Footer");
   const footer = await getContent("site.footer", { tagline: t("tagline") });
 
+  const groups: { title: string; links: { href: string; label: string }[] }[] = [
+    {
+      title: t("tools"),
+      links: [
+        { href: "/compare", label: t("compareBrokers") },
+        { href: "/best", label: t("bestFor") },
+        { href: "/methodology", label: t("methodology") },
+        { href: "/spreads", label: t("spreads") },
+        { href: "/tools", label: t("calculators") },
+        { href: "/calendar", label: t("calendar") },
+        { href: "/free-tools", label: t("freeTools") },
+      ],
+    },
+    {
+      title: t("community"),
+      links: [
+        { href: "/affiliates", label: t("affiliateProgram") },
+        { href: "/brokers", label: t("brokersDir") },
+        { href: "/forum", label: t("forum") },
+        { href: "/offers", label: t("liveOffers") },
+        { href: "/blog", label: t("blog") },
+      ],
+    },
+    {
+      title: t("account"),
+      links: [
+        { href: "/about", label: t("about") },
+        { href: "/login", label: t("login") },
+        { href: "/dashboard", label: t("dashboard") },
+        { href: "/contact", label: t("contactUs") },
+        { href: "/sitemap", label: t("siteMap") },
+      ],
+    },
+  ];
+
   return (
     <>
-      <footer className="mt-24 border-t border-fg/5 bg-ink-900">
-        <Container className="grid gap-8 py-12 md:grid-cols-5">
+      <footer className="mt-12 border-t border-fg/5 bg-ink-900 sm:mt-24">
+        <Container className="grid gap-6 py-10 md:grid-cols-5 md:gap-8 md:py-12">
           <div className="md:col-span-2">
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
@@ -28,109 +64,43 @@ export async function SiteFooter() {
             </p>
           </div>
 
-          <div>
-            <h2 className="text-sm font-semibold text-fg">{t("tools")}</h2>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
-              <li>
-                <Link href="/compare" className="hover:text-fg">
-                  {t("compareBrokers")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/best" className="hover:text-fg">
-                  {t("bestFor")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/methodology" className="hover:text-fg">
-                  {t("methodology")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/spreads" className="hover:text-fg">
-                  {t("spreads")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/tools" className="hover:text-fg">
-                  {t("calculators")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/calendar" className="hover:text-fg">
-                  {t("calendar")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/free-tools" className="hover:text-fg">
-                  {t("freeTools")}
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Desktop: three link columns. */}
+          {groups.map((g) => (
+            <div key={g.title} className="hidden md:block">
+              <h2 className="text-sm font-semibold text-fg">{g.title}</h2>
+              <ul className="mt-3 space-y-2 text-sm text-slate-400">
+                {g.links.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="hover:text-fg">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
-          <div>
-            <h2 className="text-sm font-semibold text-fg">
-              {t("community")}
-            </h2>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
-              <li>
-                <Link href="/affiliates" className="hover:text-fg">
-                  {t("affiliateProgram")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/brokers" className="hover:text-fg">
-                  {t("brokersDir")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/forum" className="hover:text-fg">
-                  {t("forum")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/offers" className="hover:text-fg">
-                  {t("liveOffers")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-fg">
-                  {t("blog")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="text-sm font-semibold text-fg">{t("account")}</h2>
-            <ul className="mt-3 space-y-2 text-sm text-slate-400">
-              <li>
-                <Link href="/about" className="hover:text-fg">
-                  {t("about")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="hover:text-fg">
-                  {t("login")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard" className="hover:text-fg">
-                  {t("dashboard")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-fg">
-                  {t("contactUs")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/sitemap" className="hover:text-fg">
-                  {t("siteMap")}
-                </Link>
-              </li>
-            </ul>
+          {/* Phone: the same groups folded. Open, the three lists ran to a
+              screen and a half — longer than the content of the short pages
+              they sat under. */}
+          <div className="divide-y divide-fg/5 rounded-2xl border border-fg/5 md:hidden">
+            {groups.map((g) => (
+              <details key={g.title} className="group [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex min-h-12 cursor-pointer items-center justify-between px-4 text-sm font-semibold text-fg">
+                  {g.title}
+                  <ChevronDown className="h-4 w-4 text-slate-500 transition group-open:rotate-180" aria-hidden />
+                </summary>
+                <ul className="grid grid-cols-2 gap-x-4 px-4 pb-4 text-sm text-slate-400">
+                  {g.links.map((l) => (
+                    <li key={l.href}>
+                      <Link href={l.href} className="flex min-h-10 items-center hover:text-fg">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
           </div>
         </Container>
 

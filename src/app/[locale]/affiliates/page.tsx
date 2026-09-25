@@ -7,6 +7,8 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getContent } from "@/lib/content";
+import { ProfitCalculator } from "@/components/marketing/profit-calculator";
+import { Faq } from "@/components/marketing/faq";
 import {
   Check,
   UserPlus,
@@ -312,6 +314,14 @@ export default async function AffiliatesPage({
           </div>
         </Container>
       </section>
+
+      {/* The earnings calculator and the agent questions moved here from the
+          homepage: this is the page an agent reads. */}
+      <div className="border-y border-fg/5 bg-ink-900/30">
+        <ProfitCalculator />
+      </div>
+
+      <Faq namespace="Faq" contentKey="affiliates.faq" />
 
       {/* CTA */}
       <section className="py-12">

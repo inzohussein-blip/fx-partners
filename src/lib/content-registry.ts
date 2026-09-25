@@ -103,6 +103,16 @@ export const CONTENT_REGISTRY: ContentBlock[] = [
     ],
   },
   {
+    key: "affiliates.faq",
+    group: "برنامج الوكلاء",
+    title: "أسئلة الوكلاء — العنوان",
+    description: "عنوان ووصف قسم الأسئلة الشائعة في صفحة برنامج الوكلاء.",
+    fields: [
+      { name: "title", label: "العنوان" },
+      { name: "subtitle", label: "الوصف", multiline: true },
+    ],
+  },
+  {
     key: "home.about",
     group: "الصفحة الرئيسية",
     title: "قسم «من نحن»",

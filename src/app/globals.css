@@ -16,6 +16,11 @@
      --------------------------------------------------------------------- */
   color-scheme: dark;
 
+  /* Logo metal: the wordmark's silver and the top two stops of the "P". */
+  --c-silver: 192 202 204;
+  --c-logo-metal-1: #f5f7fa;
+  --c-logo-metal-2: #c0cacc;
+
   --c-fg: 255 255 255;
 
   --c-ink-900: 1 7 15;
@@ -125,6 +130,11 @@
    --------------------------------------------------------------------- */
 :root.light {
   color-scheme: light;
+
+  /* Graphite instead of silver: silver on white has no contrast. */
+  --c-silver: 51 65 85;
+  --c-logo-metal-1: #64748b;
+  --c-logo-metal-2: #8a9bb0;
 
   --c-fg: 12 20 33;
 

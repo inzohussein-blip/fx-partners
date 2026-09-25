@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { linkHref, type Broker } from "@/lib/brokers";
-import { Check, X, ArrowLeft } from "lucide-react";
+import { Check, ArrowLeft } from "lucide-react";
 
 type Feature = {
   key: keyof Broker;
@@ -17,22 +17,45 @@ const FEATURES: Feature[] = [
   { key: "bonus_no_deposit", label: "بونص بدون إيداع" },
 ];
 
+/**
+ * ✓ when the feature is recorded as offered, a dash otherwise.
+ *
+ * The columns default to false, and a false here has always meant "nobody has
+ * entered this yet" rather than "the broker does not offer it". Drawing it as
+ * ✗ told visitors that XM, say, has no Islamic account — a claim about a real
+ * company the site had never made. So only a recorded yes is drawn as a fact.
+ */
 function YesNo({ on }: { on: boolean }) {
   return on ? (
     <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-emerald-500/15 text-emerald-300">
       <Check className="h-3.5 w-3.5" aria-label="نعم" />
     </span>
   ) : (
-    <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-fg/5 text-slate-600">
-      <X className="h-3.5 w-3.5" aria-label="لا" />
+    <span className="text-slate-600" title="لم يُتحقَّق بعد" aria-label="لم يُتحقَّق بعد">
+      —
     </span>
   );
 }
 
+/** Whether a broker has anything this grid would show beyond dashes. */
+function hasSpecs(b: Broker): boolean {
+  return (
+    FEATURES.some((f) => Boolean(b[f.key])) ||
+    b.min_deposit != null ||
+    (b.deposit_methods?.length ?? 0) > 0
+  );
+}
+
+/** The grid is worth rendering only when at least one broker has specs. */
+export function anySpecs(brokers: Broker[]): boolean {
+  return brokers.some(hasSpecs);
+}
+
 /** Quick operational-specs comparison grid: brokers × features (✓/✗). */
 export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
-  if (brokers.length === 0) return null;
-  const cols = brokers.slice(0, 6);
+  if (!anySpecs(brokers)) return null;
+  // Brokers with recorded specs first; the rest only fill remaining columns.
+  const cols = [...brokers.filter(hasSpecs), ...brokers.filter((b) => !hasSpecs(b))].slice(0, 6);
 
   return (
     <div className="overflow-x-auto rounded-2xl border border-fg/[0.06]">
@@ -127,7 +150,7 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
                     href={link ? linkHref(link) : `/brokers/${b.slug}`}
                     className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-3 py-2 text-xs font-semibold text-white shadow-glow transition hover:opacity-90"
                   >
-                    فتح حساب
+                    {link ? "فتح حساب" : "التفاصيل"}
                     <ArrowLeft className="h-3.5 w-3.5 rtl:rotate-0 ltr:rotate-180" />
                   </Link>
                 </td>

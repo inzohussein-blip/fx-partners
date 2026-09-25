@@ -35,12 +35,15 @@ const MarginCalculator = dynamic(
   { ssr: false, loading: toolLoading }
 );
 
+// Trader tools first. The agent-earnings calculator used to open by default,
+// greeting every visitor with "$1,200 a month" on a page most of them reached
+// to compare brokers; it is still here, last.
 const TABS = [
-  { key: "calc", label: "tabCalc", icon: Calculator },
   { key: "risk", label: "tabRisk", icon: ShieldAlert },
   { key: "margin", label: "tabMargin", icon: Gauge },
   { key: "compare", label: "tabCompare", icon: Scale },
   { key: "backtest", label: "tabBacktest", icon: LineChart },
+  { key: "calc", label: "tabCalc", icon: Calculator },
 ] as const;
 
 /**
@@ -50,7 +53,7 @@ const TABS = [
  */
 export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
   const t = useTranslations("ToolsTabs");
-  const [tab, setTab] = useState<(typeof TABS)[number]["key"]>("calc");
+  const [tab, setTab] = useState<(typeof TABS)[number]["key"]>("risk");
 
   return (
     <section

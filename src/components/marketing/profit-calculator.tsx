@@ -73,7 +73,9 @@ export function ProfitCalculator() {
   // A <label> that only sits above a control is styling, not a label: a screen
   // reader announces the select as unnamed. These tie the two together.
   const currencyId = useId();
-  const [lots, setLots] = useState(150);
+  // A modest starting point. It opened at 150 lots, i.e. "$1,200 a month",
+  // which reads as an income promise however small the footnote.
+  const [lots, setLots] = useState(10);
   const [tierIdx, setTierIdx] = useState(1);
   const [instIdx, setInstIdx] = useState(0);
   const [leverage, setLeverage] = useState(500);
@@ -290,6 +292,9 @@ export function ProfitCalculator() {
               >
                 <AnimatedNumber value={monthly} format={fmt} />
               </div>
+              <div className="mt-2 inline-flex rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-300 ring-1 ring-amber-400/20">
+                {t("exampleTag")}
+              </div>
 
               <div className="mt-5 border-t border-fg/5 pt-5">
                 <div className="text-sm text-slate-400">{t("yearlyLabel")}</div>
@@ -328,7 +333,7 @@ export function ProfitCalculator() {
           </div>
         </div>
 
-        <p className="mt-4 text-center text-xs text-slate-600">{t("note")}</p>
+        <p className="mt-4 text-center text-xs leading-relaxed text-slate-400">{t("note")}</p>
       </Container>
     </section>
   );

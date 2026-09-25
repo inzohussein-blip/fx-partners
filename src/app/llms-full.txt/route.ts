@@ -125,7 +125,10 @@ export async function GET() {
       out.push(field("السبريد من", b.spread_from, " نقطة"));
       out.push(field("أقصى رافعة", b.leverage_max));
       out.push(field("الحد الأدنى للإيداع", b.min_deposit, " دولار"));
-      out.push(field("حساب إسلامي بدون فوائد", b.swap_free === null ? null : b.swap_free ? "نعم" : "لا"));
+      // Only a recorded yes. The column defaults to false, so a false means
+      // "not entered", and printing "لا" told every assistant reading this
+      // file that each broker has no Islamic account.
+      out.push(field("حساب إسلامي بدون فوائد", b.swap_free ? "نعم" : null));
       out.push("");
     }
 

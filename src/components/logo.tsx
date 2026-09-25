@@ -18,8 +18,10 @@ export function LogoMark({ className }: { className?: string }) {
       <defs>
         {/* Metallic sweep: bright silver (top-left) → electric cyan → blue */}
         <linearGradient id="fx-metal" x1="8" y1="6" x2="34" y2="40" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#F5F7FA" />
-          <stop offset="0.32" stopColor="#C0CACC" />
+          {/* Theme tokens (globals.css): silver on the dark theme, graphite
+              on the light one, where a near-white stroke vanished. */}
+          <stop style={{ stopColor: "var(--c-logo-metal-1)" }} />
+          <stop offset="0.32" style={{ stopColor: "var(--c-logo-metal-2)" }} />
           <stop offset="0.62" stopColor="#54D8F0" />
           <stop offset="1" stopColor="#0090FC" />
         </linearGradient>

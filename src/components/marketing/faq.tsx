@@ -5,10 +5,22 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { getContent } from "@/lib/content";
 import { Plus, HelpCircle } from "lucide-react";
 
-export async function Faq() {
-  const t = await getTranslations("Faq");
+/**
+ * Five questions and answers from one message namespace. The homepage uses
+ * the trader questions ("FaqHome"); the agent programme page uses the IB ones
+ * ("Faq") — the homepage used to answer only an agent's questions, to a
+ * visitor who had most likely come to compare brokers.
+ */
+export async function Faq({
+  namespace = "Faq",
+  contentKey = "home.faq",
+}: {
+  namespace?: "Faq" | "FaqHome";
+  contentKey?: string;
+} = {}) {
+  const t = await getTranslations(namespace);
   const items = [1, 2, 3, 4, 5] as const;
-  const copy = await getContent("home.faq", {
+  const copy = await getContent(contentKey, {
     title: t("heading"),
     subtitle: t("subheading"),
   });
