@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Gauge } from "lucide-react";
 import type { SpreadRow } from "@/lib/spreads";
@@ -26,6 +26,11 @@ function cellClass(spread: number, min: number, max: number): string {
 
 export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
   const t = useTranslations("Spreads");
+  const locale = useLocale();
+  const fmtDate = (iso: string | null) =>
+    iso
+      ? new Intl.DateTimeFormat(locale === "ar" ? "ar" : "en", { dateStyle: "medium" }).format(new Date(iso))
+      : null;
   // Falls back to the raw slug for a category the catalogue does not name,
   // rather than showing a missing-key error on a public page.
   const categoryLabel = (slug: string) =>
@@ -54,10 +59,10 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
   }, [catRows]);
 
   const matrix = useMemo(() => {
-    const m = new Map<string, Map<string, number>>();
+    const m = new Map<string, Map<string, SpreadRow>>();
     for (const r of catRows) {
       if (!m.has(r.brokerId)) m.set(r.brokerId, new Map());
-      m.get(r.brokerId)!.set(r.instrument, r.spread);
+      m.get(r.brokerId)!.set(r.instrument, r);
     }
     return m;
   }, [catRows]);
@@ -76,6 +81,24 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
     for (const r of catRows) if (!bestRow || r.spread < bestRow.spread) bestRow = r;
     return bestRow;
   }, [catRows]);
+
+  // Newest edit in the visible category: the page states how old the table is.
+  const lastUpdated = useMemo(() => {
+    let max: string | null = null;
+    for (const r of catRows) if (r.updatedAt && (!max || r.updatedAt > max)) max = r.updatedAt;
+    return max;
+  }, [catRows]);
+
+  /** Hover text for one figure: account, source, date. */
+  const cellTitle = (r: SpreadRow) =>
+    [
+      `${r.brokerName} · ${r.instrument}: ${r.spread}`,
+      r.accountType ? t("account", { type: r.accountType }) : null,
+      r.sourceNote || (r.sourceUrl ? null : t("noSource")),
+      fmtDate(r.updatedAt) ? t("checked", { date: fmtDate(r.updatedAt)! }) : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
 
   if (rows.length === 0) {
     return (
@@ -181,12 +204,17 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
                   </Link>
                 </td>
                 {instruments.map((inst) => {
-                  const val = matrix.get(b.id)?.get(inst);
+                  const row = matrix.get(b.id)?.get(inst);
+                  const val = row?.spread;
                   const bnd = bounds.get(inst);
                   return (
                     <td key={inst} className="border-b border-fg/5 p-0 text-center">
-                      {val != null && bnd ? (
-                        <div dir="ltr" className={`m-1 rounded-lg py-2 font-bold ${cellClass(val, bnd.min, bnd.max)}`}>
+                      {row && val != null && bnd ? (
+                        <div
+                          dir="ltr"
+                          title={cellTitle(row)}
+                          className={`m-1 rounded-lg py-2 font-bold ${cellClass(val, bnd.min, bnd.max)}`}
+                        >
                           {val}
                         </div>
                       ) : (
@@ -199,6 +227,41 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Provenance: these are published figures, not a feed. */}
+      <div className="space-y-3 text-xs leading-relaxed text-slate-500">
+        <p>
+          {t("notLive")}{" "}
+          {lastUpdated && t("lastUpdated", { date: fmtDate(lastUpdated)! })}
+        </p>
+        <details className="card-surface p-4">
+          <summary className="cursor-pointer font-semibold text-slate-300">
+            {t("sourcesTitle", { count: catRows.length })}
+          </summary>
+          <ul className="mt-3 space-y-2">
+            {catRows.map((r) => (
+              <li key={`${r.brokerId}-${r.instrument}`} className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span className="font-medium text-slate-300">{r.brokerName}</span>
+                <span dir="ltr">{r.instrument}: {r.spread}</span>
+                {r.accountType && <span>· {t("account", { type: r.accountType })}</span>}
+                {r.updatedAt && <span>· {t("checked", { date: fmtDate(r.updatedAt)! })}</span>}
+                {r.sourceUrl ? (
+                  <a
+                    href={r.sourceUrl}
+                    target="_blank"
+                    rel="noopener nofollow noreferrer"
+                    className="text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                  >
+                    {r.sourceNote || t("sourceLink")}
+                  </a>
+                ) : (
+                  <span>· {r.sourceNote || t("noSource")}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </details>
       </div>
     </div>
   );

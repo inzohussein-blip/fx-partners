@@ -64,7 +64,7 @@ const STORAGE: Row[] = [
 const THIRD_PARTIES = [
   { name: "Vercel Analytics & Speed Insights", cat: "catAnalytics" as Category, href: "https://vercel.com/legal/privacy-policy" },
   { name: "TradingView", cat: "catExternal" as Category, href: "https://www.tradingview.com/privacy-policy/" },
-  { name: "Binance (market prices)", cat: "catExternal" as Category, href: "https://www.binance.com/en/privacy" },
+  { name: "Myfxbook (spread and sentiment widgets)", cat: "catExternal" as Category, href: "https://www.myfxbook.com/privacy-policy" },
   { name: "jsDelivr / currency-api (exchange rates)", cat: "catExternal" as Category, href: "https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net" },
 ];
 

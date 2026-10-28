@@ -8,6 +8,11 @@ export type SpreadRow = {
   instrument: string;
   category: string;
   spread: number;
+  accountType: string | null;
+  sourceUrl: string | null;
+  sourceNote: string | null;
+  /** ISO timestamp of the last edit to this figure. */
+  updatedAt: string | null;
 };
 
 /**
@@ -20,7 +25,9 @@ export async function getBrokerSpreads(): Promise<SpreadRow[]> {
     const supabase = createClient();
     const { data } = await supabase
       .from("broker_spreads")
-      .select("instrument, category, spread, brokers(id, name, slug, logo_url)")
+      .select(
+        "instrument, category, spread, account_type, source_url, source_note, updated_at, brokers(id, name, slug, logo_url)"
+      )
       .limit(2000);
 
     return ((data as unknown[]) ?? [])
@@ -29,6 +36,10 @@ export async function getBrokerSpreads(): Promise<SpreadRow[]> {
           instrument: string;
           category: string | null;
           spread: number;
+          account_type: string | null;
+          source_url: string | null;
+          source_note: string | null;
+          updated_at: string | null;
           brokers: {
             id: string;
             name: string;
@@ -44,6 +55,10 @@ export async function getBrokerSpreads(): Promise<SpreadRow[]> {
           instrument: r.instrument,
           category: r.category || "forex",
           spread: Number(r.spread),
+          accountType: r.account_type ?? null,
+          sourceUrl: r.source_url ?? null,
+          sourceNote: r.source_note ?? null,
+          updatedAt: r.updated_at ?? null,
         };
       })
       .filter((r) => r.brokerName && Number.isFinite(r.spread));

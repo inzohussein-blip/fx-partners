@@ -156,7 +156,6 @@ export default async function LocaleLayout(
         <link rel="preconnect" href="https://s3.tradingview.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://s3.tradingview.com" />
         <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-        <link rel="dns-prefetch" href="https://api.binance.com" />
 
         {/* Machine-readable entry points, advertised so an agent that lands on
             any page can find the structured data without guessing at paths. */}
