@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { FormConsent } from "@/components/form-consent";
@@ -28,13 +28,13 @@ export function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   // When the form first rendered, so the server can tell a typed message from
   // one submitted in under two seconds.
-  const openedAt = useRef(Date.now());
+  const [openedAt] = useState(() => Date.now());
 
   async function onSubmit(values: Values) {
     setError(null);
     const res = await sendContactMessage({
       ...values,
-      elapsed: Date.now() - openedAt.current,
+      elapsed: Date.now() - openedAt,
     });
     if (res.ok) {
       setDone(true);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 import { createPortal } from "react-dom";
 import { useQueryState } from "nuqs";
 import { Link } from "@/i18n/navigation";
@@ -88,8 +89,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
   const [q, setQ] = useQueryState("q", { defaultValue: "", clearOnDefault: true });
   const [toggles, setToggles] = useState<Record<string, boolean>>({});
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
   useEffect(() => {
     document.body.style.overflow = sheetOpen ? "hidden" : "";
     return () => {

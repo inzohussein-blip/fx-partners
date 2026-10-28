@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useMounted } from "@/hooks/use-mounted";
 import { createPortal } from "react-dom";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -18,11 +19,10 @@ export function MobileNav({
   dashboardLabel: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const pathname = usePathname();
 
   // Portal target is only available on the client.
-  useEffect(() => setMounted(true), []);
 
   // Close on route change.
   useEffect(() => {
