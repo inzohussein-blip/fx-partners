@@ -160,7 +160,8 @@ where email = 'you@example.com';
 | الأمر | الوظيفة |
 |---|---|
 | `npm run dev` | تشغيل بيئة التطوير |
-| `npm run build` | بناء الإنتاج |
+| `npm run build` | بناء نسخة Cloudflare (يشغّل `build:next` ثم يحوّلها لـ Worker) |
+| `npm run build:next` | بناء Next.js فقط |
 | `npm run start` | تشغيل نسخة الإنتاج |
 | `npm run lint` | فحص ESLint |
 | `npm run typecheck` | فحص أنواع TypeScript |

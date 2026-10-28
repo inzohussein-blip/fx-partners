@@ -43,6 +43,11 @@ GitHub → Settings → Secrets and variables → Actions:
 النطاق `partners-fx.trade` يُربط تلقائياً بالـWorker (`wrangler.jsonc` → `routes`)،
 وتُنشأ سجلات DNS والشهادة وحدها لأن النطاق في الحساب نفسه.
 
+**إن كنت تنشر من لوحة Cloudflare (Workers Builds) بدل GitHub Actions:**
+- Build command: `npm run build` (يشغّل OpenNext، وهو بدوره يشغّل `next build`)
+- Deploy command: `npx wrangler deploy`
+- أضف متغيرات `NEXT_PUBLIC_*` في Settings → Build → Variables، لأنها تُدمج وقت البناء.
+
 ### 4) Supabase (مهم، وإلا يتعطّل الدخول)
 Supabase → Authentication → URL Configuration:
 
