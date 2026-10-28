@@ -14,11 +14,17 @@ import { Crosshair, ArrowLeft, Flame, Ticket } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "OffersPage" });
   return pageMeta({
     title: t("metaTitle"),
@@ -70,11 +76,17 @@ async function getCoupons(): Promise<Coupon[]> {
   }
 }
 
-export default async function OffersPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function OffersPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "OffersPage" });
   const key = contentKeyFor("page.offers", locale);

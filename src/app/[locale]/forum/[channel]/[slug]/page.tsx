@@ -23,11 +23,12 @@ function isHtml(body: string | null | undefined): boolean {
   return !!body && /<([a-z][a-z0-9]*)\b[^>]*>/i.test(body);
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { channel: string; slug: string; locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ channel: string; slug: string; locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const post = await getPost(params.channel, params.slug);
   if (!post) return { title: "منشور غير موجود" };
   return pageMeta({
@@ -42,11 +43,12 @@ export async function generateMetadata({
   });
 }
 
-export default async function ForumPostPage({
-  params,
-}: {
-  params: { channel: string; slug: string };
-}) {
+export default async function ForumPostPage(
+  props: {
+    params: Promise<{ channel: string; slug: string }>;
+  }
+) {
+  const params = await props.params;
   const post = await getPost(params.channel, params.slug);
   if (!post || post.channel?.status !== "active") notFound();
 

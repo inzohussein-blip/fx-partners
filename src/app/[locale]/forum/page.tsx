@@ -12,11 +12,17 @@ import { getChannels, getLatestPosts } from "@/lib/forum";
 import { BadgeCheck, Radio, MessagesSquare, Newspaper } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const tm = await getTranslations({ locale, namespace: "ForumPage" });
   return pageMeta({
     title: tm("metaTitle"),
@@ -29,11 +35,17 @@ export async function generateMetadata({
 
 export const revalidate = 30;
 
-export default async function ForumHub({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function ForumHub(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "ForumPage" });
   const key = contentKeyFor("page.forum", locale);

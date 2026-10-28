@@ -22,11 +22,17 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "About" });
   return pageMeta({
     title: t("metaTitle"),
@@ -60,11 +66,17 @@ function Emphasis(chunks: React.ReactNode) {
   return <strong className="text-fg">{chunks}</strong>;
 }
 
-export default async function AboutPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AboutPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "About" });
   const lang = locale === "en" ? "en" : "ar";

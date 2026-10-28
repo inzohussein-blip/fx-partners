@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -10,11 +10,17 @@ import { Button } from "@/components/ui/button";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { resetPasswordSchema, type ResetPasswordValues } from "@/lib/validators";
 
-export default function ResetPasswordPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default function ResetPasswordPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    locale
+  } = params;
+
   const t = useTranslations("Reset");
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);

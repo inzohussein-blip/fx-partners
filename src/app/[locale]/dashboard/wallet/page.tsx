@@ -73,11 +73,17 @@ async function getData() {
   }
 }
 
-export default async function WalletPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function WalletPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const { ibId, balance, pending, withdrawn, withdrawals } = await getData();
 

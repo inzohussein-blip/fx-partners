@@ -16,11 +16,17 @@ import { Building2, ExternalLink, ArrowRight, BadgeCheck } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return pageMeta({
     title: "مقارنة مباشرة بين شركتي تداول",
     description:
@@ -151,13 +157,19 @@ function Row({
   );
 }
 
-export default async function VsPage({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams: { a?: string; b?: string };
-}) {
+export default async function VsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+    searchParams: Promise<{ a?: string; b?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   // Every pair now has its own page. Anything still arriving on the old
   // query-param form — an old link, a bookmark, an indexed URL — is sent to

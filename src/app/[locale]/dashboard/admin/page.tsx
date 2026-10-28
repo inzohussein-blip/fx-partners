@@ -78,11 +78,17 @@ async function loadAdminData() {
   };
 }
 
-export default async function AdminPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const { ibs, withdrawals } = await loadAdminData();
 

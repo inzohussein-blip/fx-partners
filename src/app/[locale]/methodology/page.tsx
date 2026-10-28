@@ -17,11 +17,17 @@ const LAST_UPDATED = "2026-09-16";
 /** Paragraph count per numbered section, matching the Methodology namespace. */
 const SHAPE = [3, 3, 2, 2, 2, 2, 1] as const;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "Methodology" });
   return pageMeta({
     title: t("metaTitle"),
@@ -31,11 +37,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function MethodologyPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function MethodologyPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const [t, tb] = await Promise.all([
     getTranslations({ locale, namespace: "Methodology" }),

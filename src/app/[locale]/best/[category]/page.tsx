@@ -60,11 +60,18 @@ export function generateStaticParams() {
   return CATEGORIES.map((c) => ({ category: c.slug }));
 }
 
-export async function generateMetadata({
-  params: { locale, category },
-}: {
-  params: { locale: string; category: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string; category: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale,
+    category
+  } = params;
+
   if (!categoryBySlug(category)) return {};
   const t = await getTranslations({ locale, namespace: "BestFor" });
   return pageMeta({
@@ -75,11 +82,18 @@ export async function generateMetadata({
   });
 }
 
-export default async function BestForPage({
-  params: { locale, category: slug },
-}: {
-  params: { locale: string; category: string };
-}) {
+export default async function BestForPage(
+  props: {
+    params: Promise<{ locale: string; category: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale,
+    category: slug
+  } = params;
+
   setRequestLocale(locale);
   const category = categoryBySlug(slug);
   if (!category) notFound();

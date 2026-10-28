@@ -10,11 +10,17 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminSignalsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminSignalsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let signals: AdminSignal[] = [];
   let hooks: Hook[] = [];

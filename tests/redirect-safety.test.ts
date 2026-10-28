@@ -26,7 +26,7 @@ async function callR(slug = "ib-abc12", consent?: string) {
   const { GET } = await import("@/app/r/[slug]/route");
   const headers: HeadersInit = consent ? { cookie: `fxp_consent=${consent}` } : {};
   return GET(new Request(`https://fxpartners.com/r/${slug}`, { headers }), {
-    params: { slug },
+    params: Promise.resolve({ slug }),
   });
 }
 

@@ -9,11 +9,17 @@ import { EditableText } from "@/components/admin-edit/editable-text";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { Wrench } from "lucide-react";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "ToolsPage" });
   return pageMeta({
     title: t("metaTitle"),
@@ -24,11 +30,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function ToolsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function ToolsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "ToolsPage" });
   const key = contentKeyFor("page.tools", locale);

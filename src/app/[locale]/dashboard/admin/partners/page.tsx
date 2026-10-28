@@ -17,11 +17,17 @@ type Partner = {
   is_active: boolean;
 };
 
-export default async function AdminPartnersPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminPartnersPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let partners: Partner[] = [];
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {

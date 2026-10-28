@@ -34,11 +34,17 @@ import { ArrowLeft } from "lucide-react";
  * lengthened the page without moving a visitor forward.
  */
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const lang = locale === "en" ? "en" : "ar";
   return pageMeta({
     title:
@@ -52,11 +58,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function HomePage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function HomePage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations();
 

@@ -1,7 +1,7 @@
 # الانتقال من Vercel إلى Cloudflare
 
 الموقع يعمل الآن على **Cloudflare Workers** عبر المحوّل الرسمي OpenNext
-(`@opennextjs/cloudflare`، النسخة 1.14 لأنها آخر خط يدعم Next.js 14).
+(`@opennextjs/cloudflare` 1.20) مع **Next.js 16.4** وReact 19.
 النطاق: `partners-fx.trade`.
 
 ## ما تحتاجه (مرّة واحدة)
@@ -62,6 +62,7 @@ Supabase → Authentication → URL Configuration:
 
 ## ما تغيّر في الكود
 - إعداد Cloudflare: `wrangler.jsonc`، `open-next.config.ts`، سكربتات `cf:*`، ومسار النشر `.github/workflows/cloudflare.yml`.
+- **ترقية Next.js من 14 إلى 16.4 وReact إلى 19:** `params` و`cookies()` و`headers()` صارت غير متزامنة (حُوّلت 63 ملفاً بأداة Next الرسمية)، و`next lint` استُبدل بـ `eslint .` (ESLint 9)، وnext-intl إلى 4.
 - حُذف `runtime = "edge"` من مسارات الصور (غير مدعوم في OpenNext)، وبقي كل شيء يعمل على Node داخل الـWorker.
 - عنوان IP للزائر لتحديد المعدّل ودولته للنقرات: يُقرآن من ترويسات Cloudflare (`cf-connecting-ip`، `cf-ipcountry`).
 - استُبدل Vercel Analytics وSpeed Insights بـ Cloudflare Web Analytics، وبقي مشروطاً بموافقة الزائر.
@@ -73,4 +74,5 @@ Supabase → Authentication → URL Configuration:
 - لا ذاكرة تخزين للصفحات (ISR): الصفحات التي فيها `revalidate` تُولَّد عند كل طلب. الخطر قليل لأن بياناتها من Supabase.
   أضف R2 لاحقاً في `open-next.config.ts` إن زادت الكلفة.
 - `rate-limit` يعمل داخل كل نسخة من الـWorker (كما كان على Vercel).
-- Next.js 14 ثابت هنا. أحدث إصدارات المحوّل (1.15+) تتطلب Next 15، وترقيته مهمة منفصلة.
+- ملف `src/middleware.ts` يعمل لكن Next 16 يسمّيه الآن `proxy` ويطبع تحذيراً وقت البناء. التحويل ممكن لاحقاً بـ `npx @next/codemod@canary middleware-to-proxy .`.
+- قواعد ESLint الجديدة الخاصة بـ React (مثل `set-state-in-effect`) مضبوطة كتحذيرات لا أخطاء.

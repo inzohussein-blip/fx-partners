@@ -12,11 +12,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const revalidate = 300;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return pageMeta({
     title: "تقويم عطلات شركات التداول وتغييرات الهامش",
     description:
@@ -38,11 +44,17 @@ function fmtDate(iso: string): { day: string; rest: string } {
   return { day, rest };
 }
 
-export default async function CalendarPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function CalendarPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const events = await getUpcomingEvents();
 

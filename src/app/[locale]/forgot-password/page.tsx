@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -9,11 +9,17 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { Field } from "@/components/auth/field";
 import { authSchema } from "@/lib/validators";
 
-export default function ForgotPasswordPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default function ForgotPasswordPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    locale
+  } = params;
+
   const t = useTranslations("Forgot");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);

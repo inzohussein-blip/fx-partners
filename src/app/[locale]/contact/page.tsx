@@ -9,11 +9,17 @@ import { ContactForm } from "@/components/marketing/contact-form";
 import { Mail, Phone, Clock, MessageCircle } from "lucide-react";
 import { getContent, contentKeyFor } from "@/lib/content";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "ContactPage" });
   return pageMeta({
     title: t("metaTitle"),
@@ -23,11 +29,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function ContactPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function ContactPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "ContactPage" });
   // The address and number are the same in both locales; only the opening

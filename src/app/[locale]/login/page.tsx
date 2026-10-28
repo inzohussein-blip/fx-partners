@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, use } from "react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,11 +11,17 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { Field } from "@/components/auth/field";
 import { GoogleButton } from "@/components/auth/google-button";
 
-export default function LoginPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default function LoginPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = use(props.params);
+
+  const {
+    locale
+  } = params;
+
   return (
     <Suspense>
       <LoginForm />

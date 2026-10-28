@@ -30,11 +30,17 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "Affiliates" });
   return pageMeta({
     title: t("metaTitle"),
@@ -54,11 +60,17 @@ function Strong(chunks: React.ReactNode) {
   return <span className="font-semibold text-fg">{chunks}</span>;
 }
 
-export default async function AffiliatesPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AffiliatesPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Affiliates" });
 

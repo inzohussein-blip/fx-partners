@@ -71,11 +71,17 @@ function rankBadge(rank: number) {
   return { color: "text-slate-500", ring: "ring-fg/10", Icon: Medal };
 }
 
-export default async function LeaderboardPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function LeaderboardPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const { rows, live } = await getRows();
 

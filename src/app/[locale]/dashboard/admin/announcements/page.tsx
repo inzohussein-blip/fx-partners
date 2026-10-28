@@ -9,11 +9,17 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminAnnouncementsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminAnnouncementsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let items: AdminAnnouncement[] = [];
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {

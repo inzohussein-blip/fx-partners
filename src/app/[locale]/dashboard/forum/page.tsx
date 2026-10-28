@@ -8,11 +8,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardForumPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function DashboardForumPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) redirect("/dashboard");
   const supabase = createClient();

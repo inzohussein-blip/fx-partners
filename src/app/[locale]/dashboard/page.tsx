@@ -221,11 +221,17 @@ async function getOnboardingSteps(): Promise<OnboardingStep[] | null> {
   }
 }
 
-export default async function OverviewPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function OverviewPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const [o, steps] = await Promise.all([getOverview(), getOnboardingSteps()]);
   const showOnboarding = steps && steps.some((s) => !s.completed);

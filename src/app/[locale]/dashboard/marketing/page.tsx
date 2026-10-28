@@ -63,11 +63,17 @@ const BANNERS = [
   { size: "skyscraper", label: "160×600" },
 ];
 
-export default async function MarketingPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function MarketingPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const { ibId, ibCode, links, brokers, siteUrl } = await getData();
 

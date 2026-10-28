@@ -13,11 +13,17 @@ const LAST_UPDATED = "2026-09-14";
 /** Paragraph count per numbered section, matching the Payouts namespace. */
 const SHAPE = [2, 2, 3, 2, 1, 1, 1] as const;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "Payouts" });
   return pageMeta({
     title: t("metaTitle"),
@@ -27,11 +33,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function PayoutsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function PayoutsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Payouts" });
   const date = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "ar", {

@@ -5,11 +5,17 @@ import { setRequestLocale } from "next-intl/server";
 
 const BASE = "https://s3.tradingview.com/external-embedding";
 
-export default function MarketsNewsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function MarketsNewsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   return (
     <div className="space-y-6">

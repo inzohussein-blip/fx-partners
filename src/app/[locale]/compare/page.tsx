@@ -21,11 +21,17 @@ import { getSiteUrl } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "ComparePage" });
   return pageMeta({
     title: t("metaTitle"),
@@ -37,11 +43,17 @@ export async function generateMetadata({
 }
 
 
-export default async function ComparePage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function ComparePage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "ComparePage" });
   const key = contentKeyFor("page.compare", locale);

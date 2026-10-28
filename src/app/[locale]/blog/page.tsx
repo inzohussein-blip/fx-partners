@@ -10,11 +10,17 @@ import { createClient } from "@/lib/supabase/server";
 import { ArrowLeft, Newspaper } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return pageMeta({
     title: "مدوّنة التداول — شروحات واستراتيجيات بالعربية",
     description:
@@ -54,11 +60,17 @@ function fmtDate(iso: string | null) {
   return new Intl.DateTimeFormat("ar", { dateStyle: "long" }).format(new Date(iso));
 }
 
-export default async function BlogPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function BlogPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const copy = await getContent("page.blog", {
     title: "رؤى وأخبار التداول",

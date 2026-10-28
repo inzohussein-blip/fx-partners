@@ -7,11 +7,17 @@ export async function generateMetadata() {
   return { title: t("forbiddenTitle") };
 }
 
-export default async function Forbidden({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function Forbidden(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations("Chrome");
   return (

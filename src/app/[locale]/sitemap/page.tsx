@@ -10,11 +10,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return pageMeta({
     title: "خريطة الموقع",
     description:
@@ -99,11 +105,17 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
   },
 ];
 
-export default async function SiteMapPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function SiteMapPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const { brokers, posts } = await getLists();
 

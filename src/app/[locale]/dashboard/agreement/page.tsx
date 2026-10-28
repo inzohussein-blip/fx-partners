@@ -7,11 +7,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AgreementPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AgreementPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let signedAt: string | null = null;
   let defaultName = "";

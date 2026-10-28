@@ -6,11 +6,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminEventsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminEventsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let events: AdminEvent[] = [];
   let brokers: { id: string; name: string }[] = [];

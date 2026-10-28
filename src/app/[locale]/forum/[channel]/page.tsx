@@ -13,11 +13,12 @@ import { BadgeCheck, Radio, MessagesSquare } from "lucide-react";
 
 export const revalidate = 30;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { channel: string; locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ channel: string; locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const channel = await getChannel(params.channel);
   if (!channel) return { title: "قناة غير موجودة" };
   return pageMeta({
@@ -30,11 +31,12 @@ export async function generateMetadata({
   });
 }
 
-export default async function ChannelPage({
-  params,
-}: {
-  params: { channel: string };
-}) {
+export default async function ChannelPage(
+  props: {
+    params: Promise<{ channel: string }>;
+  }
+) {
+  const params = await props.params;
   const channel = await getChannel(params.channel);
   if (!channel || channel.status !== "active") notFound();
 

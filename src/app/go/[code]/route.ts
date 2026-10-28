@@ -15,10 +15,8 @@ export const dynamic = "force-dynamic";
  * traffic that reaches a broker — and it was previously unanswerable, because
  * the two tracking paths never met.
  */
-export async function GET(
-  req: Request,
-  { params }: { params: { code: string } }
-) {
+export async function GET(req: Request, props: { params: Promise<{ code: string }> }) {
+  const params = await props.params;
   const site = process.env.NEXT_PUBLIC_SITE_URL || new URL(req.url).origin;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;

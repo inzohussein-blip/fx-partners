@@ -34,11 +34,12 @@ const PAIR_ARTICLE: Record<string, string> = {
  * no matter how many pairs exist. Six published brokers make fifteen pages,
  * each with its own title, description, comparison and structured data.
  */
-export async function generateMetadata({
-  params,
-}: {
-  params: { pair: string; locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ pair: string; locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const parsed = parsePair(params.pair);
   if (!parsed) return { title: "مقارنة غير موجودة" };
   const [a, b] = await getPairBrokers(parsed[0], parsed[1]);
@@ -72,11 +73,12 @@ export async function generateMetadata({
   });
 }
 
-export default async function PairPage({
-  params,
-}: {
-  params: { pair: string; locale: string };
-}) {
+export default async function PairPage(
+  props: {
+    params: Promise<{ pair: string; locale: string }>;
+  }
+) {
+  const params = await props.params;
   setRequestLocale(params.locale);
   const parsed = parsePair(params.pair);
   if (!parsed) notFound();

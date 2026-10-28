@@ -10,11 +10,17 @@ import { CookieTables } from "@/components/consent/cookie-tables";
 /** Bump only when the wording or the inventory below actually changes. */
 const LAST_UPDATED = "2026-09-14";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "Cookies" });
   return pageMeta({
     title: t("metaTitle"),
@@ -24,11 +30,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function CookiePolicyPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function CookiePolicyPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Cookies" });
   const date = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "ar", {

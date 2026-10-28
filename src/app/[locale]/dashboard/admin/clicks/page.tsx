@@ -17,11 +17,17 @@ export const dynamic = "force-dynamic";
  * agent when an admin calls them, so there is no second "admin version" of the
  * query to keep in sync.
  */
-export default async function AdminClicksPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminClicksPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const [refClicks, brokerClicks, byAgent] = await Promise.all([
     getReferralClicks(30),

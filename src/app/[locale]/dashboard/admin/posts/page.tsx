@@ -7,11 +7,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPostsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminPostsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let posts: PostRow[] = [];
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {

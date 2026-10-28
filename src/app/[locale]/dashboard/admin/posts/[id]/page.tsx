@@ -6,11 +6,12 @@ import { ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-export default async function EditPostPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function EditPostPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const isNew = params.id === "new";
   let post = undefined;
 

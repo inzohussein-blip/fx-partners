@@ -6,11 +6,17 @@ import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminMediaPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminMediaPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const items = await listMedia();
 

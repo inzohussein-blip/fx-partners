@@ -10,11 +10,17 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminMeetingsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function AdminMeetingsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   let slots: AdminSlot[] = [];
   let bookings: AdminBooking[] = [];

@@ -22,11 +22,17 @@ async function getAnnouncements(): Promise<Announcement[]> {
   }
 }
 
-export default async function UpdatesPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function UpdatesPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const items = await getAnnouncements();
 

@@ -177,11 +177,18 @@ function splitList(v: string): string[] {
   return v.split(/\s*[؛;]\s*/).map((x) => x.trim()).filter(Boolean);
 }
 
-export async function generateMetadata({
-  params: { slug, locale },
-}: {
-  params: { slug: string; locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ slug: string; locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    slug,
+    locale
+  } = params;
+
   const broker = await getBroker(slug);
   if (!broker) return { title: "شركة غير موجودة" };
 
@@ -213,11 +220,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function BrokerDetailPage({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
+export default async function BrokerDetailPage(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const broker = await getBroker(slug);
   if (!broker) notFound();
 

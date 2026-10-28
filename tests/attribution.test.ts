@@ -55,7 +55,7 @@ vi.mock("@supabase/supabase-js", () => ({ createClient: () => makeClient() }));
 
 async function callGo(code: string) {
   const { GET } = await import("@/app/go/[code]/route");
-  return GET(new Request(`https://fxpartners.com/go/${code}`), { params: { code } });
+  return GET(new Request(`https://fxpartners.com/go/${code}`), { params: Promise.resolve({ code }) });
 }
 
 beforeEach(() => {
@@ -116,7 +116,7 @@ describe("/go/<code> click attribution", () => {
     const req = new Request("https://fxpartners.com/go/abc1234", {
       headers: { "x-vercel-ip-country": "IQ", referer: "https://t.me/somechannel" },
     });
-    await GET(req, { params: { code: "abc1234" } });
+    await GET(req, { params: Promise.resolve({ code: "abc1234" }) });
 
     expect(db.inserts[0]).toMatchObject({
       country: "IQ",

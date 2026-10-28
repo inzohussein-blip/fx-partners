@@ -23,11 +23,17 @@ async function getSignals(): Promise<Signal[]> {
   }
 }
 
-export default async function SignalsPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function SignalsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const signals = await getSignals();
 

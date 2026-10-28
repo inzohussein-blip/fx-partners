@@ -23,10 +23,8 @@ import { CONSENT_COOKIE, effective, parse } from "@/lib/consent";
  * country code and a referrer and no identifier, so it says how much traffic a
  * link sent without following anyone.
  */
-export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } }
-) {
+export async function GET(request: Request, props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const origin = new URL(request.url).origin;
   let dest = "/";
 

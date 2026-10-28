@@ -13,11 +13,17 @@ import { Download } from "lucide-react";
 
 export const revalidate = 300;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const t = await getTranslations({ locale, namespace: "FreeTools" });
   return pageMeta({
     title: t("metaTitle"),
@@ -28,11 +34,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function ResourcesPage({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
+export default async function ResourcesPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "FreeTools" });
   const resources = await getResources();
