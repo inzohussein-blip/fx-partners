@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState, use } from "react";
+import { safeInternalPath } from "@/lib/safe-redirect";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -33,7 +34,7 @@ function LoginForm() {
   const t = useTranslations("Login");
   const router = useRouter();
   const params = useSearchParams();
-  const redirect = params.get("redirect") ?? "/dashboard";
+  const redirect = safeInternalPath(params.get("redirect"));
 
   const [mode, setMode] = useState<"sign-in" | "sign-up">("sign-in");
   const [email, setEmail] = useState("");
