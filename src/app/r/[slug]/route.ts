@@ -33,7 +33,7 @@ export async function GET(
   try {
     const headers = request.headers;
     const country =
-      headers.get("x-vercel-ip-country") || headers.get("cf-ipcountry") || null;
+      headers.get("cf-ipcountry") || headers.get("x-vercel-ip-country") || null;
     const referer = headers.get("referer");
 
     const supabase = createClient();

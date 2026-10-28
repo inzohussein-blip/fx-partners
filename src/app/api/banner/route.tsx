@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
-import { loadArabicFont } from "@/lib/og-font";
+import { loadArabicFont, fallbackCard } from "@/lib/og-font";
+import { getSiteUrl } from "@/lib/utils";
 
-export const runtime = "edge";
 
 const SIZES: Record<string, [number, number]> = {
   wide: [1200, 630],
@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const key = searchParams.get("size") || "wide";
   const [w, h] = SIZES[key] ?? SIZES.wide;
-  const ref = (searchParams.get("ref") || "fx-partners.vercel.app").replace(
+  const ref = (searchParams.get("ref") || new URL(getSiteUrl()).host).replace(
     /^https?:\/\//,
     ""
   );
@@ -22,9 +22,10 @@ export async function GET(req: Request) {
   const horizontal = h < 160;
   const unit = Math.min(w, h);
 
-  // Only the optional partner name can be Arabic, and it is painted only on the
-  // vertical layouts — so skip the font fetch entirely otherwise.
-  const fonts = name && !horizontal ? await loadArabicFont(name, 700) : [];
+  // Always load the font, even for Latin-only text: on Cloudflare Workers
+  // next/og has no built-in fallback, so rendering without one throws.
+  const fonts = await loadArabicFont(`FX Partners Global Trading Partnerships Official Partner ${name} ${ref}`, 700);
+  if (fonts.length === 0) return fallbackCard(w, h);
 
   return new ImageResponse(
     (

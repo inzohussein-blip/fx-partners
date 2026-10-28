@@ -42,8 +42,8 @@ export async function GET(
 
     const headers = req.headers;
     const country =
-      headers.get("x-vercel-ip-country") ||
       headers.get("cf-ipcountry") ||
+      headers.get("x-vercel-ip-country") ||
       null;
     const referer = headers.get("referer");
 

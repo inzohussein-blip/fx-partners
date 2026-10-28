@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
-import { loadArabicFont } from "@/lib/og-font";
+import { loadArabicFont, fallbackCard } from "@/lib/og-font";
 
-export const runtime = "edge";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -21,6 +20,7 @@ export async function GET(req: Request) {
     `${name} ${bonus} شريك معتمد لا توجد مراجعات بعد مراجعة قارن راجِع افتح حساباً`,
     700
   );
+  if (fonts.length === 0) return fallbackCard(1200, 630, name);
 
   return new ImageResponse(
     (
@@ -68,9 +68,17 @@ export async function GET(req: Request) {
           {/* Stars */}
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             {rated ? (
-              <span style={{ display: "flex", fontSize: 46, color: "#fbbf24" }}>
-                {"★".repeat(stars)}
-                <span style={{ color: "#334155" }}>{"★".repeat(5 - stars)}</span>
+              // Drawn as SVG: "★" is not in the subset font, and a missing
+              // glyph makes Satori throw.
+              <span style={{ display: "flex", gap: 6 }}>
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <svg key={i} width="44" height="44" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                      fill={i < stars ? "#fbbf24" : "#334155"}
+                    />
+                  </svg>
+                ))}
               </span>
             ) : (
               <span style={{ display: "flex" }} />
@@ -94,7 +102,7 @@ export async function GET(req: Request) {
                 padding: "14px 28px",
               }}
             >
-              🎁 {bonus}
+              {bonus}
             </span>
           ) : (
             <span style={{ display: "flex" }} />

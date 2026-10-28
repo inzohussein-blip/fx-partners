@@ -62,7 +62,7 @@ const STORAGE: Row[] = [
 ];
 
 const THIRD_PARTIES = [
-  { name: "Vercel Analytics & Speed Insights", cat: "catAnalytics" as Category, href: "https://vercel.com/legal/privacy-policy" },
+  { name: "Cloudflare Web Analytics", cat: "catAnalytics" as Category, href: "https://www.cloudflare.com/privacypolicy/" },
   { name: "TradingView", cat: "catExternal" as Category, href: "https://www.tradingview.com/privacy-policy/" },
   { name: "Binance (market prices)", cat: "catExternal" as Category, href: "https://www.binance.com/en/privacy" },
   { name: "jsDelivr / currency-api (exchange rates)", cat: "catExternal" as Category, href: "https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-net" },

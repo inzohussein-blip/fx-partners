@@ -1,7 +1,7 @@
 # FX Partners
 
 منصة الشراكة المالية (IB / Affiliate / B2B) لشركة **FX Partners** — مبنية بـ
-**Next.js (App Router) + Tailwind CSS + Supabase**، وجاهزة للنشر على **Vercel**.
+**Next.js (App Router) + Tailwind CSS + Supabase**، وتعمل على **Cloudflare Workers** (انظر `docs/cloudflare-migration.md`).
 
 الموقع ثنائي الطبقة:
 
@@ -36,7 +36,7 @@
 |---|---|---|
 | المصادقة | Supabase Auth واحدة للموقع واللوحة | نظام مصادقة ثانٍ منفصل |
 | الأمان المالي | **RLS على مستوى كل صف** — أساسي للبيانات المالية | RLS أضعف/يدوي فوق قاعدة منفصلة |
-| التشغيل | خدمة واحدة (Supabase + Vercel) | خدمة/سيرفر إضافي يجب استضافته وصيانته |
+| التشغيل | خدمة واحدة (Supabase + Cloudflare) | خدمة/سيرفر إضافي يجب استضافته وصيانته |
 | التحكم بالمحتوى بدون كود | Supabase Studio + جدول `site_content` و`posts` | لوحة تحرير أغنى (ميزة الطرف الآخر) |
 
 **الخلاصة:** لبيانات مالية حساسة، الأولوية للأمان والبساطة. نستخدم جدولي
@@ -150,13 +150,10 @@ where email = 'you@example.com';
 > [`supabase/migrations/0001_admin_withdrawal_trigger.sql`](./supabase/migrations/0001_admin_withdrawal_trigger.sql)
 > لإضافة trigger خصم المحفظة عند الدفع.
 
-## النشر على Vercel
+## النشر على Cloudflare
 
-1. ادفع المستودع إلى GitHub.
-2. استورد المشروع في Vercel واربطه بالمستودع.
-3. أضِف متغيرات البيئة نفسها (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`).
-4. في Supabase → Authentication → URL Configuration، أضِف دومين Vercel إلى
-   Redirect URLs.
+الخطوات الكاملة (الأسرار، النطاق، إعدادات Supabase) في [`docs/cloudflare-migration.md`](docs/cloudflare-migration.md).
+باختصار: `npm run cf:deploy` أو شغّل مسار GitHub `Deploy to Cloudflare Workers`.
 
 ## الأوامر
 

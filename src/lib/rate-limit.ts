@@ -50,12 +50,18 @@ export function rateLimit(
 }
 
 /**
- * Caller identity for limiting. Vercel sets x-forwarded-for; the leftmost
- * entry is the client. Falls back to a constant so a missing header limits
+ * Caller identity for limiting. On Cloudflare the client address is
+ * cf-connecting-ip (set by Cloudflare, not spoofable by the visitor); the
+ * leftmost x-forwarded-for entry is the fallback for other hosts and for
+ * local development. Falls back to a constant so a missing header limits
  * everyone together rather than letting everyone through unlimited.
  */
 export function clientKey(headers: Headers, scope: string): string {
   const fwd = headers.get("x-forwarded-for") ?? "";
-  const ip = fwd.split(",")[0]?.trim() || headers.get("x-real-ip") || "unknown";
+  const ip =
+    headers.get("cf-connecting-ip") ||
+    fwd.split(",")[0]?.trim() ||
+    headers.get("x-real-ip") ||
+    "unknown";
   return `${scope}:${ip}`;
 }

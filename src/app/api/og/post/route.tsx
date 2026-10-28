@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
-import { loadArabicFont } from "@/lib/og-font";
+import { loadArabicFont, fallbackCard } from "@/lib/og-font";
 
-export const runtime = "edge";
 
 /**
  * Social share card for a blog article. Blog posts had no image, so every
@@ -20,6 +19,7 @@ export async function GET(req: Request) {
     `${title} FX Partners مدوّنة دليل التداول · مقارنة الوسطاء`,
     700
   );
+  if (fonts.length === 0) return fallbackCard(1200, 630);
 
   return new ImageResponse(
     (
