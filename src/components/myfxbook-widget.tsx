@@ -34,3 +34,45 @@ export function MyfxbookWidget({ html, height, title }: { html: string; height: 
     </ExternalGate>
   );
 }
+
+/**
+ * A Myfxbook widget that is already an iframe on Myfxbook's own domain, with
+ * the credit link Myfxbook requires underneath. Cross-origin, so it cannot
+ * reach this page either.
+ */
+export function MyfxbookFrame({
+  src,
+  height,
+  title,
+  credit,
+  creditHref,
+}: {
+  src: string;
+  height: number;
+  title: string;
+  credit: string;
+  creditHref: string;
+}) {
+  return (
+    <ExternalGate minHeight={height}>
+      <iframe
+        title={title}
+        src={src}
+        loading="lazy"
+        className="w-full rounded-xl border border-fg/10 bg-white"
+        style={{ height }}
+      />
+      <p className="mt-2 text-center text-xs text-slate-500">
+        <a
+          href={creditHref}
+          target="_blank"
+          rel="noopener"
+          className="font-semibold text-slate-400 hover:text-fg"
+        >
+          {credit}
+        </a>{" "}
+        by Myfxbook.com
+      </p>
+    </ExternalGate>
+  );
+}

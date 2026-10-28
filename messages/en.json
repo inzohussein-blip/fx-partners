@@ -639,7 +639,8 @@
     "tableTitle": "Spreads published by the brokers",
     "outlookTitle": "Trader sentiment now",
     "outlookIntro": "The share of traders long or short on each pair, from real accounts connected to Myfxbook.",
-    "outlookNote": "A gauge of crowd positioning, not a recommendation. Many traders read it as a contrarian signal."
+    "outlookNote": "A gauge of crowd positioning, not a recommendation. Many traders read it as a contrarian signal.",
+    "liveNote": "The brokers here are the ones Myfxbook measures; not all of them are in our directory. Spreads exclude commission: on Raw accounts, add it for the full cost."
   },
   "ContactPage": {
     "metaTitle": "Contact us",
