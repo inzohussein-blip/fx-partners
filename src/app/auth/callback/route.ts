@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       // Referral attribution (best-effort; never blocks the redirect).
-      const cookieStore = cookies();
+      const cookieStore = await cookies();
       const ref = cookieStore.get("fxp_ref")?.value;
       if (ref) {
         try {

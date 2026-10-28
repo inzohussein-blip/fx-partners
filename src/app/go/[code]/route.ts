@@ -50,7 +50,7 @@ export async function GET(
     // Attribute to the agent whose link brought this visitor, if any. An
     // unknown or expired slug simply leaves the click unattributed rather
     // than blocking it.
-    const refSlug = cookies().get("fxp_ref")?.value ?? null;
+    const refSlug = (await cookies()).get("fxp_ref")?.value ?? null;
     let ibId: string | null = null;
     if (refSlug) {
       const { data: refLink } = await admin

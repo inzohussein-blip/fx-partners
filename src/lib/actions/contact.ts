@@ -36,7 +36,7 @@ export async function sendContactMessage(input: unknown): Promise<ActionResult> 
   // no human check in front of it. Unlimited, one script makes that channel
   // useless — and the channel also carries booking requests and new-partner
   // alerts, so losing it is not a small thing.
-  const limit = rateLimit(clientKey(headers(), "contact"), {
+  const limit = rateLimit(clientKey(await headers(), "contact"), {
     limit: 3,
     windowMs: 10 * 60 * 1000,
   });

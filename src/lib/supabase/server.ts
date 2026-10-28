@@ -6,17 +6,19 @@ import { cookies } from "next/headers";
  * Server Actions. Reads/writes the auth cookies via next/headers.
  */
 export function createClient() {
-  const cookieStore = cookies();
+  // Next 15+ made cookies() async. The cookie handlers below resolve it
+  // lazily, so this factory stays synchronous and its ~100 callers need no
+  // `await`.
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() {
-          return cookieStore.getAll();
+        async getAll() {
+          return (await cookies()).getAll();
         },
-        setAll(
+        async setAll(
           cookiesToSet: {
             name: string;
             value: string;
@@ -24,6 +26,7 @@ export function createClient() {
           }[]
         ) {
           try {
+            const cookieStore = await cookies();
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
             );
