@@ -50,18 +50,30 @@ export function rateLimit(
 }
 
 /**
- * Caller identity for limiting. On Cloudflare the client address is
- * cf-connecting-ip (set by Cloudflare, not spoofable by the visitor); the
- * leftmost x-forwarded-for entry is the fallback for other hosts and for
- * local development. Falls back to a constant so a missing header limits
- * everyone together rather than letting everyone through unlimited.
+ * Caller identity for limiting. Each host sets its own header and overwrites
+ * whatever the visitor sent: on Vercel that is x-forwarded-for / x-real-ip,
+ * on Cloudflare cf-connecting-ip. cf-connecting-ip is only trusted off Vercel,
+ * where a visitor could otherwise send their own and dodge the limit. Falls
+ * back to a constant so a missing header limits everyone together rather than
+ * letting everyone through unlimited.
  */
 export function clientKey(headers: Headers, scope: string): string {
   const fwd = headers.get("x-forwarded-for") ?? "";
   const ip =
-    headers.get("cf-connecting-ip") ||
+    (onVercel() ? null : headers.get("cf-connecting-ip")) ||
     fwd.split(",")[0]?.trim() ||
     headers.get("x-real-ip") ||
     "unknown";
   return `${scope}:${ip}`;
+}
+
+/** Visitor country from the host's geo header, same trust rule as above. */
+export function clientCountry(headers: Headers): string | null {
+  return onVercel()
+    ? headers.get("x-vercel-ip-country")
+    : headers.get("cf-ipcountry") || headers.get("x-vercel-ip-country");
+}
+
+function onVercel(): boolean {
+  return Boolean(process.env.VERCEL);
 }

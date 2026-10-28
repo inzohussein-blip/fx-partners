@@ -1,7 +1,7 @@
 # FX Partners
 
 منصة الشراكة المالية (IB / Affiliate / B2B) لشركة **FX Partners** — مبنية بـ
-**Next.js (App Router) + Tailwind CSS + Supabase**، وتعمل على **Cloudflare Workers** (انظر `docs/cloudflare-migration.md`).
+**Next.js (App Router) + Tailwind CSS + Supabase**، وتعمل على **Vercel** (مع خيار احتياطي على Cloudflare Workers في `docs/cloudflare-migration.md`).
 
 الموقع ثنائي الطبقة:
 
@@ -36,7 +36,7 @@
 |---|---|---|
 | المصادقة | Supabase Auth واحدة للموقع واللوحة | نظام مصادقة ثانٍ منفصل |
 | الأمان المالي | **RLS على مستوى كل صف** — أساسي للبيانات المالية | RLS أضعف/يدوي فوق قاعدة منفصلة |
-| التشغيل | خدمة واحدة (Supabase + Cloudflare) | خدمة/سيرفر إضافي يجب استضافته وصيانته |
+| التشغيل | خدمة واحدة (Supabase + Vercel) | خدمة/سيرفر إضافي يجب استضافته وصيانته |
 | التحكم بالمحتوى بدون كود | Supabase Studio + جدول `site_content` و`posts` | لوحة تحرير أغنى (ميزة الطرف الآخر) |
 
 **الخلاصة:** لبيانات مالية حساسة، الأولوية للأمان والبساطة. نستخدم جدولي
@@ -150,18 +150,18 @@ where email = 'you@example.com';
 > [`supabase/migrations/0001_admin_withdrawal_trigger.sql`](./supabase/migrations/0001_admin_withdrawal_trigger.sql)
 > لإضافة trigger خصم المحفظة عند الدفع.
 
-## النشر على Cloudflare
+## النشر
 
-الخطوات الكاملة (الأسرار، النطاق، إعدادات Supabase) في [`docs/cloudflare-migration.md`](docs/cloudflare-migration.md).
-باختصار: `npm run cf:deploy` أو شغّل مسار GitHub `Deploy to Cloudflare Workers`.
+على **Vercel**: كل دمج في `main` يُنشر تلقائياً. اضبط `NEXT_PUBLIC_SITE_URL=https://partners-fx.trade` ومتغيرات Supabase في إعدادات المشروع.
+
+Cloudflare Workers خيار احتياطي غير مفعّل: الخطوات في [`docs/cloudflare-migration.md`](docs/cloudflare-migration.md).
 
 ## الأوامر
 
 | الأمر | الوظيفة |
 |---|---|
 | `npm run dev` | تشغيل بيئة التطوير |
-| `npm run build` | بناء نسخة Cloudflare (يشغّل `build:next` ثم يحوّلها لـ Worker) |
-| `npm run build:next` | بناء Next.js فقط |
+| `npm run build` | بناء الإنتاج (Vercel) |
 | `npm run start` | تشغيل نسخة الإنتاج |
 | `npm run lint` | فحص ESLint |
 | `npm run typecheck` | فحص أنواع TypeScript |

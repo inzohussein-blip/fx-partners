@@ -1,7 +1,8 @@
 name: Deploy to Cloudflare Workers
 
 # Builds the site with OpenNext and deploys it to the Worker named in
-# wrangler.jsonc. Runs on pushes to main and on demand.
+# wrangler.jsonc. On demand only: the site is hosted on Vercel, and this is
+# kept as an alternative deploy target.
 #
 # NEXT_PUBLIC_* values are inlined into the JavaScript at BUILD time, so they
 # are read here (as repository *variables* — they are public by design) and
@@ -10,8 +11,6 @@ name: Deploy to Cloudflare Workers
 # Cloudflare (Workers & Pages → fx-partners → Settings → Variables and
 # Secrets), and `wrangler deploy` leaves them alone.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:

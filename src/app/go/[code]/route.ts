@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { clientCountry } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -39,10 +40,7 @@ export async function GET(req: Request, props: { params: Promise<{ code: string 
     if (!dest || !/^https?:\/\//i.test(dest)) return NextResponse.redirect(site);
 
     const headers = req.headers;
-    const country =
-      headers.get("cf-ipcountry") ||
-      headers.get("x-vercel-ip-country") ||
-      null;
+    const country = clientCountry(headers);
     const referer = headers.get("referer");
 
     // Attribute to the agent whose link brought this visitor, if any. An

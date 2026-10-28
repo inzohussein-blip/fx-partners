@@ -1,4 +1,10 @@
-# الانتقال من Vercel إلى Cloudflare
+# Cloudflare (خيار احتياطي، غير مفعّل)
+
+> **الاستضافة الحالية هي Vercel.** ملفات Cloudflare باقية في المستودع لكنها لا تعمل إلا إذا شغّلتها يدوياً:
+> Vercel يتجاهل `wrangler.jsonc` و`open-next.config.ts`، ومسار النشر `Deploy to Cloudflare Workers` لا يعمل إلا بالضغط على Run workflow.
+> للعودة إلى Cloudflare: Build command `npm run cf:build`، وDeploy command `npx wrangler deploy`، وأعد نصوص الخصوصية والكوكيز لتذكر Cloudflare.
+
+## الإعداد (عند استخدامه)
 
 الموقع يعمل الآن على **Cloudflare Workers** عبر المحوّل الرسمي OpenNext
 (`@opennextjs/cloudflare` 1.20) مع **Next.js 16.4** وReact 19.
@@ -44,7 +50,7 @@ GitHub → Settings → Secrets and variables → Actions:
 وتُنشأ سجلات DNS والشهادة وحدها لأن النطاق في الحساب نفسه.
 
 **إن كنت تنشر من لوحة Cloudflare (Workers Builds) بدل GitHub Actions:**
-- Build command: `npm run build` (يشغّل OpenNext، وهو بدوره يشغّل `next build`)
+- Build command: `npm run cf:build`
 - Deploy command: `npx wrangler deploy`
 - أضف متغيرات `NEXT_PUBLIC_*` في Settings → Build → Variables، لأنها تُدمج وقت البناء.
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
-import { rateLimit, clientKey } from "@/lib/rate-limit";
+import { rateLimit, clientKey, clientCountry } from "@/lib/rate-limit";
 
 /**
  * The contact form relays straight into the owner's Telegram — the same
@@ -69,5 +69,28 @@ describe("clientKey", () => {
   it("keeps scopes independent", () => {
     const h = new Headers({ "x-forwarded-for": "203.0.113.9" });
     expect(clientKey(h, "contact")).not.toBe(clientKey(h, "err"));
+  });
+});
+
+describe("host headers", () => {
+  const spoofed = new Headers({
+    "cf-connecting-ip": "6.6.6.6",
+    "cf-ipcountry": "XX",
+    "x-forwarded-for": "203.0.113.9",
+    "x-vercel-ip-country": "IQ",
+  });
+
+  it("ignores visitor-sent Cloudflare headers on Vercel", () => {
+    vi.stubEnv("VERCEL", "1");
+    expect(clientKey(spoofed, "c")).toBe("c:203.0.113.9");
+    expect(clientCountry(spoofed)).toBe("IQ");
+    vi.unstubAllEnvs();
+  });
+
+  it("trusts Cloudflare headers off Vercel", () => {
+    vi.stubEnv("VERCEL", "");
+    expect(clientKey(spoofed, "c")).toBe("c:6.6.6.6");
+    expect(clientCountry(spoofed)).toBe("XX");
+    vi.unstubAllEnvs();
   });
 });
