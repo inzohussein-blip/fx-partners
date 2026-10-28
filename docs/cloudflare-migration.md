@@ -75,4 +75,5 @@ Supabase → Authentication → URL Configuration:
   أضف R2 لاحقاً في `open-next.config.ts` إن زادت الكلفة.
 - `rate-limit` يعمل داخل كل نسخة من الـWorker (كما كان على Vercel).
 - ملف `src/middleware.ts` يعمل لكن Next 16 يسمّيه الآن `proxy` ويطبع تحذيراً وقت البناء. التحويل ممكن لاحقاً بـ `npx @next/codemod@canary middleware-to-proxy .`.
+- **ملف `src/middleware.ts` ابقَ عليه ولا تحوّله إلى `proxy.ts`:** Next 16 يطبع تحذير «deprecated» فقط، أما `proxy.ts` فيعمل على Cloudflare بمسار Node تجريبي غير مدعوم رسمياً من OpenNext، وهذا الملف يحمي `/dashboard`.
 - قواعد ESLint الجديدة الخاصة بـ React (مثل `set-state-in-effect`) مضبوطة كتحذيرات لا أخطاء.
