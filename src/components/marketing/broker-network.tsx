@@ -53,7 +53,7 @@ export async function BrokerNetwork() {
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-400">{t("subheading")}</p>
             <Link
-              href="/brokers"
+              href="/compare"
               className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300 transition hover:gap-2.5 hover:text-brand-200"
             >
               {t("cta")}

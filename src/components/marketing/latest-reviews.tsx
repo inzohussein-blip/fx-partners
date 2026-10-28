@@ -67,7 +67,7 @@ export async function LatestReviews() {
             <p className="mt-3 max-w-xl text-slate-400">{t("subheading")}</p>
           </div>
           <Link
-            href="/brokers"
+            href="/compare"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-300 transition hover:gap-2.5 hover:text-brand-200"
           >
             {t("viewAll")}

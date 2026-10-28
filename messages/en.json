@@ -265,7 +265,8 @@
     "cookies": "Cookies",
     "payouts": "Commission & payouts",
     "bestFor": "Best for",
-    "methodology": "Methodology"
+    "methodology": "Methodology",
+    "forBrokers": "For brokers (B2B)"
   },
   "Login": {
     "signInTitle": "Sign in",

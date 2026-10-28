@@ -28,7 +28,8 @@ export async function SiteFooter() {
       title: t("community"),
       links: [
         { href: "/affiliates", label: t("affiliateProgram") },
-        { href: "/brokers", label: t("brokersDir") },
+        { href: "/compare", label: t("brokersDir") },
+        { href: "/brokers", label: t("forBrokers") },
         { href: "/forum", label: t("forum") },
         { href: "/offers", label: t("liveOffers") },
         { href: "/blog", label: t("blog") },
