@@ -8,7 +8,10 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { getUpcomingEvents, EVENT_KINDS, type BrokerEvent } from "@/lib/calendar";
 import { CalendarDays, Building2 } from "lucide-react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { TradingViewWidget } from "@/components/tradingview-widget";
+import { TV_BASE, CALENDAR_COUNTRIES } from "@/lib/tradingview";
 
 export const revalidate = 300;
 
@@ -57,6 +60,7 @@ export default async function CalendarPage(
 
   setRequestLocale(locale);
   const events = await getUpcomingEvents();
+  const tm = await getTranslations({ locale, namespace: "MarketsPage" });
 
   // Group by date for an agenda view.
   const groups = new Map<string, BrokerEvent[]>();
@@ -81,6 +85,30 @@ export default async function CalendarPage(
               align="start"
             />
           </div>
+
+          <section className="card-surface mt-10 p-4 sm:p-5">
+            <h2 className="text-lg font-semibold text-fg">{tm("calTitle")}</h2>
+            <p className="mt-1 text-sm text-slate-400">{tm("calIntro")}</p>
+            <div className="mt-4">
+              <TradingViewWidget
+                scriptSrc={`${TV_BASE}/embed-widget-events.js`}
+                height={520}
+                config={{
+                  width: "100%",
+                  height: "100%",
+                  isTransparent: true,
+                  importanceFilter: "0,1",
+                  countryFilter: CALENDAR_COUNTRIES,
+                }}
+              />
+            </div>
+            <Link
+              href="/markets"
+              className="mt-3 inline-block text-sm font-semibold text-brand-300 hover:text-brand-200"
+            >
+              {tm("calMore")}
+            </Link>
+          </section>
 
           <div className="mt-10">
             {events.length === 0 ? (

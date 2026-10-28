@@ -16,6 +16,7 @@ const STATIC_PATHS = [
   "/affiliates",
   "/compare",
   "/compare/vs",
+  "/markets",
   "/spreads",
   "/tools",
   "/calendar",

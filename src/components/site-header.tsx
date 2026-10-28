@@ -22,6 +22,7 @@ export function SiteHeader() {
 
   const more = [
     { href: "/compare", label: t("compare") },
+    { href: "/markets", label: t("markets") },
     { href: "/spreads", label: t("spreads") },
     { href: "/tools", label: t("tools") },
     { href: "/calendar", label: t("calendar") },

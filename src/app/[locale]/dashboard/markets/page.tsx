@@ -2,8 +2,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { CandlestickChart } from "lucide-react";
 import { TradingViewWidget } from "@/components/tradingview-widget";
 import { setRequestLocale } from "next-intl/server";
-
-const BASE = "https://s3.tradingview.com/external-embedding";
+import { TV_BASE as BASE, CALENDAR_COUNTRIES, tickerSymbols } from "@/lib/tradingview";
 
 export default async function MarketsNewsPage(
   props: {
@@ -31,18 +30,10 @@ export default async function MarketsNewsPage(
           scriptSrc={`${BASE}/embed-widget-ticker-tape.js`}
           height={46}
           config={{
-            symbols: [
-              { proName: "FX_IDC:EURUSD", title: "EUR/USD" },
-              { proName: "OANDA:XAUUSD", title: "الذهب" },
-              { proName: "FX_IDC:GBPUSD", title: "GBP/USD" },
-              { proName: "FX_IDC:USDJPY", title: "USD/JPY" },
-              { proName: "BINANCE:BTCUSDT", title: "BTC" },
-            ],
+            symbols: tickerSymbols(locale),
             showSymbolLogo: true,
-            colorTheme: "dark",
             isTransparent: true,
             displayMode: "adaptive",
-            locale: "ar",
           }}
         />
       </div>
@@ -57,13 +48,11 @@ export default async function MarketsNewsPage(
             scriptSrc={`${BASE}/embed-widget-events.js`}
             height={560}
             config={{
-              colorTheme: "dark",
               isTransparent: true,
               width: "100%",
               height: "100%",
-              locale: "ar",
               importanceFilter: "0,1",
-              countryFilter: "us,eu,gb,jp,ca,au,ch,cn",
+              countryFilter: CALENDAR_COUNTRIES,
             }}
           />
         </section>
@@ -75,11 +64,9 @@ export default async function MarketsNewsPage(
             scriptSrc={`${BASE}/embed-widget-timeline.js`}
             height={560}
             config={{
-              colorTheme: "dark",
               isTransparent: true,
               width: "100%",
               height: "100%",
-              locale: "ar",
               feedMode: "market",
               market: "forex",
               displayMode: "regular",

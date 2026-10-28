@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLocale } from "next-intl";
+import { useTheme } from "next-themes";
 import { useAllowed } from "@/components/consent/provider";
+import { ExternalGate } from "@/components/consent/external-gate";
+import { tvLocale } from "@/lib/tradingview";
 
 /**
  * Generic embedder for TradingView's free external widgets (economic
@@ -19,8 +23,24 @@ import { useAllowed } from "@/components/consent/provider";
  *      interaction), so it never competes with the hero for LCP.
  * The container reserves its final height up front, so deferring costs no
  * layout shift.
+ *
+ * Theme and language follow the site: `colorTheme` and `locale` are filled in
+ * here (any value passed in config is overridden), and switching the site's
+ * theme re-embeds the widget in the matching one.
  */
-export function TradingViewWidget({
+export function TradingViewWidget(props: {
+  scriptSrc: string;
+  config: Record<string, unknown>;
+  height?: number;
+}) {
+  return (
+    <ExternalGate minHeight={props.height ?? 500}>
+      <Embed {...props} />
+    </ExternalGate>
+  );
+}
+
+function Embed({
   scriptSrc,
   config,
   height = 500,
@@ -32,6 +52,10 @@ export function TradingViewWidget({
   const ref = useRef<HTMLDivElement>(null);
   const [armed, setArmed] = useState(false);
   const allowed = useAllowed("external");
+  const locale = useLocale();
+  const { resolvedTheme } = useTheme();
+  const theme = resolvedTheme === "light" ? "light" : "dark";
+  const fullConfig = { ...config, colorTheme: theme, locale: tvLocale(locale) };
 
   // 1) Arm only when the widget is near the viewport, then wait for idle or
   //    the first real interaction — whichever comes first.
@@ -84,7 +108,7 @@ export function TradingViewWidget({
 
   // 2) Inject the embed once armed.
   useEffect(() => {
-    if (!armed || !allowed) return;
+    if (!armed || !allowed || !resolvedTheme) return;
     const container = ref.current;
     if (!container) return;
     container.innerHTML = "";
@@ -105,14 +129,14 @@ export function TradingViewWidget({
     script.src = scriptSrc;
     script.type = "text/javascript";
     script.async = true;
-    script.innerHTML = JSON.stringify(config);
+    script.innerHTML = JSON.stringify(fullConfig);
     container.appendChild(script);
 
     return () => {
       container.innerHTML = "";
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [armed, allowed, scriptSrc, height, JSON.stringify(config)]);
+  }, [armed, allowed, resolvedTheme, scriptSrc, height, JSON.stringify(fullConfig)]);
 
   return (
     <div

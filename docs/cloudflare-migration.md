@@ -37,8 +37,7 @@ GitHub → Settings → Secrets and variables → Actions:
 أضف كـ **Secret** (التي تستخدمها عندك فقط):
 
 `SUPABASE_SERVICE_ROLE_KEY`، `EMAIL_HOOK_SECRET`، `TELEGRAM_BOT_TOKEN`،
-`TELEGRAM_HOOK_SECRET`، `TELEGRAM_ADMIN_CHAT_ID`، `TELEGRAM_SIGNALS_CHAT_ID`،
-`TWELVEDATA_API_KEY`.
+`TELEGRAM_HOOK_SECRET`، `TELEGRAM_ADMIN_CHAT_ID`، `TELEGRAM_SIGNALS_CHAT_ID`.
 
 نشر لاحق لا يمحوها.
 
