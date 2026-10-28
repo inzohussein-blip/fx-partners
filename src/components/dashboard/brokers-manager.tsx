@@ -690,7 +690,7 @@ function AdminReplyForm({ brokerId, onDone }: { brokerId: string; onDone: () => 
         <StarInput value={stars} onChange={setStars} size={22} />
         <input
           className={`${input} flex-1`}
-          placeholder="اسم العرض (افتراضي: إدارة FX Partners)"
+          placeholder="اسم العرض (افتراضي: إدارة Partners FX)"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

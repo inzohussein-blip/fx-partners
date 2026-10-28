@@ -7,7 +7,7 @@
 //
 // Deploy:   supabase functions deploy send-email
 // Secrets:  supabase secrets set RESEND_API_KEY=re_xxx \
-//             RESEND_FROM="FX Partners <partners@your-domain.com>"
+//             RESEND_FROM="Partners FX <partners@your-domain.com>"
 //
 // Invoked from the app via supabase.functions.invoke("send-email", { body }),
 // or from a database webhook/trigger with a service-role token.
@@ -25,7 +25,7 @@ Deno.serve(async (req: Request) => {
   }
 
   const apiKey = Deno.env.get("RESEND_API_KEY");
-  const from = Deno.env.get("RESEND_FROM") ?? "FX Partners <onboarding@resend.dev>";
+  const from = Deno.env.get("RESEND_FROM") ?? "Partners FX <onboarding@resend.dev>";
   if (!apiKey) {
     return json({ error: "RESEND_API_KEY is not set" }, 500);
   }

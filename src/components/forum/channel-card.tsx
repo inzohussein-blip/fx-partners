@@ -25,7 +25,7 @@ export function ChannelCard({ channel }: { channel: Channel }) {
             )}
           </div>
           <p className="truncate text-xs text-slate-500">
-            {official ? "قناة رسمية · FX Partners" : channel.owner_name || "وكيل معتمد"}
+            {official ? "قناة رسمية · Partners FX" : channel.owner_name || "وكيل معتمد"}
           </p>
         </div>
       </div>

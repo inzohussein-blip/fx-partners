@@ -6,7 +6,7 @@ import { SITE, sameAs } from "@/lib/seo";
  * Site-wide Organization + WebSite structured data.
  *
  * This is the entity record: the thing that lets Google, Bing and the answer
- * engines decide that "FX Partners" is one known organisation rather than a
+ * engines decide that "Partners FX" is one known organisation rather than a
  * string that happens to appear on some pages. Two details carry most of the
  * weight:
  *

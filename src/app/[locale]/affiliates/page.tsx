@@ -55,7 +55,7 @@ export async function generateMetadata(
 function Gradient(chunks: React.ReactNode) {
   return <span className="text-gradient">{chunks}</span>;
 }
-/** "FX Partners" inside the model paragraph. */
+/** "Partners FX" inside the model paragraph. */
 function Strong(chunks: React.ReactNode) {
   return <span className="font-semibold text-fg">{chunks}</span>;
 }

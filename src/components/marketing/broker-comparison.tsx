@@ -19,7 +19,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-// FX Partners auto-tier by monthly lot volume (illustrative $/lot).
+// Partners FX auto-tier by monthly lot volume (illustrative $/lot).
 const FX_TIERS = [
   { min: 0, perLot: 6, label: "مبتدئ" },
   { min: 100, perLot: 8, label: "ذهبي" },
@@ -120,7 +120,7 @@ export function BrokerComparison() {
             قارن عمولتك خلال 3 خطوات
           </h2>
           <p className="mt-4 text-slate-400">
-            أدخل أرقامك الحقيقية وشاهد الفرق بين FX Partners ووسيطك الحالي — لحظياً.
+            أدخل أرقامك الحقيقية وشاهد الفرق بين Partners FX ووسيطك الحالي — لحظياً.
           </p>
         </div>
 
@@ -267,13 +267,13 @@ export function BrokerComparison() {
               {step === 2 && (
                 <div className="space-y-6">
                   <div className="grid gap-4 sm:grid-cols-2">
-                    {/* FX Partners */}
+                    {/* Partners FX */}
                     <div className="relative overflow-hidden rounded-2xl border border-brand-500/30 p-5">
                       <div className="hero-glow absolute inset-0 opacity-60" />
                       <div className="relative">
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-bold text-fg">
-                            FX Partners
+                            Partners FX
                           </span>
                           <span className="rounded-full bg-brand-500/20 px-2 py-0.5 text-xs sm:text-[10px] text-brand-200">
                             مستوى {result.tier.label}
@@ -349,7 +349,7 @@ export function BrokerComparison() {
                       </>
                     ) : (
                       <div className="text-sm text-slate-300">
-                        عمولتك الحالية قريبة من عرضنا — لكن مع FX Partners تحصل على صرف
+                        عمولتك الحالية قريبة من عرضنا — لكن مع Partners FX تحصل على صرف
                         خلال 24 ساعة، أدوات تسويق، وترقية تلقائية للمستوى.
                       </div>
                     )}

@@ -108,7 +108,7 @@ export async function SiteFooter() {
         <div className="border-t border-fg/5 py-6">
           <Container className="flex flex-col items-center justify-between gap-3 text-xs text-slate-500 sm:flex-row">
             <p>
-              © {new Date().getFullYear()} FX Partners. {t("rights")}
+              © {new Date().getFullYear()} Partners FX. {t("rights")}
             </p>
             {/* A standalone row of links, not prose, so WCAG 2.5.8's
                 inline-link exemption does not apply: each needs to be at

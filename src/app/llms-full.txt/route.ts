@@ -31,7 +31,7 @@ function field(label: string, value: unknown, suffix = ""): string {
  * /llms-full.txt — the long form of /llms.txt, rendered from live data.
  *
  * An assistant that fetches one URL from this site should be able to answer
- * "which brokers does FX Partners list, and what is actually known about
+ * "which brokers does Partners FX list, and what is actually known about
  * each?" without crawling thirty pages. Unknown fields are printed as
  * "غير متحقَّق منه" rather than omitted, because a silently missing field is
  * exactly what invites a model to fill the gap from somewhere else.
@@ -108,7 +108,7 @@ export async function GET() {
       out.push(`- الصفحة: ${base}/brokers/${b.slug}`);
       if (b.description) out.push(`- الوصف: ${b.description}`);
       out.push(
-        `- علاقتنا بها: ${b.status === "partnered" ? "شريك متعاقد عبر FX Partners" : "مدرجة للمقارنة، بلا تعاقد"}`
+        `- علاقتنا بها: ${b.status === "partnered" ? "شريك متعاقد عبر Partners FX" : "مدرجة للمقارنة، بلا تعاقد"}`
       );
       out.push(
         b.licenses?.length

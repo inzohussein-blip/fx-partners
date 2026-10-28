@@ -41,7 +41,7 @@ export default async function UpdatesPage(
       <PageHeader
         icon={Sparkles}
         title={"آخر التحديثات"}
-        subtitle={"كل جديد في FX Partners: الميزات، العروض، وتغييرات نسب العمولات."}
+        subtitle={"كل جديد في Partners FX: الميزات، العروض، وتغييرات نسب العمولات."}
       />
 
       {items.length === 0 ? (

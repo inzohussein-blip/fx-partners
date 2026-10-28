@@ -75,13 +75,13 @@ export async function generateMetadata(
   // Google that /compare, /tools and the rest were duplicates of "/".
   // Each page now declares its own canonical via pageMeta().
   return {
-    title: { default: t("title"), template: "%s | FX Partners" },
+    title: { default: t("title"), template: "%s | Partners FX" },
     description: t("description"),
     metadataBase: new URL(getSiteUrl()),
     openGraph: {
       type: "website",
       url: locale === "ar" ? "/" : "/en",
-      siteName: "FX Partners",
+      siteName: "Partners FX",
       locale: locale === "ar" ? "ar_AR" : "en_US",
       title: t("title"),
       description: t("description"),

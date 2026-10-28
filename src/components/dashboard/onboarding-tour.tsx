@@ -15,7 +15,7 @@ type Step = {
 const STEPS: Step[] = [
   {
     selector: '[data-tour="overview"]',
-    title: "أهلاً بك في FX Partners 👋",
+    title: "أهلاً بك في Partners FX 👋",
     text: "هذه لوحتك. من النظرة العامة تتابع أرباحك وحجم تداولك وإحالاتك ومستواك.",
   },
   {

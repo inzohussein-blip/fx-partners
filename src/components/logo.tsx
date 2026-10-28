@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * FX Partners brand mark — a metallic "P" ribbon: a silver upper form melting
+ * Partners FX brand mark — a metallic "P" ribbon: a silver upper form melting
  * into electric-cyan → bright-blue, per the Partners FX visual identity.
  * Rendered with a diagonal metallic gradient, a specular highlight edge, and
  * a soft drop shadow for a premium 3D feel.
@@ -78,8 +78,8 @@ export function Logo({
     <span className={cn("flex items-center gap-2.5", className)}>
       <LogoMark className={cn("h-8 w-8", markClassName)} />
       <span className="text-lg font-extrabold uppercase tracking-[0.14em] text-silver">
-        <span className="bg-brand-gradient bg-clip-text text-transparent">FX</span>{" "}
-        Partners
+        Partners{" "}
+        <span className="bg-brand-gradient bg-clip-text text-transparent">FX</span>
       </span>
     </span>
   );

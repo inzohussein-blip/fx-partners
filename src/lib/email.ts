@@ -28,7 +28,7 @@ async function build<T extends keyof Payloads>(
     case "welcome": {
       const d = data as Payloads["welcome"];
       return {
-        subject: "أهلاً بك في FX Partners",
+        subject: "أهلاً بك في Partners FX",
         html: await render(createElement(WelcomeEmail, { ...d, dashboardUrl })),
       };
     }

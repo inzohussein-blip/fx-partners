@@ -12,7 +12,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-/** Shared FX Partners branded email shell (navy + cyan, RTL). */
+/** Shared Partners FX branded email shell (navy + cyan, RTL). */
 export function BrandEmail({
   preview,
   heading,
@@ -37,7 +37,7 @@ export function BrandEmail({
           >
             <Section className="text-center">
               <Text className="m-0 text-[22px] font-bold text-fg">
-                <span style={{ color: "#22d3ee" }}>FX</span> Partners
+                Partners <span style={{ color: "#22d3ee" }}>FX</span>
               </Text>
             </Section>
 
@@ -53,7 +53,7 @@ export function BrandEmail({
 
             <Hr style={{ borderColor: "rgba(255,255,255,0.08)" }} className="my-6" />
             <Text className="m-0 text-center text-[12px]" style={{ color: "#64748b" }}>
-              © FX Partners — منصة الشراكة المالية
+              © Partners FX — منصة الشراكة المالية
             </Text>
           </Container>
         </Body>

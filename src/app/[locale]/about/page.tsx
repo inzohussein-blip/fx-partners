@@ -40,8 +40,8 @@ export async function generateMetadata(
     path: "/about",
     keywords:
       locale === "ar"
-        ? ["من نحن", "FX Partners", "وكيل ماستر", "master ib", "سياسة التحرير"]
-        : ["about FX Partners", "master IB", "introducing broker", "editorial policy"],
+        ? ["من نحن", "Partners FX", "وكيل ماستر", "master ib", "سياسة التحرير"]
+        : ["about Partners FX", "master IB", "introducing broker", "editorial policy"],
     locale,
   });
 }

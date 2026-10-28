@@ -5,15 +5,15 @@ import { getSiteUrl } from "@/lib/utils";
  * Central SEO surface for the whole site.
  *
  * Everything a search engine, an AI crawler, or an autonomous agent needs to
- * understand *what FX Partners is* lives here in one place: the entity facts,
+ * understand *what Partners FX is* lives here in one place: the entity facts,
  * the keyword sets per section, and the metadata builder every page uses. One
  * source of truth means a positioning change is one edit, not thirty.
  */
 
 /** Who we are — the entity facts, stated the same way everywhere. */
 export const SITE = {
-  name: "FX Partners",
-  alternateName: "إف إكس بارتنرز",
+  name: "Partners FX",
+  alternateName: "بارتنرز إف إكس",
   /**
    * The positioning, in one line. This is the single most important string on
    * the site for entity recognition: we are an intermediary and master IB, not
@@ -24,8 +24,8 @@ export const SITE = {
     en: "A partnership intermediary and master IB connecting traders and agents with global brokers.",
   },
   description: {
-    ar: "FX Partners ليست شركة تداول. نحن وسيط شراكة ووكيل ماستر نتعامل مع مجموعة من شركات التداول المرخّصة، ونربط المتداولين والوكلاء (IB) بها بشروط تفاوضنا عليها: مقارنة شفّافة للشركات وتراخيصها، عروض محدّثة، عمولات وكلاء واضحة، وأدوات تداول مجانية — بالعربية.",
-    en: "FX Partners is not a broker. We are a partnership intermediary and master IB working with a network of licensed brokers, connecting traders and introducing brokers to them on negotiated terms: transparent broker and licence comparison, current offers, clear agent commissions, and free trading tools.",
+    ar: "Partners FX ليست شركة تداول. نحن وسيط شراكة ووكيل ماستر نتعامل مع مجموعة من شركات التداول المرخّصة، ونربط المتداولين والوكلاء (IB) بها بشروط تفاوضنا عليها: مقارنة شفّافة للشركات وتراخيصها، عروض محدّثة، عمولات وكلاء واضحة، وأدوات تداول مجانية — بالعربية.",
+    en: "Partners FX is not a broker. We are a partnership intermediary and master IB working with a network of licensed brokers, connecting traders and introducing brokers to them on negotiated terms: transparent broker and licence comparison, current offers, clear agent commissions, and free trading tools.",
   },
   languages: ["ar", "en"],
   /** Primary audience regions, for `areaServed` in structured data. */

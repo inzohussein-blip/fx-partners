@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "FX Partners — منصة الشراكة المالية",
-    short_name: "FX Partners",
+    name: "Partners FX — منصة الشراكة المالية",
+    short_name: "Partners FX",
     description:
       "منصة شراكة مالية تربط الوكلاء والمسوّقين بأفضل شركات التداول العالمية.",
     start_url: "/",

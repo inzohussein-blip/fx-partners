@@ -24,7 +24,7 @@ export async function GET(req: Request) {
 
   // Always load the font, even for Latin-only text: on Cloudflare Workers
   // next/og has no built-in fallback, so rendering without one throws.
-  const fonts = await loadArabicFont(`FX Partners Global Trading Partnerships Official Partner ${name} ${ref}`, 700);
+  const fonts = await loadArabicFont(`Partners FX Global Trading Partnerships Official Partner ${name} ${ref}`, 700);
   if (fonts.length === 0) return fallbackCard(w, h);
 
   return new ImageResponse(
@@ -47,10 +47,10 @@ export async function GET(req: Request) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: unit * 0.03 }}>
+          <span style={{ fontSize: unit * 0.17, fontWeight: 800 }}>Partners</span>
           <span style={{ color: "#54D8F0", fontSize: unit * 0.17, fontWeight: 800 }}>
             FX
           </span>
-          <span style={{ fontSize: unit * 0.17, fontWeight: 800 }}>Partners</span>
         </div>
 
         {!horizontal && (

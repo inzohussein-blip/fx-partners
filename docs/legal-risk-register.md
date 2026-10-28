@@ -18,7 +18,7 @@ than starting from the site.
 
 **Promoting leveraged trading is a regulated activity in most of the world.**
 
-FX Partners is an introducing broker: it markets brokers who offer leveraged
+Partners FX is an introducing broker: it markets brokers who offer leveraged
 forex and CFDs, and is paid per client it introduces. In a large number of
 jurisdictions that is a regulated financial promotion, and doing it without
 authorisation is an offence — not a civil matter, an offence.

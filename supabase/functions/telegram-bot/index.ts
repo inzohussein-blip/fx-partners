@@ -54,7 +54,7 @@ Deno.serve(async (req: Request) => {
         .update({ telegram_chat_id: String(chatId), telegram_link_token: null })
         .eq("id", profile.id);
       await reply(
-        "✅ تم ربط حسابك في <b>FX Partners</b> بنجاح!\nستصلك تنبيهات الإحالات والعمولات هنا."
+        "✅ تم ربط حسابك في <b>Partners FX</b> بنجاح!\nستصلك تنبيهات الإحالات والعمولات هنا."
       );
     } else {
       await reply(
@@ -63,7 +63,7 @@ Deno.serve(async (req: Request) => {
     }
   } else if (text === "/start") {
     await reply(
-      "مرحباً بك في بوت <b>FX Partners</b> 👋\nاربط حسابك من صفحة الإعدادات في لوحة التحكم لاستقبال التنبيهات."
+      "مرحباً بك في بوت <b>Partners FX</b> 👋\nاربط حسابك من صفحة الإعدادات في لوحة التحكم لاستقبال التنبيهات."
     );
   }
 

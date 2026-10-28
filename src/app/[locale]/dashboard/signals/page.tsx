@@ -42,7 +42,7 @@ export default async function SignalsPage(
       <PageHeader
         icon={Radio}
         title={"التوصيات والتحليلات"}
-        subtitle={"توصيات وتحليلات فنية فورية من فريق FX Partners — تتحدّث لحظياً."}
+        subtitle={"توصيات وتحليلات فنية فورية من فريق Partners FX — تتحدّث لحظياً."}
       />
 
       <SignalsFeed initial={signals} />

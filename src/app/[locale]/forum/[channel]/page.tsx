@@ -22,10 +22,10 @@ export async function generateMetadata(
   const channel = await getChannel(params.channel);
   if (!channel) return { title: "قناة غير موجودة" };
   return pageMeta({
-    title: `${channel.name} — منتدى FX Partners`,
+    title: `${channel.name} — منتدى Partners FX`,
     description:
       channel.description ??
-      `قناة ${channel.name} في منتدى FX Partners: تحليلات وأخبار ونقاش مع المتداولين.`,
+      `قناة ${channel.name} في منتدى Partners FX: تحليلات وأخبار ونقاش مع المتداولين.`,
     path: `/forum/${params.channel}`,
     locale: params.locale,
   });
@@ -65,7 +65,7 @@ export default async function ChannelPage(
                 )}
               </div>
               <p className="mt-1 text-sm text-slate-500">
-                {official ? "قناة رسمية · FX Partners" : channel.owner_name || "وكيل معتمد"}
+                {official ? "قناة رسمية · Partners FX" : channel.owner_name || "وكيل معتمد"}
               </p>
               {channel.description && (
                 <p className="mt-3 max-w-2xl text-slate-300">{channel.description}</p>

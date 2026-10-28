@@ -24,7 +24,7 @@ export async function generateMetadata(
   return pageMeta({
     title: "خريطة الموقع",
     description:
-      "دليل كامل بكل صفحات وأقسام FX Partners: الشركات، المقارنات، الأدوات، المنتدى، والمدوّنة.",
+      "دليل كامل بكل صفحات وأقسام Partners FX: الشركات، المقارنات، الأدوات، المنتدى، والمدوّنة.",
     path: "/sitemap",
     locale,
   });

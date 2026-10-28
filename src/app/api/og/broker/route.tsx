@@ -41,8 +41,8 @@ export async function GET(req: Request) {
       >
         {/* Brand row */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ color: "#54D8F0", fontSize: 40, fontWeight: 800 }}>FX</span>
           <span style={{ fontSize: 40, fontWeight: 800 }}>Partners</span>
+          <span style={{ color: "#54D8F0", fontSize: 40, fontWeight: 800 }}>FX</span>
         </div>
 
         {/* Broker name + status */}

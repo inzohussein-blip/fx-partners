@@ -287,7 +287,7 @@ export default async function BrokerDetailPage(
     "@type": "Product",
     name: broker.name,
     description:
-      broker.description ?? `مراجعة وتقييم شركة ${broker.name} على FX Partners.`,
+      broker.description ?? `مراجعة وتقييم شركة ${broker.name} على Partners FX.`,
     brand: { "@type": "Brand", name: broker.name },
     url: `${getSiteUrl()}/brokers/${broker.slug}`,
   };

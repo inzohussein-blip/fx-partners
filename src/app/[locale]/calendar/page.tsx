@@ -77,7 +77,7 @@ export default async function CalendarPage(
               eyebrow="التقويم"
               icon={CalendarDays}
               title="تقويم عطلات وأحداث الشركات"
-              subtitle="عطلات التداول، تغييرات الهامش، وساعات التداول لكل شركة — محدّثة من فريق FX Partners."
+              subtitle="عطلات التداول، تغييرات الهامش، وساعات التداول لكل شركة — محدّثة من فريق Partners FX."
               align="start"
             />
           </div>

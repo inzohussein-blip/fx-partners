@@ -1,6 +1,6 @@
-# FX Partners
+# Partners FX
 
-منصة الشراكة المالية (IB / Affiliate / B2B) لشركة **FX Partners** — مبنية بـ
+منصة الشراكة المالية (IB / Affiliate / B2B) لشركة **Partners FX** — مبنية بـ
 **Next.js (App Router) + Tailwind CSS + Supabase**، وتعمل على **Vercel** (مع خيار احتياطي على Cloudflare Workers في `docs/cloudflare-migration.md`).
 
 الموقع ثنائي الطبقة:
@@ -186,7 +186,7 @@ Cloudflare Workers خيار احتياطي غير مفعّل: الخطوات ف�
 
 ## البريد الاحترافي للشركاء (React Email + Supabase Edge Function)
 
-قوالب بريد مصمّمة بـ **React Email** (بهوية FX Partners) في `src/emails/`:
+قوالب بريد مصمّمة بـ **React Email** (بهوية Partners FX) في `src/emails/`:
 `welcome` (وكيل جديد)، `withdrawal_requested` (تأكيد طلب سحب)، و`monthly_report`
 (تقرير الأرباح الشهري).
 
@@ -206,7 +206,7 @@ supabase functions deploy send-email
 
 # 2) اضبط أسرار Resend (احصل على مفتاح من resend.com)
 supabase secrets set RESEND_API_KEY=re_xxx \
-  RESEND_FROM="FX Partners <partners@your-domain.com>"
+  RESEND_FROM="Partners FX <partners@your-domain.com>"
 ```
 
 - بدون ضبط Resend لا يتعطّل شيء — الإرسال يفشل بصمت (best-effort).

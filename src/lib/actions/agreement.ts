@@ -20,7 +20,7 @@ function admin() {
 }
 
 const CLAUSES = [
-  "This Partnership Agreement is entered into between FX Partners (the Company) and the undersigned partner.",
+  "This Partnership Agreement is entered into between Partners FX (the Company) and the undersigned partner.",
   "1. The partner agrees to promote the Company's services in a lawful and ethical manner.",
   "2. Commissions are earned per the partner's active tier and are paid according to the Company's payout policy.",
   "3. The partner shall keep all confidential information private (NDA) and shall not misrepresent the Company.",
@@ -67,7 +67,7 @@ export async function signAgreement(input: {
     const gray = rgb(0.3, 0.35, 0.42);
 
     let y = 780;
-    page.drawText("FX Partners", { x: 50, y, size: 22, font: bold, color: navy });
+    page.drawText("Partners FX", { x: 50, y, size: 22, font: bold, color: navy });
     y -= 26;
     page.drawText("Partnership Agreement", { x: 50, y, size: 14, font: bold, color: gray });
     y -= 40;

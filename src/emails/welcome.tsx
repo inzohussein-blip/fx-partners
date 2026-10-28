@@ -10,8 +10,8 @@ export type WelcomeEmailProps = {
 export function WelcomeEmail({ name, dashboardUrl }: WelcomeEmailProps) {
   return (
     <BrandEmail
-      preview="أهلاً بك في شبكة شركاء FX Partners"
-      heading={`أهلاً${name ? ` ${name}` : ""} في FX Partners 👋`}
+      preview="أهلاً بك في شبكة شركاء Partners FX"
+      heading={`أهلاً${name ? ` ${name}` : ""} في Partners FX 👋`}
     >
       <Text className="text-[14px] leading-[22px]" style={{ color: "#cbd5e1" }}>
         سعداء بانضمامك إلى شبكة شركائنا. بعد اعتماد حسابك ستحصل على كود وكيل وروابط

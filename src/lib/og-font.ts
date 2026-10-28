@@ -64,15 +64,17 @@ export async function loadArabicFont(
  * degrading to boxes. Callers check for an empty font list and return this
  * instead — Latin brand text only, which needs no font file.
  */
-export function fallbackCard(width: number, height: number, label = "FX Partners"): Response {
-  const esc = label.replace(/[<>&"']/g, "");
+export function fallbackCard(width: number, height: number, label?: string): Response {
+  const text = label
+    ? label.replace(/[<>&"']/g, "")
+    : `Partners <tspan fill="#54D8F0">FX</tspan>`;
   const size = Math.round(Math.min(width, height) * 0.14);
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">` +
     `<rect width="100%" height="100%" fill="#0A0F14"/>` +
     `<text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle" ` +
     `font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="${size}" fill="#ffffff">` +
-    `<tspan fill="#54D8F0">FX</tspan> ${esc}</text></svg>`;
+    `${text}</text></svg>`;
   return new Response(svg, {
     headers: {
       "content-type": "image/svg+xml; charset=utf-8",

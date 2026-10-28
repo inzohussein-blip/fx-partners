@@ -53,7 +53,7 @@ export async function generateMetadata(
 
   return pageMeta({
     title: post.title,
-    description: post.excerpt ?? `${post.title} — مدوّنة FX Partners.`,
+    description: post.excerpt ?? `${post.title} — مدوّنة Partners FX.`,
     path: `/blog/${params.slug}`,
     locale: params.locale,
     type: "article",
@@ -77,8 +77,8 @@ export default async function PostPage(
     description: post.excerpt ?? undefined,
     datePublished: post.published_at ?? undefined,
     dateModified: post.published_at ?? undefined,
-    author: { "@type": "Organization", name: "FX Partners" },
-    publisher: { "@type": "Organization", name: "FX Partners" },
+    author: { "@type": "Organization", name: "Partners FX" },
+    publisher: { "@type": "Organization", name: "Partners FX" },
     mainEntityOfPage: `${getSiteUrl()}/blog/${params.slug}`,
   };
 

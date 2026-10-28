@@ -10,13 +10,13 @@ import { loadArabicFont, fallbackCard } from "@/lib/og-font";
  */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const rawTitle = searchParams.get("title") || "مدوّنة FX Partners";
+  const rawTitle = searchParams.get("title") || "مدوّنة Partners FX";
   // Keep the card readable: very long titles are trimmed rather than shrunk to
   // nothing.
   const title = rawTitle.length > 120 ? `${rawTitle.slice(0, 117)}…` : rawTitle;
 
   const fonts = await loadArabicFont(
-    `${title} FX Partners مدوّنة دليل التداول · مقارنة الوسطاء`,
+    `${title} Partners FX مدوّنة دليل التداول · مقارنة الوسطاء`,
     700
   );
   if (fonts.length === 0) return fallbackCard(1200, 630);
@@ -40,8 +40,8 @@ export async function GET(req: Request) {
       >
         {/* Brand row */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ color: "#54D8F0", fontSize: 40, fontWeight: 800 }}>FX</span>
           <span style={{ fontSize: 40, fontWeight: 800 }}>Partners</span>
+          <span style={{ color: "#54D8F0", fontSize: 40, fontWeight: 800 }}>FX</span>
           <span
             style={{
               display: "flex",

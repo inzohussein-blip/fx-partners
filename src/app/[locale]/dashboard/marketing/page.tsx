@@ -153,7 +153,7 @@ export default async function MarketingPage(
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img loading="lazy" decoding="async"
                   src={bannerUrl(b.size)}
-                  alt={`FX Partners banner ${b.label}`}
+                  alt={`Partners FX banner ${b.label}`}
                   className="max-h-48 w-auto max-w-full rounded"
                 />
               </div>

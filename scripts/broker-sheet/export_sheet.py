@@ -224,7 +224,7 @@ for i, (g, name, width, kind, _, fmt) in enumerate(COLS, 1):
         c.border = BORDER
         sh.column_dimensions[L(i)].width = width
     if name in NOTES and not (kind == "ext" and name != "الجهات الرقابية"):
-        ws.cell(2, i).comment = Comment(NOTES[name], "FX Partners", width=260, height=90)
+        ws.cell(2, i).comment = Comment(NOTES[name], "Partners FX", width=260, height=90)
 
 ws.row_dimensions[1].height = 24
 ws.row_dimensions[2].height = 44
@@ -348,7 +348,7 @@ sm.column_dimensions["D"].width = 4
 sm.column_dimensions["E"].width = 34
 sm.column_dimensions["F"].width = 14
 sm.column_dimensions["G"].width = 14
-t = sm.cell(1, 1, "FX Partners — ملخص بيانات الشركات")
+t = sm.cell(1, 1, "Partners FX — ملخص بيانات الشركات")
 t.font = f(bold=True, size=16, color="1F2A44")
 sm.merge_cells("A1:G1")
 sm.merge_cells("A2:G2")

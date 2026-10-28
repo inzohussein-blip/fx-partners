@@ -111,7 +111,7 @@ export async function bookMeeting(input: unknown): Promise<ActionResult> {
   const html = `
     <div style="font-family:sans-serif;max-width:520px;margin:auto;background:#0b1526;color:#e2e8f0;padding:28px;border-radius:16px">
       <h2 style="color:#22d3ee;margin:0 0 8px">تم تأكيد موعد اجتماعك</h2>
-      <p style="color:#94a3b8;margin:0 0 20px">شكراً ${d.contactName}، حجزك مع فريق شراكات FX Partners مؤكّد.</p>
+      <p style="color:#94a3b8;margin:0 0 20px">شكراً ${d.contactName}، حجزك مع فريق شراكات Partners FX مؤكّد.</p>
       <table style="width:100%;font-size:14px">
         <tr><td style="color:#64748b;padding:6px 0">الموعد</td><td style="text-align:left">${when} (UTC)</td></tr>
         <tr><td style="color:#64748b;padding:6px 0">المدة</td><td style="text-align:left">${slot.duration_min} دقيقة</td></tr>
@@ -120,7 +120,7 @@ export async function bookMeeting(input: unknown): Promise<ActionResult> {
       <a href="${link}" style="display:inline-block;margin-top:20px;background:#2563eb;color:#fff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:700">رابط الاجتماع</a>
       <p style="color:#64748b;font-size:12px;margin-top:20px">إن لم تظهر رابط الاجتماع بعد، سنرسله إليك قبل الموعد.</p>
     </div>`;
-  await sendRawEmail(d.email, "تأكيد موعد اجتماع FX Partners", html);
+  await sendRawEmail(d.email, "تأكيد موعد اجتماع Partners FX", html);
 
   revalidatePath("/brokers");
   revalidatePath("/dashboard/admin/meetings");

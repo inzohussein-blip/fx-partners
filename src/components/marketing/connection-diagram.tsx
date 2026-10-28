@@ -36,7 +36,7 @@ function Flow() {
 }
 
 /**
- * The identity visual: FX Partners sits BETWEEN traders / IB agents and a
+ * The identity visual: Partners FX sits BETWEEN traders / IB agents and a
  * network of licensed brokers. This is the one picture that says
  * "we are the intermediary (master IB)" rather than "we are a broker".
  *
@@ -83,7 +83,7 @@ export function ConnectionDiagram({
         <div className="glass-card mx-auto flex max-w-xs flex-col items-center px-6 py-5 ring-1 ring-brand-500/25">
           <LogoMark className="h-11 w-11" />
           <div className="mt-2 text-base font-extrabold tracking-wide text-fg">
-            FX Partners
+            Partners FX
           </div>
           <div className="mt-1.5 rounded-full bg-brand-500/15 px-3 py-1 text-xs sm:text-[11px] font-semibold text-brand-200">
             وسيط الشراكة · Master IB

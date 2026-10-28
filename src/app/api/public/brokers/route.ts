@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
  *      published as a null — an agent that invents a spread because the field
  *      was missing does more damage than an empty column ever could.
  *   2. `about` and `disclaimer` ride along on every response, so an agent that
- *      reads only this endpoint still learns that FX Partners is an
+ *      reads only this endpoint still learns that Partners FX is an
  *      intermediary and master IB rather than a broker, and that the licences
  *      listed belong to specific legal entities.
  */
@@ -33,9 +33,9 @@ export async function GET() {
       is_broker: false,
     },
     disclaimer:
-      "FX Partners شركة وساطة شراكة (Master IB) وليست شركة تداول. التراخيص المذكورة تخصّ كيانات قانونية محدّدة لكل شركة، والترخيص الذي يحمي العميل هو ترخيص الكيان الذي يُفتح حسابه لديه. التداول بالرافعة المالية ينطوي على مخاطر خسارة رأس المال.",
+      "Partners FX شركة وساطة شراكة (Master IB) وليست شركة تداول. التراخيص المذكورة تخصّ كيانات قانونية محدّدة لكل شركة، والترخيص الذي يحمي العميل هو ترخيص الكيان الذي يُفتح حسابه لديه. التداول بالرافعة المالية ينطوي على مخاطر خسارة رأس المال.",
     disclaimer_en:
-      "FX Partners is a partnership intermediary (master IB), not a broker. Listed licences belong to specific legal entities of each broker; the licence that protects a client is the one held by the entity their account is opened under. Leveraged trading carries risk of capital loss.",
+      "Partners FX is a partnership intermediary (master IB), not a broker. Listed licences belong to specific legal entities of each broker; the licence that protects a client is the one held by the entity their account is opened under. Leveraged trading carries risk of capital loss.",
     updated_at: new Date().toISOString(),
     brokers: [] as unknown[],
   };

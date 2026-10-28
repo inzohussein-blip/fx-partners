@@ -59,11 +59,11 @@ export async function POST(req: Request) {
     const currency = body.record?.currency ?? "USD";
     text =
       `💰 <b>عمولة جديدة!</b>\n` +
-      `مرحباً${name}، وصلت عمولة بقيمة <b>${amount} ${currency}</b> إلى محفظتك في FX Partners.`;
+      `مرحباً${name}، وصلت عمولة بقيمة <b>${amount} ${currency}</b> إلى محفظتك في Partners FX.`;
   } else {
     text =
       `🎉 <b>إحالة جديدة!</b>\n` +
-      `مرحباً${name}، سجّل عميل جديد عبر رابط إحالتك في FX Partners.`;
+      `مرحباً${name}، سجّل عميل جديد عبر رابط إحالتك في Partners FX.`;
   }
 
   await sendTelegram(chatId, text);

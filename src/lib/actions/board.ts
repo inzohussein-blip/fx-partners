@@ -44,7 +44,7 @@ export async function createBoardPost(input: unknown): Promise<ActionResult> {
     broker_id: d.brokerId,
     parent_id: d.parentId ?? null,
     user_id: user?.id ?? null,
-    author_name: isAdmin ? d.authorName || "إدارة FX Partners" : d.authorName,
+    author_name: isAdmin ? d.authorName || "إدارة Partners FX" : d.authorName,
     body: d.body,
     is_staff: isAdmin,
   });

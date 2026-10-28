@@ -44,7 +44,7 @@ export async function generateMetadata(
   return pageMeta({
     title: "شراكة شركات التداول — اتفاقية وكيل ماستر (Master IB)",
     description:
-      "شركات التداول: وزّعوا عروضكم على جمهور عربي مؤهّل وشبكة وكلاء IB عبر اتفاقية ماستر واحدة مع FX Partners — تغطية تسويقية كاملة، إدارة وكلاء، ومتابعة أداء شفّافة.",
+      "شركات التداول: وزّعوا عروضكم على جمهور عربي مؤهّل وشبكة وكلاء IB عبر اتفاقية ماستر واحدة مع Partners FX — تغطية تسويقية كاملة، إدارة وكلاء، ومتابعة أداء شفّافة.",
     path: "/brokers",
     keywords: KEYWORDS.brokers,
     locale,
@@ -203,7 +203,7 @@ export default async function BrokersPage(
             <span className="text-gradient">وزّعوا عروضكم عبر شبكتنا</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-300">
-            <span className="font-semibold text-fg">FX Partners</span> وكيل ماستر
+            <span className="font-semibold text-fg">Partners FX</span> وكيل ماستر
             (Master IB) ومنصّة مقارنة عربية. نوصل شركتك إلى متداولين يقارنون قبل
             التسجيل وإلى شبكة وكلاء Sub-IB — عبر اتفاقية واحدة بدل عشرات العقود.
           </p>

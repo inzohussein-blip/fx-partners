@@ -43,7 +43,7 @@ export default async function DashboardForumPage(
       <PageHeader
         icon={MessagesSquare}
         title="قناتي في المنتدى"
-        subtitle="أنشئ قناتك الخاصة وانشر تحليلاتك وتوصياتك لمجتمع FX Partners."
+        subtitle="أنشئ قناتك الخاصة وانشر تحليلاتك وتوصياتك لمجتمع Partners FX."
       />
       <ForumManager
         channels={channels}

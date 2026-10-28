@@ -32,10 +32,10 @@ export async function generateMetadata(
   const post = await getPost(params.channel, params.slug);
   if (!post) return { title: "منشور غير موجود" };
   return pageMeta({
-    title: `${post.title} — منتدى FX Partners`,
+    title: `${post.title} — منتدى Partners FX`,
     description:
       post.excerpt ??
-      `${post.title} — نقاش في منتدى FX Partners، قناة ${post.channel?.name ?? "المجتمع"}.`,
+      `${post.title} — نقاش في منتدى Partners FX، قناة ${post.channel?.name ?? "المجتمع"}.`,
     path: `/forum/${params.channel}/${params.slug}`,
     locale: params.locale,
     type: "article",

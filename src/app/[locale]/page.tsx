@@ -49,8 +49,8 @@ export async function generateMetadata(
   return pageMeta({
     title:
       lang === "ar"
-        ? "مقارنة شركات التداول المرخّصة وبرنامج وكلاء IB | FX Partners"
-        : "Compare licensed brokers and join the IB network | FX Partners",
+        ? "مقارنة شركات التداول المرخّصة وبرنامج وكلاء IB | Partners FX"
+        : "Compare licensed brokers and join the IB network | Partners FX",
     description: SITE.description[lang],
     path: "/",
     keywords: KEYWORDS.home,

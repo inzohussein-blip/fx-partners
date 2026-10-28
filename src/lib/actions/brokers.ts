@@ -165,7 +165,7 @@ async function notifyBonusChange(
       </div>`;
 
     for (const s of subs as { email: string }[]) {
-      await sendRawEmail(s.email, `تحديث عروض ${name} — FX Partners`, html);
+      await sendRawEmail(s.email, `تحديث عروض ${name} — Partners FX`, html);
     }
   } catch {
     /* best-effort */
@@ -357,7 +357,7 @@ export async function addAdminReview(input: {
 
   const { error } = await supabase.from("broker_reviews").insert({
     broker_id: input.brokerId,
-    user_name: input.displayName?.trim() || "إدارة FX Partners",
+    user_name: input.displayName?.trim() || "إدارة Partners FX",
     comment: input.comment.trim(),
     stars,
     is_approved: true,
