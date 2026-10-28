@@ -94,6 +94,11 @@ export async function HowItWorks() {
   );
 }
 
+/**
+ * Audience colour: cyan (brand) is the trader's route, amber the agent's.
+ * The same split is used on the hero buttons and the agent programme page,
+ * so a visitor can tell at a glance which path a section belongs to.
+ */
 function RoleCard({
   icon: Icon,
   title,
@@ -112,13 +117,13 @@ function RoleCard({
     <Link
       href={href}
       className={`card-surface group relative flex items-start gap-4 overflow-hidden p-6 transition hover:-translate-y-0.5 hover:ring-1 ${
-        accent ? "hover:ring-accent-500/40" : "hover:ring-brand-500/40"
+        accent ? "hover:ring-amber-400/40" : "hover:ring-brand-500/40"
       }`}
     >
       <span
         className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl ring-1 ${
           accent
-            ? "bg-accent-500/10 text-accent-300 ring-accent-400/25"
+            ? "bg-amber-400/10 text-amber-300 ring-amber-400/25"
             : "bg-brand-500/10 text-brand-300 ring-brand-500/20"
         }`}
       >
@@ -129,7 +134,7 @@ function RoleCard({
         <p className="mt-1.5 text-sm leading-relaxed text-slate-400">{desc}</p>
         <span
           className={`mt-3 inline-flex items-center gap-1 text-sm font-semibold transition group-hover:gap-2 ${
-            accent ? "text-accent-300" : "text-brand-300"
+            accent ? "text-amber-300" : "text-brand-300"
           }`}
         >
           <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" />

@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
 import { createClient } from "@/lib/supabase/server";
 import { Stars } from "@/components/brokers/stars";
+import { isRated } from "@/lib/brokers";
 import { Award, Building2, BadgeCheck, ArrowLeft } from "lucide-react";
 
 type TopBroker = {
@@ -29,7 +30,8 @@ async function getTopBrokers(): Promise<TopBroker[]> {
       .order("rating", { ascending: false })
       .order("reviews_count", { ascending: false })
       .limit(6);
-    return (data as TopBroker[] | null) ?? [];
+    // Re-checked here too: this grid must never print a hollow 0.0.
+    return ((data as TopBroker[] | null) ?? []).filter(isRated);
   } catch {
     return [];
   }

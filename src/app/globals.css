@@ -533,3 +533,11 @@ summary:focus-visible,
     transition: none;
   }
 }
+
+/* A tinted band between plain sections, so a long page reads as distinct
+   blocks instead of one unbroken dark surface. Theme-aware via --c-fg. */
+.section-band {
+  background-color: rgb(var(--c-fg) / 0.022);
+  border-top: 1px solid rgb(var(--c-fg) / 0.05);
+  border-bottom: 1px solid rgb(var(--c-fg) / 0.05);
+}

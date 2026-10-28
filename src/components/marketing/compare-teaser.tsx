@@ -38,7 +38,7 @@ export async function CompareTeaser() {
   ];
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="section-band py-16 sm:py-20">
       <Container>
         <div className="grid items-stretch gap-6 lg:grid-cols-[1.1fr_1fr]">
           {/* Left: heading + picker */}

@@ -112,7 +112,7 @@ export default async function AffiliatesPage(
 
       <section className="hero-glow">
         <Container className="py-10 text-center sm:py-20">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+          <span className="inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-1.5 text-xs font-medium text-amber-300">
             <Handshake className="h-3.5 w-3.5" aria-hidden />
             {t("eyebrow")}
           </span>

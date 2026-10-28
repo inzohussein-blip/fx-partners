@@ -129,9 +129,10 @@ export async function Hero({ locale }: { locale: string }) {
               <div className="mt-2.5 grid grid-cols-2 gap-2.5 lg:mt-0 lg:flex lg:gap-2.5">
                 <Link
                   href="/affiliates"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-fg/20 px-4 py-3.5 text-[13px] font-semibold text-slate-100 transition hover:border-brand-400/50 hover:bg-fg/5 lg:px-6 lg:text-sm"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-amber-400/30 px-4 py-3.5 text-[13px] font-semibold text-slate-100 transition hover:border-amber-400/60 hover:bg-amber-400/5 lg:px-6 lg:text-sm"
                 >
-                  <Share2 className="h-4 w-4 shrink-0 text-brand-300" />
+                  {/* Amber marks the agent route across the site; cyan the trader's. */}
+                  <Share2 className="h-4 w-4 shrink-0 text-amber-300" />
                   {t("Hero.ctaAgent")}
                 </Link>
 
