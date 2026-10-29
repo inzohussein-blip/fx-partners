@@ -84,6 +84,5 @@ Supabase → Authentication → URL Configuration:
 - لا ذاكرة تخزين للصفحات (ISR): الصفحات التي فيها `revalidate` تُولَّد عند كل طلب. الخطر قليل لأن بياناتها من Supabase.
   أضف R2 لاحقاً في `open-next.config.ts` إن زادت الكلفة.
 - `rate-limit` يعمل داخل كل نسخة من الـWorker (كما كان على Vercel).
-- ملف `src/middleware.ts` يعمل لكن Next 16 يسمّيه الآن `proxy` ويطبع تحذيراً وقت البناء. التحويل ممكن لاحقاً بـ `npx @next/codemod@canary middleware-to-proxy .`.
-- **ملف `src/middleware.ts` ابقَ عليه ولا تحوّله إلى `proxy.ts`:** Next 16 يطبع تحذير «deprecated» فقط، أما `proxy.ts` فيعمل على Cloudflare بمسار Node تجريبي غير مدعوم رسمياً من OpenNext، وهذا الملف يحمي `/dashboard`.
+- **`src/proxy.ts` (كان `middleware.ts`):** حُوّل لأن الإنتاج على Vercel التي تدعمه رسمياً. على Cloudflare يعمل عبر مسار Node **تجريبي** في OpenNext، وهذا الملف يحمي `/dashboard`. إن رجعت إلى Cloudflare فاختبر حماية اللوحة أولاً، أو أعد الملف إلى `src/middleware.ts` (الدالة `middleware`) حتى يصير الدعم رسمياً.
 - قواعد ESLint الجديدة الخاصة بـ React (مثل `set-state-in-effect`) مضبوطة كتحذيرات لا أخطاء.

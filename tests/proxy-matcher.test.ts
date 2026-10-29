@@ -11,11 +11,11 @@ vi.mock("@supabase/ssr", () => ({ createServerClient: vi.fn() }));
  * favicon.
  */
 async function matches(path: string) {
-  const { config } = await import("@/middleware");
+  const { config } = await import("@/proxy");
   return new RegExp(`^${config.matcher[0]}$`).test(path);
 }
 
-describe("middleware matcher", () => {
+describe("proxy matcher", () => {
   it.each(["/", "/reset-password", "/en/reset-password", "/brokers/xm", "/compare", "/go-live", "/rates", "/iconic"])(
     "localises %s",
     async (p) => expect(await matches(p)).toBe(true),

@@ -21,7 +21,7 @@
 - الإعداد في `src/i18n/` (routing / navigation / request) وكتالوجات الرسائل في
   `messages/ar.json` و`messages/en.json`.
 - كل الصفحات تحت `src/app/[locale]/`؛ وحدها معالِجات المسارات (`auth/`, `r/`)
-  خارجها. الـ middleware يدمج توجيه اللغة مع تحديث جلسة Supabase وحماية اللوحة.
+  خارجها. ملف `src/proxy.ts` (كان اسمه middleware قبل Next 16) يدمج توجيه اللغة مع تحديث جلسة Supabase وحماية اللوحة.
 - المُترجَم حالياً: الصفحة الرئيسية، الهيدر/الفوتر، وصفحات المصادقة. بقية
   الصفحات تبقى بالعربية (اللغة الأساسية) وتُترجَم تدريجياً عند الحاجة.
 - محتوى الـ Hero العربي يبقى قابلاً للتحرير من لوحة المحتوى؛ والإنجليزية تأخذ
@@ -96,7 +96,7 @@ fx-partners/
 │       ├── supabase/       # client / server / middleware
 │       ├── content.ts      # قراءة site_content مع fallback
 │       └── utils.ts
-├── middleware.ts           # تحديث الجلسة + حماية /dashboard
+├── proxy.ts                # اللغة + تحديث الجلسة + حماية /dashboard
 └── .env.example
 ```
 

@@ -16,7 +16,11 @@ import { routing } from "@/i18n/routing";
  */
 const handleI18n = createIntlMiddleware({ ...routing, alternateLinks: false });
 
-export async function middleware(request: NextRequest) {
+/**
+ * Next.js 16 "proxy" (the file convention formerly called middleware). Runs
+ * before every matched request, on the Node.js runtime.
+ */
+export async function proxy(request: NextRequest) {
   // 1) Locale routing (adds/strips the /en prefix, sets the locale cookie).
   const response = handleI18n(request);
 

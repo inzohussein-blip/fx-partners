@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /**
  * Refreshes the Supabase auth session on every request and guards the
- * /dashboard area. Called from the root `middleware.ts`.
+ * /dashboard area. Called from `src/proxy.ts`.
  */
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
