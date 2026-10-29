@@ -44,15 +44,29 @@ export default async function ContactPage(
   const t = await getTranslations({ locale, namespace: "ContactPage" });
   // The address and number are the same in both locales; only the opening
   // hours are prose, so that is the one field the locale key exists for.
+  //
+  // No made-up defaults: this page used to show partners@fxpartners.com (a
+  // domain the site does not own) and +971 4 000 0000 (a placeholder) as if
+  // they were real. A channel shows only once it is set, either in the admin
+  // content editor (site.contact) or with NEXT_PUBLIC_CONTACT_EMAIL /
+  // NEXT_PUBLIC_CONTACT_PHONE. Until then the form is the way in.
   const info = await getContent(contentKeyFor("site.contact", locale), {
-    email: "partners@fxpartners.com",
-    phone: "+971 4 000 0000",
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ?? "",
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() ?? "",
     hours: t("defaultHours"),
   });
+  // The old placeholders may already be saved in site.contact, so they are
+  // refused here too.
+  const email =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(info.email ?? "") && !/@fxpartners\.com$/i.test(info.email)
+      ? info.email
+      : "";
+  const digits = (info.phone ?? "").replace(/\D/g, "");
+  const phone = digits.length >= 6 && !/0{6,}/.test(digits) ? info.phone : "";
 
   const channels = [
-    { icon: Mail, label: t("email"), value: info.email, href: `mailto:${info.email}` },
-    { icon: Phone, label: t("phone"), value: info.phone, href: `tel:${info.phone.replace(/\s/g, "")}` },
+    ...(email ? [{ icon: Mail, label: t("email"), value: email, href: `mailto:${email}` }] : []),
+    ...(phone ? [{ icon: Phone, label: t("phone"), value: phone, href: `tel:${phone.replace(/\s/g, "")}` }] : []),
     { icon: Clock, label: t("hours"), value: info.hours },
   ];
 

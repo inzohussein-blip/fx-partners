@@ -1040,5 +1040,17 @@
     "disclaimer": "Educational explanation, not investment advice. Market reactions to any release are not guaranteed and can run against the usual pattern.",
     "faqWhen": "When is {code} released?",
     "faqTime": "What time is {code} released?"
+  },
+  "MarketsStrip": {
+    "eyebrow": "Markets",
+    "title": "Check the market before you trade",
+    "subtitle": "The prices and releases that move the dollar and gold, with each release explained.",
+    "marketsTitle": "Live markets",
+    "marketsBody": "Major currency pairs, gold and oil, technical gauges and market news on one page.",
+    "indicatorsTitle": "Economic indicator guide",
+    "indicatorsBody": "What each major release is, when it comes out and why it moves markets.",
+    "calendarTitle": "Calendar",
+    "calendarBody": "This week's economic releases, plus broker holidays and margin changes.",
+    "open": "Open"
   }
 }

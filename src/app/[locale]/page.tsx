@@ -14,6 +14,7 @@ import { CompareTeaser } from "@/components/marketing/compare-teaser";
 import { LatestReviews } from "@/components/marketing/latest-reviews";
 import { HowItWorks } from "@/components/marketing/how-it-works";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
+import { MarketsStrip } from "@/components/marketing/markets-strip";
 import { BestForStrip } from "@/components/marketing/best-for-strip";
 import { Testimonials } from "@/components/marketing/testimonials";
 import { Faq } from "@/components/marketing/faq";
@@ -118,6 +119,10 @@ export default async function HomePage(
 
       {/* 8 — Interactive tools */}
       <ToolsTabs />
+
+      <Reveal>
+        <MarketsStrip locale={locale} />
+      </Reveal>
 
       {/* 9 — Voices */}
       <Reveal>
