@@ -34,7 +34,7 @@ export function TradingViewWidget(props: {
   height?: number;
 }) {
   return (
-    <ExternalGate minHeight={props.height ?? 500}>
+    <ExternalGate minHeight={(props.height ?? 500) + COPYRIGHT_H}>
       <Embed {...props} />
     </ExternalGate>
   );

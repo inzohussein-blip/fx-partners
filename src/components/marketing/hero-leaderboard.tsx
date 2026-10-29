@@ -130,7 +130,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
               className={cn(
                 "grid h-[21px] w-[21px] place-items-center rounded-md text-xs sm:text-[11px] font-extrabold",
                 i === 0
-                  ? "bg-brand-gradient text-white"
+                  ? "bg-brand-fill text-white"
                   : "bg-fg/5 text-slate-400"
               )}
             >

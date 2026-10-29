@@ -195,7 +195,7 @@ export function OnboardingTour({ onlyOn }: { onlyOn?: string }) {
             </button>
             <button
               onClick={() => (isLast ? finish() : setStep((n) => n + 1))}
-              className="rounded-lg bg-brand-gradient px-4 py-1.5 text-xs font-semibold text-white transition hover:opacity-90"
+              className="rounded-lg bg-brand-fill px-4 py-1.5 text-xs font-semibold text-white transition hover:opacity-90"
             >
               {isLast ? "تم" : "التالي"}
             </button>

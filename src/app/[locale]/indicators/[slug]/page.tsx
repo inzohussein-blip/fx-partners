@@ -181,7 +181,7 @@ export default async function IndicatorPage(props: {
                 href={CHANNEL_URL}
                 target="_blank"
                 rel="noopener"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand-gradient px-5 py-2.5 text-sm font-semibold text-white shadow-glow"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-fill px-5 py-2.5 text-sm font-semibold text-white shadow-glow"
               >
                 <Send className="h-4 w-4" aria-hidden />
                 Telegram

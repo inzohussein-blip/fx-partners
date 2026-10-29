@@ -8,8 +8,12 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Link } from "@/i18n/navigation";
-import { CATEGORIES } from "@/lib/best-for";
+import { CATEGORIES, populatedCategories } from "@/lib/best-for";
+import { getPublishedBrokers } from "@/lib/published-brokers";
 import { ScrollText, ArrowLeft } from "lucide-react";
+
+// Reads the broker list to know which "best for" lists exist.
+export const revalidate = 600;
 
 /** Bump only when the wording below actually changes. */
 const LAST_UPDATED = "2026-09-16";
@@ -49,10 +53,13 @@ export default async function MethodologyPage(
   } = params;
 
   setRequestLocale(locale);
-  const [t, tb] = await Promise.all([
+  const [t, tb, brokers] = await Promise.all([
     getTranslations({ locale, namespace: "Methodology" }),
     getTranslations({ locale, namespace: "BestFor" }),
+    getPublishedBrokers(),
   ]);
+  // A list with no qualifying broker 404s, so only those with entries link.
+  const live = new Set(populatedCategories(brokers).map((x) => x.category.slug));
   const lang = locale === "en" ? "en" : "ar";
   const date = new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "ar", {
     dateStyle: "long",
@@ -118,12 +125,16 @@ export default async function MethodologyPage(
                   {CATEGORIES.map((c) => (
                     <tr key={c.slug} className="border-b border-fg/5 align-top">
                       <td className="py-3 pe-4">
-                        <Link
-                          href={`/best/${c.slug}`}
-                          className="font-medium text-brand-300 underline underline-offset-2 hover:text-brand-200"
-                        >
-                          {tb(`${c.slug}Title`)}
-                        </Link>
+                        {live.has(c.slug) ? (
+                          <Link
+                            href={`/best/${c.slug}`}
+                            className="font-medium text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                          >
+                            {tb(`${c.slug}Title`)}
+                          </Link>
+                        ) : (
+                          <span className="font-medium text-slate-300">{tb(`${c.slug}Title`)}</span>
+                        )}
                       </td>
                       <td className="py-3 leading-relaxed text-slate-400">{tb(`${c.slug}Rule`)}</td>
                     </tr>

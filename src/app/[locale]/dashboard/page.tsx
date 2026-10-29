@@ -296,7 +296,7 @@ export default async function OverviewPage(
             action={
               <Link
                 href="/dashboard/marketing"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-gradient px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-brand-fill px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:opacity-90"
               >
                 أدوات التسويق
               </Link>

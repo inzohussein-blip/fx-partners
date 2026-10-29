@@ -129,6 +129,9 @@ const config: Config = {
           "linear-gradient(to right, rgb(var(--c-fg) / 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--c-fg) / 0.03) 1px, transparent 1px)",
         // Primary brand gradient — Cyan → Electric Blue
         "brand-gradient": "linear-gradient(90deg, #54D8F0 0%, #0090FC 100%)",
+        // For surfaces that carry white text: the bright brand gradient is 1.7:1
+        // against white at its cyan end; this keeps the hue at 5:1 or better.
+        "brand-fill": "linear-gradient(90deg, #0A6FD0 0%, #0050C0 100%)",
       },
     },
   },

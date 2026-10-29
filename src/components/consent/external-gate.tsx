@@ -33,6 +33,23 @@ export function ExternalGate({
   }
   if (consent.external) return <>{children}</>;
 
+  // A slot too short for the full notice (a ticker strip) gets one line, so
+  // the placeholder does not push the page down when it appears.
+  if (minHeight && minHeight < 120) {
+    return (
+      <div
+        className="flex items-center justify-center gap-3 rounded-xl border border-dashed border-fg/15 bg-fg/[0.02] px-3 text-xs text-slate-400"
+        style={{ height: minHeight }}
+      >
+        <EyeOff className="h-4 w-4 shrink-0" aria-hidden />
+        <span className="truncate">{t("blockedTitle")}</span>
+        <button onClick={reopen} className="shrink-0 font-semibold text-brand-300 hover:text-brand-200">
+          {t("blockedAction")}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div
       className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-fg/15 bg-fg/[0.02] p-8 text-center"

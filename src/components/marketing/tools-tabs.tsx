@@ -87,7 +87,7 @@ export function ToolsTabs({ showIntro = true }: { showIntro?: boolean }) {
                 className={cn(
                   "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition",
                   on
-                    ? "bg-brand-gradient text-white shadow-glow"
+                    ? "bg-brand-fill text-white shadow-glow"
                     : "text-slate-400 hover:text-fg"
                 )}
               >

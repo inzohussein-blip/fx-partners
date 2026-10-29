@@ -104,7 +104,9 @@ function BrokerTile({
         <img
           src={broker.logo_url}
           alt={broker.name}
-          className="max-h-9 max-w-[80%] object-contain"
+          width={120}
+          height={36}
+          className="h-9 w-auto max-w-[80%] object-contain"
           loading="lazy"
         />
       ) : broker ? (

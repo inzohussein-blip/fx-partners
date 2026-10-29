@@ -333,7 +333,7 @@ export default async function BrokersPage(
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <div key={s.title} className="card-surface relative p-6">
-                <span className="absolute -top-3 end-6 rounded-full bg-brand-gradient px-2.5 py-0.5 text-xs font-bold text-white">
+                <span className="absolute -top-3 end-6 rounded-full bg-brand-fill px-2.5 py-0.5 text-xs font-bold text-white">
                   {i + 1}
                 </span>
                 <div className="grid h-12 w-12 place-items-center rounded-full bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20">

@@ -15,7 +15,9 @@ export function LanguageSwitcher() {
       type="button"
       onClick={() => router.replace(pathname, { locale: other })}
       className="inline-flex min-h-12 items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-fg/5 hover:text-fg sm:min-h-0 sm:px-2.5"
-      aria-label={other === "en" ? "Switch to English" : "التبديل إلى العربية"}
+      // The accessible name contains the visible label, so voice control
+      // ("click EN") finds the button.
+      aria-label={other === "en" ? "EN — Switch to English" : "ع — التبديل إلى العربية"}
     >
       <Globe className="h-4 w-4" />
       <span>{other === "en" ? "EN" : "ع"}</span>

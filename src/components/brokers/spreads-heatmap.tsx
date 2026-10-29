@@ -126,7 +126,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
             onClick={() => setCategory(c)}
             className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
               c === activeCat
-                ? "border-brand-500 bg-brand-gradient text-white shadow-glow"
+                ? "border-brand-500 bg-brand-fill text-white shadow-glow"
                 : "border-fg/10 text-slate-400 hover:bg-fg/5 hover:text-fg"
             }`}
           >

@@ -255,7 +255,7 @@ export default async function AffiliatesPage(
                 }`}
               >
                 {tier.highlight && (
-                  <span className="absolute -top-3 right-6 rounded-full bg-brand-500 px-3 py-1 text-xs font-semibold text-white">
+                  <span className="absolute -top-3 right-6 rounded-full bg-[#0062d1] px-3 py-1 text-xs font-semibold text-white">
                     {t("mostPopular")}
                   </span>
                 )}

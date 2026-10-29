@@ -18,6 +18,7 @@ export function Stars({
     <div
       className={`relative inline-flex ${className}`}
       dir="ltr"
+      role="img"
       aria-label={`${value} من 5`}
     >
       <div className="flex text-slate-700">

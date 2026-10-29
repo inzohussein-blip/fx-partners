@@ -260,6 +260,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
           <div className="mt-4 border-t border-fg/5 pt-4 first:mt-0 first:border-0 first:pt-0">
             <span className="text-xs font-semibold text-slate-400">الترتيب</span>
             <select
+              aria-label="الترتيب"
               value={sort}
               onChange={(e) => setSort(e.target.value as Sort)}
               className="mt-2 w-full rounded-xl border border-fg/10 bg-ink-900/60 px-3 py-2 text-sm text-fg focus:border-brand-500/50 focus:outline-none"
@@ -296,7 +297,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
           الفلاتر والترتيب
         </span>
         {activeCount > 0 && (
-          <span className="grid h-5 min-w-5 place-items-center rounded-full bg-brand-500 px-1.5 text-xs sm:text-[11px] font-bold text-white">
+          <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[#0062d1] px-1.5 text-xs sm:text-[11px] font-bold text-white">
             {activeCount}
           </span>
         )}

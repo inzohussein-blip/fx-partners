@@ -83,7 +83,7 @@ export function ConsentBanner() {
   // do not override each other by order, so the base carries neither.)
   const shape = (pad: string) => `${base} ${pad}`;
   const btn = shape("px-5");
-  const primaryLook = "bg-brand-gradient text-white shadow-glow hover:opacity-90";
+  const primaryLook = "bg-brand-fill text-white shadow-glow hover:opacity-90";
   const primary = `${btn} ${primaryLook}`;
   /**
    * Reject is a filled button too, not an outline.

@@ -363,18 +363,15 @@ summary:focus-visible,
   @apply bg-brand-gradient bg-clip-text text-transparent;
 }
 
-/* Primary gradient button (bright blue → electric blue) with a brand glow */
+/* Primary gradient button with a brand glow. White text needs 4.5:1, which
+   the old bright cyan start (#00b4fc, 2.35:1) did not reach; these stops
+   measure 5.0:1 and up. */
 .btn-gradient {
-  background-image: linear-gradient(90deg, #00b4fc 0%, #0078fc 100%);
+  background-image: linear-gradient(90deg, #0a6fd0 0%, #0050c0 100%);
   color: #ffffff;
 }
-:root.light .btn-gradient {
-  /* Slightly deeper on a pale ground so the button still reads as the one
-     thing on the screen to press. */
-  background-image: linear-gradient(90deg, #0a9bea 0%, #0062dc 100%);
-}
 .btn-gradient:hover {
-  background-image: linear-gradient(90deg, #22C4FF 0%, #0064DC 100%);
+  background-image: linear-gradient(90deg, #0864c0 0%, #0046b0 100%);
 }
 
 /* Infinite logo marquee (Logo Carousel) */

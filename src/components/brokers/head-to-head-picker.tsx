@@ -32,7 +32,7 @@ export function HeadToHeadPicker({
     <div className="card-surface p-5 sm:p-6">
       <div className="flex items-center gap-2">
         <Swords className="h-4 w-4 text-brand-300" />
-        <h3 className="text-sm font-semibold text-fg">مقارنة مباشرة بين شركتين</h3>
+        <h2 className="text-sm font-semibold text-fg">مقارنة مباشرة بين شركتين</h2>
       </div>
       <div className="mt-4 grid items-end gap-3 sm:grid-cols-[1fr_auto_1fr_auto]">
         <label className="block">
@@ -61,7 +61,7 @@ export function HeadToHeadPicker({
         <button
           onClick={go}
           disabled={!a || !b || a === b}
-          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-gradient px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand-fill px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:opacity-90 disabled:opacity-50"
         >
           قارن
           <ArrowLeft className="h-4 w-4" />

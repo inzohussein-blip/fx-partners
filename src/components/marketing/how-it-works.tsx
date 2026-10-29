@@ -57,7 +57,7 @@ export async function HowItWorks() {
               <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-500/10 text-brand-300 ring-1 ring-brand-500/20 transition group-hover:bg-brand-500/20 sm:h-12 sm:w-12">
                 <s.icon className="h-5 w-5" />
                 <span
-                  className="absolute -end-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brand-gradient text-[11px] font-bold text-white"
+                  className="absolute -end-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-brand-fill text-[11px] font-bold text-white"
                   aria-hidden
                 >
                   {i + 1}
