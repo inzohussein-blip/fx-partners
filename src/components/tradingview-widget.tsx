@@ -40,6 +40,9 @@ export function TradingViewWidget(props: {
   );
 }
 
+/** Height of TradingView's attribution line, which must stay visible. */
+const COPYRIGHT_H = 28;
+
 function Embed({
   scriptSrc,
   config,
@@ -55,7 +58,13 @@ function Embed({
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const theme = resolvedTheme === "light" ? "light" : "dark";
-  const fullConfig = { ...config, colorTheme: theme, locale: tvLocale(locale) };
+  // Size in pixels, not "100%": a percentage resolves against the container,
+  // and TradingView's iframe fell back to its small default height whenever
+  // that container's height was not fixed — every widget came out the wrong
+  // size. The ticker tape sizes itself and takes no height.
+  const fixed = "height" in config || "autosize" in config;
+  const sized = fixed ? { ...config, autosize: false, width: "100%", height } : config;
+  const fullConfig = { ...sized, colorTheme: theme, locale: tvLocale(locale) };
 
   // 1) Arm only when the widget is near the viewport, then wait for idle or
   //    the first real interaction — whichever comes first.
@@ -115,12 +124,16 @@ function Embed({
 
     const widget = document.createElement("div");
     widget.className = "tradingview-widget-container__widget";
-    widget.style.height = `${height}px`;
+    if (fixed) {
+      widget.style.height = `${height}px`;
+      widget.style.overflow = "hidden";
+    }
     widget.style.width = "100%";
     container.appendChild(widget);
 
     const copyright = document.createElement("div");
     copyright.className = "tradingview-widget-copyright";
+    copyright.style.cssText = `height:${COPYRIGHT_H}px;line-height:${COPYRIGHT_H}px;font-size:12px;text-align:center`;
     copyright.innerHTML =
       '<a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span>Track all markets on TradingView</span></a>';
     container.appendChild(copyright);
@@ -142,8 +155,13 @@ function Embed({
     <div
       ref={ref}
       className="tradingview-widget-container"
-      // Reserve the space so the deferred load causes no layout shift.
-      style={{ width: "100%", minHeight: height }}
+      // A fixed height, the widget plus the attribution line under it, so the
+      // deferred load causes no layout shift and the iframe has a real box.
+      style={
+        fixed
+          ? { width: "100%", height: height + COPYRIGHT_H, overflow: "hidden" }
+          : { width: "100%", minHeight: height + COPYRIGHT_H }
+      }
     />
   );
 }

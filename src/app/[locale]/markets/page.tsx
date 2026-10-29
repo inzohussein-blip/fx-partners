@@ -137,7 +137,7 @@ export default async function MarketsPage(props: {
                 config={{
                   width: "100%",
                   height: "100%",
-                  currencies: ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
+                  currencies: ["EUR", "USD", "JPY", "GBP", "AUD", "CAD"],
                   isTransparent: true,
                 }}
               />
