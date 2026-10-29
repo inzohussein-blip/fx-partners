@@ -10,6 +10,8 @@ export type BrokerEvent = {
   event_time: string | null;
   brokerName: string | null;
   brokerSlug: string | null;
+  /** Indicator guide slug (news events). */
+  indicator: string | null;
 };
 
 export const EVENT_KINDS: Record<string, { label: string; cls: string; emoji: string }> = {
@@ -27,7 +29,7 @@ export async function getUpcomingEvents(): Promise<BrokerEvent[]> {
     const today = new Date().toISOString().slice(0, 10);
     const { data } = await supabase
       .from("broker_events")
-      .select("id,title,description,kind,country,event_date,event_time,brokers(name,slug)")
+      .select("id,title,description,kind,country,event_date,event_time,indicator,brokers(name,slug)")
       .eq("is_active", true)
       .gte("event_date", today)
       .order("event_date", { ascending: true })
@@ -45,6 +47,7 @@ export async function getUpcomingEvents(): Promise<BrokerEvent[]> {
         event_time: r.event_time,
         brokerName: r.brokers?.name ?? null,
         brokerSlug: r.brokers?.slug ?? null,
+        indicator: r.indicator ?? null,
       };
     });
   } catch {

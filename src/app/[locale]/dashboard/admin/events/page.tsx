@@ -26,7 +26,7 @@ export default async function AdminEventsPage(
     const [{ data: e }, { data: b }] = await Promise.all([
       supabase
         .from("broker_events")
-        .select("id,title,kind,country,event_date,event_time,is_active,brokers(name)")
+        .select("id,title,kind,country,event_date,event_time,is_active,starts_at,alert_sent_at,brokers(name)")
         .order("event_date", { ascending: true })
         .limit(200),
       supabase.from("brokers").select("id,name").order("sort_order"),

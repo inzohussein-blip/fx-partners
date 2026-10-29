@@ -16,7 +16,8 @@
     "more": "More",
     "about": "About us",
     "contact": "Contact",
-    "markets": "Live markets"
+    "markets": "Live markets",
+    "indicators": "Economic indicators"
   },
   "Common": {
     "getStarted": "Get started",
@@ -261,7 +262,8 @@
     "bestFor": "Best for",
     "methodology": "Methodology",
     "forBrokers": "For brokers (B2B)",
-    "markets": "Live markets"
+    "markets": "Live markets",
+    "indicators": "Economic indicators"
   },
   "Login": {
     "signInTitle": "Sign in",
@@ -1003,6 +1005,40 @@
     "ctaSpreads": "Compare spreads",
     "calTitle": "Economic calendar",
     "calIntro": "This week's key economic releases, from TradingView. Broker holidays and margin changes are below.",
-    "calMore": "Open live markets"
+    "calMore": "Open live markets",
+    "indicatorsLink": "What each release means and why it moves markets",
+    "whatIs": "What is {code} and why does it move markets?"
+  },
+  "Indicators": {
+    "metaTitle": "The economic releases that move forex and gold — guide and schedule",
+    "metaDescription": "A guide to the releases that move markets most: CPI, non-farm payrolls, the Fed decision, PCE, GDP, ISM, retail sales and the ECB decision — what they are, when they come out and at what time.",
+    "crumb": "Economic indicators",
+    "eyebrow": "News guide",
+    "title": "The economic releases that move markets",
+    "subtitle": "What each release is, when it comes out, and why it moves the dollar and gold. Exact dates come from the agency that publishes it.",
+    "agency": "Published by",
+    "frequency": "Frequency",
+    "when": "When",
+    "time": "Time",
+    "whatTitle": "What is {code}?",
+    "whyTitle": "Why does it move markets?",
+    "watchTitle": "What traders watch",
+    "affectsTitle": "Most affected instruments",
+    "officialTitle": "Official schedule",
+    "officialBody": "Exact release dates are published in advance by the issuer:",
+    "calendarTitle": "Next release in the economic calendar",
+    "calendarNote": "From TradingView, in your device's time zone. Look for “{code}” in the list.",
+    "tradeTitle": "Before you trade the release",
+    "trade1": "Spreads widen sharply in the minutes around the release, and orders can fill at a worse price than asked (slippage).",
+    "trade2": "Some brokers raise margin or restrict orders around major news. Read your broker's terms beforehand.",
+    "trade3": "The first move can reverse within minutes. Set your position size and stop before the number comes out, not after.",
+    "tradeCta": "Compare broker spreads",
+    "relatedTitle": "Related indicators",
+    "allIndicators": "All indicators",
+    "alertsTitle": "Alert before the release",
+    "alertsBody": "Our Telegram channel posts an alert about an hour before major releases.",
+    "disclaimer": "Educational explanation, not investment advice. Market reactions to any release are not guaranteed and can run against the usual pattern.",
+    "faqWhen": "When is {code} released?",
+    "faqTime": "What time is {code} released?"
   }
 }

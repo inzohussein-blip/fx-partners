@@ -5,6 +5,7 @@ import { EN_TRANSLATED } from "@/lib/seo";
 import { getAllPairs } from "@/lib/broker-pairs";
 import { populatedCategories } from "@/lib/best-for";
 import { getPublishedBrokers } from "@/lib/published-brokers";
+import { INDICATORS } from "@/lib/indicators";
 
 // Public data only, so it need not be rebuilt on every crawl. Regenerated at
 // most hourly; a newly published broker or post appears within that window.
@@ -17,6 +18,7 @@ const STATIC_PATHS = [
   "/compare",
   "/compare/vs",
   "/markets",
+  "/indicators",
   "/spreads",
   "/tools",
   "/calendar",
@@ -84,6 +86,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const priority = path === "" ? 1 : LOW_PRIORITY.has(path) ? 0.3 : 0.8;
     push(path, now, LOW_PRIORITY.has(path) ? "yearly" : "weekly", priority);
   }
+
+  // Indicator guides are static content, so they are listed even when the
+  // database is unreachable.
+  for (const ind of INDICATORS) push(`/indicators/${ind.slug}`, now, "monthly", 0.7);
 
   // Dynamic content: broker landing pages + blog posts.
   try {

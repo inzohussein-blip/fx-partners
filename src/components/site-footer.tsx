@@ -19,6 +19,7 @@ export async function SiteFooter() {
         { href: "/best", label: t("bestFor") },
         { href: "/methodology", label: t("methodology") },
         { href: "/markets", label: t("markets") },
+        { href: "/indicators", label: t("indicators") },
         { href: "/spreads", label: t("spreads") },
         { href: "/tools", label: t("calculators") },
         { href: "/calendar", label: t("calendar") },

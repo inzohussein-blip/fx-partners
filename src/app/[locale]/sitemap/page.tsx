@@ -84,6 +84,7 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
       { href: "/tools", label: "حاسبات التداول" },
       { href: "/free-tools", label: "أدوات ومؤشرات مجانية" },
       { href: "/markets", label: "الأسواق الحية" },
+      { href: "/indicators", label: "المؤشرات الاقتصادية" },
       { href: "/calendar", label: "تقويم العطلات والأحداث" },
     ],
   },

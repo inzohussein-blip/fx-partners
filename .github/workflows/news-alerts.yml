@@ -1,0 +1,35 @@
+name: News alerts
+
+# Every 15 minutes, asks the site to post Telegram reminders for news events
+# starting within the next ~hour (src/app/api/cron/news-alerts). GitHub's
+# scheduler is free but can run a few minutes late; the endpoint's window
+# allows for that.
+#
+# Needs the repository secret CRON_SECRET, with the same value set as an
+# environment variable on Vercel. Optional variable SITE_URL (defaults to
+# https://partners-fx.trade). Without the secret the job does nothing.
+#
+# GitHub pauses scheduled workflows in a public repo after 60 days without
+# commits; re-enable it from the Actions tab if that happens.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Trigger news alerts
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://partners-fx.trade' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET is not set; skipping."
+            exit 0
+          fi
+          curl -fsS --max-time 60 -H "Authorization: Bearer $CRON_SECRET" "$SITE_URL/api/cron/news-alerts"

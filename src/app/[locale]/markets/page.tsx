@@ -7,6 +7,7 @@ import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { TradingViewWidget } from "@/components/tradingview-widget";
 import {
   TV_BASE,
@@ -156,6 +157,12 @@ export default async function MarketsPage(props: {
                   countryFilter: CALENDAR_COUNTRIES,
                 }}
               />
+              <Link
+                href="/indicators"
+                className="mt-3 inline-block text-sm font-semibold text-brand-300 hover:text-brand-200"
+              >
+                {t("indicatorsLink")}
+              </Link>
             </Panel>
             <Panel title={t("news")}>
               <TradingViewWidget

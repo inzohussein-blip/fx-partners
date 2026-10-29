@@ -12,6 +12,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { TradingViewWidget } from "@/components/tradingview-widget";
 import { TV_BASE, CALENDAR_COUNTRIES } from "@/lib/tradingview";
+import { indicatorBySlug } from "@/lib/indicators";
 
 export const revalidate = 300;
 
@@ -158,6 +159,14 @@ export default async function CalendarPage(
                                   )}
                                 </div>
                                 <h3 className="mt-2 font-bold text-fg">{e.title}</h3>
+                                {e.indicator && indicatorBySlug(e.indicator) && (
+                                  <Link
+                                    href={`/indicators/${e.indicator}`}
+                                    className="mt-1 inline-block text-xs font-semibold text-brand-300 hover:text-brand-200"
+                                  >
+                                    {tm("whatIs", { code: indicatorBySlug(e.indicator)!.code })}
+                                  </Link>
+                                )}
                                 {e.description && (
                                   <p className="mt-1 text-sm leading-relaxed text-slate-400" dir="auto">
                                     {e.description}
