@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, use } from "react";
+import { useEffect, useState, use } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/lib/supabase/client";
+import { authErrorKey } from "@/lib/auth-errors";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { resetPasswordSchema, type ResetPasswordValues } from "@/lib/validators";
@@ -22,6 +24,17 @@ export default function ResetPasswordPage(
   } = params;
 
   const t = useTranslations("Reset");
+  const te = useTranslations("AuthErrors");
+  // The recovery link signs the visitor in through /auth/callback. Without a
+  // session here (expired link, opened in another browser) updateUser can
+  // only fail, so say so up front instead of after they type a password.
+  const [noSession, setNoSession] = useState(false);
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return;
+    createClient()
+      .auth.getSession()
+      .then(({ data }) => setNoSession(!data.session));
+  }, []);
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
@@ -43,7 +56,8 @@ export default function ResetPasswordPage(
     const supabase = createClient();
     const { error } = await supabase.auth.updateUser({ password: values.password });
     if (error) {
-      setServerError(t("error"));
+      const key = authErrorKey(error);
+      setServerError(key === "generic" ? t("error") : te(key));
       return;
     }
     setOk(true);
@@ -57,6 +71,15 @@ export default function ResetPasswordPage(
     <AuthShell>
       <h1 className="text-2xl font-bold text-fg">{t("title")}</h1>
       <p className="mt-2 text-sm text-slate-400">{t("subtitle")}</p>
+
+      {noSession && (
+        <div role="alert" className="mt-6 rounded-lg bg-amber-500/10 px-3 py-3 text-sm text-amber-200">
+          {te("resetNoSession")}{" "}
+          <Link href="/forgot-password" className="font-semibold underline underline-offset-4">
+            {te("requestNew")}
+          </Link>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
             <label className="block">

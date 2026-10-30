@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
+import { authErrorKey } from "@/lib/auth-errors";
 
 function GoogleIcon() {
   return (
@@ -36,6 +38,7 @@ export function GoogleButton({
   next?: string;
 }) {
   const [loading, setLoading] = useState(false);
+  const te = useTranslations("AuthErrors");
 
   async function signIn() {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
@@ -53,7 +56,7 @@ export function GoogleButton({
       },
     });
     if (error) {
-      toast.error(error.message);
+      toast.error(te(authErrorKey(error)));
       setLoading(false);
     }
     // On success the browser navigates to Google — no further UI needed.

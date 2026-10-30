@@ -1052,5 +1052,26 @@
     "calendarTitle": "Calendar",
     "calendarBody": "This week's economic releases, plus broker holidays and margin changes.",
     "open": "Open"
+  },
+  "AuthErrors": {
+    "invalidCredentials": "Wrong email or password.",
+    "emailNotConfirmed": "Your email isn't confirmed yet. Open the confirmation email we sent, or ask for a new one.",
+    "userExists": "This email is already registered. Sign in, or reset your password if you forgot it.",
+    "weakPassword": "That password is too weak. Use at least 8 characters with letters and numbers.",
+    "samePassword": "The new password must be different from the old one.",
+    "rateLimit": "Too many attempts in a short time. Wait a few minutes and try again.",
+    "signupDisabled": "New sign-ups are paused. Contact us from the Contact page.",
+    "providerDisabled": "Google sign-in isn't enabled right now. Use email and password.",
+    "linkExpired": "This link has expired or was already used. Ask for a new one.",
+    "otherBrowser": "Open the link in the same browser you requested it from (not in another device's mail app), or ask for a new link here.",
+    "network": "Couldn't connect. Check your internet and try again.",
+    "callback": "We couldn't finish signing you in from that link. Try again or ask for a new link.",
+    "generic": "Something went wrong. Please try again.",
+    "resend": "Resend confirmation email",
+    "resending": "Sending…",
+    "resent": "We sent a new confirmation email. Check your inbox and spam folder.",
+    "checkEmail": "Your account is created. We sent a confirmation link to {email}. Open it in this browser, and check spam if it hasn't arrived within a few minutes.",
+    "resetNoSession": "This reset link is invalid or has expired. Ask for a new one.",
+    "requestNew": "Request a new link"
   }
 }
