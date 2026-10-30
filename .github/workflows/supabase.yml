@@ -5,7 +5,9 @@ name: Supabase — apply migrations & deploy functions
 # supabase/ actually changed, so ordinary code pushes don't touch the DB.
 on:
   push:
-    branches: [claude/fx-partners-website-oit635]
+    # main is the production branch: migrations apply when a change is
+    # merged there, the same moment Vercel deploys the code that needs them.
+    branches: [main]
     paths:
       - "supabase/migrations/**"
       - "supabase/functions/**"
