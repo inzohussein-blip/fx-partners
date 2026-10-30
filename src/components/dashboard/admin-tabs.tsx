@@ -17,8 +17,7 @@ import {
   Share2,
   Images,
   MessagesSquare,
-  MousePointerClick,
-} from "lucide-react";
+  MousePointerClick, LayoutTemplate } from "lucide-react";
 
 type Tab = { href: string; label: string; icon: typeof UserCheck; exact?: boolean };
 
@@ -51,6 +50,7 @@ const groups: { label: string; tabs: Tab[] }[] = [
     label: "المحتوى",
     tabs: [
       { href: "/dashboard/admin/posts", label: "المنشورات", icon: FileText },
+      { href: "/dashboard/admin/pages", label: "الصفحات والأقسام", icon: LayoutTemplate },
       { href: "/dashboard/admin/content", label: "النصوص", icon: Type },
       { href: "/dashboard/admin/media", label: "الوسائط", icon: Images },
       { href: "/dashboard/admin/announcements", label: "الإعلانات", icon: Megaphone },

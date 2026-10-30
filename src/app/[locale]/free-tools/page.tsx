@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/dashboard/empty-state";
 import { ResourceCard } from "@/components/marketing/resource-card";
 import { getResources } from "@/lib/resources";
 import { Download } from "lucide-react";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export const revalidate = 300;
 
@@ -52,39 +53,50 @@ export default async function ResourcesPage(
   return (
     <>
       <SiteHeader />
-      <section className="py-14">
-        <Container>
-          <Breadcrumbs items={[{ label: t("crumb") }]} />
-          <div className="mt-6">
-            <SectionHeading
-              as="h1"
-              eyebrow={t("eyebrow")}
-              icon={Download}
-              title={t("title")}
-              subtitle={t("subtitle")}
-              align="start"
-            />
-          </div>
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="free-tools"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <section className="py-14">
+              <Container>
+                <Breadcrumbs items={[{ label: t("crumb") }]} />
+                <div className="mt-6">
+                  <SectionHeading
+                    as="h1"
+                    eyebrow={t("eyebrow")}
+                    icon={Download}
+                    title={t("title")}
+                    subtitle={t("subtitle")}
+                    align="start"
+                  />
+                </div>
 
-          <div className="mt-10">
-            {resources.length === 0 ? (
-              <div className="card-surface">
-                <EmptyState
-                  icon={Download}
-                  title={t("emptyTitle")}
-                  description={t("emptyDescription")}
-                />
-              </div>
-            ) : (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {resources.map((r) => (
-                  <ResourceCard key={r.id} resource={r} />
-                ))}
-              </div>
-            )}
-          </div>
-        </Container>
-      </section>
+                <div className="mt-10">
+                  {resources.length === 0 ? (
+                    <div className="card-surface">
+                      <EmptyState
+                        icon={Download}
+                        title={t("emptyTitle")}
+                        description={t("emptyDescription")}
+                      />
+                    </div>
+                  ) : (
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                      {resources.map((r) => (
+                        <ResourceCard key={r.id} resource={r} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Container>
+            </section>
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );

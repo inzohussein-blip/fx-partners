@@ -11,6 +11,7 @@ import { PostCard } from "@/components/forum/post-card";
 import { getChannels, getLatestPosts } from "@/lib/forum";
 import { BadgeCheck, Radio, MessagesSquare, Newspaper } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export async function generateMetadata(
   props: {
@@ -61,86 +62,97 @@ export default async function ForumHub(
   return (
     <>
       <SiteHeader />
-      <section className="hero-glow">
-        <Container className="py-9 text-center sm:py-16">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-            <MessagesSquare className="h-3.5 w-3.5" />
-            {t("eyebrow")}
-          </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
-            <EditableText contentKey={key} field="title" label={t("editTitle")}>
-              {copy.title}
-            </EditableText>
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-slate-300">
-            <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
-              {copy.subtitle}
-            </EditableText>
-          </p>
-        </Container>
-      </section>
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="forum"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <section className="hero-glow">
+              <Container className="py-9 text-center sm:py-16">
+                <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+                  <MessagesSquare className="h-3.5 w-3.5" />
+                  {t("eyebrow")}
+                </span>
+                <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
+                  <EditableText contentKey={key} field="title" label={t("editTitle")}>
+                    {copy.title}
+                  </EditableText>
+                </h1>
+                <p className="mx-auto mt-4 max-w-2xl text-slate-300">
+                  <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
+                    {copy.subtitle}
+                  </EditableText>
+                </p>
+              </Container>
+            </section>
 
-      <section className="pb-16">
-        <Container className="space-y-14">
-          {/* Latest feed */}
-          {latest.length > 0 && (
-            <div>
-              <SectionHeading
-                align="start"
-                eyebrow={t("latestEyebrow")}
-                icon={Newspaper}
-                title={t("latestTitle")}
-                subtitle={t("latestSubtitle")}
-              />
-              <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {latest.map((post) => (
-                  <PostCard key={post.id} post={post} />
-                ))}
-              </div>
-            </div>
-          )}
+            <section className="pb-16">
+              <Container className="space-y-14">
+                {/* Latest feed */}
+                {latest.length > 0 && (
+                  <div>
+                    <SectionHeading
+                      align="start"
+                      eyebrow={t("latestEyebrow")}
+                      icon={Newspaper}
+                      title={t("latestTitle")}
+                      subtitle={t("latestSubtitle")}
+                    />
+                    <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                      {latest.map((post) => (
+                        <PostCard key={post.id} post={post} />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-          {/* Official channels */}
-          <div>
-            <SectionHeading
-              align="start"
-              eyebrow={t("officialEyebrow")}
-              icon={BadgeCheck}
-              title={t("officialTitle")}
-              subtitle={t("officialSubtitle")}
-            />
-            {official.length > 0 ? (
-              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {official.map((c) => (
-                  <ChannelCard key={c.id} channel={c} />
-                ))}
-              </div>
-            ) : (
-              <p className="mt-6 text-sm text-slate-500">{t("officialEmpty")}</p>
-            )}
-          </div>
+                {/* Official channels */}
+                <div>
+                  <SectionHeading
+                    align="start"
+                    eyebrow={t("officialEyebrow")}
+                    icon={BadgeCheck}
+                    title={t("officialTitle")}
+                    subtitle={t("officialSubtitle")}
+                  />
+                  {official.length > 0 ? (
+                    <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {official.map((c) => (
+                        <ChannelCard key={c.id} channel={c} />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-6 text-sm text-slate-500">{t("officialEmpty")}</p>
+                  )}
+                </div>
 
-          {/* Agent channels */}
-          <div>
-            <SectionHeading
-              align="start"
-              eyebrow={t("agentsEyebrow")}
-              icon={Radio}
-              title={t("agentsTitle")}
-              subtitle={t("agentsSubtitle")}
-            />
-            {agents.length > 0 ? (
-              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {agents.map((c) => (
-                  <ChannelCard key={c.id} channel={c} />
-                ))}
-              </div>
-            ) : (
-              <p className="mt-6 text-sm text-slate-500">{t("agentsEmpty")}</p>
-            )}
-          </div>
-        </Container>
-      </section>
+                {/* Agent channels */}
+                <div>
+                  <SectionHeading
+                    align="start"
+                    eyebrow={t("agentsEyebrow")}
+                    icon={Radio}
+                    title={t("agentsTitle")}
+                    subtitle={t("agentsSubtitle")}
+                  />
+                  {agents.length > 0 ? (
+                    <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {agents.map((c) => (
+                        <ChannelCard key={c.id} channel={c} />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-6 text-sm text-slate-500">{t("agentsEmpty")}</p>
+                  )}
+                </div>
+              </Container>
+            </section>
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );

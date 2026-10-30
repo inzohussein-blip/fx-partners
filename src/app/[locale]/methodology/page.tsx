@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { CATEGORIES, populatedCategories } from "@/lib/best-for";
 import { getPublishedBrokers } from "@/lib/published-brokers";
 import { ScrollText, ArrowLeft } from "lucide-react";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 // Reads the broker list to know which "best for" lists exist.
 export const revalidate = 600;
@@ -84,74 +85,85 @@ export default async function MethodologyPage(
   return (
     <>
       <SiteHeader />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="methodology"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
+            />
+
+            <section className="py-14">
+              <Container className="max-w-3xl">
+                <Breadcrumbs items={[{ label: t("crumb") }]} />
+                <h1 className="mt-6 text-3xl font-extrabold text-fg sm:text-4xl">{t("h1")}</h1>
+                <p className="mt-3 text-sm text-slate-500">{t("lastUpdated", { date })}</p>
+                <p className="mt-6 text-base leading-relaxed text-slate-300">{t("lead")}</p>
+
+                <div className="mt-10 space-y-8">
+                  {SHAPE.map((paragraphs, i) => {
+                    const n = i + 1;
+                    return (
+                      <section key={n}>
+                        <h2 className="text-lg font-semibold text-fg">{t(`s${n}Title`)}</h2>
+                        {Array.from({ length: paragraphs }, (_, j) => (
+                          <p key={j} className="mt-2 text-sm leading-relaxed text-slate-400">
+                            {t(`s${n}p${j + 1}`)}
+                          </p>
+                        ))}
+                      </section>
+                    );
+                  })}
+                </div>
+
+                {/* The rule for every list, in one table. Generated from the same
+                    taxonomy the pages use, so it cannot drift from what they do. */}
+                <div className="mt-12">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
+                    <ScrollText className="h-5 w-5 shrink-0 text-brand-300" aria-hidden />
+                    {tb("indexTitle")}
+                  </h2>
+                  <div className="mt-4 overflow-x-auto">
+                    <table className="w-full min-w-[30rem] border-collapse text-start text-sm">
+                      <tbody>
+                        {CATEGORIES.map((c) => (
+                          <tr key={c.slug} className="border-b border-fg/5 align-top">
+                            <td className="py-3 pe-4">
+                              {live.has(c.slug) ? (
+                                <Link
+                                  href={`/best/${c.slug}`}
+                                  className="font-medium text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                                >
+                                  {tb(`${c.slug}Title`)}
+                                </Link>
+                              ) : (
+                                <span className="font-medium text-slate-300">{tb(`${c.slug}Title`)}</span>
+                              )}
+                            </td>
+                            <td className="py-3 leading-relaxed text-slate-400">{tb(`${c.slug}Rule`)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <Link
+                    href="/best"
+                    className="mt-5 inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300 hover:text-brand-200"
+                  >
+                    {tb("indexCrumb")}
+                    <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />
+                  </Link>
+                </div>
+              </Container>
+            </section>
+            </>
+          ),
+        }}
       />
-
-      <section className="py-14">
-        <Container className="max-w-3xl">
-          <Breadcrumbs items={[{ label: t("crumb") }]} />
-          <h1 className="mt-6 text-3xl font-extrabold text-fg sm:text-4xl">{t("h1")}</h1>
-          <p className="mt-3 text-sm text-slate-500">{t("lastUpdated", { date })}</p>
-          <p className="mt-6 text-base leading-relaxed text-slate-300">{t("lead")}</p>
-
-          <div className="mt-10 space-y-8">
-            {SHAPE.map((paragraphs, i) => {
-              const n = i + 1;
-              return (
-                <section key={n}>
-                  <h2 className="text-lg font-semibold text-fg">{t(`s${n}Title`)}</h2>
-                  {Array.from({ length: paragraphs }, (_, j) => (
-                    <p key={j} className="mt-2 text-sm leading-relaxed text-slate-400">
-                      {t(`s${n}p${j + 1}`)}
-                    </p>
-                  ))}
-                </section>
-              );
-            })}
-          </div>
-
-          {/* The rule for every list, in one table. Generated from the same
-              taxonomy the pages use, so it cannot drift from what they do. */}
-          <div className="mt-12">
-            <h2 className="flex items-center gap-2 text-lg font-semibold text-fg">
-              <ScrollText className="h-5 w-5 shrink-0 text-brand-300" aria-hidden />
-              {tb("indexTitle")}
-            </h2>
-            <div className="mt-4 overflow-x-auto">
-              <table className="w-full min-w-[30rem] border-collapse text-start text-sm">
-                <tbody>
-                  {CATEGORIES.map((c) => (
-                    <tr key={c.slug} className="border-b border-fg/5 align-top">
-                      <td className="py-3 pe-4">
-                        {live.has(c.slug) ? (
-                          <Link
-                            href={`/best/${c.slug}`}
-                            className="font-medium text-brand-300 underline underline-offset-2 hover:text-brand-200"
-                          >
-                            {tb(`${c.slug}Title`)}
-                          </Link>
-                        ) : (
-                          <span className="font-medium text-slate-300">{tb(`${c.slug}Title`)}</span>
-                        )}
-                      </td>
-                      <td className="py-3 leading-relaxed text-slate-400">{tb(`${c.slug}Rule`)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <Link
-              href="/best"
-              className="mt-5 inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300 hover:text-brand-200"
-            >
-              {tb("indexCrumb")}
-              <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />
-            </Link>
-          </div>
-        </Container>
-      </section>
       <SiteFooter />
     </>
   );

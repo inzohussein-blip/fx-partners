@@ -12,6 +12,7 @@ import { getContent, contentKeyFor } from "@/lib/content";
 import { Gauge } from "lucide-react";
 import { MyfxbookFrame, MyfxbookWidget } from "@/components/myfxbook-widget";
 import { MYFXBOOK_OUTLOOK, MYFXBOOK_SPREADS_SRC } from "@/lib/myfxbook";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export const revalidate = 300; // ISR: cache 5 min
 
@@ -58,49 +59,60 @@ export default async function SpreadsPage(
   return (
     <>
       <SiteHeader />
-      <section className="py-14">
-        <Container>
-          <Breadcrumbs items={[{ label: t("crumb") }]} />
-          <div className="mt-6">
-            <SectionHeading
-              as="h1"
-              eyebrow={t("eyebrow")}
-              icon={Gauge}
-              title={copy.title}
-              subtitle={copy.subtitle}
-              align="start"
-            />
-          </div>
-          <section className="card-surface mt-10 p-4 sm:p-5">
-            <h2 className="text-lg font-semibold text-fg">{t("liveTitle")}</h2>
-            <p className="mt-1 text-sm text-slate-400">{t("liveIntro")}</p>
-            <div className="mt-4">
-              <MyfxbookFrame
-                src={MYFXBOOK_SPREADS_SRC}
-                height={640}
-                title={t("liveTitle")}
-                credit="Live Forex Spreads"
-                creditHref="https://www.myfxbook.com/forex-broker-spreads"
-              />
-            </div>
-            <p className="mt-3 text-xs text-slate-500">{t("liveNote")}</p>
-          </section>
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="spreads"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <section className="py-14">
+              <Container>
+                <Breadcrumbs items={[{ label: t("crumb") }]} />
+                <div className="mt-6">
+                  <SectionHeading
+                    as="h1"
+                    eyebrow={t("eyebrow")}
+                    icon={Gauge}
+                    title={copy.title}
+                    subtitle={copy.subtitle}
+                    align="start"
+                  />
+                </div>
+                <section className="card-surface mt-10 p-4 sm:p-5">
+                  <h2 className="text-lg font-semibold text-fg">{t("liveTitle")}</h2>
+                  <p className="mt-1 text-sm text-slate-400">{t("liveIntro")}</p>
+                  <div className="mt-4">
+                    <MyfxbookFrame
+                      src={MYFXBOOK_SPREADS_SRC}
+                      height={640}
+                      title={t("liveTitle")}
+                      credit="Live Forex Spreads"
+                      creditHref="https://www.myfxbook.com/forex-broker-spreads"
+                    />
+                  </div>
+                  <p className="mt-3 text-xs text-slate-500">{t("liveNote")}</p>
+                </section>
 
-          <section className="mt-10">
-            <h2 className="mb-4 text-lg font-semibold text-fg">{t("tableTitle")}</h2>
-            <SpreadsHeatmap rows={rows} />
-          </section>
+                <section className="mt-10">
+                  <h2 className="mb-4 text-lg font-semibold text-fg">{t("tableTitle")}</h2>
+                  <SpreadsHeatmap rows={rows} />
+                </section>
 
-          <section className="card-surface mt-10 p-4 sm:p-5">
-            <h2 className="text-lg font-semibold text-fg">{t("outlookTitle")}</h2>
-            <p className="mt-1 text-sm text-slate-400">{t("outlookIntro")}</p>
-            <div className="mt-4">
-              <MyfxbookWidget html={MYFXBOOK_OUTLOOK} height={330} title={t("outlookTitle")} />
-            </div>
-            <p className="mt-3 text-xs text-slate-500">{t("outlookNote")}</p>
-          </section>
-        </Container>
-      </section>
+                <section className="card-surface mt-10 p-4 sm:p-5">
+                  <h2 className="text-lg font-semibold text-fg">{t("outlookTitle")}</h2>
+                  <p className="mt-1 text-sm text-slate-400">{t("outlookIntro")}</p>
+                  <div className="mt-4">
+                    <MyfxbookWidget html={MYFXBOOK_OUTLOOK} height={330} title={t("outlookTitle")} />
+                  </div>
+                  <p className="mt-3 text-xs text-slate-500">{t("outlookNote")}</p>
+                </section>
+              </Container>
+            </section>
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );

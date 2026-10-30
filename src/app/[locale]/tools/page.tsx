@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/container";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { ToolsTabs } from "@/components/marketing/tools-tabs";
 import { Wrench } from "lucide-react";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export async function generateMetadata(
   props: {
@@ -52,28 +53,37 @@ export default async function ToolsPage(
   return (
     <>
       <SiteHeader />
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="tools"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <section className="hero-glow">
+              <Container className="py-8 text-center sm:py-14">
+                <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+                  <Wrench className="h-3.5 w-3.5" aria-hidden />
+                  {t("eyebrow")}
+                </span>
+                <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
+                  <EditableText contentKey={key} field="title" label={t("editTitle")}>
+                    {copy.title}
+                  </EditableText>
+                </h1>
+                <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
+                  <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
+                    {copy.subtitle}
+                  </EditableText>
+                </p>
+              </Container>
+            </section>
 
-      <section className="hero-glow">
-        <Container className="py-8 text-center sm:py-14">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-            <Wrench className="h-3.5 w-3.5" aria-hidden />
-            {t("eyebrow")}
-          </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
-            <EditableText contentKey={key} field="title" label={t("editTitle")}>
-              {copy.title}
-            </EditableText>
-          </h1>
-          <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
-            <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
-              {copy.subtitle}
-            </EditableText>
-          </p>
-        </Container>
-      </section>
-
-      <ToolsTabs showIntro={false} />
-
+            <ToolsTabs showIntro={false} />
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );
