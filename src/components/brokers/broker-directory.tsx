@@ -146,6 +146,21 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
     [brokers]
   );
 
+  // Desktop grid columns, in the order each row renders its cells.
+  const template = [
+    "minmax(0,2.2fr)",
+    "minmax(0,1.8fr)",
+    "11rem",
+    cols.status && "7rem",
+    cols.spread && "6rem",
+    cols.depositBonus && "7rem",
+    cols.welcomeBonus && "7rem",
+    cols.commission && "7rem",
+    "auto",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   // Offer only the filters and sorts that can match something. With no
   // partners, no bonuses and no recorded specs yet, every option except "all"
   // returned an empty list — a dead end presented as a feature.
@@ -351,130 +366,108 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
           <span className="font-semibold text-fg">{rows.length}</span> شركة
         </p>
 
-      {/* Comparison table (desktop) */}
-      <div className="card-surface hidden overflow-hidden lg:block">
-        <div className="overflow-x-auto">
-          <table className="w-full text-right text-sm">
-            <thead>
-              <tr className="border-b border-fg/5 text-xs text-slate-500">
-                <th className="px-5 py-3 font-medium">الشركة</th>
-                <th className="px-5 py-3 font-medium">التراخيص الموثّقة</th>
-                <th className="px-5 py-3 font-medium">التقييم</th>
-                {cols.status && <th className="px-5 py-3 font-medium">الحالة</th>}
-                {cols.spread && <th className="px-5 py-3 font-medium">السبريد من</th>}
-                {cols.depositBonus && <th className="px-5 py-3 font-medium">بونص الإيداع</th>}
-                {cols.welcomeBonus && <th className="px-5 py-3 font-medium">بونص ترحيبي</th>}
-                {cols.commission && <th className="px-5 py-3 font-medium">عمولة الوكيل</th>}
-                <th className="px-5 py-3 font-medium">
-                  <span className="sr-only">التفاصيل</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {visible.map((b) => (
-                <tr
-                  key={b.id}
-                  className="border-b border-fg/5 transition last:border-0 hover:bg-fg/[0.03]"
+      {/* One list for every screen size. It used to be a desktop <table> plus
+          a separate phone list, both always in the HTML with one hidden by
+          CSS: ~1,400 elements for 20 brokers, all hydrated. Each row is now a
+          compact card on a phone and a grid row with columns on desktop. */}
+      {visible.length > 0 && (
+        <div className="card-surface overflow-hidden">
+          <div
+            aria-hidden
+            className="hidden border-b border-fg/5 px-5 py-3 text-xs font-medium text-slate-500 lg:grid lg:gap-4"
+            style={{ gridTemplateColumns: template }}
+          >
+            <span>الشركة</span>
+            <span>التراخيص الموثّقة</span>
+            <span>التقييم</span>
+            {cols.status && <span>الحالة</span>}
+            {cols.spread && <span>السبريد من</span>}
+            {cols.depositBonus && <span>بونص الإيداع</span>}
+            {cols.welcomeBonus && <span>بونص ترحيبي</span>}
+            {cols.commission && <span>عمولة الوكيل</span>}
+            <span />
+          </div>
+          <ul className="divide-y divide-fg/[0.06]">
+            {visible.map((b) => (
+              <li key={b.id}>
+                <Link
+                  href={`/brokers/${b.slug}`}
+                  className="flex min-h-[64px] flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 text-xs transition hover:bg-fg/[0.03] lg:grid lg:gap-4 lg:px-5 lg:py-3.5 lg:text-sm"
+                  style={{ gridTemplateColumns: template }}
                 >
-                  <td className="px-5 py-3.5">
-                    <div className="flex items-center gap-3">
-                      <BrokerLogo broker={b} />
-                      <div className="min-w-0">
-                        <span className="whitespace-nowrap font-semibold text-fg">{b.name}</span>
-                        {b.badges && b.badges.length > 0 && (
-                          <div className="mt-1">
-                            <BrokerBadges badges={b.badges} />
-                          </div>
+                  <div className="flex min-w-0 flex-1 items-center gap-3">
+                    <BrokerLogo broker={b} />
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="truncate text-sm font-semibold text-fg">{b.name}</span>
+                        {b.status === "partnered" && (
+                          <BadgeCheck className="h-4 w-4 shrink-0 text-emerald-300 lg:hidden" aria-label={statusLabel(b.status)} />
                         )}
                       </div>
+                      {b.badges && b.badges.length > 0 && (
+                        <div className="mt-1 hidden lg:block">
+                          <BrokerBadges badges={b.badges} />
+                        </div>
+                      )}
                     </div>
-                  </td>
-                  <td className="px-5 py-3.5">
+                  </div>
+                  <ArrowLeft className="h-4 w-4 shrink-0 text-slate-500 lg:hidden" aria-hidden />
+                  {/* Phone: everything after this wraps onto the second line. */}
+                  <span className="h-0 basis-full lg:hidden" aria-hidden />
+
+                  <div className={cn("order-1 min-w-0 lg:order-none", licenceCount(b) === 0 && "hidden lg:block")}>
                     {licenceCount(b) > 0 ? (
                       <LicenseBadges licenses={b.licenses} />
                     ) : (
                       <span className="text-xs text-slate-600">لم يُتحقَّق بعد</span>
                     )}
-                  </td>
-                  <td className="px-5 py-3.5">
-                    <BrokerRating broker={b} />
-                  </td>
+                  </div>
+                  <div>
+                    <BrokerRating broker={b} size={14} />
+                  </div>
                   {cols.status && (
-                    <td className="px-5 py-3.5">
+                    <div className="hidden lg:block">
                       <StatusBadge status={b.status} />
-                    </td>
+                    </div>
                   )}
                   {cols.spread && (
-                    <td className="px-5 py-3.5 text-slate-300" dir="ltr">
-                      {b.spread_from != null ? `${b.spread_from} نقطة` : "—"}
-                    </td>
+                    <div className={cn(b.spread_from == null && "hidden lg:block")} dir="ltr">
+                      {b.spread_from != null ? (
+                        <span className="rounded-full bg-fg/5 px-2 py-0.5 text-slate-300 lg:bg-transparent lg:p-0">
+                          {b.spread_from} نقطة
+                        </span>
+                      ) : (
+                        <span className="text-slate-500">—</span>
+                      )}
+                    </div>
                   )}
                   {cols.depositBonus && (
-                    <td className="px-5 py-3.5 text-slate-300">{b.deposit_bonus || "—"}</td>
+                    <div className={cn(!b.deposit_bonus && "hidden lg:block")}>
+                      {b.deposit_bonus ? (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-amber-300 lg:bg-transparent lg:p-0 lg:text-slate-300">
+                          <Gift className="h-3 w-3 lg:hidden" aria-hidden />
+                          <span className="lg:hidden">إيداع</span> {b.deposit_bonus}
+                        </span>
+                      ) : (
+                        <span className="text-slate-500">—</span>
+                      )}
+                    </div>
                   )}
                   {cols.welcomeBonus && (
-                    <td className="px-5 py-3.5 text-slate-300">{b.welcome_bonus || "—"}</td>
+                    <div className="hidden text-slate-300 lg:block">{b.welcome_bonus || "—"}</div>
                   )}
                   {cols.commission && (
-                    <td className="px-5 py-3.5 font-semibold text-brand-300">
-                      {bestCommission(b) || "—"}
-                    </td>
+                    <div className="hidden font-semibold text-brand-300 lg:block">{bestCommission(b) || "—"}</div>
                   )}
-                  <td className="px-5 py-3.5 text-left">
-                    <Link
-                      href={`/brokers/${b.slug}`}
-                      className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg bg-brand-500/15 px-3 py-1.5 text-xs font-semibold text-brand-200 transition hover:bg-brand-500/25"
-                    >
-                      التفاصيل
-                      <ArrowLeft className="h-3 w-3" />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  <span className="hidden items-center gap-1 justify-self-end whitespace-nowrap rounded-lg bg-brand-500/15 px-3 py-1.5 text-xs font-semibold text-brand-200 lg:inline-flex">
+                    التفاصيل
+                    <ArrowLeft className="h-3 w-3" aria-hidden />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
-
-      {/* Compact rows (phone / tablet). One card holding a divided list: the
-          separate card per broker ran to ~130px each, so 217 of them made a
-          page 35 screens long. */}
-      {visible.length > 0 && (
-        <ul className="card-surface divide-y divide-fg/[0.06] overflow-hidden lg:hidden">
-          {visible.map((b) => (
-            <li key={b.id}>
-              <Link
-                href={`/brokers/${b.slug}`}
-                className="flex min-h-[64px] items-center gap-3 px-4 py-3 transition hover:bg-fg/[0.03]"
-              >
-                <BrokerLogo broker={b} />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5">
-                    <span className="truncate font-semibold text-fg">{b.name}</span>
-                    {b.status === "partnered" && (
-                      <BadgeCheck className="h-4 w-4 shrink-0 text-emerald-300" aria-label={statusLabel(b.status)} />
-                    )}
-                  </div>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-                    <BrokerRating broker={b} size={13} />
-                    {licenceCount(b) > 0 && <LicenseBadges licenses={b.licenses} />}
-                    {b.spread_from != null && (
-                      <span className="rounded-full bg-fg/5 px-2 py-0.5 text-slate-300" dir="ltr">
-                        سبريد {b.spread_from}
-                      </span>
-                    )}
-                    {b.deposit_bonus && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-amber-300">
-                        <Gift className="h-3 w-3" /> إيداع {b.deposit_bonus}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <ArrowLeft className="h-4 w-4 shrink-0 text-slate-500" aria-hidden />
-              </Link>
-            </li>
-          ))}
-        </ul>
       )}
 
       {remaining > 0 && (
