@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Link } from "@/i18n/navigation";
 import { INDICATORS, pick } from "@/lib/indicators";
 import { Newspaper } from "lucide-react";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -32,43 +33,54 @@ export default async function IndicatorsPage(props: { params: Promise<{ locale: 
   return (
     <>
       <SiteHeader />
-      <section className="py-14">
-        <Container>
-          <Breadcrumbs items={[{ label: t("crumb") }]} />
-          <div className="mt-6">
-            <SectionHeading
-              as="h1"
-              eyebrow={t("eyebrow")}
-              icon={Newspaper}
-              title={t("title")}
-              subtitle={t("subtitle")}
-              align="start"
-            />
-          </div>
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="indicators"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <section className="py-14">
+              <Container>
+                <Breadcrumbs items={[{ label: t("crumb") }]} />
+                <div className="mt-6">
+                  <SectionHeading
+                    as="h1"
+                    eyebrow={t("eyebrow")}
+                    icon={Newspaper}
+                    title={t("title")}
+                    subtitle={t("subtitle")}
+                    align="start"
+                  />
+                </div>
 
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {INDICATORS.map((i) => (
-              <li key={i.slug}>
-                <Link
-                  href={`/indicators/${i.slug}`}
-                  className="card-surface flex h-full flex-col p-5 transition hover:border-brand-500/40"
-                >
-                  <span dir="ltr" className="self-start rounded-lg bg-brand-500/10 px-2.5 py-1 text-xs font-bold text-brand-200">
-                    {i.code}
-                  </span>
-                  <h2 className="mt-3 font-bold text-fg">{pick(i.name, locale)}</h2>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{pick(i.summary, locale)}</p>
-                  <p className="mt-3 text-xs text-slate-500">
-                    {pick(i.frequency, locale)} · {pick(i.agency, locale)}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {INDICATORS.map((i) => (
+                    <li key={i.slug}>
+                      <Link
+                        href={`/indicators/${i.slug}`}
+                        className="card-surface flex h-full flex-col p-5 transition hover:border-brand-500/40"
+                      >
+                        <span dir="ltr" className="self-start rounded-lg bg-brand-500/10 px-2.5 py-1 text-xs font-bold text-brand-200">
+                          {i.code}
+                        </span>
+                        <h2 className="mt-3 font-bold text-fg">{pick(i.name, locale)}</h2>
+                        <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{pick(i.summary, locale)}</p>
+                        <p className="mt-3 text-xs text-slate-500">
+                          {pick(i.frequency, locale)} · {pick(i.agency, locale)}
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
 
-          <p className="mx-auto mt-8 max-w-3xl text-center text-xs text-slate-500">{t("disclaimer")}</p>
-        </Container>
-      </section>
+                <p className="mx-auto mt-8 max-w-3xl text-center text-xs text-slate-500">{t("disclaimer")}</p>
+              </Container>
+            </section>
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );

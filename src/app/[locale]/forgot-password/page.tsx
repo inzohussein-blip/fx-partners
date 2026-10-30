@@ -4,6 +4,7 @@ import { useState, use } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { authErrorKey } from "@/lib/auth-errors";
 import { Button } from "@/components/ui/button";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { Field } from "@/components/auth/field";
@@ -21,6 +22,7 @@ export default function ForgotPasswordPage(
   } = params;
 
   const t = useTranslations("Forgot");
+  const te = useTranslations("AuthErrors");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -42,11 +44,11 @@ export default function ForgotPasswordPage(
 
     setLoading(true);
     const supabase = createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
       redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
     });
     setLoading(false);
-    if (error) setError(error.message);
+    if (error) setError(te(authErrorKey(error)));
     else setSent(true);
   }
 

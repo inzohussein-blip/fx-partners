@@ -10,6 +10,7 @@ import { getPublishedBrokers } from "@/lib/published-brokers";
 import { CATEGORIES, populatedCategories } from "@/lib/best-for";
 import { UpcomingListCard } from "@/components/brokers/upcoming-list-card";
 import { Trophy, ArrowLeft } from "lucide-react";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export const revalidate = 600;
 
@@ -53,77 +54,88 @@ export default async function BestIndexPage(
   return (
     <>
       <SiteHeader />
-      <section className="hero-glow">
-        <Container className="max-w-3xl py-12">
-          <Breadcrumbs items={[{ label: t("indexCrumb") }]} />
-          <h1 className="mt-6 text-3xl font-extrabold leading-snug text-fg sm:text-4xl">
-            {t("indexTitle")}
-          </h1>
-          <p className="mt-4 text-base leading-relaxed text-slate-300">{t("indexLead")}</p>
-        </Container>
-      </section>
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="best"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            <section className="hero-glow">
+              <Container className="max-w-3xl py-12">
+                <Breadcrumbs items={[{ label: t("indexCrumb") }]} />
+                <h1 className="mt-6 text-3xl font-extrabold leading-snug text-fg sm:text-4xl">
+                  {t("indexTitle")}
+                </h1>
+                <p className="mt-4 text-base leading-relaxed text-slate-300">{t("indexLead")}</p>
+              </Container>
+            </section>
 
-      <section className="pb-16">
-        <Container className="max-w-3xl">
-          {lists.length === 0 ? (
-            // No invented lists while the directory is empty. The page says so
-            // rather than showing eight links that all lead to a 404.
-            <p className="card-surface p-10 text-center text-sm leading-relaxed text-slate-400">
-              {t("indexEmpty")}
-            </p>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2">
-              {lists.map(({ category, brokers }) => (
-                <Link
-                  key={category.slug}
-                  href={`/best/${category.slug}`}
-                  className="card-surface group flex flex-col p-5 transition hover:border-brand-400/40"
-                >
-                  <span className="inline-flex items-center gap-2 text-xs font-medium text-brand-200">
-                    <Trophy className="h-3.5 w-3.5" aria-hidden />
-                    {t("brokerCount", { count: brokers.length })}
-                  </span>
-                  <h2 className="mt-2.5 font-bold leading-snug text-fg group-hover:text-brand-200">
-                    {t(`${category.slug}Title`)}
-                  </h2>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
-                    {t(`${category.slug}Description`)}
+            <section className="pb-16">
+              <Container className="max-w-3xl">
+                {lists.length === 0 ? (
+                  // No invented lists while the directory is empty. The page says so
+                  // rather than showing eight links that all lead to a 404.
+                  <p className="card-surface p-10 text-center text-sm leading-relaxed text-slate-400">
+                    {t("indexEmpty")}
                   </p>
-                  <span className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300">
-                    {brokers[0].name}
-                    <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          )}
+                ) : (
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {lists.map(({ category, brokers }) => (
+                      <Link
+                        key={category.slug}
+                        href={`/best/${category.slug}`}
+                        className="card-surface group flex flex-col p-5 transition hover:border-brand-400/40"
+                      >
+                        <span className="inline-flex items-center gap-2 text-xs font-medium text-brand-200">
+                          <Trophy className="h-3.5 w-3.5" aria-hidden />
+                          {t("brokerCount", { count: brokers.length })}
+                        </span>
+                        <h2 className="mt-2.5 font-bold leading-snug text-fg group-hover:text-brand-200">
+                          {t(`${category.slug}Title`)}
+                        </h2>
+                        <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">
+                          {t(`${category.slug}Description`)}
+                        </p>
+                        <span className="mt-4 inline-flex min-h-6 items-center gap-1.5 text-sm font-semibold text-brand-300">
+                          {brokers[0].name}
+                          <ArrowLeft className="h-4 w-4 rtl:rotate-0 ltr:rotate-180" aria-hidden />
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
 
-          {lists.length > 0 && upcoming.length > 0 && (
-            <div className="mt-10">
-              <h2 className="text-sm font-semibold text-slate-400">{t("upcomingHeading")}</h2>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                {upcoming.map((c) => (
-                  <UpcomingListCard
-                    key={c.slug}
-                    title={t(`${c.slug}Title`)}
-                    label={t("upcoming")}
-                    note={t("upcomingNote")}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+                {lists.length > 0 && upcoming.length > 0 && (
+                  <div className="mt-10">
+                    <h2 className="text-sm font-semibold text-slate-400">{t("upcomingHeading")}</h2>
+                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                      {upcoming.map((c) => (
+                        <UpcomingListCard
+                          key={c.slug}
+                          title={t(`${c.slug}Title`)}
+                          label={t("upcoming")}
+                          note={t("upcomingNote")}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-          <div className="mt-8">
-            <Link
-              href="/methodology"
-              className="inline-flex min-h-6 items-center text-sm text-brand-300 underline underline-offset-2 hover:text-brand-200"
-            >
-              {t("methodologyLink")}
-            </Link>
-          </div>
-        </Container>
-      </section>
+                <div className="mt-8">
+                  <Link
+                    href="/methodology"
+                    className="inline-flex min-h-6 items-center text-sm text-brand-300 underline underline-offset-2 hover:text-brand-200"
+                  >
+                    {t("methodologyLink")}
+                  </Link>
+                </div>
+              </Container>
+            </section>
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );

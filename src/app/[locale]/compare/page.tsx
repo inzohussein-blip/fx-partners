@@ -18,6 +18,7 @@ import { isRated } from "@/lib/brokers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { pageMeta, KEYWORDS } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/utils";
+import { PageSections } from "@/components/page-sections/page-sections";
 
 export const dynamic = "force-dynamic";
 
@@ -101,103 +102,113 @@ export default async function ComparePage(
   return (
     <>
       <SiteHeader />
-      {brokers.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLdScript(itemListJsonLd) }}
-        />
-      )}
+      {/* Custom sections can be added around this content: dashboard → Pages. */}
+      <PageSections
+        page="compare"
+        locale={locale}
+        builtins={{
+          content: (
+            <>
+            {brokers.length > 0 && (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: jsonLdScript(itemListJsonLd) }}
+              />
+            )}
 
-      <section className="hero-glow">
-        <Container className="py-9 text-center sm:py-16">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
-            <Scale className="h-3.5 w-3.5" aria-hidden />
-            {t("eyebrow")}
-          </span>
-          <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
-            <EditableText contentKey={key} field="title" label={t("editTitle")}>
-              {copy.title}
-            </EditableText>
-          </h1>
-          <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
-            <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
-              {copy.subtitle}
-            </EditableText>
-          </p>
-        </Container>
-      </section>
+            <section className="hero-glow">
+              <Container className="py-9 text-center sm:py-16">
+                <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-4 py-1.5 text-xs font-medium text-brand-200">
+                  <Scale className="h-3.5 w-3.5" aria-hidden />
+                  {t("eyebrow")}
+                </span>
+                <h1 className="mt-5 text-[26px] font-extrabold leading-[1.3] text-fg sm:text-4xl sm:leading-tight lg:text-5xl">
+                  <EditableText contentKey={key} field="title" label={t("editTitle")}>
+                    {copy.title}
+                  </EditableText>
+                </h1>
+                <p className="mx-auto mt-3.5 max-w-2xl text-[15px] leading-relaxed text-slate-300 sm:mt-5 sm:text-lg">
+                  <EditableText contentKey={key} field="subtitle" label={t("editSubtitle")} multiline>
+                    {copy.subtitle}
+                  </EditableText>
+                </p>
+              </Container>
+            </section>
 
-      {/* The guided finder sits above the directory, not inside it: someone who
-          has never chosen a broker wants a few questions, and someone who has
-          wants the full list. Both are on the page, in that order. */}
-      {brokers.length > 0 && (
-        <section className="pb-6">
-          <Container>
-            <BrokerFinder brokers={brokers} />
-          </Container>
-        </section>
-      )}
+            {/* The guided finder sits above the directory, not inside it: someone who
+                has never chosen a broker wants a few questions, and someone who has
+                wants the full list. Both are on the page, in that order. */}
+            {brokers.length > 0 && (
+              <section className="pb-6">
+                <Container>
+                  <BrokerFinder brokers={brokers} />
+                </Container>
+              </section>
+            )}
 
-      <section className="pb-24">
-        <Container>
-          {brokers.length === 0 ? (
-            <div className="card-surface p-12 text-center text-sm text-slate-500">
-              {t("empty")}{" "}
-              <span className="text-brand-300">{t("emptyLink")}</span>.
-            </div>
-          ) : (
-            /* Two tracks on desktop: the directory on the reading side, the
-               ranked "top brokers" sidebar sticky beside it. On a phone there
-               is one track — the ranking folds up above the directory, and the
-               head-to-head picker drops below the list, because someone who
-               opens the directory wants the directory first. */
-            <div
-              className={
-                showRanking
-                  ? "grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start"
-                  : "flex flex-col gap-6"
-              }
-            >
-              <div className="flex min-w-0 flex-col gap-6">
-                {brokers.length >= 2 && (
-                  <div className="order-2 lg:order-1">
-                    <HeadToHeadPicker
-                      options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
-                    />
+            <section className="pb-24">
+              <Container>
+                {brokers.length === 0 ? (
+                  <div className="card-surface p-12 text-center text-sm text-slate-500">
+                    {t("empty")}{" "}
+                    <span className="text-brand-300">{t("emptyLink")}</span>.
+                  </div>
+                ) : (
+                  /* Two tracks on desktop: the directory on the reading side, the
+                     ranked "top brokers" sidebar sticky beside it. On a phone there
+                     is one track — the ranking folds up above the directory, and the
+                     head-to-head picker drops below the list, because someone who
+                     opens the directory wants the directory first. */
+                  <div
+                    className={
+                      showRanking
+                        ? "grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start"
+                        : "flex flex-col gap-6"
+                    }
+                  >
+                    <div className="flex min-w-0 flex-col gap-6">
+                      {brokers.length >= 2 && (
+                        <div className="order-2 lg:order-1">
+                          <HeadToHeadPicker
+                            options={brokers.map((b) => ({ slug: b.slug, name: b.name }))}
+                          />
+                        </div>
+                      )}
+                      <div className="order-1 lg:order-2">
+                        <BrokerDirectory brokers={brokers} />
+                      </div>
+                    </div>
+
+                    {showRanking && <BrokerRanking brokers={brokers} locale={locale} />}
                   </div>
                 )}
-                <div className="order-1 lg:order-2">
-                  <BrokerDirectory brokers={brokers} />
-                </div>
-              </div>
+              </Container>
+            </section>
 
-              {showRanking && <BrokerRanking brokers={brokers} locale={locale} />}
-            </div>
-          )}
-        </Container>
-      </section>
+            <BestForStrip locale={locale} />
 
-      <BestForStrip locale={locale} />
-
-      {/* Quick operational-specs comparison grid — only once some broker has
-          recorded specs; before that it was a table of dashes. */}
-      {anySpecs(brokers) && (
-        <section className="pb-24">
-          <Container>
-            <SectionHeading
-              eyebrow={t("specsEyebrow")}
-              icon={ListChecks}
-              title={t("specsTitle")}
-              subtitle={t("specsSubtitle")}
-              align="start"
-            />
-            <div className="mt-10">
-              <SpecsGrid brokers={brokers} />
-            </div>
-          </Container>
-        </section>
-      )}
-
+            {/* Quick operational-specs comparison grid — only once some broker has
+                recorded specs; before that it was a table of dashes. */}
+            {anySpecs(brokers) && (
+              <section className="pb-24">
+                <Container>
+                  <SectionHeading
+                    eyebrow={t("specsEyebrow")}
+                    icon={ListChecks}
+                    title={t("specsTitle")}
+                    subtitle={t("specsSubtitle")}
+                    align="start"
+                  />
+                  <div className="mt-10">
+                    <SpecsGrid brokers={brokers} />
+                  </div>
+                </Container>
+              </section>
+            )}
+            </>
+          ),
+        }}
+      />
       <SiteFooter />
     </>
   );
