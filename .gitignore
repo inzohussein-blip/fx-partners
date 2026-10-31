@@ -45,3 +45,6 @@ next-env.d.ts
 
 # local build copies
 /.next-*/
+
+# emergency hosting secrets (docs/emergency-hosting.md)
+.env.emergency
