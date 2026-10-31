@@ -46,7 +46,7 @@ export function Logo({
       <LogoMark className={cn("h-8 w-8", markClassName)} />
       <span className="text-lg font-extrabold uppercase tracking-[0.14em] text-silver">
         Partners{" "}
-        <span className="bg-brand-gradient bg-clip-text text-transparent">FX</span>
+        <span className="logo-fx bg-brand-gradient bg-clip-text text-transparent">FX</span>
       </span>
     </span>
   );

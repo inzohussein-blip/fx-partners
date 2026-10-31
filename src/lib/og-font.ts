@@ -1,3 +1,5 @@
+import { MARK_SVG } from "@/lib/og-mark";
+
 /**
  * Load the site font (Cairo) for Satori-rendered OG images.
  *
@@ -82,6 +84,9 @@ export function fallbackCard(width: number, height: number, label?: string): Res
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">` +
     `<rect width="100%" height="100%" fill="#0A0F14"/>` +
+    (label
+      ? ""
+      : MARK_SVG.replace("<svg ", `<svg x="${(width - size * 1.6) / 2}" y="${height * 0.52 - size * 2.3}" width="${size * 1.6}" height="${size * 1.6}" `)) +
     `<text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle" ` +
     `font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="${size}" fill="#ffffff">` +
     `${text}</text></svg>`;

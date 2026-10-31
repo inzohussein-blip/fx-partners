@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { loadArabicFont, fallbackCard, OG_HEADERS } from "@/lib/og-font";
+import { OgMark } from "@/lib/og-mark";
 
 
 /**
@@ -40,6 +41,7 @@ export async function GET(req: Request) {
       >
         {/* Brand row */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <OgMark size={52} />
           <span style={{ fontSize: 40, fontWeight: 800 }}>Partners</span>
           <span style={{ color: "#54D8F0", fontSize: 40, fontWeight: 800 }}>FX</span>
           <span

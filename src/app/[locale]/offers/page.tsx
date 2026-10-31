@@ -11,6 +11,7 @@ import { createPublicClient } from "@/lib/supabase/public";
 import { CouponCard, type Coupon } from "@/components/marketing/coupon-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Crosshair, ArrowLeft, Flame, Ticket } from "lucide-react";
+import { EmptyState } from "@/components/dashboard/empty-state";
 import { PageSections } from "@/components/page-sections/page-sections";
 
 // Public data only: built once, served from the CDN, rebuilt at most every
@@ -91,6 +92,7 @@ export default async function OffersPage(
   } = params;
 
   setRequestLocale(locale);
+  const tc = await getTranslations({ locale, namespace: "Common" });
   const t = await getTranslations({ locale, namespace: "OffersPage" });
   const key = contentKeyFor("page.offers", locale);
   const copy = await getContent(key, {
@@ -140,9 +142,12 @@ export default async function OffersPage(
                 />
                 <div className="mt-10" />
                 {campaigns.length === 0 ? (
-                  <div className="card-surface p-12 text-center text-sm text-slate-500">
-                    {t("empty")}
-                  </div>
+                  <EmptyState
+                    icon={Ticket}
+                    title={tc("comingSoon")}
+                    description={t("empty")}
+                    className="card-surface"
+                  />
                 ) : (
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {campaigns.map((c) => (

@@ -23,7 +23,9 @@
     "getStarted": "Get started",
     "learnMore": "Learn more",
     "startPartnership": "Start partnering now",
-    "viewRates": "See commissions"
+    "viewRates": "See commissions",
+    "comingSoon": "Coming soon",
+    "blogEmpty": "No articles published yet. Stay tuned, the first ones are on the way."
   },
   "Lang": {
     "label": "Language",
