@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 export type NetworkBroker = {
   id: string;
@@ -13,7 +13,7 @@ export type NetworkBroker = {
 export async function getNetwork(): Promise<NetworkBroker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const [{ data: brokers }, { data: coupons }] = await Promise.all([
       supabase
         .from("brokers")

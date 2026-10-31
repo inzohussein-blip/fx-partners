@@ -1,7 +1,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Stars } from "@/components/brokers/stars";
 import { Avatar } from "@/components/forum/avatar";
 import { MessageSquareQuote, Building2, ArrowLeft } from "lucide-react";
@@ -18,7 +18,7 @@ type ReviewRow = {
 async function getLatestReviews(): Promise<ReviewRow[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("broker_reviews")
       .select("id,user_name,comment,stars,created_at,broker:brokers!inner(name,slug,logo_url)")

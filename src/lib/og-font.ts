@@ -57,6 +57,16 @@ export async function loadArabicFont(
 }
 
 /**
+ * Cache headers for generated share images. Every input is in the URL (name,
+ * rating, title, size…), so a URL always draws the same picture and can be
+ * kept: a day in browsers, a week on Vercel's CDN, then refreshed in the
+ * background. Without this each share preview re-ran the image function.
+ */
+export const OG_HEADERS = {
+  "cache-control": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
+};
+
+/**
  * A plain SVG card, for when the font could not be loaded.
  *
  * On Cloudflare Workers next/og has no built-in fallback font (on Vercel it

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import type { Broker } from "@/lib/brokers";
 
 /**
@@ -37,7 +37,7 @@ export async function getPairBrokers(
 ): Promise<[Broker | null, Broker | null]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [null, null];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select(BROKER_FIELDS)
@@ -52,11 +52,11 @@ export async function getPairBrokers(
 
 /** Every pair of published brokers, for the sitemap and the internal links. */
 export async function getAllPairs(
-  client?: ReturnType<typeof createClient>
+  client?: ReturnType<typeof createPublicClient>
 ): Promise<{ slug: string; a: string; b: string; aName: string; bName: string }[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = client ?? createClient();
+    const supabase = client ?? createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("slug,name")

@@ -107,7 +107,7 @@ function revalidatePublic() {
     "/spreads",
     "/contact",
   ]) {
-    revalidatePath(p);
+    revalidatePath("/", "layout");
   }
   // The footer (site.footer) renders on every marketing page.
   revalidatePath("/", "layout");
@@ -255,7 +255,7 @@ export async function savePartner(input: PartnerInput): Promise<ActionResult> {
   const { error } = await query;
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/brokers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/partners");
   return { ok: true };
 }
@@ -267,7 +267,7 @@ export async function deletePartner(id: string): Promise<ActionResult> {
   const { error } = await supabase.from("partners").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/brokers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/partners");
   return { ok: true };
 }

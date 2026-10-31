@@ -67,7 +67,7 @@ export async function saveCoupon(input: CouponInput): Promise<ActionResult> {
   });
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/offers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/campaigns");
   return { ok: true };
 }
@@ -83,7 +83,7 @@ export async function setCouponActive(
     .update({ is_active: active })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/offers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/campaigns");
   return { ok: true };
 }
@@ -93,7 +93,7 @@ export async function deleteCoupon(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("coupons").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/offers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/campaigns");
   return { ok: true };
 }

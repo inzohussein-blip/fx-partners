@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 /**
  * Fetch an editable content block from `site_content` by key.
@@ -11,7 +11,7 @@ export async function getContent<T extends Record<string, unknown>>(
 ): Promise<T> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return fallback;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("site_content")
       .select("value")

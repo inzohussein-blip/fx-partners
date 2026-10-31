@@ -1,11 +1,11 @@
-import { SiteHeader } from "@/components/site-header";
+import { HeaderPlaceholder } from "@/components/header-placeholder";
 import { Container } from "@/components/ui/container";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BrokerLoading() {
   return (
     <>
-      <SiteHeader />
+      <HeaderPlaceholder />
       <section className="hero-glow">
         <Container className="py-14">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">

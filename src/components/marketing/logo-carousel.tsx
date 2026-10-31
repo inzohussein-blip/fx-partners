@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 type Partner = { name: string; slug: string; logo_url: string | null };
 
@@ -22,7 +22,7 @@ type Partner = { name: string; slug: string; logo_url: string | null };
 async function getPartners(): Promise<Partner[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("name,slug,logo_url,status")

@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { loadArabicFont, fallbackCard } from "@/lib/og-font";
+import { loadArabicFont, fallbackCard, OG_HEADERS } from "@/lib/og-font";
 
 
 /**
@@ -76,6 +76,6 @@ export async function GET(req: Request) {
         </div>
       </div>
     ),
-    { width: 1200, height: 630, fonts }
+    { width: 1200, height: 630, fonts, headers: OG_HEADERS }
   );
 }

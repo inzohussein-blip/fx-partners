@@ -26,7 +26,15 @@ export async function proxy(request: NextRequest) {
 
   // 2) Refresh the Supabase session and copy any auth cookies onto the
   //    i18n response, then guard the dashboard.
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  //
+  //    A visitor with no Supabase auth cookie has no session to refresh, so
+  //    asking Supabase "who is this?" on every page view was a wasted
+  //    network round-trip for nearly all traffic. It is skipped unless the
+  //    request carries an auth cookie or is for the dashboard (which needs
+  //    the answer to decide on the redirect).
+  const path = request.nextUrl.pathname;
+  const dashboardMatch = path.match(/^\/(en\/)?dashboard(\/|$)/);
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && (dashboardMatch || hasAuthCookie(request))) {
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -55,8 +63,6 @@ export async function proxy(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     // Path may be "/dashboard..." (ar) or "/en/dashboard..." (en).
-    const path = request.nextUrl.pathname;
-    const dashboardMatch = path.match(/^\/(en\/)?dashboard(\/|$)/);
     if (!user && dashboardMatch) {
       const isEn = Boolean(dashboardMatch[1]);
       const url = request.nextUrl.clone();
@@ -67,6 +73,11 @@ export async function proxy(request: NextRequest) {
   }
 
   return response;
+}
+
+/** Supabase stores the session as sb-<project>-auth-token (possibly chunked .0, .1…). */
+function hasAuthCookie(request: NextRequest): boolean {
+  return request.cookies.getAll().some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"));
 }
 
 export const config = {

@@ -125,8 +125,8 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
   }
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/compare");
-  if (slug) revalidatePath(`/brokers/${slug}`);
+  revalidatePath("/", "layout");
+  if (slug) revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -177,7 +177,7 @@ export async function deleteBroker(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("brokers").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -222,7 +222,7 @@ export async function saveBrokerLink(
   }
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -232,7 +232,7 @@ export async function deleteBrokerLink(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("broker_links").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -292,7 +292,7 @@ export async function submitBrokerReview(input: unknown): Promise<ActionResult> 
     );
   }
 
-  revalidatePath(`/brokers/${d.brokerSlug}`);
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -330,7 +330,7 @@ export async function approveReview(id: string): Promise<ActionResult> {
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
   revalidatePath("/dashboard/admin/brokers");
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -365,6 +365,6 @@ export async function addAdminReview(input: {
   });
   if (error) return { ok: false, error: error.message };
   revalidatePath("/dashboard/admin/brokers");
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   return { ok: true };
 }

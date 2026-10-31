@@ -42,7 +42,9 @@ export async function quickUpdate(
   const { error } = await supabase.from(table).update({ [cfg.field]: value.trim() }).eq("id", id);
   if (error) return { ok: false, error: error.message };
 
-  for (const p of cfg.paths) revalidatePath(p);
+  // Public pages are cached per locale (/ar/…, /en/…), so a plain path would
+  // miss them; refreshing the whole tree is cheap next to how rarely this runs.
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/network");
   return { ok: true };
 }

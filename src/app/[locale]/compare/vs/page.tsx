@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
@@ -40,7 +40,7 @@ export async function generateMetadata(
 async function getBroker(slug: string): Promise<Broker | null> {
   if (!slug || !process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select(
@@ -58,7 +58,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
 async function getOptions() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("slug,name")

@@ -15,7 +15,14 @@ import { getSiteUrl } from "@/lib/utils";
 import { Scale, BookOpen } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+// Public data only: built once, served from the CDN, rebuilt at most every
+// 10 minutes (and immediately when an admin action revalidates it).
+export const revalidate = 600;
+
+// No pages are built ahead; each is generated on its first visit and cached.
+export function generateStaticParams() {
+  return [];
+}
 
 /**
  * In-depth comparison article per canonical (alphabetically sorted) pair slug,

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { pageMeta } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -12,6 +13,11 @@ import { getChannel, getChannelPosts } from "@/lib/forum";
 import { BadgeCheck, Radio, MessagesSquare } from "lucide-react";
 
 export const revalidate = 30;
+
+// No pages are built ahead; each is generated on its first visit and cached.
+export function generateStaticParams() {
+  return [];
+}
 
 export async function generateMetadata(
   props: {
@@ -33,10 +39,13 @@ export async function generateMetadata(
 
 export default async function ChannelPage(
   props: {
-    params: Promise<{ channel: string }>;
+    params: Promise<{ locale: string; channel: string }>;
   }
 ) {
   const params = await props.params;
+  // Fixes the locale for next-intl so the page does not read request headers,
+  // which would make this cached page fail at runtime.
+  setRequestLocale(params.locale);
   const channel = await getChannel(params.channel);
   if (!channel || channel.status !== "active") notFound();
 

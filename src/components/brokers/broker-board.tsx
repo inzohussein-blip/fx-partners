@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminEdit } from "@/components/admin-edit/provider";
+
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FormConsent } from "@/components/form-consent";
 import {
@@ -74,14 +76,16 @@ const inputCls =
 export function BrokerBoard({
   brokerId,
   brokerSlug,
-  isAdmin,
   initial,
 }: {
   brokerId: string;
   brokerSlug: string;
-  isAdmin: boolean;
   initial: BoardPost[];
 }) {
+  // Resolved in the browser (AdminEditProvider), so the broker page itself
+  // stays cacheable for every visitor. Moderation is still enforced by RLS
+  // and the server actions; this only decides whether to show the controls.
+  const { isAdmin } = useAdminEdit();
   const [posts, setPosts] = useState<BoardPost[]>(initial);
   const [myVotes, setMyVotes] = useState<Record<string, 1 | -1>>({});
   const [voterKey, setVoterKey] = useState("");

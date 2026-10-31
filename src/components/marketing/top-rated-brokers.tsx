@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Stars } from "@/components/brokers/stars";
 import { isRated } from "@/lib/brokers";
 import { Award, Building2, BadgeCheck, ArrowLeft } from "lucide-react";
@@ -19,7 +19,7 @@ type TopBroker = {
 async function getTopBrokers(): Promise<TopBroker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("id,slug,name,logo_url,status,rating,reviews_count")

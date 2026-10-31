@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 export type SpreadRow = {
   brokerId: string;
@@ -22,7 +22,7 @@ export type SpreadRow = {
 export async function getBrokerSpreads(): Promise<SpreadRow[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("broker_spreads")
       .select(

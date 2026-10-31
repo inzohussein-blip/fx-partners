@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { EditableText } from "@/components/admin-edit/editable-text";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ArrowLeft, Newspaper } from "lucide-react";
 import { setRequestLocale } from "next-intl/server";
 import { PageSections } from "@/components/page-sections/page-sections";
@@ -44,7 +44,7 @@ type Post = {
 async function getPosts(): Promise<Post[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("posts")
       .select("slug,title,excerpt,published_at")

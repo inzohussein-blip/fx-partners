@@ -41,7 +41,7 @@ export async function saveResource(input: ResourceInput): Promise<ActionResult> 
     broker_id: input.brokerId || null,
   });
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/free-tools");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/resources");
   return { ok: true };
 }
@@ -51,7 +51,7 @@ export async function deleteResource(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("trading_resources").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/free-tools");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/resources");
   return { ok: true };
 }
@@ -64,7 +64,7 @@ export async function setResourceActive(id: string, active: boolean): Promise<Ac
     .update({ is_active: active })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/free-tools");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/resources");
   return { ok: true };
 }

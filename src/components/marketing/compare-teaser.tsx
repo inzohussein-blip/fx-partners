@@ -1,13 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ComparePicker } from "@/components/marketing/compare-picker";
 import { SlidersHorizontal, Wallet, MonitorSmartphone, ShieldCheck, Scale } from "lucide-react";
 
 async function getBrokerOptions(): Promise<{ slug: string; name: string }[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("slug,name")
