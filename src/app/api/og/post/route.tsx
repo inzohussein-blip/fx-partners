@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { loadArabicFont, fallbackCard, OG_HEADERS } from "@/lib/og-font";
 import { OgMark } from "@/lib/og-mark";
+import { RtlText } from "@/lib/og-rtl";
 
 
 /**
@@ -60,22 +61,15 @@ export async function GET(req: Request) {
         </div>
 
         {/* Title */}
-        <div
-          style={{
-            display: "flex",
-            fontSize: title.length > 70 ? 56 : 68,
-            fontWeight: 800,
-            lineHeight: 1.25,
-            direction: "rtl",
-          }}
-        >
-          {title}
-        </div>
+        <RtlText
+          text={title}
+          style={{ fontSize: title.length > 70 ? 56 : 68, fontWeight: 800, lineHeight: 1.25 }}
+          // ~1056px of width at roughly half an em per Arabic character.
+          maxChars={title.length > 70 ? 36 : 30}
+        />
 
         {/* Footer */}
-        <div style={{ display: "flex", fontSize: 30, color: "#67e8f9" }}>
-          دليل التداول · مقارنة الوسطاء
-        </div>
+        <RtlText text="دليل التداول · مقارنة الوسطاء" style={{ fontSize: 30, color: "#67e8f9" }} />
       </div>
     ),
     { width: 1200, height: 630, fonts, headers: OG_HEADERS }

@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { loadArabicFont, fallbackCard, OG_HEADERS } from "@/lib/og-font";
 import { OgMark } from "@/lib/og-mark";
+import { RtlText } from "@/lib/og-rtl";
 
 
 export async function GET(req: Request) {
@@ -50,7 +51,7 @@ export async function GET(req: Request) {
         {/* Broker name + status */}
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            <span style={{ fontSize: 72, fontWeight: 800 }}>{name}</span>
+            <RtlText text={name} style={{ fontSize: 72, fontWeight: 800 }} />
             {partnered && (
               <span
                 style={{
@@ -62,7 +63,7 @@ export async function GET(req: Request) {
                   padding: "8px 20px",
                 }}
               >
-                شريك معتمد
+                <RtlText text="شريك معتمد" style={{ fontSize: 26 }} />
               </span>
             )}
           </div>
@@ -85,9 +86,10 @@ export async function GET(req: Request) {
             ) : (
               <span style={{ display: "flex" }} />
             )}
-            <span style={{ fontSize: 34, color: "#cbd5e1" }}>
-              {rated ? `${rating} · ${reviews} مراجعة` : "لا توجد مراجعات بعد"}
-            </span>
+            <RtlText
+              text={rated ? `${rating} · ${reviews} مراجعة` : "لا توجد مراجعات بعد"}
+              style={{ fontSize: 34, color: "#cbd5e1" }}
+            />
           </div>
         </div>
 
@@ -104,14 +106,12 @@ export async function GET(req: Request) {
                 padding: "14px 28px",
               }}
             >
-              {bonus}
+              <RtlText text={bonus} style={{ fontSize: 34 }} />
             </span>
           ) : (
             <span style={{ display: "flex" }} />
           )}
-          <span style={{ display: "flex", fontSize: 30, color: "#67e8f9" }}>
-            قارن · راجِع · افتح حساباً
-          </span>
+          <RtlText text="قارن · راجِع · افتح حساباً" style={{ fontSize: 30, color: "#67e8f9" }} />
         </div>
       </div>
     ),
