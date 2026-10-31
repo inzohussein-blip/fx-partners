@@ -5,6 +5,7 @@ import { createPublicClient } from "@/lib/supabase/public";
 import { Stars } from "@/components/brokers/stars";
 import { Avatar } from "@/components/forum/avatar";
 import { MessageSquareQuote, Building2, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 type ReviewRow = {
   id: string;
@@ -92,8 +93,7 @@ export async function LatestReviews() {
                   </div>
                   <div className="mt-0.5 flex items-center gap-1.5 text-xs sm:text-[11px] text-slate-500">
                     {r.broker?.logo_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={r.broker.logo_url} alt="" className="h-3.5 w-3.5 rounded bg-fg/80 object-contain" />
+                      <LogoImg src={r.broker.logo_url} name={r.broker.name} alt="" className="h-3.5 w-3.5 rounded bg-fg/80 object-contain" letterClassName="text-[8px]" />
                     ) : (
                       <Building2 className="h-3.5 w-3.5" />
                     )}

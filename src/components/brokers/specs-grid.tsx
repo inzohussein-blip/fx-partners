@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { linkHref, type Broker } from "@/lib/brokers";
 import { Check, X, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 type Feature = {
   key: keyof Broker;
@@ -82,14 +83,7 @@ export function SpecsGrid({ brokers }: { brokers: Broker[] }) {
               >
                 <Link href={`/brokers/${b.slug}`} className="inline-flex flex-col items-center gap-1.5 hover:text-brand-300">
                   {b.logo_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={b.logo_url}
-                      alt={b.name}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-8 w-8 rounded-lg border border-fg/10 bg-white object-contain p-0.5"
-                    />
+                    <LogoImg src={b.logo_url} name={b.name} className="h-8 w-8 rounded-lg border border-fg/10 bg-white object-contain p-0.5" letterClassName="text-xs" />
                   ) : (
                     <span className="grid h-8 w-8 place-items-center rounded-lg bg-fg/5 text-xs font-black text-brand-300">
                       {b.name.charAt(0)}

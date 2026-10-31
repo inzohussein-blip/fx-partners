@@ -30,6 +30,7 @@ import {
 import { getAllPairs } from "@/lib/broker-pairs";
 import { getPublishedPostSlugs } from "@/lib/posts";
 import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity, Scale, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 // Public data only: built once, served from the CDN, rebuilt at most every
 // 5 minutes (and immediately when an admin action revalidates it).
@@ -373,12 +374,7 @@ export default async function BrokerDetailPage(
           <div className="min-w-0">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             {broker.logo_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img loading="lazy" decoding="async"
-                src={broker.logo_url}
-                alt={broker.name}
-                className="h-20 w-20 rounded-2xl bg-fg/5 object-contain p-2"
-              />
+              <LogoImg src={broker.logo_url} name={broker.name} className="h-20 w-20 rounded-2xl bg-fg/5 object-contain p-2" letterClassName="text-3xl" />
             ) : (
               <span className="grid h-20 w-20 place-items-center rounded-2xl bg-fg/5 text-brand-300">
                 <Building2 className="h-9 w-9" />

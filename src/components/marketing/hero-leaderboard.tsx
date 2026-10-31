@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { isRated, regulatorMeta } from "@/lib/brokers";
 import { ArrowLeft, BadgeCheck, Building2, Star } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 export type LeaderRow = {
   name: string;
@@ -139,14 +140,7 @@ export function HeroLeaderboard({ brokers }: { brokers: LeaderRow[] }) {
 
             <div className="flex min-w-0 items-center gap-2.5">
               {b.logo_url ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  loading="lazy"
-                  decoding="async"
-                  src={b.logo_url}
-                  alt={b.name}
-                  className="h-[31px] w-[31px] shrink-0 rounded-lg object-contain"
-                />
+                <LogoImg src={b.logo_url} name={b.name} className="h-[31px] w-[31px] shrink-0 rounded-lg object-contain" letterClassName="text-sm" />
               ) : (
                 <span className="grid h-[31px] w-[31px] shrink-0 place-items-center rounded-lg border border-brand-500/20 bg-brand-500/10 text-brand-300">
                   <Building2 className="h-3.5 w-3.5" />

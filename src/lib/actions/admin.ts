@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { importLogo } from "@/lib/logo-import";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -238,9 +239,11 @@ export async function savePartner(input: PartnerInput): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   if (!input.name?.trim()) return { ok: false, error: "الاسم مطلوب" };
 
+  const logo = await importLogo(supabase, input.logo_url ?? "", input.name.trim());
+  if (!logo.ok) return { ok: false, error: `الشعار: ${logo.error}` };
   const row = {
     name: input.name.trim(),
-    logo_url: input.logo_url?.trim() || null,
+    logo_url: logo.url || null,
     website: input.website?.trim() || null,
     description: input.description?.trim() || null,
     category: input.category?.trim() || "broker",

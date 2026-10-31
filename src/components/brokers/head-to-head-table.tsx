@@ -9,6 +9,7 @@ import {
   type Broker,
 } from "@/lib/brokers";
 import { Building2, ExternalLink, ArrowRight, BadgeCheck } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 function bestCommission(b: Broker) {
   return (
@@ -46,14 +47,7 @@ function Head({ b, win }: { b: Broker; win?: boolean }) {
     <div className="text-center">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-fg/5">
         {b.logo_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            loading="lazy"
-            decoding="async"
-            src={b.logo_url}
-            alt={b.name}
-            className="h-full w-full rounded-2xl object-contain p-1.5"
-          />
+          <LogoImg src={b.logo_url} name={b.name} className="h-full w-full rounded-2xl object-contain p-1.5" letterClassName="text-2xl" />
         ) : (
           <Building2 className="h-7 w-7 text-brand-300" />
         )}

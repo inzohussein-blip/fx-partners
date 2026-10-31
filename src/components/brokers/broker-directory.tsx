@@ -10,6 +10,7 @@ import { BrokerRating } from "@/components/brokers/broker-rating";
 import { isRated, statusLabel, regulatorMeta, type Broker } from "@/lib/brokers";
 import { cn } from "@/lib/utils";
 import { BadgeCheck, Gift, Search, ArrowLeft, Building2, SlidersHorizontal, X } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 type Filter = "all" | "partnered" | "not_partnered" | "bonus";
 type Sort = "recommended" | "rating" | "reviews" | "name" | "spread";
@@ -499,14 +500,7 @@ export function BrokerDirectory({ brokers }: { brokers: Broker[] }) {
 function BrokerLogo({ broker }: { broker: Broker }) {
   if (broker.logo_url) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        loading="lazy"
-        decoding="async"
-        src={broker.logo_url}
-        alt={broker.name}
-        className="h-9 w-9 rounded-lg object-contain"
-      />
+      <LogoImg src={broker.logo_url} name={broker.name} className="h-9 w-9 rounded-lg object-contain" letterClassName="text-sm" />
     );
   }
   return (

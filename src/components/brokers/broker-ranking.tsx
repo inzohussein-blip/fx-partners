@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { Stars } from "@/components/brokers/stars";
 import { isRated, linkHref, statusLabel, type Broker } from "@/lib/brokers";
 import { Building2, Trophy, BadgeCheck, ExternalLink, ArrowLeft, ChevronDown } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 /** How many brokers the sidebar shows: the featured one plus six rows. */
 const SHOWN = 7;
@@ -43,14 +44,7 @@ function Logo({ broker, size }: { broker: Broker; size: "sm" | "lg" }) {
   return (
     <span className={`grid ${box} shrink-0 place-items-center bg-fg/5`}>
       {broker.logo_url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          loading="lazy"
-          decoding="async"
-          src={broker.logo_url}
-          alt={broker.name}
-          className="h-full w-full rounded-[inherit] object-contain p-1.5"
-        />
+        <LogoImg src={broker.logo_url} name={broker.name} className="h-full w-full rounded-[inherit] object-contain p-1.5" letterClassName="text-base" />
       ) : (
         <Building2 className={size === "lg" ? "h-6 w-6 text-brand-300" : "h-4 w-4 text-brand-300"} aria-hidden />
       )}
