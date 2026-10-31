@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 export type Channel = {
   id: string;
@@ -57,7 +58,7 @@ function count(rel: unknown): number {
 export async function getChannels(): Promise<Channel[]> {
   if (!enabled()) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_channels")
       .select("*, forum_posts(count)")
@@ -77,7 +78,7 @@ export async function getChannels(): Promise<Channel[]> {
 export async function getChannel(slug: string): Promise<Channel | null> {
   if (!enabled()) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_channels")
       .select("*")
@@ -93,7 +94,7 @@ export async function getChannel(slug: string): Promise<Channel | null> {
 export async function getChannelPosts(channelId: string): Promise<ForumPost[]> {
   if (!enabled()) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_posts")
       .select("*, forum_comments(count), forum_reactions(count)")
@@ -113,7 +114,7 @@ export async function getPostsForChannels(
   const grouped: Record<string, ForumPost[]> = {};
   if (!enabled() || channelIds.length === 0) return grouped;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_posts")
       .select("*, forum_comments(count), forum_reactions(count)")
@@ -134,7 +135,7 @@ export async function getPostsForChannels(
 export async function getLatestPosts(limit = 12): Promise<ForumPost[]> {
   if (!enabled()) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_posts")
       .select(
@@ -156,7 +157,7 @@ export async function getPost(
 ): Promise<ForumPost | null> {
   if (!enabled()) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_posts")
       .select(
@@ -174,7 +175,7 @@ export async function getPost(
 export async function getComments(postId: string): Promise<ForumComment[]> {
   if (!enabled()) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_comments")
       .select("*")
@@ -231,7 +232,7 @@ export type AdminComment = ForumComment & {
 export async function getRecentComments(limit = 50): Promise<AdminComment[]> {
   if (!enabled()) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("forum_comments")
       .select("*, post:forum_posts(title,slug,channel:forum_channels(slug))")

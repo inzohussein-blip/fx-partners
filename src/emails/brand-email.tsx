@@ -9,8 +9,10 @@ import {
   Hr,
   Tailwind,
   Preview,
+  Img,
 } from "@react-email/components";
 import * as React from "react";
+import { getSiteUrl } from "@/lib/utils";
 
 /** Shared Partners FX branded email shell (navy + cyan, RTL). */
 export function BrandEmail({
@@ -36,6 +38,14 @@ export function BrandEmail({
             style={{ backgroundColor: "#0a1728", border: "1px solid rgba(255,255,255,0.08)" }}
           >
             <Section className="text-center">
+              {/* PNG, not SVG: most mail clients (Gmail, Outlook) block SVG. */}
+              <Img
+                src={`${getSiteUrl()}/icons/icon-192.png`}
+                width="44"
+                height="44"
+                alt=""
+                className="mx-auto mb-2 rounded-[10px]"
+              />
               <Text className="m-0 text-[22px] font-bold text-fg">
                 Partners <span style={{ color: "#22d3ee" }}>FX</span>
               </Text>

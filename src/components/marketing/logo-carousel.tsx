@@ -1,7 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 type Partner = { name: string; slug: string; logo_url: string | null };
 
@@ -22,7 +23,7 @@ type Partner = { name: string; slug: string; logo_url: string | null };
 async function getPartners(): Promise<Partner[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("name,slug,logo_url,status")
@@ -74,14 +75,7 @@ export async function LogoCarousel() {
                 tabIndex={marquee && i >= items.length ? -1 : undefined}
               >
                 {p.logo_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    src={p.logo_url}
-                    alt={p.name}
-                    className="h-7 grayscale transition hover:grayscale-0"
-                  />
+                  <LogoImg src={p.logo_url} name={p.name} className="h-7 grayscale transition hover:grayscale-0" letterClassName="text-sm" />
                 ) : (
                   <span className="whitespace-nowrap text-lg font-semibold tracking-tight text-slate-400">
                     {p.name}

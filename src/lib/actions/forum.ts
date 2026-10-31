@@ -32,12 +32,12 @@ async function currentAuthor() {
 }
 
 function revalidateForum(channelSlug?: string, postSlug?: string) {
-  revalidatePath("/forum");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/forum");
   revalidatePath("/dashboard/admin/forum");
   if (channelSlug) {
-    revalidatePath(`/forum/${channelSlug}`);
-    if (postSlug) revalidatePath(`/forum/${channelSlug}/${postSlug}`);
+    revalidatePath("/", "layout");
+    if (postSlug) revalidatePath("/", "layout");
   }
 }
 
@@ -203,7 +203,7 @@ export async function addComment(
   });
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/forum", "layout");
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -211,7 +211,7 @@ export async function deleteComment(id: string): Promise<ActionResult> {
   const supabase = createClient();
   const { error } = await supabase.from("forum_comments").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/forum", "layout");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/forum");
   return { ok: true };
 }
@@ -224,7 +224,7 @@ export async function hideComment(id: string, hidden: boolean): Promise<ActionRe
     .update({ is_hidden: hidden })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/forum", "layout");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/forum");
   return { ok: true };
 }
@@ -249,7 +249,7 @@ export async function togglePostReaction(postId: string): Promise<ActionResult<{
   if (existing) {
     const { error } = await supabase.from("forum_reactions").delete().eq("id", existing.id);
     if (error) return { ok: false, error: error.message };
-    revalidatePath("/forum", "layout");
+    revalidatePath("/", "layout");
     return { ok: true, data: { liked: false } };
   }
 
@@ -257,7 +257,7 @@ export async function togglePostReaction(postId: string): Promise<ActionResult<{
     .from("forum_reactions")
     .insert({ post_id: postId, user_id: user.id });
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/forum", "layout");
+  revalidatePath("/", "layout");
   return { ok: true, data: { liked: true } };
 }
 

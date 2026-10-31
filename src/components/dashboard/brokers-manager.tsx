@@ -217,7 +217,8 @@ export function BrokersManager({
             <input
               className={input}
               dir="ltr"
-              placeholder="رابط الشعار (logo URL)"
+              placeholder="رابط الشعار أو ارفعه (يُحفظ نسخة مصغّرة في موقعك)"
+              title="عند الحفظ يُنسخ الشعار إلى تخزين موقعك ويُصغَّر تلقائياً، فلا يعتمد على موقع خارجي."
               value={form.logo_url}
               onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
             />

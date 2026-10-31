@@ -7,6 +7,7 @@ import { sendTelegram, escapeTelegram as esc } from "@/lib/telegram";
 import { sendRawEmail } from "@/lib/email";
 import { getSiteUrl } from "@/lib/utils";
 import { BADGE_KEYS, REGULATOR_KEYS } from "@/lib/brokers";
+import { importLogo, isStoredLogo } from "@/lib/logo-import";
 
 type ActionResult = { ok: boolean; error?: string };
 
@@ -77,9 +78,12 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
     input.spread_from === ""
       ? null
       : Number(input.spread_from);
+  // Outside URLs and raw uploads are stored as our own normalised copy.
+  const logo = await importLogo(supabase, input.logo_url ?? "", input.name.trim());
+  if (!logo.ok) return { ok: false, error: `الشعار: ${logo.error}` };
   const row = {
     name: input.name.trim(),
-    logo_url: input.logo_url?.trim() || null,
+    logo_url: logo.url || null,
     status,
     deposit_bonus: input.deposit_bonus?.trim() || null,
     welcome_bonus: input.welcome_bonus?.trim() || null,
@@ -125,8 +129,8 @@ export async function saveBroker(input: BrokerInput): Promise<ActionResult> {
   }
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/compare");
-  if (slug) revalidatePath(`/brokers/${slug}`);
+  revalidatePath("/", "layout");
+  if (slug) revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -177,7 +181,7 @@ export async function deleteBroker(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("brokers").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -222,7 +226,7 @@ export async function saveBrokerLink(
   }
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -232,7 +236,7 @@ export async function deleteBrokerLink(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("broker_links").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/brokers");
   return { ok: true };
 }
@@ -292,7 +296,7 @@ export async function submitBrokerReview(input: unknown): Promise<ActionResult> 
     );
   }
 
-  revalidatePath(`/brokers/${d.brokerSlug}`);
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -330,7 +334,7 @@ export async function approveReview(id: string): Promise<ActionResult> {
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
   revalidatePath("/dashboard/admin/brokers");
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -365,6 +369,58 @@ export async function addAdminReview(input: {
   });
   if (error) return { ok: false, error: error.message };
   revalidatePath("/dashboard/admin/brokers");
-  revalidatePath("/compare");
+  revalidatePath("/", "layout");
   return { ok: true };
+}
+
+// ---- LOGOS ----------------------------------------------------------------
+
+export type LogoMoveRow = { table: "brokers" | "partners"; name: string; ok: boolean; error?: string };
+
+/**
+ * Admin: copy every broker and partner logo that still points at another
+ * site (Google favicons, Wikipedia, a broker's CDN) into our own storage and
+ * repoint the row. Safe to run again: stored logos are skipped, and a logo
+ * that fails keeps its old URL so nothing disappears from the site.
+ */
+export async function moveLogosToStorage(): Promise<{ ok: boolean; error?: string; rows?: LogoMoveRow[] }> {
+  const { supabase, admin } = await requireAdmin();
+  if (!admin) return { ok: false, error: "غير مصرّح" };
+
+  const rows: LogoMoveRow[] = [];
+  for (const table of ["brokers", "partners"] as const) {
+    const { data, error } = await supabase
+      .from(table)
+      .select("id,name,logo_url")
+      .not("logo_url", "is", null);
+    if (error) return { ok: false, error: error.message };
+
+    const pending = (data ?? []).filter((r) => r.logo_url && !isStoredLogo(r.logo_url));
+    // A few at a time: quick, without hammering any one host.
+    for (let i = 0; i < pending.length; i += 4) {
+      await Promise.all(
+        pending.slice(i, i + 4).map(async (r) => {
+          const res = await importLogo(supabase, r.logo_url as string, r.name);
+          if (!res.ok) return rows.push({ table, name: r.name, ok: false, error: res.error });
+          const { error: upd } = await supabase.from(table).update({ logo_url: res.url }).eq("id", r.id);
+          rows.push(upd ? { table, name: r.name, ok: false, error: upd.message } : { table, name: r.name, ok: true });
+        })
+      );
+    }
+  }
+
+  revalidatePath("/", "layout");
+  return { ok: true, rows };
+}
+
+/** Admin: how many logos still point at another site. */
+export async function countOutsideLogos(): Promise<number> {
+  const { supabase, admin } = await requireAdmin();
+  if (!admin) return 0;
+  let n = 0;
+  for (const table of ["brokers", "partners"] as const) {
+    const { data } = await supabase.from(table).select("logo_url").not("logo_url", "is", null);
+    n += (data ?? []).filter((r) => r.logo_url && !isStoredLogo(r.logo_url)).length;
+  }
+  return n;
 }

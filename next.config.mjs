@@ -29,6 +29,9 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Emergency hosting outside Vercel (docs/emergency-hosting.md): the Docker
+  // image builds with NEXT_OUTPUT=standalone. Vercel builds are unaffected.
+  ...(process.env.NEXT_OUTPUT === "standalone" ? { output: "standalone" } : {}),
   poweredByHeader: false,
   images: {
     remotePatterns: [

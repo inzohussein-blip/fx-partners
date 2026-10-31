@@ -10,6 +10,7 @@ import { getPublishedBrokers } from "@/lib/published-brokers";
 import { CATEGORIES, populatedCategories } from "@/lib/best-for";
 import { UpcomingListCard } from "@/components/brokers/upcoming-list-card";
 import { Trophy, ArrowLeft } from "lucide-react";
+import { EmptyState } from "@/components/dashboard/empty-state";
 import { PageSections } from "@/components/page-sections/page-sections";
 
 export const revalidate = 600;
@@ -46,6 +47,7 @@ export default async function BestIndexPage(
   } = params;
 
   setRequestLocale(locale);
+  const tc = await getTranslations({ locale, namespace: "Common" });
   const t = await getTranslations({ locale, namespace: "BestFor" });
   const lists = populatedCategories(await getPublishedBrokers());
   const live = new Set(lists.map((l) => l.category.slug));
@@ -76,9 +78,12 @@ export default async function BestIndexPage(
                 {lists.length === 0 ? (
                   // No invented lists while the directory is empty. The page says so
                   // rather than showing eight links that all lead to a 404.
-                  <p className="card-surface p-10 text-center text-sm leading-relaxed text-slate-400">
-                    {t("indexEmpty")}
-                  </p>
+                  <EmptyState
+                    icon={Trophy}
+                    title={tc("comingSoon")}
+                    description={t("indexEmpty")}
+                    className="card-surface"
+                  />
                 ) : (
                   <div className="grid gap-4 sm:grid-cols-2">
                     {lists.map(({ category, brokers }) => (

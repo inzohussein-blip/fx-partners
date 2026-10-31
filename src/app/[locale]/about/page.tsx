@@ -21,7 +21,9 @@ import {
 } from "lucide-react";
 import { PageSections } from "@/components/page-sections/page-sections";
 
-export const dynamic = "force-dynamic";
+// Public data only: built once, served from the CDN, rebuilt at most every
+// 60 minutes (and immediately when an admin action revalidates it).
+export const revalidate = 3600;
 
 export async function generateMetadata(
   props: {

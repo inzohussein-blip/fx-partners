@@ -1,11 +1,11 @@
-import { SiteHeader } from "@/components/site-header";
+import { HeaderPlaceholder } from "@/components/header-placeholder";
 import { Container } from "@/components/ui/container";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CompareLoading() {
   return (
     <>
-      <SiteHeader />
+      <HeaderPlaceholder />
       <section className="hero-glow">
         <Container className="py-9 text-center sm:py-16">
           <Skeleton className="mx-auto h-10 w-2/3" />

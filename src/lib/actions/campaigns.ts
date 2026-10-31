@@ -63,7 +63,7 @@ export async function publishCampaign(input: CampaignInput): Promise<ActionResul
     );
   }
 
-  revalidatePath("/offers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/campaigns");
   return { ok: true };
 }
@@ -79,7 +79,7 @@ export async function setCampaignActive(
     .update({ is_active: active })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/offers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/campaigns");
   return { ok: true };
 }
@@ -89,7 +89,7 @@ export async function deleteCampaign(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("campaigns").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/offers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/campaigns");
   return { ok: true };
 }

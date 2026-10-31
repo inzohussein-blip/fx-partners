@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 export type SiteStats = {
   brokers: number;
@@ -20,7 +20,7 @@ export async function getSiteStats(): Promise<SiteStats> {
   const empty: SiteStats = { brokers: 0, agents: 0, countries: 0 };
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return empty;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase.rpc("site_stats").maybeSingle();
     if (!data) return empty;
     const row = data as Partial<SiteStats>;

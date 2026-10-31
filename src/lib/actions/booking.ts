@@ -122,7 +122,7 @@ export async function bookMeeting(input: unknown): Promise<ActionResult> {
     </div>`;
   await sendRawEmail(d.email, "تأكيد موعد اجتماع Partners FX", html);
 
-  revalidatePath("/brokers");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/meetings");
   return { ok: true, meetingUrl: slot.meeting_url };
 }
@@ -166,7 +166,7 @@ export async function addMeetingSlot(input: {
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/dashboard/admin/meetings");
-  revalidatePath("/brokers");
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 
@@ -183,7 +183,7 @@ export async function deleteMeetingSlot(id: string): Promise<ActionResult> {
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/dashboard/admin/meetings");
-  revalidatePath("/brokers");
+  revalidatePath("/", "layout");
   return { ok: true };
 }
 

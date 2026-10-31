@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import type { Broker } from "@/lib/brokers";
 
 /** Any Supabase server client (cookie-bound or the public, cookie-free one). */
-type ServerClient = ReturnType<typeof createClient>;
+type ServerClient = ReturnType<typeof createPublicClient>;
 
 /** Every column the comparison and category pages read. */
 const COLUMNS =
@@ -25,7 +25,7 @@ const COLUMNS =
 export async function getPublishedBrokers(client?: ServerClient): Promise<Broker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = client ?? createClient();
+    const supabase = client ?? createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select(COLUMNS)

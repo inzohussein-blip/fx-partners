@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
-import { loadArabicFont, fallbackCard } from "@/lib/og-font";
+import { loadArabicFont, fallbackCard, OG_HEADERS } from "@/lib/og-font";
 import { getSiteUrl } from "@/lib/utils";
+import { OgMark } from "@/lib/og-mark";
+import { RtlText } from "@/lib/og-rtl";
 
 
 const SIZES: Record<string, [number, number]> = {
@@ -47,6 +49,7 @@ export async function GET(req: Request) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: unit * 0.03 }}>
+          <OgMark size={Math.round(unit * 0.22)} />
           <span style={{ fontSize: unit * 0.17, fontWeight: 800 }}>Partners</span>
           <span style={{ color: "#54D8F0", fontSize: unit * 0.17, fontWeight: 800 }}>
             FX
@@ -83,12 +86,13 @@ export async function GET(req: Request) {
         </div>
 
         {name && !horizontal && (
-          <div style={{ display: "flex", fontSize: unit * 0.06, color: "#94a3b8" }}>
-            Official Partner · {name}
+          <div style={{ display: "flex", alignItems: "center", gap: unit * 0.02, fontSize: unit * 0.06, color: "#94a3b8" }}>
+            <span>Official Partner ·</span>
+            <RtlText text={name} style={{ fontSize: unit * 0.06 }} />
           </div>
         )}
       </div>
     ),
-    { width: w, height: h, fonts }
+    { width: w, height: h, fonts, headers: OG_HEADERS }
   );
 }

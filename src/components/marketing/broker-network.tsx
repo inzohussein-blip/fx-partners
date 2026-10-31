@@ -1,15 +1,16 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ShieldCheck, Building2, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 type Broker = { name: string; slug: string; logo_url: string | null };
 
 async function getBrokers(): Promise<Broker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("name,slug,logo_url")
@@ -100,15 +101,7 @@ function BrokerTile({
   const inner = (
     <div className="flex h-16 items-center justify-center gap-2 rounded-xl border border-fg/10 bg-fg/[0.03] px-3 backdrop-blur-md transition hover:border-fg/20 hover:bg-fg/[0.06]">
       {broker?.logo_url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={broker.logo_url}
-          alt={broker.name}
-          width={120}
-          height={36}
-          className="h-9 w-auto max-w-[80%] object-contain"
-          loading="lazy"
-        />
+        <LogoImg src={broker.logo_url} name={broker.name} className="h-9 w-auto max-w-[80%] object-contain" letterClassName="text-base" />
       ) : broker ? (
         <span className="truncate text-sm font-bold text-slate-200">{broker.name}</span>
       ) : (

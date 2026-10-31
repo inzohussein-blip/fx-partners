@@ -1,0 +1,12 @@
+.git
+.github
+node_modules
+.next
+.next-*
+.open-next
+.wrangler
+.env*
+!.env.example
+tests
+docs
+*.md

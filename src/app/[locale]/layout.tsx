@@ -16,7 +16,7 @@ import {
   LiveCampaignBanner,
   type Campaign,
 } from "@/components/marketing/live-campaign-banner";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { SkipLink } from "@/components/skip-link";
 import { ServiceWorkerRegister } from "@/components/service-worker";
 import { OrganizationJsonLd } from "@/components/organization-jsonld";
@@ -51,6 +51,13 @@ export const viewport: Viewport = {
   ],
   colorScheme: "light dark",
 };
+
+// Every public page reads some shared data here (the active campaign) or in
+// its own body (content, brokers, sections), all of it public and read with
+// the cookie-free client. So pages are built once and served from the CDN;
+// this caps how stale any of them can get. A page may set a shorter interval
+// (the lowest along the route wins), and admin actions revalidate on save.
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -100,7 +107,7 @@ export async function generateMetadata(
 async function getActiveCampaign(): Promise<Campaign | null> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("campaigns")
       .select("id,broker_slug,title,message,cta_label")

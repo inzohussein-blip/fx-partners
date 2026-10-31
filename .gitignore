@@ -42,3 +42,9 @@ next-env.d.ts
 # supabase local
 /supabase/.temp
 /supabase/.branches
+
+# local build copies
+/.next-*/
+
+# emergency hosting secrets (docs/emergency-hosting.md)
+.env.emergency

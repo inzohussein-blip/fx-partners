@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { linkHref } from "@/lib/brokers";
 import type { TradingResource } from "@/lib/resource-kinds";
 
@@ -9,7 +9,7 @@ export { RESOURCE_KINDS } from "@/lib/resource-kinds";
 export async function getResources(): Promise<TradingResource[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("trading_resources")
       .select("id,title,description,kind,file_url,downloads,brokers(name,slug,broker_links(code,referral_url))")

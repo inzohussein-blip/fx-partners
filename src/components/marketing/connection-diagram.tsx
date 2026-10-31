@@ -1,5 +1,6 @@
 import { LogoMark } from "@/components/logo";
 import { Users, Share2, Building2, ShieldCheck, ChevronDown } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 function SourceNode({
   icon: Icon,
@@ -111,8 +112,7 @@ export function ConnectionDiagram({
               className="flex items-center gap-1.5 rounded-lg border border-fg/10 bg-fg/[0.04] px-2 py-1.5 backdrop-blur-md"
             >
               {tile.logo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={tile.logo} alt="" className="h-4 w-4 shrink-0 rounded bg-white object-contain p-px" />
+                <LogoImg src={tile.logo} name={tile.name} alt="" className="h-4 w-4 shrink-0 rounded bg-white object-contain p-px" letterClassName="text-[9px]" />
               ) : (
                 <Building2 className="h-3 w-3 shrink-0 text-accent-300" />
               )}

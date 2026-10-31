@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Gauge } from "lucide-react";
 import type { SpreadRow } from "@/lib/spreads";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 /** Category slug → key in the `Spreads` message namespace. */
 const CATEGORY_KEYS: Record<string, string> = {
@@ -187,14 +188,7 @@ export function SpreadsHeatmap({ rows }: { rows: SpreadRow[] }) {
                     className="flex items-center gap-2 text-fg hover:text-brand-300"
                   >
                     {b.logo ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={b.logo}
-                        alt={b.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-7 w-7 rounded-lg border border-fg/10 bg-white object-contain p-0.5"
-                      />
+                      <LogoImg src={b.logo} name={b.name} className="h-7 w-7 rounded-lg border border-fg/10 bg-white object-contain p-0.5" letterClassName="text-xs" />
                     ) : (
                       <span className="grid h-7 w-7 place-items-center rounded-lg bg-fg/5 text-xs font-black text-brand-300">
                         {b.name.charAt(0)}

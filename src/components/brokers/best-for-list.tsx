@@ -5,6 +5,7 @@ import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { isRated, linkHref, regulatorMeta, statusLabel, type Broker } from "@/lib/brokers";
 import type { BestForCategory } from "@/lib/best-for";
 import { Building2, ExternalLink, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 /**
  * The ranked list on a "best for X" page.
@@ -45,14 +46,7 @@ export async function BestForList({
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-fg/5">
                   {b.logo_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      src={b.logo_url}
-                      alt={b.name}
-                      className="h-full w-full rounded-xl object-contain p-1.5"
-                    />
+                    <LogoImg src={b.logo_url} name={b.name} className="h-full w-full rounded-xl object-contain p-1.5" letterClassName="text-lg" />
                   ) : (
                     <Building2 className="h-6 w-6 text-brand-300" aria-hidden />
                   )}

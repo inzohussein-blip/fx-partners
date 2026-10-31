@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -45,10 +46,13 @@ export async function generateMetadata(
 
 export default async function ForumPostPage(
   props: {
-    params: Promise<{ channel: string; slug: string }>;
+    params: Promise<{ locale: string; channel: string; slug: string }>;
   }
 ) {
   const params = await props.params;
+  // Fixes the locale for next-intl so the page does not read request headers,
+  // which would make this cached page fail at runtime.
+  setRequestLocale(params.locale);
   const post = await getPost(params.channel, params.slug);
   if (!post || post.channel?.status !== "active") notFound();
 
