@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Container } from "@/components/ui/container";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Stars } from "@/components/brokers/stars";
 import { isRated } from "@/lib/brokers";
 import { Award, Building2, BadgeCheck, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 type TopBroker = {
   id: string;
@@ -19,7 +20,7 @@ type TopBroker = {
 async function getTopBrokers(): Promise<TopBroker[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("id,slug,name,logo_url,status,rating,reviews_count")
@@ -86,14 +87,7 @@ export async function TopRatedBrokers() {
               )}
               <div className="flex items-center gap-3">
                 {b.logo_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={b.logo_url}
-                    alt={b.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-12 w-12 rounded-xl bg-fg/5 object-contain p-1"
-                  />
+                  <LogoImg src={b.logo_url} name={b.name} className="h-12 w-12 rounded-xl bg-fg/5 object-contain p-1" letterClassName="text-lg" />
                 ) : (
                   <span className="grid h-12 w-12 place-items-center rounded-xl bg-fg/5 text-brand-300">
                     <Building2 className="h-5 w-5" />

@@ -63,7 +63,7 @@ export async function saveEvent(input: EventInput): Promise<ActionResult> {
     indicator,
   });
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/calendar");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/events");
   return { ok: true };
 }
@@ -73,7 +73,7 @@ export async function deleteEvent(id: string): Promise<ActionResult> {
   if (!admin) return { ok: false, error: "غير مصرّح" };
   const { error } = await supabase.from("broker_events").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/calendar");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/events");
   return { ok: true };
 }
@@ -86,7 +86,7 @@ export async function setEventActive(id: string, active: boolean): Promise<Actio
     .update({ is_active: active })
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/calendar");
+  revalidatePath("/", "layout");
   revalidatePath("/dashboard/admin/events");
   return { ok: true };
 }

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 export type BrokerEvent = {
   id: string;
@@ -25,7 +25,7 @@ export const EVENT_KINDS: Record<string, { label: string; cls: string; emoji: st
 export async function getUpcomingEvents(): Promise<BrokerEvent[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const today = new Date().toISOString().slice(0, 10);
     const { data } = await supabase
       .from("broker_events")

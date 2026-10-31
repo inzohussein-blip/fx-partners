@@ -7,13 +7,16 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { EditableText } from "@/components/admin-edit/editable-text";
 import { Link } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { CouponCard, type Coupon } from "@/components/marketing/coupon-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Crosshair, ArrowLeft, Flame, Ticket } from "lucide-react";
+import { EmptyState } from "@/components/dashboard/empty-state";
 import { PageSections } from "@/components/page-sections/page-sections";
 
-export const dynamic = "force-dynamic";
+// Public data only: built once, served from the CDN, rebuilt at most every
+// 5 minutes (and immediately when an admin action revalidates it).
+export const revalidate = 300;
 
 export async function generateMetadata(
   props: {
@@ -48,7 +51,7 @@ type Campaign = {
 async function getCampaigns(): Promise<Campaign[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("campaigns")
       .select("id,broker_slug,title,message,cta_label,created_at")
@@ -64,7 +67,7 @@ async function getCampaigns(): Promise<Campaign[]> {
 async function getCoupons(): Promise<Coupon[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("coupons")
       .select("id,broker_name,title,code,referral_url,description")
@@ -89,6 +92,7 @@ export default async function OffersPage(
   } = params;
 
   setRequestLocale(locale);
+  const tc = await getTranslations({ locale, namespace: "Common" });
   const t = await getTranslations({ locale, namespace: "OffersPage" });
   const key = contentKeyFor("page.offers", locale);
   const copy = await getContent(key, {
@@ -138,9 +142,12 @@ export default async function OffersPage(
                 />
                 <div className="mt-10" />
                 {campaigns.length === 0 ? (
-                  <div className="card-surface p-12 text-center text-sm text-slate-500">
-                    {t("empty")}
-                  </div>
+                  <EmptyState
+                    icon={Ticket}
+                    title={tc("comingSoon")}
+                    description={t("empty")}
+                    className="card-surface"
+                  />
                 ) : (
                   <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {campaigns.map((c) => (

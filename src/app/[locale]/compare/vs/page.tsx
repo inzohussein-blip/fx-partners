@@ -7,12 +7,13 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Stars } from "@/components/brokers/stars";
 import { BrokerBadges } from "@/components/brokers/broker-badges";
 import { HeadToHeadPicker } from "@/components/brokers/head-to-head-picker";
 import { statusLabel, linkHref, regulatorMeta, type Broker } from "@/lib/brokers";
 import { Building2, ExternalLink, ArrowRight, BadgeCheck } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +41,7 @@ export async function generateMetadata(
 async function getBroker(slug: string): Promise<Broker | null> {
   if (!slug || !process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select(
@@ -58,7 +59,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
 async function getOptions() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select("slug,name")
@@ -100,8 +101,7 @@ function Head({ b, win }: { b: Broker; win?: boolean }) {
     <div className="text-center">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-fg/5">
         {b.logo_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img loading="lazy" decoding="async" src={b.logo_url} alt={b.name} className="h-full w-full rounded-2xl object-contain p-1.5" />
+          <LogoImg src={b.logo_url} name={b.name} className="h-full w-full rounded-2xl object-contain p-1.5" letterClassName="text-2xl" />
         ) : (
           <Building2 className="h-7 w-7 text-brand-300" />
         )}

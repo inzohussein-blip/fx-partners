@@ -8,9 +8,13 @@ import {
   type CountryStat,
 } from "@/components/dashboard/brokers-manager";
 import { ReorderPanel } from "@/components/dashboard/reorder-panel";
+import { LogoMovePanel } from "@/components/dashboard/logo-move-panel";
+import { countOutsideLogos } from "@/lib/actions/brokers";
 import { setRequestLocale } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
+// Moving every logo at once downloads and re-encodes each one.
+export const maxDuration = 60;
 
 export default async function AdminBrokersPage(
   props: {
@@ -27,6 +31,7 @@ export default async function AdminBrokersPage(
   let brokers: AdminBroker[] = [];
   let pending: PendingReview[] = [];
   let countries: Record<string, CountryStat[]> = {};
+  let outsideLogos = 0;
 
   if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
     const supabase = createClient();
@@ -68,6 +73,7 @@ export default async function AdminBrokersPage(
     );
 
     brokers = (b as unknown as AdminBroker[]) ?? [];
+    outsideLogos = await countOutsideLogos();
     pending =
       (r as unknown as (Omit<PendingReview, "broker_name"> & {
         broker: { name: string } | { name: string }[] | null;
@@ -91,6 +97,8 @@ export default async function AdminBrokersPage(
         title={"دليل شركات التداول"}
         subtitle={"أضِف الشركات وروابط الإحالة المتعددة، وأشرِف على مراجعات العملاء (موافقة/حذف/رد الإدارة)."}
       />
+
+      <LogoMovePanel pending={outsideLogos} />
 
       {brokers.length > 1 && (
         <details className="card-surface p-5">

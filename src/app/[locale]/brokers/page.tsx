@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Booking, type Slot } from "@/components/marketing/booking";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getSiteStats, worthShowing } from "@/lib/site-stats";
@@ -69,7 +69,7 @@ type Partner = {
 async function getPartners(): Promise<Partner[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("partners")
       .select("id,name,description,category,website")
@@ -84,7 +84,7 @@ async function getPartners(): Promise<Partner[]> {
 async function getSlots(): Promise<Slot[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("meeting_slots")
       .select("id,starts_at,duration_min")

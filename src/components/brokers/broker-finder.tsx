@@ -9,6 +9,7 @@ import { isRated, linkHref, statusLabel, type Broker } from "@/lib/brokers";
 import { askableQuestions, matchBrokers, mostRestrictive, type AnswerMap } from "@/lib/broker-finder";
 import { QUESTIONS } from "@/lib/broker-finder";
 import { Building2, ExternalLink, ArrowLeft, SlidersHorizontal, Info, RotateCcw } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
 /**
  * The guided finder.
@@ -156,14 +157,7 @@ export function BrokerFinder({ brokers }: { brokers: Broker[] }) {
                 >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-fg/5">
                     {b.logo_url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        loading="lazy"
-                        decoding="async"
-                        src={b.logo_url}
-                        alt={b.name}
-                        className="h-full w-full rounded-xl object-contain p-1.5"
-                      />
+                      <LogoImg src={b.logo_url} name={b.name} className="h-full w-full rounded-xl object-contain p-1.5" letterClassName="text-lg" />
                     ) : (
                       <Building2 className="h-5 w-5 text-brand-300" aria-hidden />
                     )}

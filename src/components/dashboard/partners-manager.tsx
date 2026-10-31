@@ -124,6 +124,7 @@ function PartnerCard({
           <Field label="رابط الشعار" value={form.logo_url ?? ""} onChange={(v) => set("logo_url", v)} mono />
           <div className="mt-2 flex items-center gap-3">
             <MediaPicker onSelect={(url) => set("logo_url", url)} label="اختر أو ارفع شعاراً" />
+            <span className="text-xs text-slate-500">يُحفظ نسخة مصغّرة في موقعك عند الحفظ.</span>
             {form.logo_url && (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={form.logo_url} alt="" className="h-9 w-9 rounded-lg border border-fg/10 bg-white object-contain p-0.5" />

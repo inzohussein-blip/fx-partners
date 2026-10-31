@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
@@ -6,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Link } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { getSiteUrl } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { pageMeta } from "@/lib/seo";
@@ -29,13 +30,21 @@ import {
 import { getAllPairs } from "@/lib/broker-pairs";
 import { getPublishedPostSlugs } from "@/lib/posts";
 import { BadgeCheck, Gift, Sparkles, ExternalLink, Building2, Gauge, Activity, Scale, ArrowLeft } from "lucide-react";
+import { LogoImg } from "@/components/brokers/logo-img";
 
-export const dynamic = "force-dynamic";
+// Public data only: built once, served from the CDN, rebuilt at most every
+// 5 minutes (and immediately when an admin action revalidates it).
+export const revalidate = 300;
+
+// No pages are built ahead; each is generated on its first visit and cached.
+export function generateStaticParams() {
+  return [];
+}
 
 async function getBroker(slug: string): Promise<Broker | null> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("brokers")
       .select(
@@ -53,7 +62,7 @@ async function getBroker(slug: string): Promise<Broker | null> {
 async function getReviews(brokerId: string): Promise<BrokerReview[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("broker_reviews")
       .select("id,user_name,comment,stars,is_admin_reply,created_at")
@@ -69,7 +78,7 @@ async function getReviews(brokerId: string): Promise<BrokerReview[]> {
 async function getBoardPosts(brokerId: string): Promise<BoardPost[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("broker_posts")
       .select("id,parent_id,author_name,body,is_staff,likes,dislikes,created_at")
@@ -78,25 +87,6 @@ async function getBoardPosts(brokerId: string): Promise<BoardPost[]> {
     return (data as BoardPost[]) ?? [];
   } catch {
     return [];
-  }
-}
-
-async function getIsAdmin(): Promise<boolean> {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return false;
-  try {
-    const supabase = createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) return false;
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .maybeSingle();
-    return profile?.role === "admin";
-  } catch {
-    return false;
   }
 }
 
@@ -222,10 +212,13 @@ export async function generateMetadata(
 
 export default async function BrokerDetailPage(
   props: {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ locale: string; slug: string }>;
   }
 ) {
   const params = await props.params;
+  // Fixes the locale for next-intl so the page does not read request headers,
+  // which would make this cached page fail at runtime.
+  setRequestLocale(params.locale);
 
   const {
     slug
@@ -234,10 +227,9 @@ export default async function BrokerDetailPage(
   const broker = await getBroker(slug);
   if (!broker) notFound();
 
-  const [reviews, boardPosts, isAdmin, allPairs, publishedPosts] = await Promise.all([
+  const [reviews, boardPosts, allPairs, publishedPosts] = await Promise.all([
     getReviews(broker.id),
     getBoardPosts(broker.id),
-    getIsAdmin(),
     getAllPairs(),
     getPublishedPostSlugs(),
   ]);
@@ -382,12 +374,7 @@ export default async function BrokerDetailPage(
           <div className="min-w-0">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             {broker.logo_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img loading="lazy" decoding="async"
-                src={broker.logo_url}
-                alt={broker.name}
-                className="h-20 w-20 rounded-2xl bg-fg/5 object-contain p-2"
-              />
+              <LogoImg src={broker.logo_url} name={broker.name} className="h-20 w-20 rounded-2xl bg-fg/5 object-contain p-2" letterClassName="text-3xl" />
             ) : (
               <span className="grid h-20 w-20 place-items-center rounded-2xl bg-fg/5 text-brand-300">
                 <Building2 className="h-9 w-9" />
@@ -797,7 +784,6 @@ export default async function BrokerDetailPage(
           <BrokerBoard
             brokerId={broker.id}
             brokerSlug={broker.slug}
-            isAdmin={isAdmin}
             initial={boardPosts}
           />
         </Container>

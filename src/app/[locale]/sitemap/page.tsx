@@ -5,10 +5,12 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { setRequestLocale } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+// Public data only: built once, served from the CDN, rebuilt at most every
+// 60 minutes (and immediately when an admin action revalidates it).
+export const revalidate = 3600;
 
 export async function generateMetadata(
   props: {
@@ -33,7 +35,7 @@ export async function generateMetadata(
 async function getLists() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return { brokers: [], posts: [] };
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const [{ data: brokers }, { data: posts }] = await Promise.all([
       supabase
         .from("brokers")

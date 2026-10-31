@@ -222,6 +222,12 @@
   --c-globe-halo: radial-gradient(circle, rgba(0,144,252,0.16) 0%, rgba(0,110,220,0.07) 42%, transparent 68%);
 }
 
+/* The logo's "FX": the cyan end of the brand gradient vanishes on white,
+   so the light theme uses the deeper button blues (4.5:1+ on white). */
+:root.light .logo-fx {
+  background-image: linear-gradient(90deg, #0a6fd0 0%, #0050c0 100%);
+}
+
 html {
   scroll-behavior: smooth;
 }

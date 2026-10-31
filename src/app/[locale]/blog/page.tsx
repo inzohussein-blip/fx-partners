@@ -6,9 +6,10 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { EditableText } from "@/components/admin-edit/editable-text";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { ArrowLeft, Newspaper } from "lucide-react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { EmptyState } from "@/components/dashboard/empty-state";
 import { PageSections } from "@/components/page-sections/page-sections";
 
 export async function generateMetadata(
@@ -44,7 +45,7 @@ type Post = {
 async function getPosts(): Promise<Post[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("posts")
       .select("slug,title,excerpt,published_at")
@@ -73,6 +74,7 @@ export default async function BlogPage(
   } = params;
 
   setRequestLocale(locale);
+  const tc = await getTranslations({ locale, namespace: "Common" });
   const copy = await getContent("page.blog", {
     title: "رؤى وأخبار التداول",
     subtitle: "مقالات وتحليلات حول التداول وبرامج الشراكة المالية.",
@@ -113,9 +115,12 @@ export default async function BlogPage(
             <section className="pb-24">
               <Container>
                 {posts.length === 0 ? (
-                  <div className="card-surface p-12 text-center text-sm text-slate-500">
-                    لا توجد منشورات منشورة بعد.
-                  </div>
+                  <EmptyState
+                    icon={Newspaper}
+                    title={tc("comingSoon")}
+                    description={tc("blogEmpty")}
+                    className="card-surface"
+                  />
                 ) : (
                   <div className="space-y-10">
                     {/* Featured latest post */}

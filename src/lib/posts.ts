@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 
 /**
  * The slugs of currently-published blog posts.
@@ -12,7 +12,7 @@ import { createClient } from "@/lib/supabase/server";
 export async function getPublishedPostSlugs(): Promise<Set<string>> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return new Set();
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("posts")
       .select("slug")

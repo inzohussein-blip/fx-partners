@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { jsonLdScript } from "@/lib/jsonld";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -7,12 +8,17 @@ import { SiteFooter } from "@/components/site-footer";
 import { Container } from "@/components/ui/container";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { pageMeta } from "@/lib/seo";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { getSiteUrl } from "@/lib/utils";
 import { sanitizeRichHtml } from "@/lib/sanitize";
 import { ArrowRight } from "lucide-react";
 
 export const revalidate = 60;
+
+// No pages are built ahead; each is generated on its first visit and cached.
+export function generateStaticParams() {
+  return [];
+}
 
 /** Heuristic: does this body contain HTML tags (TipTap output) or is it legacy plain text/Markdown? */
 function isHtml(body: string | null | undefined): boolean {
@@ -29,7 +35,7 @@ type Post = {
 async function getPost(slug: string): Promise<Post | null> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
   try {
-    const supabase = createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("posts")
       .select("title,body,excerpt,published_at")
@@ -63,10 +69,13 @@ export async function generateMetadata(
 
 export default async function PostPage(
   props: {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ locale: string; slug: string }>;
   }
 ) {
   const params = await props.params;
+  // Fixes the locale for next-intl so the page does not read request headers,
+  // which would make this cached page fail at runtime.
+  setRequestLocale(params.locale);
   const post = await getPost(params.slug);
   if (!post) notFound();
 
